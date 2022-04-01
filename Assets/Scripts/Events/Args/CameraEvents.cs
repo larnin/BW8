@@ -33,3 +33,15 @@ class StopScreenShakeEvent
 }
 
 class StopAllScreenShakeEvent { }
+
+class SetScreenColorEvent
+{
+    public Color darkColor;
+    public Color lightColor;
+
+    public SetScreenColorEvent(Color _darkColor, Color _lightColor)
+    {
+        darkColor = _darkColor;
+        lightColor = _lightColor;
+    }
+}
