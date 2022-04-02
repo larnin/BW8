@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CenterUpdatedEventInstant
 {
-    public Vector3 pos;
+    public Vector2 pos;
 
     public CenterUpdatedEventInstant(Vector3 _pos)
     {
@@ -17,7 +17,7 @@ public class CenterUpdatedEventInstant
 
 public class CenterUpdatedEvent
 {
-    public Vector3 pos;
+    public Vector2 pos;
 
     public CenterUpdatedEvent(Vector3 _pos)
     {

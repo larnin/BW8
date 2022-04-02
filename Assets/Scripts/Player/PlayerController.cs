@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
 
     Vector2 m_inputsDirection;
     bool m_inputsStartRoll;
-    bool m_inputsRoll;
 
     Vector2 m_oldPosition;
     Vector2 m_direction;
@@ -31,7 +30,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<StartRollEvent>.LocalSubscriber(OnStartRoll, gameObject));
-        m_subscriberList.Add(new Event<EndRollEvent>.LocalSubscriber(OnEndRoll, gameObject));
 
         m_subscriberList.Subscribe();
     }
@@ -48,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
         m_oldPosition = transform.position;
         m_direction = new Vector2(0, -1);
+
+        Event<CenterUpdatedEventInstant>.Broadcast(new CenterUpdatedEventInstant(transform.position));
     }
 
     private void FixedUpdate()
@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
 
         m_oldPosition = transform.position;
         m_inputsStartRoll = false;
+
+        Event<CenterUpdatedEvent>.Broadcast(new CenterUpdatedEvent(transform.position));
     }
 
     bool UpdatePaused()
@@ -156,13 +158,7 @@ public class PlayerController : MonoBehaviour
 
     void OnStartRoll(StartRollEvent e)
     {
-        m_inputsRoll = true;
         m_inputsStartRoll = true;
-    }
-
-    void OnEndRoll(EndRollEvent e)
-    {
-        m_inputsRoll = false;
     }
 }
 
