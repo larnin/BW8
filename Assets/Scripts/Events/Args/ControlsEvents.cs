@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-class StartJumpEvent { }
-class EndJumpEvent { }
+class StartRollEvent { }
+class EndRollEvent { }
 
-class GetDirectionEvent
+class StartUseEvent { }
+class EndUseEvent { }
+
+class GetInputsEvent
 {
     public Vector2 direction;
-}
-
-class GetJumpEvent
-{
-    public bool jump;
+    public bool roll;
+    public bool use;
 }
