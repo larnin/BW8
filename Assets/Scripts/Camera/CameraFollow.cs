@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour
 {
+    [SerializeField] int m_pixelPerUnit = 16;
     [SerializeField] float m_minSpeed = 1;
     [SerializeField] float m_maxSpeed = 10;
     [SerializeField] float m_speedFactor = 1;
@@ -10,7 +11,8 @@ public class CameraFollow : MonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    Vector3 m_targetPos;
+    Vector2 m_pos;
+    Vector2 m_targetPos;
 
     private void Awake()
     {
@@ -26,8 +28,8 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        Vector3 pos = transform.position;
-        Vector3 dir = m_targetPos - pos;
+        Vector2 pos = m_pos;
+        Vector2 dir = m_targetPos - pos;
 
         float distance = dir.magnitude;
         if (distance <= 0.001f)
@@ -47,7 +49,7 @@ public class CameraFollow : MonoBehaviour
 
         pos += speed * dir;
 
-        transform.position = pos;
+        SetPos(pos);
     }
 
     void OnMove(CenterUpdatedEvent e)
@@ -57,7 +59,20 @@ public class CameraFollow : MonoBehaviour
 
     void OnInstantMove(CenterUpdatedEventInstant e)
     {
-        transform.position = e.pos;
+        SetPos(e.pos);
         m_targetPos = e.pos;
+    }
+
+    void SetPos(Vector2 pos)
+    {
+        m_pos = pos;
+
+        float x = Mathf.Floor(pos.x * m_pixelPerUnit) / m_pixelPerUnit;
+        float y = Mathf.Floor(pos.y * m_pixelPerUnit) / m_pixelPerUnit;
+
+        Vector3 position = transform.position;
+        position.x = x;
+        position.y = y;
+        transform.position = position;
     }
 }

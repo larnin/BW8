@@ -60,7 +60,7 @@ public class WorldObject : SerializedScriptableObject
     public GameObject GetUnclampedChunk(Vector2Int pos)
     {
         var realPos = ClampPos(pos);
-        return GetChunk(pos);
+        return GetChunk(realPos);
     }
 
     Vector2Int ClampPos(Vector2Int pos)

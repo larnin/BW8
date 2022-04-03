@@ -28,6 +28,8 @@ public class WorldSystem : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<SetWorldEvent>.Subscriber(SetWorld));
+        m_subscriberList.Add(new Event<CenterUpdatedEvent>.Subscriber(OnCenterUpdate));
+        m_subscriberList.Add(new Event<CenterUpdatedEventInstant>.Subscriber(OnCenterInstantUpdate));
 
         m_subscriberList.Subscribe();
     }
@@ -82,7 +84,7 @@ public class WorldSystem : MonoBehaviour
 
         for(int i = min.x; i <= max.x; i++)
         {
-            for(int j = min.y; j < max.y; j++)
+            for(int j = min.y; j <= max.y; j++)
             {
                 bool found = false;
                 foreach(var c in m_loadedChunks)
@@ -125,7 +127,7 @@ public class WorldSystem : MonoBehaviour
     {
         var newChunk = PosToChunk(pos);
 
-        if(newChunk.x != m_currentChunk.x && newChunk.y != m_currentChunk.y)
+        if(newChunk != m_currentChunk)
         {
             m_currentChunk = newChunk;
             UpdateWorld(false);

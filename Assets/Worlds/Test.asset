@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 6168485790604338096, guid: 5bbebf810abb0de40ae2383b7835bfac, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -26,27 +27,18 @@ MonoBehaviour:
       Data: 0|UnityEngine.GameObject[,], UnityEngine.CoreModule
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 1
     - Name: ranks
       Entry: 1
-      Data: 2|2
+      Data: 1|1
     - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  m_chunkNb: {x: 2, y: 2}
-  m_chunkSize: {x: 1, y: 1}
+  m_chunkNb: {x: 1, y: 1}
+  m_chunkSize: {x: 42, y: 26}
