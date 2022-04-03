@@ -34,3 +34,15 @@ public class TeleportPlayerEvent
         pos = _pos;
     }
 }
+
+public class GetOffsetVelocityEvent
+{
+    public bool overrideVelocity;
+    public Vector2 offsetVelocity;
+
+    public GetOffsetVelocityEvent()
+    {
+        overrideVelocity = false;
+        offsetVelocity = Vector2.zero;
+    }
+}

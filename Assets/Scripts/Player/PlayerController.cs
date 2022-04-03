@@ -60,8 +60,16 @@ public class PlayerController : MonoBehaviour
 
         if (!UpdatePaused())
         {
-            UpdateRoll();
-            UpdateVelocity();
+            GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
+            Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
+
+            if (velocityData.overrideVelocity)
+                m_rigidbody.velocity = velocityData.offsetVelocity;
+            else
+            {
+                UpdateRoll();
+                UpdateVelocity();
+            }
         }
 
         m_oldPosition = transform.position;
