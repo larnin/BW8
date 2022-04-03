@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     {
         m_subscriberList.Add(new Event<StartRollEvent>.LocalSubscriber(OnStartRoll, gameObject));
 
+        m_subscriberList.Add(new Event<TeleportPlayerEvent>.Subscriber(OnTeleport));
+
         m_subscriberList.Subscribe();
     }
 
@@ -159,6 +161,14 @@ public class PlayerController : MonoBehaviour
     void OnStartRoll(StartRollEvent e)
     {
         m_inputsStartRoll = true;
+    }
+
+    void OnTeleport(TeleportPlayerEvent e)
+    {
+        transform.position = e.pos;
+        m_rigidbody.velocity = Vector2.zero;
+
+        Event<CenterUpdatedEventInstant>.Broadcast(new CenterUpdatedEventInstant(transform.position));
     }
 }
 

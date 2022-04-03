@@ -16,8 +16,6 @@ public class BlackAndWhitePostEffect : MonoBehaviour
 
     [SerializeField] Material m_material = null;
 
-    Camera m_camera = null;
-
     [SerializeField] Color m_darkColor = Color.black;
     [SerializeField] Color m_lightColor = Color.white;
     [SerializeField] [Range(0, 1)] float m_darkLevel = 0;
@@ -44,8 +42,6 @@ public class BlackAndWhitePostEffect : MonoBehaviour
             enabled = false;
             return;
         }
-
-        m_camera = GetComponent<Camera>();
     }
 
     void OnRenderImage(RenderTexture source, RenderTexture destination)

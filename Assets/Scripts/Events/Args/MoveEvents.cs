@@ -9,7 +9,7 @@ public class CenterUpdatedEventInstant
 {
     public Vector2 pos;
 
-    public CenterUpdatedEventInstant(Vector3 _pos)
+    public CenterUpdatedEventInstant(Vector2 _pos)
     {
         pos = _pos;
     }
@@ -19,7 +19,17 @@ public class CenterUpdatedEvent
 {
     public Vector2 pos;
 
-    public CenterUpdatedEvent(Vector3 _pos)
+    public CenterUpdatedEvent(Vector2 _pos)
+    {
+        pos = _pos;
+    }
+}
+
+public class TeleportPlayerEvent
+{
+    public Vector2 pos;
+
+    public TeleportPlayerEvent(Vector2 _pos)
     {
         pos = _pos;
     }

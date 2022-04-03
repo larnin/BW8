@@ -18,4 +18,6 @@ public class Gamestate
     }
 
     public bool paused { get; set; }
+
+    public bool lockControls { get; set; }
 }

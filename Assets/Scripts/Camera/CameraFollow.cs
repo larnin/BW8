@@ -26,7 +26,7 @@ public class CameraFollow : MonoBehaviour
         m_subscriberList.Unsubscribe();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector2 pos = m_pos;
         Vector2 dir = m_targetPos - pos;

@@ -13,3 +13,24 @@ public class SetWorldEvent
         world = _world;
     }
 }
+
+public class StartChangeWorldEvent
+{
+    public WorldObject world;
+    public string spawnName;
+
+    public StartChangeWorldEvent(WorldObject _world, string _spawnName)
+    {
+        world = _world;
+        spawnName = _spawnName;
+    }
+}
+public class ShowLoadingScreenEvent
+{
+    public bool start;
+
+    public ShowLoadingScreenEvent(bool _start)
+    {
+        start = _start;
+    }
+}

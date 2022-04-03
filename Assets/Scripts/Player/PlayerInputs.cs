@@ -8,12 +8,14 @@ public class PlayerInputs : MonoBehaviour
     const string MoveName = "Move";
     const string RollName = "Roll";
     const string UseName = "Use";
+    const string InteractName = "Interact";
 
     PlayerInput m_inputs;
 
     Vector2 m_direction = Vector2.zero;
     bool m_roll = false;
     bool m_use = false;
+    bool m_interact = false;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -90,6 +92,19 @@ public class PlayerInputs : MonoBehaviour
                 Event<EndUseEvent>.Broadcast(new EndUseEvent(), gameObject, true);
             }
         }
+        else if(e.action.name == InteractName)
+        {
+            if(e.phase == InputActionPhase.Started)
+            {
+                m_interact = true;
+                Event<StartInteractEvent>.Broadcast(new StartInteractEvent(), gameObject, true);
+            }
+            else if(e.phase == InputActionPhase.Canceled)
+            {
+                m_interact = false;
+                Event<EndInteractEvent>.Broadcast(new EndInteractEvent(), gameObject, true);
+            }
+        }
     }
 
     void GetInputs(GetInputsEvent e)
@@ -97,5 +112,6 @@ public class PlayerInputs : MonoBehaviour
         e.direction = m_direction;
         e.roll = m_roll;
         e.use = m_use;
+        e.interact = m_interact;
     }
 }

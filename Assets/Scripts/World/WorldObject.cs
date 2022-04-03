@@ -77,7 +77,7 @@ public class WorldObject : SerializedScriptableObject
         return outPos;
     }
 
-    public Vector2 GetSpawnPos(string name)
+    public bool GetSpawnPos(string name, out Vector2 outPos)
     {
         for(int i = 0; i < m_chunkNb.x; i++)
         {
@@ -94,13 +94,14 @@ public class WorldObject : SerializedScriptableObject
                 {
                     if(point.spawnName == name)
                     {
-                        var pos = point.transform.position - origin;
-                        return pos;
+                        outPos = point.transform.position - origin;
+                        return true;
                     }
                 }
             }
         }
 
-        return Vector2.zero;
+        outPos = Vector2.zero;
+        return false;
     }
 }

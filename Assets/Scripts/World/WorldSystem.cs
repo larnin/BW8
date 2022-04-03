@@ -17,6 +17,7 @@ class Chunk
 public class WorldSystem : MonoBehaviour
 {
     [SerializeField] WorldObject m_world = null;
+    [SerializeField] string m_initialSpawn = "Start";
     [SerializeField] int m_drawSize = 1;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -37,6 +38,13 @@ public class WorldSystem : MonoBehaviour
     private void OnDestroy()
     {
         m_subscriberList.Unsubscribe();
+    }
+
+    private void Start()
+    {
+        Vector2 spawn;
+        if (m_world.GetSpawnPos("Spawn", out spawn))
+            Event<TeleportPlayerEvent>.Broadcast(new TeleportPlayerEvent(spawn));
     }
 
     void SetWorld(SetWorldEvent e)
