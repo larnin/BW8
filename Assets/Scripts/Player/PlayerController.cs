@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float m_rollDuration = 1;
 
     Rigidbody2D m_rigidbody = null;
-    Animator m_animator = null;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -44,7 +43,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         m_rigidbody = GetComponent<Rigidbody2D>();
-        m_animator = GetComponent<Animator>();
 
         m_oldPosition = transform.position;
         m_direction = new Vector2(0, -1);
