@@ -7,8 +7,8 @@ public class AnimationSystem : MonoBehaviour
     class PlayingAnimation
     {
         public bool currentlyPlaying;
+        public bool loop;
         public int layer;
-        public string name;
         public float time;
     }
 
@@ -38,6 +38,7 @@ public class AnimationSystem : MonoBehaviour
         m_subscriberList.Add(new Event<StopAnimationEvent>.LocalSubscriber(StopAnim, gameObject));
         m_subscriberList.Add(new Event<GetAnimationCountEvent>.LocalSubscriber(GetAnimCount, gameObject));
         m_subscriberList.Add(new Event<GetAnimationEvent>.LocalSubscriber(GetAnim, gameObject));
+        m_subscriberList.Add(new Event<GetPlayingAnimationEvent>.LocalSubscriber(GetPlayingAnim, gameObject));
 
         m_subscriberList.Subscribe();
     }
@@ -49,7 +50,64 @@ public class AnimationSystem : MonoBehaviour
 
     private void Update()
     {
-        //todo play next animation if current is ended
+        if (!m_playingAnimation.currentlyPlaying || m_animator == null)
+            return;
+        if (m_playingAnimation.loop)
+            return;
+
+        m_playingAnimation.time -= Time.deltaTime;
+        if (m_playingAnimation.time > 0)
+            return;
+
+        if (m_layers.Count > m_playingAnimation.layer && m_layers[m_playingAnimation.layer].animations.Count > 0)
+            m_layers[m_playingAnimation.layer].animations.RemoveAt(0);
+
+        PlayNext();
+    }
+
+    void PlayNext()
+    {
+        int layer = m_playingAnimation.layer;
+
+        do
+        {
+            if (m_layers[layer].animations.Count > 0)
+                break;
+        } while (layer > 0);
+
+        if(m_layers[layer].animations.Count == 0)
+            StopAnim();
+        else Play(layer);
+    }
+
+    void Play(int layer)
+    {
+        Animation anim = m_layers[layer].animations[0];
+
+        string fullName = anim.name;
+        if(anim.direction != AnimationDirection.none)
+            fullName += "_" + anim.direction.ToString();
+
+        m_animator.enabled = true;
+        m_animator.Play(fullName);
+
+        m_playingAnimation.currentlyPlaying = true;
+        m_playingAnimation.layer = layer;
+        m_playingAnimation.loop = anim.loop;
+
+        var clips = m_animator.GetCurrentAnimatorClipInfo(0);
+        if (clips.Length <= 0)
+        {
+            StopAnim();
+            return;
+        }
+
+        m_playingAnimation.time = clips[0].clip.length;
+    }
+
+    void StopAnim()
+    {
+        m_animator.enabled = false;
     }
 
     void PlayAnim(PlayAnimationEvent e)
@@ -58,16 +116,24 @@ public class AnimationSystem : MonoBehaviour
             return;
 
         while (m_layers.Count <= e.layer)
-            m_layers.Add(new Layer());
+        {
+            Layer l = new Layer();
+            l.animations = new List<Animation>();
+            m_layers.Add(l);
+        }
 
         var anim = new Animation();
+        anim.direction = e.direction;
+        anim.loop = e.loop;
+        anim.name = e.name;
 
         if (!e.after)
             m_layers[e.layer].animations.Clear();
 
         m_layers[e.layer].animations.Add(anim);
 
-        //play this anim maybe
+        if(e.layer >= m_playingAnimation.layer)
+            Play(e.layer);
     }
 
     void StopAnim(StopAnimationEvent e)
@@ -78,9 +144,9 @@ public class AnimationSystem : MonoBehaviour
         if (e.index >= m_layers[e.layer].animations.Count || e.index < 0)
             return;
 
-        m_layers[e.layer].animations.RemoveAt(e.index);
-
-        //todo change animation
+        if (e.layer == m_playingAnimation.layer)
+            PlayNext();
+        else m_layers[e.layer].animations.RemoveAt(e.index);
     }
 
     void GetAnimCount(GetAnimationCountEvent e)
@@ -109,5 +175,24 @@ public class AnimationSystem : MonoBehaviour
         e.name = "";
         e.direction = AnimationDirection.none;
         e.loop = false;
+    }
+
+    void GetPlayingAnim(GetPlayingAnimationEvent e)
+    {
+        if (!m_playingAnimation.currentlyPlaying)
+            return;
+
+        if (m_layers.Count < m_playingAnimation.layer)
+            return;
+
+        if (m_layers[m_playingAnimation.layer].animations.Count == 0)
+            return;
+
+        var anim = m_layers[m_playingAnimation.layer].animations[0];
+
+        e.direction = anim.direction;
+        e.layer = m_playingAnimation.layer;
+        e.loop = anim.loop;
+        e.name = anim.name;
     }
 }

@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviour
         m_inputsStartRoll = false;
 
         Event<CenterUpdatedEvent>.Broadcast(new CenterUpdatedEvent(transform.position));
+
+        UpdateAnimation();
     }
 
     bool UpdatePaused()
@@ -161,7 +163,33 @@ public class PlayerController : MonoBehaviour
 
             m_rolling = true;
             m_rollingDuration = 0;
+
+            AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
+            PlayAnimationEvent play = new PlayAnimationEvent("Roll", dir, 1, false);
+            Event<PlayAnimationEvent>.Broadcast(play, gameObject);
         }
+    }
+
+    void UpdateAnimation()
+    {
+        const string idleName = "Idle";
+        const string moveName = "Move";
+
+        GetAnimationEvent anim = new GetAnimationEvent(0, 0);
+        Event<GetAnimationEvent>.Broadcast(anim, gameObject);
+
+        string name = idleName;
+        Vector2 velocity = m_rigidbody.velocity;
+        if (velocity.magnitude > 0.1f)
+            name = moveName;
+
+        AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
+
+        if (name == anim.name && dir == anim.direction)
+            return;
+
+        PlayAnimationEvent play = new PlayAnimationEvent(name, dir, 0, true);
+        Event<PlayAnimationEvent>.Broadcast(play, gameObject);
     }
 
     void OnStartRoll(StartRollEvent e)

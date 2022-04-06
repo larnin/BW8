@@ -14,6 +14,26 @@ public enum AnimationDirection
     Right
 }
 
+static class AnimationDirectionEx
+{
+    public static AnimationDirection GetDirection(Vector2 dir)
+    {
+        if (dir.x == 0 && dir.y == 0)
+            return AnimationDirection.none;
+
+        if(Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+        {
+            if (dir.x < 0)
+                return AnimationDirection.Left;
+            return AnimationDirection.Right;
+        }
+
+        if (dir.y > 0)
+            return AnimationDirection.Up;
+        return AnimationDirection.Down;
+    }
+}
+
 public class PlayAnimationEvent
 {
     public AnimationDirection direction;
@@ -75,5 +95,18 @@ public class GetAnimationEvent
     {
         layer = _layer;
         index = _index;
+    }
+}
+
+public class GetPlayingAnimationEvent
+{
+    public string name;
+    public AnimationDirection direction;
+    public bool loop;
+    public int layer;
+
+    public GetPlayingAnimationEvent()
+    {
+
     }
 }

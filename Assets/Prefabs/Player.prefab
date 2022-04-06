@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4673029184747149490}
   - component: {fileID: 7410210933026514745}
   - component: {fileID: 8074236055576713716}
+  - component: {fileID: 4403983428671391448}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -119,8 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5d5de26821e2344a6babcff0e97af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxSpeed: 10
-  m_acceleration: 60
+  m_maxSpeed: 7
+  m_acceleration: 40
   m_rollSpeed: 20
   m_rollDuration: 0.5
 --- !u!114 &8074236055576713716
@@ -205,6 +206,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4403983428671391448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178981879870485347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afea137df5d57104fb86d11405c50c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5924620075416184047
 GameObject:
   m_ObjectHideFlags: 0
