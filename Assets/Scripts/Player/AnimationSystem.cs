@@ -9,7 +9,9 @@ public class AnimationSystem : MonoBehaviour
         public bool currentlyPlaying;
         public bool loop;
         public int layer;
+        public string name;
         public float time;
+        public bool timeSet;
     }
 
     class Animation
@@ -55,6 +57,23 @@ public class AnimationSystem : MonoBehaviour
         if (m_playingAnimation.loop)
             return;
 
+        if(!m_playingAnimation.timeSet)
+        {
+            var clips = m_animator.GetCurrentAnimatorClipInfo(0);
+            if (clips.Length <= 0)
+            {
+                return;
+            }
+            if(clips[0].clip.name == m_playingAnimation.name)
+            {
+                m_playingAnimation.timeSet = true;
+                m_playingAnimation.time = clips[0].clip.length;
+            }
+        }
+
+        if (!m_playingAnimation.timeSet)
+            return;
+
         m_playingAnimation.time -= Time.deltaTime;
         if (m_playingAnimation.time > 0)
             return;
@@ -94,15 +113,9 @@ public class AnimationSystem : MonoBehaviour
         m_playingAnimation.currentlyPlaying = true;
         m_playingAnimation.layer = layer;
         m_playingAnimation.loop = anim.loop;
+        m_playingAnimation.name = fullName;
 
-        var clips = m_animator.GetCurrentAnimatorClipInfo(0);
-        if (clips.Length <= 0)
-        {
-            StopAnim();
-            return;
-        }
-
-        m_playingAnimation.time = clips[0].clip.length;
+        m_playingAnimation.timeSet = false;
     }
 
     void StopAnim()

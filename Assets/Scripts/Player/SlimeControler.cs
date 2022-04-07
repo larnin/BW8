@@ -52,7 +52,14 @@ public class SlimeControler : MonoBehaviour
 
     private void Start()
     {
-        EndJump();
+        var d = new UniformFloatDistribution(m_idleMinTime, m_idleMaxTime);
+        m_duration = d.Next(new StaticRandomGenerator<MT19937>());
+
+        if (m_render != null)
+        {
+            PlayAnimationEvent play = new PlayAnimationEvent("Idle", AnimationDirection.none, 0, true);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render);
+        }
     }
 
     private void FixedUpdate()
@@ -69,24 +76,29 @@ public class SlimeControler : MonoBehaviour
 
     void StartJump()
     {
-        if(m_haveFoundPlayer)
+        m_startJump = transform.position;
+
+        Vector2 dir = Vector2.zero;
+        if (m_haveFoundPlayer)
+            dir = (m_playerPosition - m_startJump).normalized;
+        else dir = new UniformVector2CircleSurfaceDistribution(1).Next(new StaticRandomGenerator<MT19937>());
+
+        m_endJump = m_startJump + dir * m_jumpDistance;
+
+        var hit = Physics2D.CircleCast(m_startJump, m_groundTestRadius, dir, m_jumpDistance, m_groundLayer.value);
+        if (hit.collider != null)
+            m_endJump = hit.centroid;
+
+        m_jumping = true;
+
+        EnableCollisions(false);
+
+        if (m_render != null)
         {
-            m_startJump = transform.position;
-            var dir = (m_playerPosition - m_startJump).normalized;
-
-            m_endJump = m_startJump + dir * m_jumpDistance;
-
-            var hit = Physics2D.CircleCast(m_startJump, m_groundTestRadius, dir, m_jumpDistance, m_groundLayer.value);
-            if (hit.collider != null)
-                m_endJump = hit.centroid;
-
-            m_jumping = true;
-
-            EnableCollisions(false);
-        }
-        else
-        {
-            //todo
+            PlayAnimationEvent play = new PlayAnimationEvent("StartJump", AnimationDirection.none, 1, false);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render);
+            play = new PlayAnimationEvent("Jumping", AnimationDirection.none, 1, true, true);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render);
         }
     }
 
@@ -143,6 +155,19 @@ public class SlimeControler : MonoBehaviour
 
         EnableCollisions(true);
 
+        m_jumping = false;
+
+        TestDuration();
+
+        if (m_render != null)
+        {
+            PlayAnimationEvent play = new PlayAnimationEvent("EndJump", AnimationDirection.none, 1, false);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render); 
+        }
+    }
+
+    void TestDuration()
+    {
         var obj = Physics2D.OverlapCircle(transform.position, m_playerDetectionRadius, m_playerLayer);
         if (obj != null)
         {

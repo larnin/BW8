@@ -43,7 +43,7 @@ public class WorldSystem : MonoBehaviour
     private void Start()
     {
         Vector2 spawn;
-        if (m_world.GetSpawnPos("Spawn", out spawn))
+        if (m_world.GetSpawnPos(m_initialSpawn, out spawn))
             Event<TeleportPlayerEvent>.Broadcast(new TeleportPlayerEvent(spawn));
     }
 
