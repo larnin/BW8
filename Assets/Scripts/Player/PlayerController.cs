@@ -83,7 +83,9 @@ public class PlayerController : MonoBehaviour
         if (Gamestate.instance.paused)
         {
             m_rigidbody.velocity = Vector3.zero;
-            transform.position = m_oldPosition;
+            Vector3 pos = m_oldPosition;
+            pos.z = transform.position.z;
+            transform.position = pos;
             return true;
         }
 

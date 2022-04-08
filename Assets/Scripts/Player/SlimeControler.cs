@@ -27,6 +27,7 @@ public class SlimeControler : MonoBehaviour
     float m_duration = 0;
     Vector2 m_startJump = Vector2.zero;
     Vector2 m_endJump = Vector2.zero;
+    Vector2 m_oldPos = Vector2.zero;
 
     GameObject m_render = null;
     GameObject m_shadow = null;
@@ -47,6 +48,7 @@ public class SlimeControler : MonoBehaviour
 
         m_rigidbody = GetComponent<Rigidbody2D>();
 
+        m_oldPos = transform.position;
 
         m_subscriberList.Subscribe();
     }
@@ -70,6 +72,15 @@ public class SlimeControler : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (Gamestate.instance.paused)
+        {
+            m_rigidbody.velocity = Vector3.zero;
+            Vector3 pos = m_oldPos;
+            pos.z = transform.position.z;
+            transform.position = pos;
+            return;
+        }
+
         if (m_jumping)
             Jumping();
         else
@@ -78,7 +89,14 @@ public class SlimeControler : MonoBehaviour
             if (m_duration <= 0)
                 StartJump();
             m_rigidbody.velocity = Vector2.zero;
+
+            GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
+            Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
+            if (velocityData.overrideVelocity)
+                m_rigidbody.velocity = velocityData.offsetVelocity;
         }
+
+        m_oldPos = transform.position;
     }
 
     void StartJump()
