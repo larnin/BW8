@@ -95,9 +95,9 @@ public class SlimeControler : MonoBehaviour
 
         if (m_render != null)
         {
-            PlayAnimationEvent play = new PlayAnimationEvent("StartJump", AnimationDirection.none, 1, false);
+            PlayAnimationEvent play = new PlayAnimationEvent("StartJump", AnimationDirection.none, 0, false);
             Event<PlayAnimationEvent>.Broadcast(play, m_render);
-            play = new PlayAnimationEvent("Jumping", AnimationDirection.none, 1, true, true);
+            play = new PlayAnimationEvent("Jumping", AnimationDirection.none, 0, true, true);
             Event<PlayAnimationEvent>.Broadcast(play, m_render);
         }
     }
@@ -161,8 +161,10 @@ public class SlimeControler : MonoBehaviour
 
         if (m_render != null)
         {
-            PlayAnimationEvent play = new PlayAnimationEvent("EndJump", AnimationDirection.none, 1, false);
-            Event<PlayAnimationEvent>.Broadcast(play, m_render); 
+            PlayAnimationEvent play = new PlayAnimationEvent("EndJump", AnimationDirection.none, 0, false);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render);
+            play = new PlayAnimationEvent("Idle", AnimationDirection.none, 0, true, true);
+            Event<PlayAnimationEvent>.Broadcast(play, m_render);
         }
     }
 

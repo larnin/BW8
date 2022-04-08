@@ -92,7 +92,11 @@ public class AnimationSystem : MonoBehaviour
         {
             if (m_layers[layer].animations.Count > 0)
                 break;
+            layer--;
         } while (layer > 0);
+
+        if (layer < 0)
+            layer = 0;
 
         if(m_layers[layer].animations.Count == 0)
             StopAnim();
