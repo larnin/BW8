@@ -8,7 +8,7 @@ using UnityEngine;
 class KnockbackBehaviour : MonoBehaviour
 {
     [SerializeField] float m_knockbackMultiplier = 1;
-    [SerializeField] float m_knockbackDistance = 1;
+    [SerializeField] float m_knockbackDuration = 0.3f;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -32,7 +32,7 @@ class KnockbackBehaviour : MonoBehaviour
     {
         float multiplier = e.knockback * m_knockbackMultiplier;
         m_velocity = (transform.position - e.caster.transform.position).normalized * multiplier;
-        m_duration = m_knockbackDistance;
+        m_duration = m_knockbackDuration;
     }
 
     void GetVelocity(GetOffsetVelocityEvent e)
@@ -42,6 +42,11 @@ class KnockbackBehaviour : MonoBehaviour
             e.offsetVelocity = m_velocity;
             e.overrideVelocity = true;
         }
+    }
+
+    private void Update()
+    {
+        m_duration -= Time.deltaTime;
     }
 }
 

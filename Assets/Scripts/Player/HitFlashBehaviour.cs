@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitFlashBehaviour : MonoBehaviour
 {
-    const string additiveName = "_AdditiveColor";
+    const string additiveName = "_Color";
 
     [SerializeField] float m_flashDuration = 0.2f;
 
@@ -28,16 +28,16 @@ public class HitFlashBehaviour : MonoBehaviour
 
         foreach(var r in renders)
         {
-            var mats = r.sharedMaterials;
+            var mats = r.materials;
             foreach(var m in mats)
             {
                 if(m.HasProperty(additiveName))
                 {
-                    m.SetColor(additiveName, Color.white);
+                    m.SetColor(additiveName, Color.black);
                     DOVirtual.DelayedCall(m_flashDuration, () =>
                     {
                         if (m != null)
-                            m.SetColor(additiveName, Color.black);
+                            m.SetColor(additiveName, Color.white);
                     });
                 }
             }

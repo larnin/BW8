@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 5000226799127475300}
   - component: {fileID: 5000226799127475301}
   - component: {fileID: 7031308822436799469}
-  m_Layer: 0
+  - component: {fileID: 2739592049860937073}
+  m_Layer: 7
   m_Name: Slim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,6 +61,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   m_groundTestRadius: 0.5
+  m_damage: 1
+  m_knockback: 5
 --- !u!58 &7031308822436799469
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -76,6 +79,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!50 &2739592049860937073
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &7479226691889271309
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,7 +112,7 @@ GameObject:
   - component: {fileID: 773175577237555767}
   - component: {fileID: 8837071116389612605}
   - component: {fileID: 3637865933505957715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Blob
   m_TagString: Untagged
   m_Icon: {fileID: 0}

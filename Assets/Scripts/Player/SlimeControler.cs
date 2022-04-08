@@ -18,6 +18,8 @@ public class SlimeControler : MonoBehaviour
     [SerializeField] LayerMask m_playerLayer;
     [SerializeField] LayerMask m_groundLayer;
     [SerializeField] float m_groundTestRadius = 0.5f;
+    [SerializeField] int m_damage = 1;
+    [SerializeField] float m_knockback = 1;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -32,6 +34,8 @@ public class SlimeControler : MonoBehaviour
     bool m_haveFoundPlayer = false;
     Vector2 m_playerPosition = Vector2.zero;
 
+    Rigidbody2D m_rigidbody = null;
+
     private void Awake()
     {
         var t = transform.Find("Blob");
@@ -40,6 +44,8 @@ public class SlimeControler : MonoBehaviour
         t = transform.Find("Shadow");
         if (t != null)
             m_shadow = t.gameObject;
+
+        m_rigidbody = GetComponent<Rigidbody2D>();
 
 
         m_subscriberList.Subscribe();
@@ -71,6 +77,7 @@ public class SlimeControler : MonoBehaviour
             m_duration -= Time.deltaTime;
             if (m_duration <= 0)
                 StartJump();
+            m_rigidbody.velocity = Vector2.zero;
         }
     }
 
@@ -130,7 +137,7 @@ public class SlimeControler : MonoBehaviour
 
         Vector3 pos3 = pos;
         pos3.z = transform.position.z;
-        transform.position = pos3;
+        m_rigidbody.MovePosition(pos3);
 
         if (m_render != null)
         {
@@ -190,6 +197,14 @@ public class SlimeControler : MonoBehaviour
         var cols = GetComponentsInChildren<Collider2D>();
         foreach (var c in cols)
             c.enabled = enable;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if((m_playerLayer & (1<<collision.gameObject.layer)) != 0)
+        {
+            Event<HitEvent>.Broadcast(new HitEvent(m_damage, gameObject, m_knockback), collision.gameObject);
+        }
     }
 }
 
