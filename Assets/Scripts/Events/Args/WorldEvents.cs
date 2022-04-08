@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class SetWorldEvent
 {
@@ -34,3 +35,30 @@ public class ShowLoadingScreenEvent
         start = _start;
     }
 }
+
+public class GetLoadedChunksEvent
+{
+    public List<Rect> chunks = new List<Rect>();
+}
+
+public class AddEntityEvent
+{
+    public GameObject entity;
+    
+    public AddEntityEvent(GameObject _entity)
+    {
+        entity = _entity;
+    }
+}
+
+public class RemoveEntityEvent
+{
+    public GameObject entity;
+
+    public RemoveEntityEvent(GameObject _entity)
+    {
+        entity = _entity;
+    }
+}
+
+public class RemoveAllEntityEvent { }

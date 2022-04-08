@@ -65,6 +65,8 @@ public class WorldSystem : MonoBehaviour
             foreach(var c in m_loadedChunks)
                 Destroy(c.instance);
             m_loadedChunks.Clear();
+
+            Event<RemoveAllEntityEvent>.Broadcast(new RemoveAllEntityEvent());
         }
         else
         {
@@ -150,6 +152,17 @@ public class WorldSystem : MonoBehaviour
     void OnCenterInstantUpdate(CenterUpdatedEventInstant e)
     {
         OnCenterUpdate(e.pos);
+    }
+
+    void GetAllChunks(GetLoadedChunksEvent e)
+    {
+        e.chunks.Clear();
+
+        if (m_world == null)
+            return;
+
+        foreach(var c in m_loadedChunks)
+            e.chunks.Add(new Rect(c.pos, m_world.chunkSize));
     }
 
     Vector2Int PosToChunk(Vector2 pos)
