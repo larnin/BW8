@@ -31,6 +31,7 @@ public class WorldSystem : MonoBehaviour
         m_subscriberList.Add(new Event<SetWorldEvent>.Subscriber(SetWorld));
         m_subscriberList.Add(new Event<CenterUpdatedEvent>.Subscriber(OnCenterUpdate));
         m_subscriberList.Add(new Event<CenterUpdatedEventInstant>.Subscriber(OnCenterInstantUpdate));
+        m_subscriberList.Add(new Event<GetLoadedChunksEvent>.Subscriber(GetAllChunks));
 
         m_subscriberList.Subscribe();
     }
@@ -162,7 +163,10 @@ public class WorldSystem : MonoBehaviour
             return;
 
         foreach(var c in m_loadedChunks)
-            e.chunks.Add(new Rect(c.pos, m_world.chunkSize));
+        {
+            Vector2 pos = new Vector2(c.pos.x * m_world.chunkSize.x, c.pos.y * m_world.chunkSize.y);
+            e.chunks.Add(new Rect(pos, m_world.chunkSize));
+        }
     }
 
     Vector2Int PosToChunk(Vector2 pos)

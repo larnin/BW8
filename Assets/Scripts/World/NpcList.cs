@@ -30,6 +30,7 @@ public class NpcList : MonoBehaviour
         List<GameObject> nextFrameObjects = new List<GameObject>();
 
         GetLoadedChunksEvent e = new GetLoadedChunksEvent();
+        Event<GetLoadedChunksEvent>.Broadcast(e);
 
         foreach(var entity in m_entities)
         {
