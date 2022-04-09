@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<StartRollEvent>.LocalSubscriber(OnStartRoll, gameObject));
+        m_subscriberList.Add(new Event<GetStatusEvent>.LocalSubscriber(GetStatus, gameObject));
 
         m_subscriberList.Add(new Event<TeleportPlayerEvent>.Subscriber(OnTeleport));
 
@@ -205,6 +206,12 @@ public class PlayerController : MonoBehaviour
         m_rigidbody.velocity = Vector2.zero;
 
         Event<CenterUpdatedEventInstant>.Broadcast(new CenterUpdatedEventInstant(transform.position));
+    }
+
+    void GetStatus(GetStatusEvent e)
+    {
+        e.direction = m_direction;
+        e.rolling = m_rolling;
     }
 }
 

@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 5000226799127475301}
   - component: {fileID: 7031308822436799469}
   - component: {fileID: 2739592049860937073}
+  - component: {fileID: 6449786063507033460}
+  - component: {fileID: 5019540073348160574}
+  - component: {fileID: 1853745129578088370}
   m_Layer: 7
   m_Name: Slim
   m_TagString: Untagged
@@ -100,6 +103,47 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6449786063507033460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7985d82a27a42974ea9f97ebb453774b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxLife: 5
+  m_invincibilityDuration: 0
+--- !u!114 &5019540073348160574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ca6c2d6bb31824aa276cd220dd6cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_knockbackMultiplier: 1
+  m_knockbackDuration: 0.3
+--- !u!114 &1853745129578088370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88670bfad448afc44a6d9675726210f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_flashDuration: 0.2
 --- !u!1 &7479226691889271309
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,6 +32,27 @@ static class AnimationDirectionEx
             return AnimationDirection.Up;
         return AnimationDirection.Down;
     }
+
+    public static Vector2 GetDirection(AnimationDirection dir)
+    {
+        switch(dir)
+        {
+            case AnimationDirection.none:
+                return Vector2.zero;
+            case AnimationDirection.Up:
+                return new Vector2(0, 1);
+            case AnimationDirection.Down:
+                return new Vector2(0, -1);
+            case AnimationDirection.Left:
+                return new Vector2(-1, 0);
+            case AnimationDirection.Right:
+                return new Vector2(1, 0);
+            default:
+                break;
+        }
+
+        return Vector2.zero;
+    }
 }
 
 public class PlayAnimationEvent

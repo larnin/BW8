@@ -46,3 +46,15 @@ public class GetOffsetVelocityEvent
         offsetVelocity = Vector2.zero;
     }
 }
+
+public class GetStatusEvent
+{
+    public Vector2 direction;
+    public bool rolling;
+
+    public GetStatusEvent()
+    {
+        direction = Vector2.zero;
+        rolling = false;
+    }
+}
