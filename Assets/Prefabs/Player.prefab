@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxSpeed: 7
   m_acceleration: 40
-  m_rollSpeed: 20
+  m_rollSpeed: 15
   m_rollDuration: 0.5
 --- !u!114 &8074236055576713716
 MonoBehaviour:
