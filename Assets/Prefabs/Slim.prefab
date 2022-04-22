@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 6449786063507033460}
   - component: {fileID: 5019540073348160574}
   - component: {fileID: 1853745129578088370}
+  - component: {fileID: 1652509185470591866}
   m_Layer: 7
   m_Name: Slim
   m_TagString: Untagged
@@ -229,6 +230,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_flashDuration: 0.2
+--- !u!114 &1652509185470591866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dca8e63f1df1f54d9ad3a77cc78157d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_prefab: {fileID: 6520900894503063284, guid: 97771ee5bd927b84c9c2b0339e7b88d2, type: 3}
+  m_destroyDelay: 0.2
+  m_offset: {x: 0, y: 0}
 --- !u!1 &7479226691889271309
 GameObject:
   m_ObjectHideFlags: 0

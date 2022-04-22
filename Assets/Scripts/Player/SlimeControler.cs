@@ -50,6 +50,7 @@ public class SlimeControler : MonoBehaviour
 
         m_oldPos = transform.position;
 
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -223,6 +224,12 @@ public class SlimeControler : MonoBehaviour
         {
             Event<HitEvent>.Broadcast(new HitEvent(m_damage, gameObject, m_knockback), collision.gameObject);
         }
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        enabled = false;
+        m_rigidbody.velocity = Vector2.zero;
     }
 }
 

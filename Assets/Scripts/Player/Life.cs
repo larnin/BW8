@@ -66,7 +66,7 @@ public class Life : MonoBehaviour
         m_invincibilityTime = m_invincibilityDuration;
 
         if (m_life <= 0)
-            Event<DeathEvent>.Broadcast(new DeathEvent(), gameObject, true);
+            Event<DeathEvent>.Broadcast(new DeathEvent(e.caster), gameObject, true);
         else Event<LifeLossEvent>.Broadcast(new LifeLossEvent(e.caster, e.knockback), gameObject, true);
     }
 }

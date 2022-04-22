@@ -37,7 +37,15 @@ public class HitEvent
     }
 }
 
-public class DeathEvent { }
+public class DeathEvent 
+{
+    public GameObject caster;
+
+    public DeathEvent(GameObject _caster)
+    {
+        caster = _caster;
+    }
+}
 
 public class LifeLossEvent
 {
