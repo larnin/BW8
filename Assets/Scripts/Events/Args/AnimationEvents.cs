@@ -63,6 +63,12 @@ public class PlayAnimationEvent
     public bool after;
     public int layer;
 
+    public PlayAnimationEvent(string _name, bool _loop = false, bool _after = false)
+    : this(_name, AnimationDirection.none, 0, _loop, _after) { }
+
+    public PlayAnimationEvent(string _name, int _layer, bool _loop = false, bool _after = false)
+    : this(_name, AnimationDirection.none, _layer, _loop, _after) { }
+
     public PlayAnimationEvent(string _name, AnimationDirection _direction, bool _loop = false, bool _after = false)
         : this(_name, _direction, 0, _loop, _after) { }
 
