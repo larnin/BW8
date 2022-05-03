@@ -6,13 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LocTab : SerializedScriptableObject
+public class LocTable : SerializedScriptableObject
 {
-    public const int invalidID = -1;
-
-    [HideInInspector]
-    [SerializeField] int m_nextID = 0;
-
     class LocElement
     {
         public int id;
@@ -25,9 +20,17 @@ public class LocTab : SerializedScriptableObject
         }
     }
 
+    public const int invalidID = -1;
+
     [HideInInspector]
-    [SerializeField]
+    [SerializeField] int m_nextID = 0;
+
+    [HideInInspector] [SerializeField]
     List<LocElement> m_locs = new List<LocElement>();
+
+    [HideInInspector]
+    [SerializeField] string m_defaultLanguageID;
+    public string defaultLanguageID { get { return m_defaultLanguageID; } set { m_defaultLanguageID = value; } }
 
     public int Add(string textID)
     {
