@@ -6,102 +6,105 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LocLanguage : SerializedScriptableObject
+namespace NLocalization
 {
-    class LocText
+    public class LocLanguage : SerializedScriptableObject
     {
-        public int id;
-        public string text;
-        public bool dirty;
-
-        public LocText(int _id, string _text = "", bool _dirty = true)
+        class LocText
         {
-            id = _id;
-            text = _text;
-            dirty = _dirty;
-        }
-    }
+            public int id;
+            public string text;
+            public bool dirty;
 
-    [HideInInspector] 
-    [SerializeField] string m_languageID;
-    public string languageID { get { return m_languageID; } set { m_languageID = value; } }
-
-    [HideInInspector]
-    [SerializeField] string m_languageName;
-    public string languageName { get { return m_languageName; } set { m_languageName = value; } }
-
-    [HideInInspector]
-    [SerializeField] List<LocText> m_texts = new List<LocText>();
-
-    public bool HaveText(int id)
-    {
-        return GetInternal(id) != null;
-    }
-
-    public void SetText(int id)
-    {
-        SetText(id, "", true);
-    }
-
-    public void SetText(int id, string text, bool newDirtyValue = false)
-    {
-        var t = GetInternal(id);
-
-        if(t == null)
-        {
-            t = new LocText(id, text, newDirtyValue);
-            m_texts.Add(t);
-
-            return;
-        }
-
-        t.text = text;
-        t.dirty = newDirtyValue;
-    }
-
-    public string GetText(int id, string defaultValue = null)
-    {
-        var t = GetInternal(id);
-        if (t != null)
-            return t.text;
-        return defaultValue;
-    }
-
-    public void Remove(int id)
-    {
-        for(int i = 0; i < m_texts.Count; i++)
-        {
-            if(m_texts[i].id == id)
+            public LocText(int _id, string _text = "", bool _dirty = true)
             {
-                m_texts.RemoveAt(i);
+                id = _id;
+                text = _text;
+                dirty = _dirty;
+            }
+        }
+
+        [HideInInspector]
+        [SerializeField] string m_languageID;
+        public string languageID { get { return m_languageID; } set { m_languageID = value; } }
+
+        [HideInInspector]
+        [SerializeField] string m_languageName;
+        public string languageName { get { return m_languageName; } set { m_languageName = value; } }
+
+        [HideInInspector]
+        [SerializeField] List<LocText> m_texts = new List<LocText>();
+
+        public bool HaveText(int id)
+        {
+            return GetInternal(id) != null;
+        }
+
+        public void SetText(int id)
+        {
+            SetText(id, "", true);
+        }
+
+        public void SetText(int id, string text, bool newDirtyValue = false)
+        {
+            var t = GetInternal(id);
+
+            if (t == null)
+            {
+                t = new LocText(id, text, newDirtyValue);
+                m_texts.Add(t);
+
                 return;
             }
-        }    
-    }
 
-    public void SetDirty(int id, bool dirty = true)
-    {
-        var t = GetInternal(id);
-        if (t != null)
-            t.dirty = dirty;
-    }
-
-    public bool GetDirty(int id, bool defaultValue = false)
-    {
-        var t = GetInternal(id);
-        if (t != null)
-            return t.dirty;
-        return defaultValue;
-    }
-
-    LocText GetInternal(int id)
-    {
-        foreach(var t in m_texts)
-        {
-            if (t.id == id)
-                return t;
+            t.text = text;
+            t.dirty = newDirtyValue;
         }
 
-        return null;
+        public string GetText(int id, string defaultValue = null)
+        {
+            var t = GetInternal(id);
+            if (t != null)
+                return t.text;
+            return defaultValue;
+        }
+
+        public void Remove(int id)
+        {
+            for (int i = 0; i < m_texts.Count; i++)
+            {
+                if (m_texts[i].id == id)
+                {
+                    m_texts.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        public void SetDirty(int id, bool dirty = true)
+        {
+            var t = GetInternal(id);
+            if (t != null)
+                t.dirty = dirty;
+        }
+
+        public bool GetDirty(int id, bool defaultValue = false)
+        {
+            var t = GetInternal(id);
+            if (t != null)
+                return t.dirty;
+            return defaultValue;
+        }
+
+        LocText GetInternal(int id)
+        {
+            foreach (var t in m_texts)
+            {
+                if (t.id == id)
+                    return t;
+            }
+
+            return null;
+        }
     }
 }
