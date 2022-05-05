@@ -96,6 +96,18 @@ namespace NLocalization
             return defaultValue;
         }
 
+        public int GetTextCount()
+        {
+            return m_texts.Count;
+        }
+
+        public int GetTextIdAt(int index)
+        {
+            if (index < 0 || index >= m_texts.Count)
+                return LocTable.invalidID;
+            return m_texts[index].id;
+        }
+
         LocText GetInternal(int id)
         {
             foreach (var t in m_texts)

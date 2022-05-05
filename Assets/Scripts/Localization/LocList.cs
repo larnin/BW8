@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Globalization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -46,59 +47,163 @@ namespace NLocalization
                     m_languages.Add(lang);
             }
 
+#if UNITY_EDITOR
             if (m_table == null)
-                Initialize(path);
+                Initialize();
+
+            ValidateTable();
+#endif
         }
 
-        void Initialize(string path)
+        void Initialize()
         {
 #if UNITY_EDITOR
-            m_table = CreateAsset<LocTable>(path, "Table");
+            m_table = ScriptableObjectEx.CreateAsset<LocTable>(m_path, "Table");
 
-            //todo populate table and make first language if no lang in the list
+            if(m_languages.Count == 0)
+            {
+                CultureInfo ci = CultureInfo.InstalledUICulture;
+                LocLanguage lang = ScriptableObjectEx.CreateAsset<LocLanguage>(m_path, ci.Name);
+                lang.languageName = ci.DisplayName;
+                lang.languageID = ci.Name;
+                EditorUtility.SetDirty(lang);
 
-            throw new NotImplementedException();
+                m_table.defaultLanguageID = lang.languageID;
+                EditorUtility.SetDirty(m_table);
+
+                m_languages.Add(lang);
+            }
+
+            AssetDatabase.SaveAssets();
 #else
             Debug.LogError("You can't initialize languages outside the editor");
 #endif
         }
 
 #if UNITY_EDITOR
-        //path starting after Assets/Resources
-        //name without extention
-        T CreateAsset<T>(string path, string name) where T : ScriptableObject
+        void ValidateTable()
         {
-            string[] sub = path.Split('/');
-
-            int index = 0;
-
-            string partialPath = "Assets";
-            string addingPath = "Resources";
-
-            do
+            foreach(var lang in m_languages)
             {
-                if (!AssetDatabase.IsValidFolder(partialPath + "/" + addingPath))
-                    AssetDatabase.CreateFolder(partialPath, addingPath);
+                int nbText = lang.GetTextCount();
 
-                partialPath += "/" + addingPath;
-                addingPath = sub[index];
+                for (int i = 0; i < nbText; i++)
+                {
+                    int id = lang.GetTextIdAt(i);
+                    if (!m_table.Contains(id))
+                    {
+                        m_table.Add(id);
+                        EditorUtility.SetDirty(m_table);
+                    }
+                }
 
-                index++;
-            } while (index <= sub.Length);
-
-            T asset = ScriptableObject.CreateInstance(typeof(T)) as T;
-            if (asset == null)
-            {
-                Debug.LogError("Can't create a " + typeof(T).Name);
-                return null;
             }
 
-            AssetDatabase.CreateAsset(asset, partialPath + "/" + name + ".asset");
-            AssetDatabase.SaveAssets();
+            int nbLoc = m_table.Count();
+            for(int i = 0; i < nbLoc; i++)
+            {
+                int id = m_table.GetIdAt(i);
+                foreach(var lang in m_languages)
+                {
+                    if (!lang.HaveText(id))
+                    {
+                        lang.SetText(id);
+                        EditorUtility.SetDirty(lang);
+                    }
+                }
+            }
 
-            return asset;
+            if(GetLanguage(m_table.defaultLanguageID) == null)
+            {
+                m_table.defaultLanguageID = m_languages[0].languageID;
+                EditorUtility.SetDirty(m_table);
+            }
+
+            AssetDatabase.SaveAssets();
         }
 #endif
 
+        public LocTable GetTable()
+        {
+            return m_table;
+        }
+
+        public int GetNbLang()
+        {
+            return m_languages.Count();
+        }
+
+        public LocLanguage GetLanguage(int index)
+        {
+            if (index < 0 || index >= m_languages.Count)
+                return null;
+            return m_languages[index];
+        }
+
+        public LocLanguage GetLanguage(string langID)
+        {
+            foreach(var l in m_languages)
+            {
+                if (l.languageID == langID)
+                    return l;
+            }
+
+            return null;
+        }
+
+        public bool AddLang(string langID, string langName)
+        {
+#if UNITY_EDITOR
+            if (GetLanguage(langID) != null)
+                return false;
+
+            LocLanguage lang = ScriptableObjectEx.CreateAsset<LocLanguage>(m_path, langID);
+            lang.languageID = langID;
+            lang.languageName = langName;
+            EditorUtility.SetDirty(lang);
+
+            int nbText = m_table.Count();
+            for(int i = 0; i < nbText; i++)
+            {
+                int id = m_table.GetIdAt(i);
+                lang.SetText(id);
+            }
+
+            m_languages.Add(lang);
+
+            AssetDatabase.SaveAssets();
+#endif
+            return true;
+        }
+
+        public int AddText(string textID)
+        {
+            int id = m_table.Get(textID);
+            if (id != LocTable.invalidID)
+                return id;
+
+            id = m_table.Add(textID);
+            EditorUtility.SetDirty(m_table);
+
+            foreach (var l in m_languages)
+            {
+                l.SetText(id);
+                EditorUtility.SetDirty(l);
+            }
+
+            AssetDatabase.SaveAssets();
+
+            return id;
+        }
+
+        public int GetNbText()
+        {
+            return m_table.Count();
+        }
+
+        public int GetTextIDAt(int index)
+        {
+            return m_table.GetIdAt(index);
+        }
     }
 }

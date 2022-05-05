@@ -14,6 +14,7 @@ namespace NLocalization
         {
             public int id;
             public string textID;
+            public string remark;
 
             public LocElement(int _id, string _textID)
             {
@@ -48,6 +49,60 @@ namespace NLocalization
             m_nextID++;
 
             return element.id;
+        }
+
+        public string Add(int id)
+        {
+            var element = GetInternal(id);
+            if (element != null)
+                return element.textID;
+
+            if (m_nextID <= id)
+                m_nextID = id + 1;
+
+            string label = "ID_";
+            string text = label + id;
+
+            for(int i = 0; i <= m_nextID; i++)
+            {
+                element = GetInternal(text);
+                if (element == null)
+                {
+                    m_locs.Add(new LocElement(id, text));
+                    return text;
+                }
+                text = label + id;
+            }
+
+            return null;
+        }
+
+        public bool ForceAdd(int id, string textID)
+        {
+            var element = GetInternal(id);
+            var textElement = GetInternal(textID);
+
+            if(element != null && textElement != null)
+                return element == textElement;
+
+            if(element != null)
+            {
+                element.textID = textID;
+                return true;
+            }
+
+            if(textElement != null)
+            {
+                textElement.id = id;
+                return true;
+            }
+
+            if (m_nextID <= id)
+                m_nextID = id + 1;
+
+            m_locs.Add(new LocElement(id, textID));
+
+            return true;
         }
 
         public void Remove(int id)
@@ -98,6 +153,48 @@ namespace NLocalization
             if (l != null)
                 return l.id;
             return invalidID;
+        }
+
+        public bool Set(int id, string textID)
+        {
+            if (Contains(textID))
+                return false;
+
+            var l = GetInternal(id);
+            if (l != null)
+            {
+                l.textID = textID;
+                return true;
+            }
+            return false;
+        }
+
+        void SetRemark(int id, string remark)
+        {
+            var l = GetInternal(id);
+
+            if (l != null)
+                l.remark = remark;
+        }
+
+        public string GetRemark(int id)
+        {
+            var l = GetInternal(id);
+            if (l != null)
+                return l.remark;
+            return null;
+        }
+
+        public int Count()
+        {
+            return m_locs.Count();
+        }
+
+        public int GetIdAt(int index)
+        {
+            if (index < 0 || index >= m_locs.Count)
+                return invalidID;
+            return m_locs[index].id;
         }
 
         LocElement GetInternal(int id)
