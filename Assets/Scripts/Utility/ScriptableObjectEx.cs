@@ -30,6 +30,9 @@ public static class ScriptableObjectEx
                 AssetDatabase.CreateFolder(partialPath, addingPath);
 
             partialPath += "/" + addingPath;
+
+            if (index == sub.Length)
+                break;
             addingPath = sub[index];
 
             index++;

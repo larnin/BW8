@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace NLocalization
 {
     public class LocLanguage : SerializedScriptableObject
@@ -59,6 +63,12 @@ namespace NLocalization
 
             t.text = text;
             t.dirty = newDirtyValue;
+
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
         }
 
         public string GetText(int id, string defaultValue = null)
@@ -79,6 +89,11 @@ namespace NLocalization
                     return;
                 }
             }
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
         }
 
         public void SetDirty(int id, bool dirty = true)
@@ -86,6 +101,11 @@ namespace NLocalization
             var t = GetInternal(id);
             if (t != null)
                 t.dirty = dirty;
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
         }
 
         public bool GetDirty(int id, bool defaultValue = false)

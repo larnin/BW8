@@ -6,13 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace NLocalization
 {
     public class LocTable : SerializedScriptableObject
     {
+        class LocCategory
+        {
+            public int id;
+            public string name;
+
+            public LocCategory(int _id, string _name)
+            {
+                id = _id;
+                name = _name;
+            }
+        }
+
         class LocElement
         {
             public int id;
+            public int category;
             public string textID;
             public string remark;
 
@@ -29,8 +46,13 @@ namespace NLocalization
         [SerializeField] int m_nextID = 0;
 
         [HideInInspector]
-        [SerializeField]
+        [SerializeField] int m_nextCategory = 0;
+
+        [HideInInspector] [SerializeField]
         List<LocElement> m_locs = new List<LocElement>();
+
+        [HideInInspector] [SerializeField]
+        List<LocCategory> m_categories = new List<LocCategory>();
 
         [HideInInspector]
         [SerializeField] string m_defaultLanguageID;
@@ -48,10 +70,15 @@ namespace NLocalization
             m_locs.Add(element);
             m_nextID++;
 
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
+
             return element.id;
         }
 
-        public string Add(int id)
+        public string Add(int id, int category = -1)
         {
             var element = GetInternal(id);
             if (element != null)
@@ -69,6 +96,12 @@ namespace NLocalization
                 if (element == null)
                 {
                     m_locs.Add(new LocElement(id, text));
+
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+                    AssetDatabase.SaveAssets();
+#endif
+
                     return text;
                 }
                 text = label + id;
@@ -88,12 +121,24 @@ namespace NLocalization
             if(element != null)
             {
                 element.textID = textID;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+
                 return true;
             }
 
             if(textElement != null)
             {
                 textElement.id = id;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+
                 return true;
             }
 
@@ -101,6 +146,11 @@ namespace NLocalization
                 m_nextID = id + 1;
 
             m_locs.Add(new LocElement(id, textID));
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
 
             return true;
         }
@@ -112,6 +162,12 @@ namespace NLocalization
                 if (m_locs[i].id == id)
                 {
                     m_locs.RemoveAt(i);
+
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+                    AssetDatabase.SaveAssets();
+#endif
+
                     return;
                 }
             }
@@ -124,9 +180,56 @@ namespace NLocalization
                 if (m_locs[i].textID == textID)
                 {
                     m_locs.RemoveAt(i);
+
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+                    AssetDatabase.SaveAssets();
+#endif
+
                     return;
                 }
             }
+        }
+
+        public int AddCategory(string name)
+        {
+            int id = m_nextCategory;
+            m_nextCategory++;
+
+            m_categories.Add(new LocCategory(id, name));
+
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
+
+            return id;
+        }
+
+        public bool RemoveCategory(int id)
+        {
+            for(int i = 0; i < m_categories.Count; i++)
+            {
+                if(m_categories[i].id == id)
+                {
+                    m_categories.RemoveAt(i);
+
+                    foreach(var l in m_locs)
+                    {
+                        if (l.category == id)
+                            l.category = -1;
+                    }
+
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+                    AssetDatabase.SaveAssets();
+#endif
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool Contains(int id)
@@ -137,6 +240,11 @@ namespace NLocalization
         public bool Contains(string textID)
         {
             return GetInternal(textID) != null;
+        }
+
+        public bool ContainsCategory(int id)
+        {
+            return GetCategoryInternal(id) != null;
         }
 
         public string Get(int id)
@@ -164,17 +272,30 @@ namespace NLocalization
             if (l != null)
             {
                 l.textID = textID;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+
                 return true;
             }
             return false;
         }
 
-        void SetRemark(int id, string remark)
+       public void SetRemark(int id, string remark)
         {
             var l = GetInternal(id);
 
             if (l != null)
+            {
                 l.remark = remark;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+            }
         }
 
         public string GetRemark(int id)
@@ -185,9 +306,47 @@ namespace NLocalization
             return null;
         }
 
+        public void SetCategory(int id, int categoryID)
+        {
+            var l = GetInternal(id);
+            var c = GetCategoryInternal(categoryID);
+
+            if (l != null && c != null)
+            {
+                l.category = categoryID;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+            }
+        }
+
+        public void SetCategoryName(int id, string name)
+        {
+            var c = GetCategoryInternal(id);
+            if(c != null)
+            {
+                c.name = name;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
+#endif
+            }
+        }
+
+        public string GetCategoryName(int id)
+        {
+            var c = GetCategoryInternal(id);
+            if (c != null)
+                return c.name;
+            return null;
+        }
+
         public int Count()
         {
-            return m_locs.Count();
+            return m_locs.Count;
         }
 
         public int GetIdAt(int index)
@@ -195,6 +354,18 @@ namespace NLocalization
             if (index < 0 || index >= m_locs.Count)
                 return invalidID;
             return m_locs[index].id;
+        }
+
+        public int CategoryCount()
+        {
+            return m_categories.Count;
+        }
+
+        public int GetCategoryIdAt(int index)
+        {
+            if (index < 0 || index >= m_categories.Count)
+                return invalidID;
+            return m_categories[index].id;
         }
 
         LocElement GetInternal(int id)
@@ -213,13 +384,30 @@ namespace NLocalization
             return null;
         }
 
+        LocCategory GetCategoryInternal(int id)
+        {
+            foreach (var c in m_categories)
+                if (c.id == id)
+                    return c;
+            return null;
+        }
+
         void ValidateNextID()
         {
             foreach (var l in m_locs)
             {
                 if (m_nextID <= l.id)
+                {
                     m_nextID = l.id + 1;
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+#endif
+                }
             }
+
+#if UNITY_EDITOR
+            AssetDatabase.SaveAssets();
+#endif
         }
     }
 }

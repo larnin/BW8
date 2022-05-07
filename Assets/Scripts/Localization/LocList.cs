@@ -195,15 +195,5 @@ namespace NLocalization
 
             return id;
         }
-
-        public int GetNbText()
-        {
-            return m_table.Count();
-        }
-
-        public int GetTextIDAt(int index)
-        {
-            return m_table.GetIdAt(index);
-        }
     }
 }
