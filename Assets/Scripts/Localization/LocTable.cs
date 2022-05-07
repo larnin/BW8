@@ -33,10 +33,12 @@ namespace NLocalization
             public string textID;
             public string remark;
 
-            public LocElement(int _id, string _textID)
+            public LocElement(int _id, string _textID, int _category = LocTable.invalidID)
             {
                 id = _id;
                 textID = _textID;
+                category = _category;
+                remark = "";
             }
         }
 
@@ -58,14 +60,17 @@ namespace NLocalization
         [SerializeField] string m_defaultLanguageID;
         public string defaultLanguageID { get { return m_defaultLanguageID; } set { m_defaultLanguageID = value; } }
 
-        public int Add(string textID)
+        public int Add(string textID, int category = invalidID)
         {
             if (Contains(textID))
                 return invalidID;
 
             ValidateNextID();
 
-            var element = new LocElement(m_nextID, textID);
+            if (category != invalidID && !ContainsCategory(category))
+                category = invalidID;
+
+            var element = new LocElement(m_nextID, textID, category);
 
             m_locs.Add(element);
             m_nextID++;
@@ -78,11 +83,14 @@ namespace NLocalization
             return element.id;
         }
 
-        public string Add(int id, int category = -1)
+        public string Add(int id, int category = invalidID)
         {
             var element = GetInternal(id);
             if (element != null)
                 return element.textID;
+
+            if (category != invalidID && !ContainsCategory(category))
+                category = invalidID;
 
             if (m_nextID <= id)
                 m_nextID = id + 1;
@@ -110,7 +118,7 @@ namespace NLocalization
             return null;
         }
 
-        public bool ForceAdd(int id, string textID)
+        public bool ForceAdd(int id, string textID, int category = invalidID)
         {
             var element = GetInternal(id);
             var textElement = GetInternal(textID);
@@ -118,7 +126,10 @@ namespace NLocalization
             if(element != null && textElement != null)
                 return element == textElement;
 
-            if(element != null)
+            if (category != invalidID && !ContainsCategory(category))
+                category = invalidID;
+
+            if (element != null)
             {
                 element.textID = textID;
 
@@ -145,7 +156,7 @@ namespace NLocalization
             if (m_nextID <= id)
                 m_nextID = id + 1;
 
-            m_locs.Add(new LocElement(id, textID));
+            m_locs.Add(new LocElement(id, textID, category));
 
 #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
@@ -193,6 +204,9 @@ namespace NLocalization
 
         public int AddCategory(string name)
         {
+
+            ValidateNextID();
+
             int id = m_nextCategory;
             m_nextCategory++;
 
@@ -217,7 +231,7 @@ namespace NLocalization
                     foreach(var l in m_locs)
                     {
                         if (l.category == id)
-                            l.category = -1;
+                            l.category = invalidID;
                     }
 
 #if UNITY_EDITOR
@@ -322,6 +336,15 @@ namespace NLocalization
             }
         }
 
+        public int GetCategory(int id)
+        {
+            var l = GetInternal(id);
+
+            if (l != null)
+                return l.category;
+            return invalidID;
+        }
+
         public void SetCategoryName(int id, string name)
         {
             var c = GetCategoryInternal(id);
@@ -399,6 +422,17 @@ namespace NLocalization
                 if (m_nextID <= l.id)
                 {
                     m_nextID = l.id + 1;
+#if UNITY_EDITOR
+                    EditorUtility.SetDirty(this);
+#endif
+                }
+            }
+
+            foreach(var c in m_categories)
+            {
+                if(m_nextCategory < c.id)
+                {
+                    m_nextCategory = c.id + 1;
 #if UNITY_EDITOR
                     EditorUtility.SetDirty(this);
 #endif

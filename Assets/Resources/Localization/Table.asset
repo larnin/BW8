@@ -27,6 +27,55 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 1|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 0
+    - Name: category
+      Entry: 3
+      Data: -1
+    - Name: textID
+      Entry: 1
+      Data: NEW_0
+    - Name: remark
+      Entry: 1
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 1
+    - Name: category
+      Entry: 3
+      Data: -1
+    - Name: textID
+      Entry: 1
+      Data: SOMETHING
+    - Name: remark
+      Entry: 1
+      Data: Some useless comment
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_categories
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
     - Name: 
       Entry: 13
@@ -34,5 +83,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_nextID: 0
+  m_nextID: 2
+  m_nextCategory: 0
   m_defaultLanguageID: fr-FR

@@ -1,6 +1,8 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
+using Sirenix.Utilities.Editor;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEditor;
 using UnityEngine;
@@ -115,9 +117,12 @@ namespace NLocalization
 
     public class LocEditorLangsTab
     {
-        string m_langID;
+        string m_langID = "";
         LocEditor m_editor;
-        string m_filter;
+        string m_filter = "";
+
+        Dictionary<int, bool> m_categoriesStatus = new Dictionary<int, bool>();
+        string m_newTextID = "";
 
         public LocEditorLangsTab(string langID, LocEditor editor)
         {
@@ -130,80 +135,161 @@ namespace NLocalization
         {
             GUILayout.Label("Filter");
             m_filter = GUILayout.TextField(m_filter);
+            GUILayout.Space(5);
 
-            if (m_langID.Length <= 0)
-                DrawOneLang();
-            else DrawMultiLangs();
+            DrawList();
         }
 
-        void DrawOneLang()
+        void DrawList()
         {
             var list = m_editor.locList;
             var table = list.GetTable();
 
-            var lang = list.GetLanguage(m_langID);
-            if(lang == null)
+            LocLanguage lang = null;
+            if(m_langID.Length > 0)
             {
-                EditorGUILayout.HelpBox("No asset for lang " + m_langID, MessageType.Error);
-                return;
+                lang = list.GetLanguage(m_langID);
+                if (lang == null)
+                {
+                    EditorGUILayout.HelpBox("No asset for lang " + m_langID, MessageType.Error);
+                    return;
+                }
             }
+
+            int nbCategories = table.CategoryCount();
+            for(int i = 0; i <= nbCategories; i++)
+            {
+                int categoryID = i < nbCategories ? table.GetCategoryIdAt(i) : LocTable.invalidID;
+
+                DrawCategory(categoryID, lang);
+            }
+        }
+
+        void DrawCategory(int categoryID, LocLanguage lang)
+        {
+            var list = m_editor.locList;
+            var table = list.GetTable();
+
+            string categoryName = categoryID == LocTable.invalidID ? "No category" : table.GetCategoryName(categoryID);
+
+            bool fold = true;
+            m_categoriesStatus.TryGetValue(categoryID, out fold);
+
+            SirenixEditorGUI.BeginBox();
+
+            SirenixEditorGUI.BeginBoxHeader();
+            fold = EditorGUILayout.Foldout(fold, categoryName);
+            m_categoriesStatus[categoryID] = fold;
+            SirenixEditorGUI.EndBoxHeader();
+
+            if (fold)
+            {
+
+                int nbText = table.Count();
+
+                for (int j = 0; j < nbText; j++)
+                {
+                    int id = table.GetIdAt(j);
+                    int textCategory = table.GetCategory(id);
+                    if (textCategory != categoryID)
+                        continue;
+
+                    string textID = table.Get(id);
+                    if (!ProcessFilter(textID))
+                        continue;
+
+                    DrawText(id, lang);
+                }
+
+                GUILayout.Space(5);
+                bool isValid = !table.Contains(m_newTextID);
+                if (!isValid)
+                    EditorGUILayout.HelpBox("This text id already exist", MessageType.Error);
+                if (m_newTextID.Length <= 0)
+                    isValid = false;
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("New Text", GUILayout.Width(100));
+                m_newTextID = GUILayout.TextField(m_newTextID);
+                GUILayout.Space(5);
+                GUI.enabled = isValid;
+                if (GUILayout.Button("Create", GUILayout.Width(50)))
+                {
+                    list.AddText(m_newTextID, categoryID);
+                    m_newTextID = "";
+                }
+                GUI.enabled = true;
+                GUILayout.EndHorizontal();
+            }
+
+            SirenixEditorGUI.EndBox();
+        }
+
+        void DrawText(int textID, LocLanguage lang)
+        {
+            if (lang == null)
+                DrawTextAllLang(textID);
+            else DrawTextOneLang(textID, lang);
+        }
+
+        void DrawTextOneLang(int id, LocLanguage lang)
+        {
+            SirenixEditorGUI.BeginBox();
+
+            var list = m_editor.locList;
+            var table = list.GetTable();
 
             var grayStyle = new GUIStyle(GUI.skin.button);
             grayStyle.normal.textColor = Color.gray;
 
-            int nbText = table.Count();
-            for(int i = 0; i < nbText; i++)
-            {
-                int id = table.GetIdAt(i);
-                var textID = table.Get(id);
+            var textID = table.Get(id);
 
-                if (!ProcessFilter(textID))
-                    continue;
+            DrawUniquePopup(textID);
+            //textID
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("ID", GUILayout.Width(100));
+            string newText = textID;
+            newText = GUILayout.TextField(textID);
+            if (newText != textID)
+                table.Set(id, newText);
+            GUILayout.Space(5);
+            GUILayout.Label(id.ToString(), grayStyle, GUILayout.Width(40));
+            GUILayout.EndHorizontal();
 
-                DrawUniquePopup(textID);
-                //textID
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("ID");
-                string newText = textID;
-                textID = GUILayout.TextField(textID);
-                if (newText != textID)
-                    table.Set(id, newText);
-                GUILayout.Label(id.ToString(), grayStyle);
-                GUILayout.EndHorizontal();
-
-                //dirty
-                bool wasDirty = lang.GetDirty(id);
-                bool newDirty = GUILayout.Toggle(wasDirty, "Dirty");
-                if (wasDirty != newDirty) ;
+            //dirty
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Dirty", GUILayout.Width(100));
+            bool wasDirty = lang.GetDirty(id);
+            bool newDirty = GUILayout.Toggle(wasDirty, "");
+            if (wasDirty != newDirty)
                 lang.SetDirty(id, newDirty);
+            GUILayout.EndHorizontal();
 
-                //text
-                string text = lang.GetText(id);
-                newText = text;
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("Text");
-                newText = GUILayout.TextArea(text);
-                if (newText != text)
-                    lang.SetText(id, newText);
-                GUILayout.EndHorizontal();
-                
-                //comment
-                text = table.GetRemark(id);
-                newText = text;
-                GUILayout.BeginHorizontal();
-                GUILayout.Label("Comment");
-                newText = GUILayout.TextArea(text);
-                if (newText != text)
-                    table.SetRemark(id, newText);
-                GUILayout.EndHorizontal();
 
-            }
+            //text
+            string text = lang.GetText(id);
+            newText = text;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Text", GUILayout.Width(100));
+            newText = GUILayout.TextArea(text);
+            if (newText != text)
+                lang.SetText(id, newText);
+            GUILayout.EndHorizontal();
+
+            //comment
+            text = table.GetRemark(id);
+            newText = text;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Comment", GUILayout.Width(100));
+            newText = GUILayout.TextArea(text);
+            if (newText != text)
+                table.SetRemark(id, newText);
+            GUILayout.EndHorizontal();
+
+            SirenixEditorGUI.EndBox();
         }
 
-        void DrawMultiLangs()
+        void DrawTextAllLang(int textID)
         {
-            var list = m_editor.locList;
-
 
         }
 
@@ -228,7 +314,19 @@ namespace NLocalization
 
         bool ProcessFilter(string name)
         {
-            return true;
+            if (m_filter.Length <= 0)
+                return true;
+
+            bool startWithMinus = m_filter[0] == '-';
+            if (startWithMinus && m_filter.Length <= 1)
+                return true;
+
+            if (!startWithMinus)
+                return name.Contains(m_filter);
+
+            string subFilter = m_filter.Substring(1);
+
+            return !name.Contains(subFilter);
         }
     }
 

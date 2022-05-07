@@ -111,6 +111,16 @@ namespace NLocalization
                         EditorUtility.SetDirty(lang);
                     }
                 }
+
+                int nCategoryID = m_table.GetCategory(id);
+                if(nCategoryID != LocTable.invalidID)
+                {
+                    if(!m_table.Contains(nCategoryID))
+                    {
+                        m_table.SetCategory(id, LocTable.invalidID);
+                        EditorUtility.SetDirty(m_table);
+                    }
+                }
             }
 
             if(GetLanguage(m_table.defaultLanguageID) == null)
@@ -176,13 +186,13 @@ namespace NLocalization
             return true;
         }
 
-        public int AddText(string textID)
+        public int AddText(string textID, int categoryID = LocTable.invalidID)
         {
             int id = m_table.Get(textID);
             if (id != LocTable.invalidID)
                 return id;
 
-            id = m_table.Add(textID);
+            id = m_table.Add(textID, categoryID);
             EditorUtility.SetDirty(m_table);
 
             foreach (var l in m_languages)
