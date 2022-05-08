@@ -261,6 +261,11 @@ namespace NLocalization
             return GetCategoryInternal(id) != null;
         }
 
+        public bool ContainsCategory(string name)
+        {
+            return GetCategoryInternal(name) != null;
+        }
+
         public string Get(int id)
         {
             var l = GetInternal(id);
@@ -411,6 +416,14 @@ namespace NLocalization
         {
             foreach (var c in m_categories)
                 if (c.id == id)
+                    return c;
+            return null;
+        }
+
+        LocCategory GetCategoryInternal(string name)
+        {
+            foreach (var c in m_categories)
+                if (c.name == name)
                     return c;
             return null;
         }

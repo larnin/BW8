@@ -27,7 +27,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocTable+LocElement, Assembly-CSharp
@@ -65,6 +65,24 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 3|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 8
+    - Name: category
+      Entry: 3
+      Data: 1
+    - Name: textID
+      Entry: 1
+      Data: A TEXT
+    - Name: remark
+      Entry: 1
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -72,17 +90,41 @@ MonoBehaviour:
       Data: 
     - Name: m_categories
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
+      Data: 4|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 5|NLocalization.LocTable+LocCategory, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 1
+    - Name: name
+      Entry: 1
+      Data: Test1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|NLocalization.LocTable+LocCategory, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 2
+    - Name: name
+      Entry: 1
+      Data: Test2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  m_nextID: 2
-  m_nextCategory: 0
+  m_nextID: 9
+  m_nextCategory: 3
   m_defaultLanguageID: fr-FR

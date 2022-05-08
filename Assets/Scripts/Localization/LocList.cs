@@ -205,5 +205,13 @@ namespace NLocalization
 
             return id;
         }
+
+        public void RemoveText(int id)
+        {
+            m_table.Remove(id);
+
+            foreach(var l in m_languages)
+                l.Remove(id);
+        }
     }
 }

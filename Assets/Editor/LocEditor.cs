@@ -123,6 +123,7 @@ namespace NLocalization
 
         Dictionary<int, bool> m_categoriesStatus = new Dictionary<int, bool>();
         string m_newTextID = "";
+        string m_newCategoryID = "";
 
         public LocEditorLangsTab(string langID, LocEditor editor)
         {
@@ -163,6 +164,25 @@ namespace NLocalization
 
                 DrawCategory(categoryID, lang);
             }
+
+            GUILayout.Space(5);
+            bool isValid = !table.ContainsCategory(m_newCategoryID);
+            if (!isValid)
+                EditorGUILayout.HelpBox("This category id already exist", MessageType.Error);
+            if (m_newCategoryID.Length <= 0)
+                isValid = false;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("New category", GUILayout.Width(100));
+            m_newCategoryID = GUILayout.TextField(m_newCategoryID);
+            GUILayout.Space(5);
+            GUI.enabled = isValid;
+            if (GUILayout.Button("Create", GUILayout.Width(50)))
+            {
+                table.AddCategory(m_newCategoryID);
+                m_newCategoryID = "";
+            }
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
         }
 
         void DrawCategory(int categoryID, LocLanguage lang)
@@ -175,12 +195,30 @@ namespace NLocalization
             bool fold = true;
             m_categoriesStatus.TryGetValue(categoryID, out fold);
 
+            bool removeCategory = false;
             SirenixEditorGUI.BeginBox();
 
             SirenixEditorGUI.BeginBoxHeader();
+            GUILayout.BeginHorizontal();
             fold = EditorGUILayout.Foldout(fold, categoryName);
             m_categoriesStatus[categoryID] = fold;
+
+            if (categoryID != LocTable.invalidID)
+            {
+                if (GUILayout.Button("X", GUILayout.Width(30), GUILayout.Height(15)))
+                    removeCategory = true;
+            }
+
+            GUILayout.EndHorizontal();
             SirenixEditorGUI.EndBoxHeader();
+
+            if(removeCategory)
+            {
+                table.RemoveCategory(categoryID);
+
+                SirenixEditorGUI.EndBox();
+                return;
+            }
 
             if (fold)
             {
@@ -238,22 +276,11 @@ namespace NLocalization
             var list = m_editor.locList;
             var table = list.GetTable();
 
-            var grayStyle = new GUIStyle(GUI.skin.button);
-            grayStyle.normal.textColor = Color.gray;
-
-            var textID = table.Get(id);
-
-            DrawUniquePopup(textID);
-            //textID
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("ID", GUILayout.Width(100));
-            string newText = textID;
-            newText = GUILayout.TextField(textID);
-            if (newText != textID)
-                table.Set(id, newText);
-            GUILayout.Space(5);
-            GUILayout.Label(id.ToString(), grayStyle, GUILayout.Width(40));
-            GUILayout.EndHorizontal();
+            if (!DrawTextID(id))
+            {
+                SirenixEditorGUI.EndBox();
+                return;
+            }
 
             //dirty
             GUILayout.BeginHorizontal();
@@ -264,10 +291,9 @@ namespace NLocalization
                 lang.SetDirty(id, newDirty);
             GUILayout.EndHorizontal();
 
-
             //text
             string text = lang.GetText(id);
-            newText = text;
+            string newText = text;
             GUILayout.BeginHorizontal();
             GUILayout.Label("Text", GUILayout.Width(100));
             newText = GUILayout.TextArea(text);
@@ -288,9 +314,53 @@ namespace NLocalization
             SirenixEditorGUI.EndBox();
         }
 
-        void DrawTextAllLang(int textID)
+        void DrawTextAllLang(int id)
         {
+            SirenixEditorGUI.BeginBox();
 
+            var list = m_editor.locList;
+            var table = list.GetTable();
+
+            if (!DrawTextID(id))
+            {
+                SirenixEditorGUI.EndBox();
+                return;
+            }
+
+            string text = "";
+            string newText = "";
+
+            int nbLangs = list.GetNbLang();
+            for(int i = 0; i < nbLangs; i++)
+            {
+                var lang = list.GetLanguage(i);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(lang.languageID, GUILayout.Width(100));
+                bool wasDirty = lang.GetDirty(id);
+                bool newDirty = GUILayout.Toggle(wasDirty, "", GUILayout.Width(20));
+                if (wasDirty != newDirty)
+                    lang.SetDirty(id, newDirty);
+
+                text = lang.GetText(id);
+                newText = text;
+                newText = GUILayout.TextArea(text);
+                if (newText != text)
+                    lang.SetText(id, newText);
+                GUILayout.EndHorizontal();
+            }
+
+            //comment
+            text = table.GetRemark(id);
+            newText = text;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Comment", GUILayout.Width(100));
+            newText = GUILayout.TextArea(text);
+            if (newText != text)
+                table.SetRemark(id, newText);
+            GUILayout.EndHorizontal();
+
+            SirenixEditorGUI.EndBox();
         }
 
         void DrawUniquePopup(string textID)
@@ -310,6 +380,39 @@ namespace NLocalization
 
             if(nbFound > 1)
                 EditorGUILayout.HelpBox("This textID is not unique", MessageType.Error);
+        }
+
+        bool DrawTextID(int id)
+        {
+            bool returnValue = true;
+
+            var grayStyle = new GUIStyle(GUI.skin.button);
+            grayStyle.normal.textColor = Color.gray;
+
+            var list = m_editor.locList;
+            var table = list.GetTable();
+
+            var textID = table.Get(id);
+
+            DrawUniquePopup(textID);
+            //textID
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("ID", GUILayout.Width(100));
+            string newText = textID;
+            newText = GUILayout.TextField(textID);
+            if (newText != textID)
+                table.Set(id, newText);
+            GUILayout.Space(5);
+            GUILayout.Label(id.ToString(), grayStyle, GUILayout.Width(40));
+            GUILayout.Space(5);
+            if (GUILayout.Button("X", GUILayout.Width(30)))
+            {
+                list.RemoveText(id);
+                returnValue = false;
+            }
+            GUILayout.EndHorizontal();
+
+            return returnValue;
         }
 
         bool ProcessFilter(string name)
