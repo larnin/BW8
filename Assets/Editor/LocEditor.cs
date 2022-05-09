@@ -125,6 +125,9 @@ namespace NLocalization
         string m_newTextID = "";
         string m_newCategoryID = "";
 
+        int m_destroyTextID = LocTable.invalidID;
+        int m_destroyCategoryID = LocTable.invalidID;
+
         public LocEditorLangsTab(string langID, LocEditor editor)
         {
             m_langID = langID;
@@ -139,6 +142,32 @@ namespace NLocalization
             GUILayout.Space(5);
 
             DrawList();
+
+            var list = m_editor.locList;
+            var table = list.GetTable();
+
+            if (m_destroyCategoryID != LocTable.invalidID)
+            {
+                string categoryName = table.GetCategoryName(m_destroyCategoryID);
+
+                if (EditorUtility.DisplayDialog("Remove Category", "Are you sure to remove the category " + categoryName + "?\nRemaining texts will be moved to \"No category\"", "Yes", "No"))
+                    table.RemoveCategory(m_destroyCategoryID);
+
+                m_destroyCategoryID = LocTable.invalidID;
+                GUIUtility.ExitGUI();
+            }
+
+            if(m_destroyTextID != LocTable.invalidID)
+            {
+                string textID = table.Get(m_destroyTextID);
+
+                if (EditorUtility.DisplayDialog("Remove Text", "Are you sure to remove the text " + textID + "?", "Yes", "No"))
+                    list.RemoveText(m_destroyTextID);
+
+                m_destroyTextID = LocTable.invalidID;
+
+                GUIUtility.ExitGUI();
+            }
         }
 
         void DrawList()
@@ -195,7 +224,6 @@ namespace NLocalization
             bool fold = true;
             m_categoriesStatus.TryGetValue(categoryID, out fold);
 
-            bool removeCategory = false;
             SirenixEditorGUI.BeginBox();
 
             SirenixEditorGUI.BeginBoxHeader();
@@ -206,19 +234,11 @@ namespace NLocalization
             if (categoryID != LocTable.invalidID)
             {
                 if (GUILayout.Button("X", GUILayout.Width(30), GUILayout.Height(15)))
-                    removeCategory = true;
+                    m_destroyCategoryID = categoryID;
             }
 
             GUILayout.EndHorizontal();
             SirenixEditorGUI.EndBoxHeader();
-
-            if(removeCategory)
-            {
-                table.RemoveCategory(categoryID);
-
-                SirenixEditorGUI.EndBox();
-                return;
-            }
 
             if (fold)
             {
@@ -276,11 +296,7 @@ namespace NLocalization
             var list = m_editor.locList;
             var table = list.GetTable();
 
-            if (!DrawTextID(id))
-            {
-                SirenixEditorGUI.EndBox();
-                return;
-            }
+            DrawTextID(id);
 
             //dirty
             GUILayout.BeginHorizontal();
@@ -321,11 +337,7 @@ namespace NLocalization
             var list = m_editor.locList;
             var table = list.GetTable();
 
-            if (!DrawTextID(id))
-            {
-                SirenixEditorGUI.EndBox();
-                return;
-            }
+            DrawTextID(id);
 
             string text = "";
             string newText = "";
@@ -382,10 +394,8 @@ namespace NLocalization
                 EditorGUILayout.HelpBox("This textID is not unique", MessageType.Error);
         }
 
-        bool DrawTextID(int id)
+        void DrawTextID(int id)
         {
-            bool returnValue = true;
-
             var grayStyle = new GUIStyle(GUI.skin.button);
             grayStyle.normal.textColor = Color.gray;
 
@@ -406,13 +416,8 @@ namespace NLocalization
             GUILayout.Label(id.ToString(), grayStyle, GUILayout.Width(40));
             GUILayout.Space(5);
             if (GUILayout.Button("X", GUILayout.Width(30)))
-            {
-                list.RemoveText(id);
-                returnValue = false;
-            }
+                m_destroyTextID = id;
             GUILayout.EndHorizontal();
-
-            return returnValue;
         }
 
         bool ProcessFilter(string name)
