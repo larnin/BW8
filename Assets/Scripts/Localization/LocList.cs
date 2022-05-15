@@ -213,5 +213,21 @@ namespace NLocalization
             foreach(var l in m_languages)
                 l.Remove(id);
         }
+
+
+#if UNITY_EDITOR
+        static LocList m_editorStaticList;
+
+        static public LocList GetEditorList()
+        {
+            if(m_editorStaticList == null)
+            {
+                m_editorStaticList = new LocList();
+                m_editorStaticList.Load();
+            }
+
+            return m_editorStaticList;
+        }
+#endif
     }
 }

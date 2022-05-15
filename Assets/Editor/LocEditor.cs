@@ -25,18 +25,9 @@ namespace NLocalization
             Settings,
         }
 
-        private LocList m_langs;
         private int m_currentTab;
 
-        public LocList locList { get { return m_langs; } }
-
-        protected override void OnEnable()
-        {
-            m_langs = new LocList();
-            m_langs.Load();
-
-            base.OnEnable();
-        }
+        public LocList locList { get { return LocList.GetEditorList(); } }
 
         protected override void OnGUI()
         {
@@ -88,20 +79,20 @@ namespace NLocalization
         {
             tree.Add("All languages", new LocEditorLangsTab("", this));
 
-            int nbLangs = m_langs.GetNbLang();
+            int nbLangs = locList.GetNbLang();
             for(int i = 0; i < nbLangs; i++)
             {
-                var lang = m_langs.GetLanguage(i);
+                var lang = locList.GetLanguage(i);
                 tree.Add(lang.languageName, new LocEditorLangsTab(lang.languageID, this));
             }
 
             tree.Add("Add language", new LocEditorNewLangTab(this));
-
         }
 
         void BuildMenuTreeExports(OdinMenuTree tree)
         {
-
+            tree.Add("Export", new LocEditorExportTab(this));
+            tree.Add("Import", new LocEditorImportTab(this));
         }
 
         void BuildMenuTreeStats(OdinMenuTree tree)
@@ -253,7 +244,7 @@ namespace NLocalization
                         continue;
 
                     string textID = table.Get(id);
-                    if (!ProcessFilter(textID))
+                    if (!Loc.ProcessFilter(textID, m_filter))
                         continue;
 
                     DrawText(id, lang);
@@ -419,23 +410,6 @@ namespace NLocalization
                 m_destroyTextID = id;
             GUILayout.EndHorizontal();
         }
-
-        bool ProcessFilter(string name)
-        {
-            if (m_filter.Length <= 0)
-                return true;
-
-            bool startWithMinus = m_filter[0] == '-';
-            if (startWithMinus && m_filter.Length <= 1)
-                return true;
-
-            if (!startWithMinus)
-                return name.Contains(m_filter);
-
-            string subFilter = m_filter.Substring(1);
-
-            return !name.Contains(subFilter);
-        }
     }
 
     public class LocEditorNewLangTab
@@ -452,7 +426,7 @@ namespace NLocalization
         }
 
         [OnInspectorGUI]
-        private void MyInspectorGUI()
+        private void OnInspectorGUI()
         {
             GUILayout.Label("Display name");
             m_lang = GUILayout.TextField(m_lang);
@@ -518,6 +492,39 @@ namespace NLocalization
             if (info != null)
                 return info.DisplayName;
             return "";
+        }
+    }
+
+    public class LocEditorExportTab
+    {
+        LocEditor m_editor;
+
+        public LocEditorExportTab(LocEditor editor)
+        {
+            m_editor = editor;
+        }
+
+        [OnInspectorGUI]
+        private void OnInspectorGUI()
+        {
+
+        }
+    }
+
+    public class LocEditorImportTab
+    {
+        LocEditor m_editor;
+
+        public LocEditorImportTab(LocEditor editor)
+        {
+            m_editor = editor;
+        }
+
+
+        [OnInspectorGUI]
+        private void OnInspectorGUI()
+        {
+
         }
     }
 }

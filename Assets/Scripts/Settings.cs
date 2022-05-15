@@ -30,6 +30,7 @@ public class Settings
         public float m_musicVolume = 0.5f;
         public float m_soundVolume = 0.5f;
         public InputType m_inputType = InputType.Keyboard;
+        public string m_language = "";
     }
 
     SettingsDatas m_settings = new SettingsDatas();
@@ -83,6 +84,16 @@ public class Settings
         set
         {
             m_settings.m_inputType = value;
+            Save();
+        }
+    }
+
+    public string language
+    {
+        get { return m_settings.m_language; }
+        set
+        {
+            m_instance.language = value;
             Save();
         }
     }
