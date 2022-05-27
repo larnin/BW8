@@ -73,6 +73,11 @@ namespace NLocalization
             return str;
         }
 
+        public static int GetTextID(string textID)
+        {
+            return GetID(textID);
+        }
+
         static int GetID(string textID)
         {
             foreach (var t in m_texts)

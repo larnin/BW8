@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 183745243652380704}
   - component: {fileID: 5805905698456009956}
   - component: {fileID: 2868900272205458714}
+  - component: {fileID: 4793426028898100459}
   m_Layer: 5
   m_Name: TalkBubble
   m_TagString: Untagged
@@ -258,3 +259,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 511
+--- !u!114 &4793426028898100459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567905363470712295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3155d821ffed7844d9a5a21b5aacd8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_appearOffset: 50
+  m_appearDuration: 0.5
+  m_textSpeed: 5
+  m_fasterSpeed: 30

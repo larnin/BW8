@@ -13,11 +13,15 @@ public class CameraFollow : MonoBehaviour
 
     Vector2 m_pos;
     Vector2 m_targetPos;
+    Camera m_camera;
 
     private void Awake()
     {
+        m_camera = GetComponent<Camera>();
+
         m_subscriberList.Add(new Event<CenterUpdatedEvent>.Subscriber(OnMove));
         m_subscriberList.Add(new Event<CenterUpdatedEventInstant>.Subscriber(OnInstantMove));
+        m_subscriberList.Add(new Event<GetCameraEvent>.Subscriber(GetCamera));
         m_subscriberList.Subscribe();
     }
 
@@ -74,5 +78,10 @@ public class CameraFollow : MonoBehaviour
         position.x = x;
         position.y = y;
         transform.position = position;
+    }
+
+    void GetCamera(GetCameraEvent e)
+    {
+        e.camera = m_camera;
     }
 }

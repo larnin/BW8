@@ -70,6 +70,11 @@ namespace NLocalization
             return Loc.Tr(m_id);
         }
 
+        public int GetTextID()
+        {
+            return m_id;
+        }
+
         public void SetText(int id)
         {
 #if UNITY_EDITOR

@@ -51,16 +51,6 @@ namespace NLocalization
             }
             GUILayout.EndScrollView();
         }
-
-        public override void OnOpen()
-        {
-
-        }
-
-        public override void OnClose()
-        {
-
-        }
     }
 #endif
 }
