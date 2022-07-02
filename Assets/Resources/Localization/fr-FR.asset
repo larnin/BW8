@@ -27,19 +27,19 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 13
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 0
+      Data: 24
     - Name: text
       Entry: 1
-      Data: 
+      Data: "Une Premi\xE8re ligne"
     - Name: dirty
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -48,10 +48,10 @@ MonoBehaviour:
       Data: 2|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 8
+      Data: 25
     - Name: text
       Entry: 1
-      Data: 
+      Data: "Une deuxi\xE8me line un peu plus longue que la premi\xE8re"
     - Name: dirty
       Entry: 5
       Data: false
@@ -63,163 +63,15 @@ MonoBehaviour:
       Data: 3|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 9
+      Data: 26
     - Name: text
       Entry: 1
-      Data: Jouer
+      Data: 'Un autre texte sans aucun rapport dans lequel je raconte ma vie pour
+        avoir un texte suffisament long pour ne pas rentrer dans une seule popup
+        et forcer l''ecriture d''une autre boite, c''est tout pour l''instant. '
     - Name: dirty
       Entry: 5
       Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 14
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 15
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 16
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 7|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 17
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 18
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 19
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 20
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 21
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 12|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 22
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 13|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 23
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
     - Name: 
       Entry: 8
       Data: 

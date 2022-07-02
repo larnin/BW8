@@ -12,6 +12,8 @@ public class PlayerInteract : MonoBehaviour
     Interactable m_nearestInteractable = null;
     TMP_Text m_text = null;
 
+    public DialogObject m_dialog;
+
     private void Awake()
     {
         m_subscriberList.Add(new Event<StartInteractEvent>.LocalSubscriber(OnInteraction, gameObject));
@@ -27,6 +29,13 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
+        if(Time.time >= 1 && Time.time - Time.deltaTime < 1)
+        {
+            DialogPopup.StartDialog(m_dialog);
+        }
+
+        return;
+
         Vector2 currentPos = transform.position;
 
         var objs = Physics2D.OverlapCircleAll(transform.position, m_interactionRadius, m_interactionMask);

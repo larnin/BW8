@@ -27,16 +27,16 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 13
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 0
+      Data: 24
     - Name: text
       Entry: 1
-      Data: That_text
+      Data: A first line
     - Name: dirty
       Entry: 5
       Data: false
@@ -48,25 +48,10 @@ MonoBehaviour:
       Data: 2|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 8
+      Data: 25
     - Name: text
       Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 9
-    - Name: text
-      Entry: 1
-      Data: Play
+      Data: A second line a little longer than the first one
     - Name: dirty
       Entry: 5
       Data: false
@@ -75,151 +60,18 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|NLocalization.LocLanguage+LocText, Assembly-CSharp
+      Data: 3|NLocalization.LocLanguage+LocText, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 14
+      Data: 26
     - Name: text
       Entry: 1
-      Data: 
+      Data: An other text without any link with the previous ones, where i tell my
+        live to have a long enought text who can't stay on a single popup windows,
+        and force the write of a second one. That's all ... for now.
     - Name: dirty
       Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 15
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 16
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 7|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 17
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 18
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 19
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 20
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 21
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 12|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 22
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 13|NLocalization.LocLanguage+LocText, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 23
-    - Name: text
-      Entry: 1
-      Data: 
-    - Name: dirty
-      Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 

@@ -27,19 +27,19 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 13
+      Data: 3
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocTable+LocElement, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 0
+      Data: 24
     - Name: category
       Entry: 3
-      Data: -1
+      Data: 8
     - Name: textID
       Entry: 1
-      Data: NEW_0
+      Data: Dialog1
     - Name: remark
       Entry: 1
       Data: 
@@ -51,13 +51,13 @@ MonoBehaviour:
       Data: 2|NLocalization.LocTable+LocElement, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 8
+      Data: 25
     - Name: category
       Entry: 3
-      Data: 1
+      Data: 8
     - Name: textID
       Entry: 1
-      Data: A TEXT
+      Data: Dialog2
     - Name: remark
       Entry: 1
       Data: 
@@ -69,193 +69,13 @@ MonoBehaviour:
       Data: 3|NLocalization.LocTable+LocElement, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 9
+      Data: 26
     - Name: category
       Entry: 3
-      Data: 1
+      Data: 8
     - Name: textID
       Entry: 1
-      Data: PLAY
-    - Name: remark
-      Entry: 1
-      Data: bouton play
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 4|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 14
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: ID_14
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 5|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 15
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: A
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 6|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 16
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: B
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 7|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 17
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: C
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 18
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: D
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 19
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: E
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 20
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: F
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 21
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: G
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 12|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 22
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: H
-    - Name: remark
-      Entry: 1
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 13|NLocalization.LocTable+LocElement, Assembly-CSharp
-    - Name: id
-      Entry: 3
-      Data: 23
-    - Name: category
-      Entry: 3
-      Data: -1
-    - Name: textID
-      Entry: 1
-      Data: I
+      Data: Dialog3
     - Name: remark
       Entry: 1
       Data: 
@@ -270,32 +90,20 @@ MonoBehaviour:
       Data: 
     - Name: m_categories
       Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
+      Data: 4|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 15|NLocalization.LocTable+LocCategory, Assembly-CSharp
-    - Name: id
-      Entry: 3
       Data: 1
-    - Name: name
-      Entry: 1
-      Data: Test1
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 7
-      Data: 16|NLocalization.LocTable+LocCategory, Assembly-CSharp
+      Data: 5|NLocalization.LocTable+LocCategory, Assembly-CSharp
     - Name: id
       Entry: 3
-      Data: 2
+      Data: 8
     - Name: name
       Entry: 1
-      Data: Test2
+      Data: Dialog-test
     - Name: 
       Entry: 8
       Data: 
@@ -305,6 +113,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_nextID: 24
-  m_nextCategory: 8
+  m_nextID: 27
+  m_nextCategory: 9
   m_defaultLanguageID: fr-FR

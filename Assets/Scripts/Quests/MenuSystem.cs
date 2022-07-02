@@ -33,7 +33,7 @@ public class MenuSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public T InstantiateMenu<T>(string name, bool overrideOpen = false)
+    public T OpenMenu<T>(string name, bool overrideOpen = false)
     {
         GameObject openMenu = null;
         foreach(var w in m_openMenus)
@@ -67,14 +67,15 @@ public class MenuSystem : MonoBehaviour
             return default(T);
         }
 
-        GetCameraEvent camEvent = new GetCameraEvent();
-        Event<GetCameraEvent>.Broadcast(camEvent);
+        GetUICameraEvent camEvent = new GetUICameraEvent();
+        Event<GetUICameraEvent>.Broadcast(camEvent);
 
         var menu = Instantiate(prefab, transform);
 
         var canvas = menu.GetComponent<Canvas>();
         if(canvas != null)
             canvas.worldCamera = camEvent.camera;
+        canvas.planeDistance = 0.5f;
 
         T comp = menu.GetComponentInChildren<T>();
         if (comp == null)

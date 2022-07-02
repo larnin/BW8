@@ -10,6 +10,15 @@ class GetCameraEvent
         camera = null;
     }
 }
+class GetUICameraEvent
+{
+    public Camera camera;
+
+    public GetUICameraEvent()
+    {
+        camera = null;
+    }
+}
 
 class AddScreenShakeEvent
 {

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using NLocalization;
+using TMPro;
+using UnityEngine.EventSystems;
 
-public class DialogPopup : MonoBehaviour
+public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
 {
     enum Status
     {
@@ -22,6 +24,7 @@ public class DialogPopup : MonoBehaviour
     [SerializeField] float m_appearDuration = 0.5f;
     [SerializeField] float m_textSpeed = 5;
     [SerializeField] float m_fasterSpeed = 30;
+    [SerializeField] float m_arrowBlinkSpeed = 2;
 
     DialogObject m_dialog;
 
@@ -32,16 +35,17 @@ public class DialogPopup : MonoBehaviour
     float m_currentTextSpeed;
     bool m_started = false;
 
-    Status m_status;
-    float m_timer;
+    Status m_status = Status.idle;
+    float m_timer = 0;
 
-    Text m_textWidget;
+    TMP_Text m_textWidget;
     Transform m_box;
+    Transform m_arrow;
     Vector3 m_initialPos;
 
     public static void StartDialog(DialogObject obj)
     {
-        var dialog = MenuSystem.instance.InstantiateMenu<DialogPopup>("Dialog");
+        var dialog = MenuSystem.instance.OpenMenu<DialogPopup>("Dialog");
         if (dialog == null)
             return;
 
@@ -59,7 +63,7 @@ public class DialogPopup : MonoBehaviour
     }
     private void Awake()
     {
-        m_textWidget = GetComponentInChildren<Text>();
+        m_textWidget = GetComponentInChildren<TMP_Text>();
         m_box = transform.Find("Bubble");
         if(m_box == null)
         {
@@ -68,12 +72,16 @@ public class DialogPopup : MonoBehaviour
             return;
         }
 
-        m_initialPos = m_box.position;
+        m_initialPos = m_box.localPosition;
         m_status = Status.idle;
+
+        m_arrow = m_box.Find("Arrow");
     }
 
     private void Start()
     {
+        UpdatePosition();
+
         m_started = true;
         if (m_dialog != null)
             StartDialog();
@@ -86,12 +94,14 @@ public class DialogPopup : MonoBehaviour
 
         UpdatePosition();
         UpdateStatus();
+        UpdateArrow();
     }
 
     void StartDialog()
     {
         m_status = Status.appear;
         m_timer = 0;
+        m_textWidget.text = "";
     }
 
     void StartFirstLine()
@@ -125,12 +135,12 @@ public class DialogPopup : MonoBehaviour
     {
         m_textWidget.text = m_text;
         Canvas.ForceUpdateCanvases();
-        var lines = m_textWidget.cachedTextGenerator.lines;
-        m_lines = new string[lines.Count];
-        for(int i = 0; i < lines.Count; i++)
+        var lines = m_textWidget.textInfo.lineInfo;
+        m_lines = new string[lines.Length];
+        for(int i = 0; i < lines.Length; i++)
         {
-            int startIndex = lines[i].startCharIdx;
-            int endIndex = i == lines.Count - 1 ? m_textWidget.text.Length : lines[i + 1].startCharIdx;
+            int startIndex = lines[i].firstCharacterIndex;
+            int endIndex = i == lines.Length - 1 ? m_textWidget.text.Length : lines[i + 1].firstCharacterIndex;
             int len = endIndex - startIndex;
             m_lines[i] = m_textWidget.text.Substring(startIndex, len);
         }
@@ -142,6 +152,7 @@ public class DialogPopup : MonoBehaviour
         if (m_characterIndex >= m_text.Length)
         {
             m_textWidget.text = m_text;
+            m_status = Status.waitingForInput;
             return;
         }
 
@@ -155,7 +166,7 @@ public class DialogPopup : MonoBehaviour
 
     void UpdateInputs()
     {
-        //todo
+        
     }
 
     void UpdatePosition()
@@ -164,25 +175,25 @@ public class DialogPopup : MonoBehaviour
         {
             case Status.idle:
                 {
-                    m_box.position = GetHiddenPosition();
+                    m_box.localPosition = GetHiddenPosition();
                     break;
                 }
             case Status.appear:
                 {
                     float percent = m_timer / m_appearDuration;
-                    m_box.position = GetHiddenPosition() * percent + m_initialPos * (1 - percent);
+                    m_box.localPosition = GetHiddenPosition() * (1 - percent) + m_initialPos * percent;
                     break;
                 }
             case Status.waitingForInput:
             case Status.writing:
                 {
-                    m_box.position = m_initialPos;
+                    m_box.localPosition = m_initialPos;
                     break;
                 }
             case Status.disappear:
                 {
                     float percent = m_timer / m_appearDuration;
-                    m_box.position = GetHiddenPosition() * (1 - percent) + m_initialPos * percent;
+                    m_box.localPosition = GetHiddenPosition() * percent + m_initialPos * (1 - percent);
                     break;
                 }
             default:
@@ -212,8 +223,11 @@ public class DialogPopup : MonoBehaviour
                 {
                     UpdateInputs();
                     float duration = 1 / m_currentTextSpeed;
-                    if(m_timer > duration)
+                    if (m_timer > duration)
+                    {
                         UpdateDisplayText();
+                        m_timer = 0;
+                    }
                     break;
                 }
             case Status.disappear:
@@ -227,9 +241,28 @@ public class DialogPopup : MonoBehaviour
         }
     }
 
+    void UpdateArrow()
+    {
+        if (m_arrow == null)
+            return;
+
+        if(m_status != Status.waitingForInput)
+        {
+            m_arrow.gameObject.SetActive(false);
+            return;
+        }
+
+        m_arrow.gameObject.SetActive(((int)(Time.time * m_arrowBlinkSpeed * 2)) % 2 == 0);
+    }
+
     Vector3 GetHiddenPosition()
     {
         return m_initialPos + new Vector3(0, -m_appearOffset, 0);
+    }
+
+    public void OnSubmit(BaseEventData eventData)
+    {
+        Debug.Log("Prout !");
     }
 }
 
