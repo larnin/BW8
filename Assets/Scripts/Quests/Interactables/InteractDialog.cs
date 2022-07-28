@@ -8,11 +8,19 @@ using NLocalization;
 
 public class InteractDialog : Interactable
 {
+    [SerializeField] LocText m_text;
+    [SerializeField] float m_textOffset;
+
     [SerializeField] DialogObject m_dialogObject;
 
     public override int GetInteractionTextID()
     {
-        return Loc.GetTextID("SPEAK");
+        return m_text.GetTextID();
+    }
+
+    public override Vector2 GetOffset()
+    {
+        return new Vector2(0, m_textOffset);
     }
 
     public override void Interact(GameObject caster)

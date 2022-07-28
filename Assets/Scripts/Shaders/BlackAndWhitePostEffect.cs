@@ -9,31 +9,13 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class BlackAndWhitePostEffect : MonoBehaviour
 {
-    const string darkColorName = "_DarkColor";
-    const string lightColorName = "_LightColor";
     const string darkLevelName = "_DarkLevel";
     const string lightLevelName = "_LightLevel";
 
     [SerializeField] Material m_material = null;
 
-    [SerializeField] Color m_darkColor = Color.black;
-    [SerializeField] Color m_lightColor = Color.white;
     [SerializeField] [Range(0, 1)] float m_darkLevel = 0;
     [SerializeField] [Range(0, 1)] float m_lightLevel = 1;
-
-    SubscriberList m_subscriberList = new SubscriberList();
-
-    private void Awake()
-    {
-        m_subscriberList.Add(new Event<SetScreenColorEvent>.Subscriber(OnSetColor));
-
-        m_subscriberList.Subscribe();
-    }
-
-    private void OnDestroy()
-    {
-        m_subscriberList.Unsubscribe();
-    }
 
     void Start()
     {
@@ -51,15 +33,7 @@ public class BlackAndWhitePostEffect : MonoBehaviour
 
     private void Update()
     {
-        m_material.SetColor(darkColorName, m_darkColor);
-        m_material.SetColor(lightColorName, m_lightColor);
         m_material.SetFloat(darkLevelName, m_darkLevel);
         m_material.SetFloat(lightLevelName, m_lightLevel);
-    }
-
-    void OnSetColor(SetScreenColorEvent e)
-    {
-        m_darkColor = e.darkColor;
-        m_lightColor = e.lightColor;
     }
 }

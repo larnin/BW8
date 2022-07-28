@@ -27,7 +27,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocLanguage+LocText, Assembly-CSharp
@@ -69,6 +69,21 @@ MonoBehaviour:
       Data: An other text without any link with the previous ones, where i tell my
         live to have a long enought text who can't stay on a single popup windows,
         and force the write of a second one. That's all ... for now.
+    - Name: dirty
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|NLocalization.LocLanguage+LocText, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 27
+    - Name: text
+      Entry: 1
+      Data: Talk
     - Name: dirty
       Entry: 5
       Data: false

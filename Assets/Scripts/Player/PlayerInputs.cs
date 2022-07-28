@@ -58,13 +58,9 @@ public class PlayerInputs : MonoBehaviour
         if (e.action.name == MoveName)
         {
             if (e.phase == InputActionPhase.Started || e.phase == InputActionPhase.Performed)
-            {
                 m_direction = e.ReadValue<Vector2>();
-            }
             else if (e.phase == InputActionPhase.Disabled || e.phase == InputActionPhase.Canceled)
-            {
                 m_direction = Vector2.zero;
-            }
         }
         else if (e.action.name == RollName)
         {

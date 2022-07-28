@@ -12,6 +12,7 @@ public class MenuSystem : MonoBehaviour
     {
         public string name;
         public GameObject menu;
+        public bool pauseGame;
     }
 
     [SerializeField] List<MenuData> m_Menus = new List<MenuData>();
@@ -20,6 +21,8 @@ public class MenuSystem : MonoBehaviour
 
     static MenuSystem m_instance = null;
     public static MenuSystem instance { get { return m_instance; } }
+
+    bool m_paused = false;
 
     private void Awake()
     {
@@ -33,7 +36,7 @@ public class MenuSystem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public T OpenMenu<T>(string name, bool overrideOpen = false)
+    public T OpenMenu<T>(string name, bool overrideOpen = false, bool returnOpen = false)
     {
         GameObject openMenu = null;
         foreach(var w in m_openMenus)
@@ -49,15 +52,19 @@ public class MenuSystem : MonoBehaviour
         {
             if (overrideOpen)
                 Destroy(openMenu);
+            else if(returnOpen)
+                return openMenu.GetComponentInChildren<T>();
             else return default(T);
         }
 
         GameObject prefab = null;
+        bool paused = false;
         foreach(var m in m_Menus)
         {
             if(m.name == name)
             {
                 prefab = m.menu;
+                paused = m.pauseGame;
                 break;
             }
         }
@@ -100,6 +107,7 @@ public class MenuSystem : MonoBehaviour
             MenuData data = new MenuData();
             data.name = name;
             data.menu = menu;
+            data.pauseGame = paused;
             m_openMenus.Add(data);
         }
 
@@ -136,5 +144,32 @@ public class MenuSystem : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void Update()
+    {
+        CleanOpenedMenus();
+
+        bool newPause = false;
+        foreach(var m in m_openMenus)
+        {
+            if(m.pauseGame)
+            {
+                newPause = true;
+                break;
+            }
+        }
+
+        if (m_paused != newPause)
+        {
+            if (Gamestate.instance.paused == m_paused)
+                Gamestate.instance.paused = newPause;
+            m_paused = newPause;
+        }
+    }
+
+    void CleanOpenedMenus()
+    {
+        m_openMenus.RemoveAll(x => { return x.menu == null; });
     }
 }

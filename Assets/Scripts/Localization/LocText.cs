@@ -81,6 +81,7 @@ namespace NLocalization
             m_id = id;
             var table = LocList.GetEditorList().GetTable();
             m_textID = table.Get(id);
+            EditorUtility.SetDirty(Selection.activeObject);
 #endif
         }
     }

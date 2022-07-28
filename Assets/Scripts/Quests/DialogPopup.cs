@@ -9,7 +9,7 @@ using NLocalization;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
+public class DialogPopup : MonoBehaviour
 {
     enum Status
     {
@@ -43,6 +43,8 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
     Transform m_arrow;
     Vector3 m_initialPos;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
     public static void StartDialog(DialogObject obj)
     {
         var dialog = MenuSystem.instance.OpenMenu<DialogPopup>("Dialog");
@@ -63,6 +65,9 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
     }
     private void Awake()
     {
+        m_subscriberList.Add(new Event<StartSubmitEvent>.Subscriber(OnSubmit));
+        m_subscriberList.Subscribe();
+
         m_textWidget = GetComponentInChildren<TMP_Text>();
         m_box = transform.Find("Bubble");
         if(m_box == null)
@@ -76,6 +81,11 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
         m_status = Status.idle;
 
         m_arrow = m_box.Find("Arrow");
+    }
+
+    private void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
     }
 
     private void Start()
@@ -114,7 +124,7 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
 
     void StartNextLine()
     {
-        if(m_nextLine > m_dialog.GetNbTexts())
+        if(m_nextLine >= m_dialog.GetNbTexts())
         {
             m_status = Status.disappear;
             m_timer = 0;
@@ -164,11 +174,6 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
         m_characterIndex++;
     }
 
-    void UpdateInputs()
-    {
-        
-    }
-
     void UpdatePosition()
     {
         switch (m_status)
@@ -214,14 +219,8 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
                         StartFirstLine();
                     break;
                 }
-            case Status.waitingForInput:
-                {
-                    UpdateInputs();
-                    break;
-                }
             case Status.writing:
                 {
-                    UpdateInputs();
                     float duration = 1 / m_currentTextSpeed;
                     if (m_timer > duration)
                     {
@@ -260,9 +259,16 @@ public class DialogPopup : MonoBehaviour, ISubmitHandler, IEventSystemHandler
         return m_initialPos + new Vector3(0, -m_appearOffset, 0);
     }
 
-    public void OnSubmit(BaseEventData eventData)
+    void OnSubmit(StartSubmitEvent e)
     {
-        Debug.Log("Prout !");
+        if(m_status == Status.writing)
+        {
+            m_currentTextSpeed = m_fasterSpeed;
+        }
+        else if(m_status == Status.waitingForInput)
+        {
+            StartNextLine();
+        }
     }
 }
 

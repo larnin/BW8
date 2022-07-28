@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5362886255978582815}
   - component: {fileID: 5362886255978582812}
+  - component: {fileID: 8248660968915146212}
+  - component: {fileID: 8295263992774862808}
   m_Layer: 0
   m_Name: WindowsSystem
   m_TagString: Untagged
@@ -47,3 +49,46 @@ MonoBehaviour:
   m_Menus:
   - name: Dialog
     menu: {fileID: 5567905363470712295, guid: df480a25e8037e944968ea0041082c1f, type: 3}
+    pauseGame: 1
+--- !u!114 &8248660968915146212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362886255978582813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e865a2b20d88844854f12783b6454a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8295263992774862808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5362886255978582813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 62f5fcf3cd4e11142bed9d81fa79538e, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

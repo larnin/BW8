@@ -295,6 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e357b4503da5a47438a98cf62bc58998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_interactionRadius: 2
+  m_interactionMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_textPrefab: {fileID: 4286982975801984530, guid: b109f0ce9df31294e9c58f2bb5605721, type: 3}
 --- !u!1 &5924620075416184047
 GameObject:
   m_ObjectHideFlags: 0

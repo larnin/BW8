@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Test
   m_EditorClassIdentifier: 
   m_texts:
-  - m_id: -1
-    m_textID: 
-  - m_id: -1
-    m_textID: 
-  - m_id: -1
-    m_textID: 
+  - m_id: 24
+    m_textID: Dialog1
+  - m_id: 25
+    m_textID: Dialog2
+  - m_id: 26
+    m_textID: Dialog3

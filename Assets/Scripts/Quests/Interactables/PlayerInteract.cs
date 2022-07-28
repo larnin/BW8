@@ -5,21 +5,19 @@ using NLocalization;
 
 public class PlayerInteract : MonoBehaviour
 {
-    float m_interactionRadius = 2;
-    LayerMask m_interactionMask;
+    [SerializeField] float m_interactionRadius = 2;
+    [SerializeField] LayerMask m_interactionMask;
+    [SerializeField] GameObject m_textPrefab = null;
+
     SubscriberList m_subscriberList = new SubscriberList();
 
     Interactable m_nearestInteractable = null;
-    TMP_Text m_text = null;
-
-    public DialogObject m_dialog;
+    GameObject m_textObject = null;
 
     private void Awake()
     {
         m_subscriberList.Add(new Event<StartInteractEvent>.LocalSubscriber(OnInteraction, gameObject));
         m_subscriberList.Subscribe();
-
-        m_text = GetComponentInChildren<TMP_Text>();
     }
 
     private void OnDestroy()
@@ -29,13 +27,6 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        if(Time.time >= 1 && Time.time - Time.deltaTime < 1)
-        {
-            DialogPopup.StartDialog(m_dialog);
-        }
-
-        return;
-
         Vector2 currentPos = transform.position;
 
         var objs = Physics2D.OverlapCircleAll(transform.position, m_interactionRadius, m_interactionMask);
@@ -97,25 +88,40 @@ public class PlayerInteract : MonoBehaviour
 
     void DisplayInteraction(bool updateText)
     {
-        if(m_nearestInteractable == null)
+        if(m_nearestInteractable == null && m_textObject != null)
         {
-            m_text.gameObject.SetActive(false);
+            m_textObject.transform.SetParent(null);
+            m_textObject.SetActive(false);
             return;
         }
+        if (m_nearestInteractable == null)
+            return;
 
-        m_text.gameObject.SetActive(true);
+        if (m_textObject == null)
+        {
+            if (m_textPrefab == null)
+                return;
+            m_textObject = Instantiate(m_textPrefab);
+        }
+
+        if (m_textObject == null)
+            return;
+
+        m_textObject.SetActive(true);
 
         var pos = m_nearestInteractable.transform.position;
 
-        Vector3 textPos = m_text.transform.position;
+        Vector3 textPos = m_textObject.transform.position;
         textPos.x = pos.x;
         textPos.y = pos.y;
-        m_text.transform.position = textPos;
+        m_textObject.transform.position = textPos;
 
         if(updateText)
         {
             var textID = m_nearestInteractable.GetInteractionTextID();
-            m_text.text = Loc.Tr(textID);
+            var tmp = m_textObject.GetComponentInChildren<TMP_Text>();
+            if(tmp != null)
+                tmp.text = Loc.Tr(textID);
         }
     }
 }

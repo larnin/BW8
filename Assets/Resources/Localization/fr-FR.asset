@@ -27,7 +27,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocLanguage+LocText, Assembly-CSharp
@@ -69,6 +69,21 @@ MonoBehaviour:
       Data: 'Un autre texte sans aucun rapport dans lequel je raconte ma vie pour
         avoir un texte suffisament long pour ne pas rentrer dans une seule popup
         et forcer l''ecriture d''une autre boite, c''est tout pour l''instant. '
+    - Name: dirty
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|NLocalization.LocLanguage+LocText, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 27
+    - Name: text
+      Entry: 1
+      Data: Parler
     - Name: dirty
       Entry: 5
       Data: false

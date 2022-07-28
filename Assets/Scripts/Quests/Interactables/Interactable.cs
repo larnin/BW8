@@ -4,5 +4,8 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     public abstract int GetInteractionTextID();
+
+    public abstract Vector2 GetOffset();
+
     public abstract void Interact(GameObject caster);
 }

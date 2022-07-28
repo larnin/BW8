@@ -17,10 +17,6 @@ Shader "Hidden/DitherPostEffect"
 
 			#include "UnityCG.cginc"
 
-
-
-			uniform float4 _DarkColor;
-			uniform float4 _LightColor;
 			uniform float _DarkLevel = 0;
 			uniform float _LightLevel = 1;
 
@@ -52,10 +48,13 @@ Shader "Hidden/DitherPostEffect"
 
 				float level = (col.r + col.g + col.b) / 3;
 
+				float4 lightColor = float4(1, 1, 1, 1);
+				float4 darkColor = float4(0, 0, 0, 1);
+
 				if (level <= _DarkLevel)
-					return _DarkColor;
+					return darkColor;
 				if (level >= _LightLevel)
-					return _LightColor;
+					return lightColor;
 
 				level -= _DarkLevel;
 				level /= (_LightLevel - _DarkLevel);
@@ -73,7 +72,7 @@ Shader "Hidden/DitherPostEffect"
 					level = 1 - ditherLevel2(pos);
 				else level = 1 - ditherLevel1(pos);
 
-				return _LightColor * level + _DarkColor * (1 - level);
+				return lightColor * level + darkColor * (1 - level);
 			}
 
 			ENDCG
