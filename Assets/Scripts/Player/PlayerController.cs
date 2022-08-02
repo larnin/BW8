@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
         m_subscriberList.Add(new Event<GetStatusEvent>.LocalSubscriber(GetStatus, gameObject));
 
         m_subscriberList.Add(new Event<TeleportPlayerEvent>.Subscriber(OnTeleport));
+        m_subscriberList.Add(new Event<GetPlayerLifeEvent>.Subscriber(GetPlayerLife));
 
         m_subscriberList.Subscribe();
     }
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
         m_direction = new Vector2(0, -1);
 
         Event<CenterUpdatedEventInstant>.Broadcast(new CenterUpdatedEventInstant(transform.position));
+
+        HUD.Open();
     }
 
     private void FixedUpdate()
@@ -212,6 +215,15 @@ public class PlayerController : MonoBehaviour
     {
         e.direction = m_direction;
         e.rolling = m_rolling;
+    }
+
+    void GetPlayerLife(GetPlayerLifeEvent e)
+    {
+        GetLifeEvent life = new GetLifeEvent();
+        Event<GetLifeEvent>.Broadcast(life, gameObject);
+
+        e.life = life.life;
+        e.maxLife = life.maxLife;
     }
 }
 

@@ -150,8 +150,9 @@ public class DialogPopup : MonoBehaviour
         for(int i = 0; i < lines.Length; i++)
         {
             int startIndex = lines[i].firstCharacterIndex;
-            int endIndex = i == lines.Length - 1 ? m_textWidget.text.Length : lines[i + 1].firstCharacterIndex;
-            int len = endIndex - startIndex;
+            int len = lines[i].characterCount;
+            if (len == 0)
+                continue;
             m_lines[i] = m_textWidget.text.Substring(startIndex, len);
         }
         UpdateDisplayText();

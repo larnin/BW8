@@ -50,6 +50,9 @@ MonoBehaviour:
   - name: Dialog
     menu: {fileID: 5567905363470712295, guid: df480a25e8037e944968ea0041082c1f, type: 3}
     pauseGame: 1
+  - name: HUD
+    menu: {fileID: 2684901893882325710, guid: 1d92233bf97ef694bbcbeb1d68bb0c26, type: 3}
+    pauseGame: 0
 --- !u!114 &8248660968915146212
 MonoBehaviour:
   m_ObjectHideFlags: 0

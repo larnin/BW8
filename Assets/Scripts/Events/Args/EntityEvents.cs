@@ -1,6 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public class GetPlayerLifeEvent
+{
+    public int life;
+    public int maxLife;
+}
+
+public class GetPlayerMoneyEvent
+{
+    public int money;
+}
+
 public class GetLifeEvent
 {
     public int life;
@@ -10,6 +21,12 @@ public class GetLifeEvent
     {
         life = _life;
         maxLife = _maxLife;
+    }
+
+    public GetLifeEvent()
+    {
+        life = 0;
+        maxLife = 0;
     }
 }
 

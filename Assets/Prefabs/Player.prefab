@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7985d82a27a42974ea9f97ebb453774b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 5
+  m_maxLife: 6
   m_invincibilityDuration: 1
 --- !u!114 &314988029852814234
 MonoBehaviour:
