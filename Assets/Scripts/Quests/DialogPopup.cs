@@ -25,12 +25,14 @@ public class DialogPopup : MonoBehaviour
     [SerializeField] float m_textSpeed = 5;
     [SerializeField] float m_fasterSpeed = 30;
     [SerializeField] float m_arrowBlinkSpeed = 2;
+    [SerializeField] int m_maxLineEachBox = 3;
 
     DialogObject m_dialog;
 
+    int m_nextText;
     int m_nextLine;
     string m_text;
-    string[] m_lines;
+    List<string> m_lines = new List<string>();
     int m_characterIndex;
     float m_currentTextSpeed;
     bool m_started = false;
@@ -117,6 +119,7 @@ public class DialogPopup : MonoBehaviour
     void StartFirstLine()
     {
         m_status = Status.writing;
+        m_nextText = 0;
         m_nextLine = 0;
 
         StartNextLine();
@@ -124,37 +127,70 @@ public class DialogPopup : MonoBehaviour
 
     void StartNextLine()
     {
-        if(m_nextLine >= m_dialog.GetNbTexts())
+        if (m_nextLine == 0)
         {
-            m_status = Status.disappear;
-            m_timer = 0;
-            return;
+            if (m_nextText >= m_dialog.GetNbTexts())
+            {
+                m_status = Status.disappear;
+                m_timer = 0;
+                return;
+            }
+
+            m_text = m_dialog.GetText(m_nextText).GetText();
         }
-
         m_status = Status.writing;
-
-        m_text = m_dialog.GetText(m_nextLine).GetText();
         m_characterIndex = 0;
         m_currentTextSpeed = m_textSpeed;
-
-        m_nextLine++;
         UpdateText();
     }
 
     void UpdateText()
     {
-        m_textWidget.text = m_text;
-        Canvas.ForceUpdateCanvases();
-        var lines = m_textWidget.textInfo.lineInfo;
-        m_lines = new string[lines.Length];
-        for(int i = 0; i < lines.Length; i++)
+        if (m_nextLine == 0)
         {
-            int startIndex = lines[i].firstCharacterIndex;
-            int len = lines[i].characterCount;
-            if (len == 0)
-                continue;
-            m_lines[i] = m_textWidget.text.Substring(startIndex, len);
+            m_textWidget.text = m_text;
+            Canvas.ForceUpdateCanvases();
+            var lines = m_textWidget.textInfo.lineInfo;
+            m_lines.Clear();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                int startIndex = lines[i].firstCharacterIndex;
+                int len = lines[i].characterCount;
+                if (len == 0)
+                    continue;
+                m_lines.Add(m_textWidget.text.Substring(startIndex, len));
+            }
+
+            if (m_lines.Count <= m_maxLineEachBox)
+            {
+                m_nextLine = 0;
+                m_nextText++;
+            }
+            else
+            {
+                m_text = "";
+                for (int i = 0; i < m_maxLineEachBox; i++)
+                    m_text += m_lines[i] + " ";
+                m_nextLine = m_maxLineEachBox;
+            }
         }
+        else
+        {
+            m_text = "";
+            int maxLine = m_nextLine + m_maxLineEachBox;
+            if (maxLine > m_lines.Count)
+                maxLine = m_lines.Count;
+            m_text = "";
+            for(int i = m_nextLine; i < maxLine; i++)
+                m_text += m_lines[i] + " ";
+            if (maxLine >= m_lines.Count)
+            {
+                m_nextLine = 0;
+                m_nextText++;
+            }
+            else m_nextLine = maxLine;
+        }
+
         UpdateDisplayText();
     }
 
