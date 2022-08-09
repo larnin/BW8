@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using NLocalization;
+using System.Collections.Generic;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerInteract : MonoBehaviour
 
     Interactable m_nearestInteractable = null;
     GameObject m_textObject = null;
+
+    List<Interactable> m_lastInstantInteractables = new List<Interactable>();
 
     private void Awake()
     {
@@ -34,11 +37,19 @@ public class PlayerInteract : MonoBehaviour
         Interactable newInteractable = null;
         float newDist = float.MaxValue;
 
+        List<Interactable> newInstant = new List<Interactable>();
+
         foreach(var o in objs)
         {
             var comp = o.GetComponent<Interactable>();
             if (comp == null)
                 continue;
+            
+            if(comp.IsInstantInteraction())
+            {
+                newInstant.Add(comp);
+                continue;
+            }    
 
             Vector2 pos = o.transform.position;
             float dist = (currentPos - pos).sqrMagnitude;
@@ -50,6 +61,16 @@ public class PlayerInteract : MonoBehaviour
             }
         }
 
+        //trigger instant interactions
+        foreach(var i in newInstant)
+        {
+            if (m_lastInstantInteractables.Contains(i))
+                continue;
+            i.Interact(gameObject);
+        }
+        m_lastInstantInteractables = newInstant;
+
+        //update interraction text
         bool updateText = false;
 
         if(m_nearestInteractable != null && m_nearestInteractable != newInteractable)
@@ -81,9 +102,7 @@ public class PlayerInteract : MonoBehaviour
     void OnInteraction(StartInteractEvent e)
     {
         if(m_nearestInteractable != null)
-        {
             m_nearestInteractable.Interact(gameObject);
-        }
     }
 
     void DisplayInteraction(bool updateText)

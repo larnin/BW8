@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    public abstract bool IsInstantInteraction();
+
     public abstract int GetInteractionTextID();
 
     public abstract Vector2 GetOffset();

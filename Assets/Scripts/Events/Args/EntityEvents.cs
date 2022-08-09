@@ -12,6 +12,18 @@ public class GetPlayerMoneyEvent
     public int money;
 }
 
+public class PickupEvent
+{
+    public ItemType type;
+    public int stack;
+
+    public PickupEvent(ItemType _type, int _stack)
+    {
+        type = _type;
+        stack = _stack;
+    }
+}
+
 public class GetLifeEvent
 {
     public int life;

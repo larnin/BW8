@@ -27,4 +27,9 @@ public class InteractDialog : Interactable
     {
         DialogPopup.StartDialog(m_dialogObject);
     }
+
+    public override bool IsInstantInteraction()
+    {
+        return false;
+    }
 }
