@@ -9,24 +9,24 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-[Serializable]
-public class OneLoot
-{
-    public GameObject prefab;
-    public int stack;
-}
-
-[Serializable]
-public class OneLootType
-{
-    public ItemType type;
-    public List<OneLoot> loots;
-}
-
 public class LootType : ScriptableObject
 {
     static string s_path = "Loots";
     static string s_name = "LootType";
+    
+    [Serializable]
+    public class OneLoot
+    {
+        public GameObject prefab;
+        public int stack;
+    }
+
+    [Serializable]
+    public class OneLootType
+    {
+        public ItemType type;
+        public List<OneLoot> loots;
+    }
 
     static LootType m_instance = null;
 
