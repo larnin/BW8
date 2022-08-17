@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: LootType
   m_EditorClassIdentifier: 
   m_loots: []
+  m_lootsParams:
+    m_radius: 0.3
+    m_minMoveSpeed: 1
+    m_maxMoveSpeed: 2
+    m_brakePower: 5
+    m_pickupSpeed: 10

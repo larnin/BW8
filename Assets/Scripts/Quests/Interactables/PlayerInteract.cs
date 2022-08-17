@@ -44,6 +44,9 @@ public class PlayerInteract : MonoBehaviour
             var comp = o.GetComponent<Interactable>();
             if (comp == null)
                 continue;
+
+            if (!comp.CanInteract())
+                continue;
             
             if(comp.IsInstantInteraction())
             {
@@ -72,6 +75,12 @@ public class PlayerInteract : MonoBehaviour
 
         //update interraction text
         bool updateText = false;
+
+        if(!m_nearestInteractable.CanInteract())
+        {
+            m_nearestInteractable = null;
+            updateText = true;
+        }
 
         if(m_nearestInteractable != null && m_nearestInteractable != newInteractable)
         {

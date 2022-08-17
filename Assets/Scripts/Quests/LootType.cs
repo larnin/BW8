@@ -28,9 +28,22 @@ public class LootType : ScriptableObject
         public List<OneLoot> loots;
     }
 
+    [Serializable]
+    public class LootParams
+    {
+        public float m_radius = 0.3f;
+        public LayerMask m_layerLootHit;
+        public float m_minMoveSpeed = 1;
+        public float m_maxMoveSpeed = 2;
+        public float m_brakePower = 5;
+        public float m_pickupSpeed = 10;
+    }
+
     static LootType m_instance = null;
 
     [SerializeField] List<OneLootType> m_loots;
+    [SerializeField] LootParams m_lootsParams;
+
 
 #if UNITY_EDITOR
     [MenuItem("Game/Create LootType")]
@@ -126,5 +139,13 @@ public class LootType : ScriptableObject
             items.Add(GameObject.Instantiate(l.prefab));
 
         return items;
+    }
+
+    public static LootParams GetParams()
+    {
+        Load();
+        if (m_instance == null)
+            return new LootParams();
+        return m_instance.m_lootsParams;
     }
 }

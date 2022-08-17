@@ -13,6 +13,11 @@ public class InteractDialog : Interactable
 
     [SerializeField] DialogObject m_dialogObject;
 
+    public override bool CanInteract()
+    {
+        return true;
+    }
+
     public override int GetInteractionTextID()
     {
         return m_text.GetTextID();

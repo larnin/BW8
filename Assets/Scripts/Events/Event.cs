@@ -84,6 +84,9 @@ class Event<T>
 
     public static void Broadcast(T data, GameObject obj, bool propagateToChild = false)
     {
+        if (obj == null)
+            return;
+
         Action<T> func;
         if (m_events.TryGetValue(obj, out func) && func != null)
             func(data);
