@@ -76,7 +76,7 @@ public class LootType : ScriptableObject
         {
             if(e.name == s_name)
             {
-
+                m_instance = e as LootType;
                 break;
             }
         }

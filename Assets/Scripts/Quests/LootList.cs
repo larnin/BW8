@@ -52,6 +52,11 @@ public class LootList : ScriptableObject
         }
         foreach(var l in m_loots)
         {
+            if(l.weight < 100)
+            {
+                if (new UniformFloatDistribution(0, 100).Next(rand) > l.weight)
+                    continue;
+            }
             int stack = new UniformIntDistribution(l.minStack, l.maxStack + 1).Next(rand);
             lootCount[(int)l.item] += stack;
         }

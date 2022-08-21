@@ -61,7 +61,7 @@ class HUD : MonoBehaviour
             for (int i = m_hearts.Count; i < newHealthCount; i++)
             {
                 var obj = Instantiate(m_heartPrefab);
-                obj.transform.parent = m_heartOrigin.transform;
+                obj.transform.SetParent(m_heartOrigin.transform);
                 Vector3 pos = new Vector3(m_heartOffset * i, 0, 0);
                 obj.transform.localPosition = pos;
                 obj.transform.localScale = Vector3.one;

@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 5019540073348160574}
   - component: {fileID: 1853745129578088370}
   - component: {fileID: 1652509185470591866}
+  - component: {fileID: 9033673768378875119}
   m_Layer: 7
   m_Name: Slim
   m_TagString: Untagged
@@ -201,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7985d82a27a42974ea9f97ebb453774b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxLife: 5
+  m_maxLife: 3
   m_invincibilityDuration: 0
 --- !u!114 &5019540073348160574
 MonoBehaviour:
@@ -245,6 +246,19 @@ MonoBehaviour:
   m_prefab: {fileID: 6520900894503063284, guid: 97771ee5bd927b84c9c2b0339e7b88d2, type: 3}
   m_destroyDelay: 0.2
   m_offset: {x: 0, y: 0}
+--- !u!114 &9033673768378875119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5000226799127475302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233815a013ad9414c99cabb4a1514925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lootList: {fileID: 11400000, guid: 66c8b2a9af1e3654bba01dfbc9162f0c, type: 2}
 --- !u!1 &7479226691889271309
 GameObject:
   m_ObjectHideFlags: 0

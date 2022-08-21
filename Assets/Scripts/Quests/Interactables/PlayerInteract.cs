@@ -48,16 +48,16 @@ public class PlayerInteract : MonoBehaviour
             if (!comp.CanInteract())
                 continue;
             
-            if(comp.IsInstantInteraction())
-            {
-                newInstant.Add(comp);
-                continue;
-            }    
-
             Vector2 pos = o.transform.position;
             float dist = (currentPos - pos).sqrMagnitude;
             if(dist < newDist || !foundNewObject)
             {
+                if (comp.IsInstantInteraction())
+                {
+                    newInstant.Add(comp);
+                    continue;
+                }
+
                 foundNewObject = true;
                 newInteractable = comp;
                 newDist = dist;
@@ -76,26 +76,28 @@ public class PlayerInteract : MonoBehaviour
         //update interraction text
         bool updateText = false;
 
-        if(!m_nearestInteractable.CanInteract())
+        if(m_nearestInteractable != null)
         {
-            m_nearestInteractable = null;
-            updateText = true;
-        }
-
-        if(m_nearestInteractable != null && m_nearestInteractable != newInteractable)
-        {
-            Vector2 pos = m_nearestInteractable.transform.position;
-            float dist = (currentPos - pos).sqrMagnitude;
-            if (dist >= m_interactionRadius * m_interactionRadius)
+            if (!m_nearestInteractable.CanInteract())
             {
-                updateText = true;
                 m_nearestInteractable = null;
+                updateText = true;
             }
-
-            if (newInteractable != null && newDist < dist)
+            else if (m_nearestInteractable != newInteractable)
             {
-                updateText = true;
-                m_nearestInteractable = null;
+                Vector2 pos = m_nearestInteractable.transform.position;
+                float dist = (currentPos - pos).sqrMagnitude;
+                if (dist >= m_interactionRadius * m_interactionRadius)
+                {
+                    updateText = true;
+                    m_nearestInteractable = null;
+                }
+
+                if (newInteractable != null && newDist < dist)
+                {
+                    updateText = true;
+                    m_nearestInteractable = null;
+                }
             }
         }
 

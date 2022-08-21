@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbbdbdb281f4090438c44dad5aba25a1, type: 3}
+  m_Name: SlimLoot
+  m_EditorClassIdentifier: 
+  m_lootGroup:
+  - loots:
+    - item: 1
+      minStack: 2
+      maxStack: 5
+      weight: 10
+    - item: 1
+      minStack: 20
+      maxStack: 30
+      weight: 1
+  m_loots:
+  - item: 0
+    minStack: 1
+    maxStack: 1
+    weight: 10
+  m_maxLoot: -1

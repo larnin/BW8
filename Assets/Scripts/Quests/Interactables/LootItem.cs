@@ -140,6 +140,10 @@ public class LootItem : Interactable
         newPos.y += newDir.y * dist;
         transform.position = newPos;
 
+        newSpeed -= lootParams.m_brakePower * Time.deltaTime;
+        if (newSpeed <= 0)
+            m_state = State.Idle;
+
         m_dir = newDir;
         m_speed = newSpeed;
     }
