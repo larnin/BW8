@@ -7066,6 +7066,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_331
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 176
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58e1915f80b00ae4f8ac0f37afd46a51
+      internalID: -1254646904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_332
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 160
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98db67489af595d468fcc53cb2bc671b
+      internalID: -2083939191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_333
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 144
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2c7b3ab210940c448dd97f113e40c71
+      internalID: 669171528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -7159,6 +7222,7 @@ TextureImporter:
       tileset_outside_01_67: -2007439886
       tileset_outside_01_315: 765926253
       tileset_outside_01_233: 1663542189
+      tileset_outside_01_331: -1254646904
       tileset_outside_01_101: 1539895372
       tileset_outside_01_15: 654499162
       tileset_outside_01_107: -2091142221
@@ -7279,6 +7343,7 @@ TextureImporter:
       tileset_outside_01_222: 1311943817
       tileset_outside_01_326: 1511016386
       tileset_outside_01_298: -989723355
+      tileset_outside_01_333: 669171528
       tileset_outside_01_211: -1315403062
       tileset_outside_01_64: 1003627290
       tileset_outside_01_146: -759694225
@@ -7330,6 +7395,7 @@ TextureImporter:
       tileset_outside_01_134: 201040355
       tileset_outside_01_4: 930464450
       tileset_outside_01_91: -399119082
+      tileset_outside_01_332: -2083939191
       tileset_outside_01_276: -126272501
       tileset_outside_01_319: 968868980
       tileset_outside_01_209: 1477079483
