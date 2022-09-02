@@ -14,7 +14,13 @@ public class WorldObject : SerializedScriptableObject
     [SerializeField] GameObject[,] m_chunkMatrix;
 
     [SerializeField] Vector2 m_chunkSize = new Vector2(1, 1);
+
+    [SerializeField] bool m_horizontalLoop = false;
+    [SerializeField] bool m_verticalLoop = false;
+
     public Vector2 chunkSize { get { return m_chunkSize; } }
+    public bool horizontalLoop { get { return m_horizontalLoop; } }
+    public bool verticalLoop { get { return m_verticalLoop; } }
 
     [OnInspectorInit]
     private void CreateData()
@@ -67,12 +73,20 @@ public class WorldObject : SerializedScriptableObject
     {
         Vector2Int outPos = Vector2Int.zero;
 
-        if (pos.x < 0)
-            outPos.x = (pos.x % m_chunkNb.x + m_chunkNb.x) % m_chunkNb.x;
-        else outPos.x = pos.x % m_chunkNb.x;
-        if (pos.y < 0)
-            outPos.y = (pos.y % m_chunkNb.y + m_chunkNb.y) % m_chunkNb.y;
-        else outPos.y = pos.y % m_chunkNb.y;
+        if (m_horizontalLoop)
+        {
+            if (pos.x < 0)
+                outPos.x = (pos.x % m_chunkNb.x + m_chunkNb.x) % m_chunkNb.x;
+            else outPos.x = pos.x % m_chunkNb.x;
+        }
+        else outPos.x = pos.x;
+        if (m_verticalLoop)
+        {
+            if (pos.y < 0)
+                outPos.y = (pos.y % m_chunkNb.y + m_chunkNb.y) % m_chunkNb.y;
+            else outPos.y = pos.y % m_chunkNb.y;
+        }
+        else outPos.y = pos.y;
 
         return outPos;
     }

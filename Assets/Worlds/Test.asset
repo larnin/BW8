@@ -42,3 +42,5 @@ MonoBehaviour:
       Data: 
   m_chunkNb: {x: 1, y: 1}
   m_chunkSize: {x: 42, y: 26}
+  m_horizontalLoop: 1
+  m_verticalLoop: 1
