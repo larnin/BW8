@@ -188,6 +188,7 @@ namespace NLocalization
 
         public int AddText(string textID, int categoryID = LocTable.invalidID)
         {
+#if UNITY_EDITOR
             int id = m_table.Get(textID);
             if (id != LocTable.invalidID)
                 return id;
@@ -204,6 +205,9 @@ namespace NLocalization
             AssetDatabase.SaveAssets();
 
             return id;
+#else
+            return LocTable.invalidID;
+#endif
         }
 
         public void RemoveText(int id)
