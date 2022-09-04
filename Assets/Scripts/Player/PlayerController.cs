@@ -205,7 +205,10 @@ public class PlayerController : MonoBehaviour
 
     void OnTeleport(TeleportPlayerEvent e)
     {
-        transform.position = e.pos;
+        Vector3 pos = transform.position;
+        pos.x = e.pos.x;
+        pos.y = e.pos.y;
+        transform.position = pos;
         m_rigidbody.velocity = Vector2.zero;
 
         Event<CenterUpdatedEventInstant>.Broadcast(new CenterUpdatedEventInstant(transform.position));
