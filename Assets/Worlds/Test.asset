@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 6168485790604338096, guid: 5bbebf810abb0de40ae2383b7835bfac, type: 3}
+    - {fileID: 6168485790604338096, guid: 7b7e3f3acb5d61a48a308ee7fa2d5c22, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -41,6 +41,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   m_chunkNb: {x: 1, y: 1}
-  m_chunkSize: {x: 42, y: 26}
-  m_horizontalLoop: 1
-  m_verticalLoop: 1
+  m_chunkSize: {x: 1000, y: 1000}
+  m_horizontalLoop: 0
+  m_verticalLoop: 0

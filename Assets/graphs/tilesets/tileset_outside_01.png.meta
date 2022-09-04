@@ -7159,7 +7159,7 @@ TextureImporter:
         width: 48
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -7167,6 +7167,279 @@ TextureImporter:
       bones: []
       spriteID: 62ce8341634646d48982156d565a3c2a
       internalID: -1196949115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_336
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cb117960dcc99c4cb31ab98b9d128f9
+      internalID: -1382438937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_337
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3d8abda3b0c8e54a8b5b911af8652ae
+      internalID: 606943090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_338
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 272
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d8e588c2a9009a4a80a2c1ecb3c2b80
+      internalID: -1289158990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_339
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 272
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0c7e8fd129a0414f84d2007d81340a8
+      internalID: 1862461477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_340
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 272
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dbdbd61cf25f5d4b977643a3dc4b402
+      internalID: -115140270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_341
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f0972715dffa38499d10e228458a7c1
+      internalID: 152436769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_342
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7207a7cde408b684c98a5977f4f5f9a5
+      internalID: 1945789702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_343
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ee756acb4dea7c4eae0f3b2311ff8d6
+      internalID: 876643430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_344
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efca898b6b922794789900907bd4d90b
+      internalID: -1792730468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_345
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b1b873a25767c347ae8b8608660bdd0
+      internalID: -448116805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_346
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21fdd12adb1b87747942dd451415441b
+      internalID: -476755955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_347
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 272
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adfc47597eda8ae4c928d4f95d955fb0
+      internalID: 86499292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tileset_outside_01_348
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0b8509e088d88143802963950ce1a80
+      internalID: -1934367333
       vertices: []
       indices: 
       edges: []
@@ -7186,22 +7459,14 @@ TextureImporter:
       tileset_outside_01_102: -1634714535
       tileset_outside_01_207: 734835344
       tileset_outside_01_138: -540219917
-      tileset_outside_01_160: 1056265303
-      tileset_outside_01_192: 181213683
       tileset_outside_01_286: 768143837
       tileset_outside_01_46: -1805079341
       tileset_outside_01_171: 834572432
-      tileset_outside_01_318: 645288216
       tileset_outside_01_325: -2107332520
       tileset_outside_01_229: -298760374
-      tileset_outside_01_66: 1510049967
-      tileset_outside_01_267: -1854811662
       tileset_outside_01_27: 607480110
-      tileset_outside_01_297: -763744025
       tileset_outside_01_63: 926383187
-      tileset_outside_01_329: 1841975090
       tileset_outside_01_88: 648149476
-      tileset_outside_01_12: -948376919
       tileset_outside_01_299: 927085926
       tileset_outside_01_307: 122161323
       tileset_outside_01_26: 603355182
@@ -7209,314 +7474,335 @@ TextureImporter:
       tileset_outside_01_106: 1667299972
       tileset_outside_01_200: 1519072051
       tileset_outside_01_103: 1524041934
-      tileset_outside_01_226: 1064903354
+      tileset_outside_01_309: -78749366
       tileset_outside_01_218: -257962007
       tileset_outside_01_221: 1017898630
       tileset_outside_01_37: 1989066674
       tileset_outside_01_56: -32850014
-      tileset_outside_01_275: 847476509
       tileset_outside_01_7: -2042057038
-      tileset_outside_01_148: 77792818
-      tileset_outside_01_33: -321028852
-      tileset_outside_01_309: -78749366
-      tileset_outside_01_193: 2009009813
       tileset_outside_01_273: 827666992
+      tileset_outside_01_33: -321028852
+      tileset_outside_01_193: 2009009813
+      tileset_outside_01_347: 86499292
       tileset_outside_01_214: -823980505
-      tileset_outside_01_42: 597470515
-      tileset_outside_01_29: -1430123316
       tileset_outside_01_152: 711853157
-      tileset_outside_01_280: -81433663
-      tileset_outside_01_252: 1367896710
-      tileset_outside_01_13: 328413871
       tileset_outside_01_260: -1419588681
       tileset_outside_01_263: -970813915
       tileset_outside_01_264: -759748585
-      tileset_outside_01_109: 311462247
-      tileset_outside_01_256: 1081632426
-      tileset_outside_01_239: -1335009082
       tileset_outside_01_39: -915341421
-      tileset_outside_01_24: 329719396
-      tileset_outside_01_43: 1633767981
-      tileset_outside_01_129: -1939500905
       tileset_outside_01_187: 154075746
-      tileset_outside_01_58: 299739686
+      tileset_outside_01_43: 1633767981
       tileset_outside_01_108: 853127625
-      tileset_outside_01_330: 783646749
-      tileset_outside_01_216: -2120636342
       tileset_outside_01_40: -707651692
       tileset_outside_01_238: -2034171620
-      tileset_outside_01_220: 1040628044
       tileset_outside_01_251: -1981772862
       tileset_outside_01_62: -1730852259
       tileset_outside_01_277: 1760961624
       tileset_outside_01_32: -1889796676
       tileset_outside_01_281: 1009440515
-      tileset_outside_01_227: -744913170
-      tileset_outside_01_306: -1836049683
-      tileset_outside_01_313: 1041247456
+      tileset_outside_01_315: 765926253
       tileset_outside_01_59: 593411184
       tileset_outside_01_185: -1078323116
-      tileset_outside_01_279: 1617963788
       tileset_outside_01_219: -1453865744
       tileset_outside_01_79: -823239500
       tileset_outside_01_191: -111927739
       tileset_outside_01_48: -1440369103
       tileset_outside_01_67: -2007439886
-      tileset_outside_01_315: 765926253
-      tileset_outside_01_233: 1663542189
-      tileset_outside_01_331: -1254646904
-      tileset_outside_01_101: 1539895372
-      tileset_outside_01_15: 654499162
       tileset_outside_01_107: -2091142221
-      tileset_outside_01_316: 1405410264
       tileset_outside_01_50: 856061914
       tileset_outside_01_65: 2102464872
-      tileset_outside_01_131: 933595538
       tileset_outside_01_123: -1510794191
-      tileset_outside_01_247: -1960991264
       tileset_outside_01_224: -737214367
       tileset_outside_01_19: 2073552907
       tileset_outside_01_274: -361289347
       tileset_outside_01_159: 1904361099
       tileset_outside_01_242: 466234944
-      tileset_outside_01_235: 1458498839
       tileset_outside_01_125: -958589515
       tileset_outside_01_197: -1136227853
-      tileset_outside_01_292: 428965662
       tileset_outside_01_57: 558803269
       tileset_outside_01_266: 1857352477
-      tileset_outside_01_74: 470412984
-      tileset_outside_01_170: -1471178927
       tileset_outside_01_86: 1779264626
       tileset_outside_01_236: -299655444
       tileset_outside_01_34: 741957080
       tileset_outside_01_208: 1075171609
       tileset_outside_01_295: 382293440
       tileset_outside_01_132: 67082413
-      tileset_outside_01_51: 1035116304
+      tileset_outside_01_190: 2035445145
       tileset_outside_01_71: 1017974776
-      tileset_outside_01_72: -1671536441
-      tileset_outside_01_100: -1879672618
-      tileset_outside_01_158: -592565432
-      tileset_outside_01_173: -584670386
-      tileset_outside_01_144: -286683912
+      tileset_outside_01_346: -476755955
       tileset_outside_01_76: -2048403733
       tileset_outside_01_212: -1949161034
       tileset_outside_01_80: 409035186
       tileset_outside_01_142: 2118126023
-      tileset_outside_01_213: 1482297477
       tileset_outside_01_115: -139710019
       tileset_outside_01_269: -261373198
       tileset_outside_01_241: 1387190299
-      tileset_outside_01_190: 2035445145
-      tileset_outside_01_188: 1970584904
-      tileset_outside_01_308: -873738051
       tileset_outside_01_194: -1156117461
-      tileset_outside_01_136: 1789093462
       tileset_outside_01_118: -982066936
       tileset_outside_01_83: 758065119
-      tileset_outside_01_94: 1247336461
       tileset_outside_01_17: -1428205080
       tileset_outside_01_166: 1922424412
       tileset_outside_01_110: -1104110458
-      tileset_outside_01_41: -1840095960
       tileset_outside_01_162: 554279016
-      tileset_outside_01_225: 1856955310
-      tileset_outside_01_16: 680755685
-      tileset_outside_01_202: -1575075660
       tileset_outside_01_147: 460552219
       tileset_outside_01_245: 1542568638
-      tileset_outside_01_116: -805267892
       tileset_outside_01_167: -2028355163
-      tileset_outside_01_305: 803907039
       tileset_outside_01_85: -1034913168
       tileset_outside_01_317: 253928749
       tileset_outside_01_335: -1196949115
-      tileset_outside_01_206: 1403627407
-      tileset_outside_01_23: -1613047993
       tileset_outside_01_195: 352929781
       tileset_outside_01_304: -1257267091
+      tileset_outside_01_336: -1382438937
       tileset_outside_01_89: 1090470841
       tileset_outside_01_320: -1143615177
-      tileset_outside_01_122: -1141062592
-      tileset_outside_01_121: 1547629723
-      tileset_outside_01_55: 2136203883
-      tileset_outside_01_75: 1132140919
-      tileset_outside_01_35: -1514707701
+      tileset_outside_01_246: -1756281595
       tileset_outside_01_133: -199860182
-      tileset_outside_01_243: -1617954955
+      tileset_outside_01_75: 1132140919
       tileset_outside_01_210: -1441724024
-      tileset_outside_01_301: 1732286546
-      tileset_outside_01_184: -1808297580
+      tileset_outside_01_243: -1617954955
       tileset_outside_01_282: -391373186
       tileset_outside_01_61: 569087439
       tileset_outside_01_18: 1865356381
       tileset_outside_01_189: 1334926528
-      tileset_outside_01_98: -597358134
-      tileset_outside_01_215: -1979414249
+      tileset_outside_01_231: 1936432562
       tileset_outside_01_90: 2101023197
       tileset_outside_01_334: 761924660
-      tileset_outside_01_231: 1936432562
-      tileset_outside_01_156: 1386755828
-      tileset_outside_01_14: 2025767833
-      tileset_outside_01_155: 654025792
       tileset_outside_01_199: -1662834256
-      tileset_outside_01_105: 191284608
+      tileset_outside_01_14: 2025767833
       tileset_outside_01_268: -1935754257
-      tileset_outside_01_228: 273821417
-      tileset_outside_01_246: -1756281595
       tileset_outside_01_293: -230795108
       tileset_outside_01_36: -129071518
       tileset_outside_01_119: -472131976
-      tileset_outside_01_20: 1025736537
-      tileset_outside_01_234: -133180092
       tileset_outside_01_143: 126105414
+      tileset_outside_01_20: 1025736537
       tileset_outside_01_70: 1100729662
-      tileset_outside_01_327: -321263602
       tileset_outside_01_95: -1266997438
-      tileset_outside_01_169: -1958293152
+      tileset_outside_01_234: -133180092
       tileset_outside_01_302: -1956768101
       tileset_outside_01_47: -948239269
-      tileset_outside_01_77: -1582379666
       tileset_outside_01_111: -893441002
-      tileset_outside_01_177: 914289936
-      tileset_outside_01_153: -435284852
-      tileset_outside_01_172: -1316673948
       tileset_outside_01_255: -1814413199
+      tileset_outside_01_153: -435284852
       tileset_outside_01_270: -1517771201
-      tileset_outside_01_222: 1311943817
       tileset_outside_01_326: 1511016386
-      tileset_outside_01_298: -989723355
       tileset_outside_01_333: 669171528
-      tileset_outside_01_211: -1315403062
+      tileset_outside_01_298: -989723355
+      tileset_outside_01_222: 1311943817
       tileset_outside_01_64: 1003627290
       tileset_outside_01_146: -759694225
       tileset_outside_01_310: -19529869
       tileset_outside_01_272: 1893790020
       tileset_outside_01_287: -68145619
-      tileset_outside_01_284: 1072394666
-      tileset_outside_01_244: -2059167509
-      tileset_outside_01_149: -1275882746
       tileset_outside_01_303: 1285034736
       tileset_outside_01_204: 2108770810
       tileset_outside_01_5: 1467979693
-      tileset_outside_01_232: -1876884383
       tileset_outside_01_84: -1245006209
-      tileset_outside_01_128: -1794829724
-      tileset_outside_01_150: 273926015
       tileset_outside_01_288: 455597180
-      tileset_outside_01_52: 1240029061
+      tileset_outside_01_150: 273926015
       tileset_outside_01_250: -1809907003
-      tileset_outside_01_113: 1493962414
       tileset_outside_01_130: 1534588464
-      tileset_outside_01_198: 1253620066
-      tileset_outside_01_161: 480115993
       tileset_outside_01_323: 1407066925
-      tileset_outside_01_25: 1162227366
       tileset_outside_01_22: 293218839
-      tileset_outside_01_217: -1159966035
-      tileset_outside_01_294: -664651161
+      tileset_outside_01_345: -448116805
       tileset_outside_01_140: -40666768
       tileset_outside_01_3: -1081988952
       tileset_outside_01_54: 2038708682
       tileset_outside_01_127: 1110179095
-      tileset_outside_01_96: 1633894026
       tileset_outside_01_114: -1601682676
-      tileset_outside_01_157: -606666382
-      tileset_outside_01_314: -1675554480
       tileset_outside_01_0: -1404648051
       tileset_outside_01_11: -1363063504
       tileset_outside_01_262: 1181060061
-      tileset_outside_01_81: -675388907
       tileset_outside_01_49: -1529088906
       tileset_outside_01_21: -1115349559
       tileset_outside_01_182: 59394706
       tileset_outside_01_296: 1074192469
       tileset_outside_01_73: 1817326781
-      tileset_outside_01_179: -1824765129
       tileset_outside_01_237: 1544363716
       tileset_outside_01_290: 136467314
-      tileset_outside_01_134: 201040355
       tileset_outside_01_4: 930464450
-      tileset_outside_01_91: -399119082
       tileset_outside_01_332: -2083939191
       tileset_outside_01_276: -126272501
-      tileset_outside_01_319: 968868980
       tileset_outside_01_209: 1477079483
       tileset_outside_01_249: 1798966680
       tileset_outside_01_257: 65843257
-      tileset_outside_01_135: 360525027
-      tileset_outside_01_44: 1192114441
-      tileset_outside_01_168: 1801210297
+      tileset_outside_01_348: -1934367333
       tileset_outside_01_163: 2114884779
       tileset_outside_01_165: 891540155
       tileset_outside_01_151: 2132422591
-      tileset_outside_01_254: -88760569
       tileset_outside_01_205: -1884215454
       tileset_outside_01_92: -636049663
       tileset_outside_01_178: 1818400323
       tileset_outside_01_321: -523288748
-      tileset_outside_01_291: 1744340586
       tileset_outside_01_285: -2104561128
       tileset_outside_01_230: 596148654
+      tileset_outside_01_253: 2122237173
+      tileset_outside_01_271: -2113588467
+      tileset_outside_01_60: -935492785
+      tileset_outside_01_124: -1321026734
+      tileset_outside_01_322: -1039937867
+      tileset_outside_01_186: 616449933
+      tileset_outside_01_10: -295404501
+      tileset_outside_01_139: -1605419480
+      tileset_outside_01_240: 1279891366
+      tileset_outside_01_258: 791007609
+      tileset_outside_01_289: -1267928444
+      tileset_outside_01_300: -231013112
+      tileset_outside_01_120: -1773221978
+      tileset_outside_01_145: 381970751
+      tileset_outside_01_6: 1283133745
+      tileset_outside_01_312: 474132347
+      tileset_outside_01_283: -905907622
+      tileset_outside_01_112: -362441808
+      tileset_outside_01_38: -1857060868
+      tileset_outside_01_45: 1810980904
+      tileset_outside_01_311: -431297486
+      tileset_outside_01_265: 1111084751
+      tileset_outside_01_164: -628851656
+      tileset_outside_01_196: 1167164424
+      tileset_outside_01_201: -538462422
+      tileset_outside_01_223: 512158643
+      tileset_outside_01_97: -1733435952
+      tileset_outside_01_28: 33005936
+      tileset_outside_01_87: 2002400301
+      tileset_outside_01_344: -1792730468
+      tileset_outside_01_160: 1056265303
+      tileset_outside_01_192: 181213683
+      tileset_outside_01_318: 645288216
+      tileset_outside_01_66: 1510049967
+      tileset_outside_01_267: -1854811662
+      tileset_outside_01_297: -763744025
+      tileset_outside_01_329: 1841975090
+      tileset_outside_01_12: -948376919
+      tileset_outside_01_226: 1064903354
+      tileset_outside_01_275: 847476509
+      tileset_outside_01_148: 77792818
+      tileset_outside_01_42: 597470515
+      tileset_outside_01_29: -1430123316
+      tileset_outside_01_280: -81433663
+      tileset_outside_01_252: 1367896710
+      tileset_outside_01_13: 328413871
+      tileset_outside_01_109: 311462247
+      tileset_outside_01_256: 1081632426
+      tileset_outside_01_239: -1335009082
+      tileset_outside_01_129: -1939500905
+      tileset_outside_01_24: 329719396
+      tileset_outside_01_330: 783646749
+      tileset_outside_01_58: 299739686
+      tileset_outside_01_216: -2120636342
+      tileset_outside_01_313: 1041247456
+      tileset_outside_01_220: 1040628044
+      tileset_outside_01_227: -744913170
+      tileset_outside_01_306: -1836049683
+      tileset_outside_01_331: -1254646904
+      tileset_outside_01_338: -1289158990
+      tileset_outside_01_279: 1617963788
+      tileset_outside_01_233: 1663542189
+      tileset_outside_01_101: 1539895372
+      tileset_outside_01_15: 654499162
+      tileset_outside_01_316: 1405410264
+      tileset_outside_01_131: 933595538
+      tileset_outside_01_247: -1960991264
+      tileset_outside_01_235: 1458498839
+      tileset_outside_01_292: 428965662
+      tileset_outside_01_74: 470412984
+      tileset_outside_01_170: -1471178927
+      tileset_outside_01_343: 876643430
+      tileset_outside_01_51: 1035116304
+      tileset_outside_01_72: -1671536441
+      tileset_outside_01_100: -1879672618
+      tileset_outside_01_158: -592565432
+      tileset_outside_01_173: -584670386
+      tileset_outside_01_144: -286683912
+      tileset_outside_01_213: 1482297477
+      tileset_outside_01_308: -873738051
+      tileset_outside_01_188: 1970584904
+      tileset_outside_01_342: 1945789702
+      tileset_outside_01_136: 1789093462
+      tileset_outside_01_206: 1403627407
+      tileset_outside_01_94: 1247336461
+      tileset_outside_01_341: 152436769
+      tileset_outside_01_41: -1840095960
+      tileset_outside_01_225: 1856955310
+      tileset_outside_01_16: 680755685
+      tileset_outside_01_202: -1575075660
+      tileset_outside_01_116: -805267892
+      tileset_outside_01_305: 803907039
+      tileset_outside_01_23: -1613047993
+      tileset_outside_01_122: -1141062592
+      tileset_outside_01_121: 1547629723
+      tileset_outside_01_55: 2136203883
+      tileset_outside_01_35: -1514707701
+      tileset_outside_01_301: 1732286546
+      tileset_outside_01_184: -1808297580
+      tileset_outside_01_98: -597358134
+      tileset_outside_01_215: -1979414249
+      tileset_outside_01_156: 1386755828
+      tileset_outside_01_155: 654025792
+      tileset_outside_01_105: 191284608
+      tileset_outside_01_228: 273821417
+      tileset_outside_01_327: -321263602
+      tileset_outside_01_169: -1958293152
+      tileset_outside_01_77: -1582379666
+      tileset_outside_01_177: 914289936
+      tileset_outside_01_172: -1316673948
+      tileset_outside_01_211: -1315403062
+      tileset_outside_01_339: 1862461477
+      tileset_outside_01_284: 1072394666
+      tileset_outside_01_244: -2059167509
+      tileset_outside_01_149: -1275882746
+      tileset_outside_01_314: -1675554480
+      tileset_outside_01_232: -1876884383
+      tileset_outside_01_128: -1794829724
+      tileset_outside_01_52: 1240029061
+      tileset_outside_01_337: 606943090
+      tileset_outside_01_113: 1493962414
+      tileset_outside_01_198: 1253620066
+      tileset_outside_01_161: 480115993
+      tileset_outside_01_25: 1162227366
+      tileset_outside_01_340: -115140270
+      tileset_outside_01_217: -1159966035
+      tileset_outside_01_294: -664651161
+      tileset_outside_01_96: 1633894026
+      tileset_outside_01_157: -606666382
+      tileset_outside_01_81: -675388907
+      tileset_outside_01_179: -1824765129
+      tileset_outside_01_134: 201040355
+      tileset_outside_01_91: -399119082
+      tileset_outside_01_319: 968868980
+      tileset_outside_01_135: 360525027
+      tileset_outside_01_44: 1192114441
+      tileset_outside_01_168: 1801210297
+      tileset_outside_01_254: -88760569
+      tileset_outside_01_291: 1744340586
       tileset_outside_01_9: -1621693258
       tileset_outside_01_174: -447544761
       tileset_outside_01_30: 718334192
       tileset_outside_01_180: 784935762
-      tileset_outside_01_253: 2122237173
-      tileset_outside_01_271: -2113588467
       tileset_outside_01_69: 839101879
       tileset_outside_01_78: 1964096805
-      tileset_outside_01_60: -935492785
       tileset_outside_01_141: 745941954
-      tileset_outside_01_124: -1321026734
-      tileset_outside_01_324: 297200705
       tileset_outside_01_154: -548146942
-      tileset_outside_01_322: -1039937867
       tileset_outside_01_175: -400465169
-      tileset_outside_01_186: 616449933
+      tileset_outside_01_324: 297200705
       tileset_outside_01_137: 1195451145
-      tileset_outside_01_10: -295404501
-      tileset_outside_01_139: -1605419480
-      tileset_outside_01_240: 1279891366
       tileset_outside_01_248: -1896809259
-      tileset_outside_01_258: 791007609
-      tileset_outside_01_300: -231013112
-      tileset_outside_01_181: 1723778064
       tileset_outside_01_259: -2120525534
-      tileset_outside_01_120: -1773221978
-      tileset_outside_01_145: 381970751
-      tileset_outside_01_6: 1283133745
-      tileset_outside_01_289: -1267928444
-      tileset_outside_01_31: 46377024
+      tileset_outside_01_181: 1723778064
       tileset_outside_01_328: 367845574
+      tileset_outside_01_31: 46377024
       tileset_outside_01_2: 801504273
-      tileset_outside_01_312: 474132347
-      tileset_outside_01_283: -905907622
-      tileset_outside_01_112: -362441808
       tileset_outside_01_82: -2083638348
       tileset_outside_01_53: -486494841
-      tileset_outside_01_38: -1857060868
-      tileset_outside_01_45: 1810980904
       tileset_outside_01_278: -867377651
-      tileset_outside_01_311: -431297486
       tileset_outside_01_93: 1321472497
       tileset_outside_01_1: -768288440
       tileset_outside_01_126: -1417042195
       tileset_outside_01_261: -793802413
-      tileset_outside_01_164: -628851656
-      tileset_outside_01_196: 1167164424
-      tileset_outside_01_201: -538462422
       tileset_outside_01_183: -985805297
-      tileset_outside_01_265: 1111084751
       tileset_outside_01_68: 1182003995
       tileset_outside_01_104: 789412523
-      tileset_outside_01_223: 512158643
       tileset_outside_01_117: -2050959089
       tileset_outside_01_8: 1615585685
-      tileset_outside_01_97: -1733435952
-      tileset_outside_01_28: 33005936
-      tileset_outside_01_87: 2002400301
       tileset_outside_01_203: -1804639285
   spritePackingTag: 
   pSDRemoveMatte: 0
