@@ -411,6 +411,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7410210933026514745, guid: 03154a24dcde8e64d893f2c8c712f555, type: 3}
+      propertyPath: m_rollSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410210933026514745, guid: 03154a24dcde8e64d893f2c8c712f555, type: 3}
+      propertyPath: m_rollDuration
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 03154a24dcde8e64d893f2c8c712f555, type: 3}
 --- !u!1001 &5362886256426529741

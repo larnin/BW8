@@ -161,6 +161,9 @@ public class PlayerController : MonoBehaviour
         }
         else if(m_inputsStartRoll)
         {
+            if (m_inputsDirection.magnitude >= 0.1f)
+                m_direction = m_inputsDirection;
+
             //make direction axis aligned
             if (MathF.Abs(m_direction.x) > MathF.Abs(m_direction.y))
                 m_direction.y = 0;
