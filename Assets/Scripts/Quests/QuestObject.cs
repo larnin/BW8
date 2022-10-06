@@ -19,6 +19,20 @@ public class QuestObject : SerializedScriptableObject
     [HideInInspector] [SerializeField] int m_parentQuestID;
     public int parentQuestID { get { return m_parentQuestID; } set { m_parentQuestID = value; } }
 
+    [HideInInspector] [SerializeField] List<QuestObjectiveObjectBase> m_objectives;
+    public int GetObjectiveNb() { return m_objectives.Count; }
+    
+    public QuestObjectiveObjectBase GetObjective(int index)
+    {
+        if (index < 0 || index >= m_objectives.Count)
+            return null;
+        return m_objectives[index];
+    }
 
-
+#if UNITY_EDITOR
+    public List<QuestObjectiveObjectBase> GetObjectiveListEditor()
+    {
+        return m_objectives;
+    }
+#endif
 }
