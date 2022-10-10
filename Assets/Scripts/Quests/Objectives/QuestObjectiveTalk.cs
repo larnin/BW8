@@ -70,7 +70,9 @@ public class QuestObjectiveTalk : QuestObjectiveBase
 
     void DisconnectEntity()
     {
+        m_questEntity.ResetInteraction();
 
+        m_questEntity = null;
     }
 
     void OnStartTalk(QuestStartTalkEvent e)

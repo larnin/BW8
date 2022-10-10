@@ -65,9 +65,6 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 4|QuestObjectiveObjectTalk, Assembly-CSharp
-    - Name: m_textOffset
-      Entry: 4
-      Data: 0
     - Name: m_text
       Entry: 7
       Data: 5|NLocalization.LocText, Assembly-CSharp
