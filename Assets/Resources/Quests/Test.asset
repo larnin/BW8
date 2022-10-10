@@ -15,12 +15,86 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 80d900268f22bfa448cc296352fa263d, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: m_objectives
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[QuestObjectiveObjectBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 1|QuestObjectiveObjectPlayerOnTrigger, Assembly-CSharp
+    - Name: m_triggerName
+      Entry: 1
+      Data: Trigger
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 2|QuestObjectiveObjectPlayerOnTrigger, Assembly-CSharp
+    - Name: m_triggerName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|QuestObjectiveObjectEntityOnTrigger, Assembly-CSharp
+    - Name: m_triggerName
+      Entry: 6
+      Data: 
+    - Name: m_entityName
+      Entry: 6
+      Data: 
+    - Name: m_count
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|QuestObjectiveObjectTalk, Assembly-CSharp
+    - Name: m_textOffset
+      Entry: 4
+      Data: 0
+    - Name: m_text
+      Entry: 7
+      Data: 5|NLocalization.LocText, Assembly-CSharp
+    - Name: m_id
+      Entry: 3
+      Data: 27
+    - Name: m_textID
+      Entry: 1
+      Data: Talk
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_dialog
+      Entry: 10
+      Data: 0
+    - Name: m_targetName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   m_questName: Test
   m_questID: 0
   m_parentQuestID: 1

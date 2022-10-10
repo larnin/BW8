@@ -8,9 +8,21 @@ using UnityEngine;
 
 public class QuestEntity : Interactable
 {
+    enum QuestInteractionType
+    { 
+        None,
+        Dialog,
+    }
+
     [SerializeField] string m_nameID;
+    [SerializeField] float m_textOffset;
 
     SubscriberList m_subscriberList = new SubscriberList();
+
+    QuestInteractionType m_interactionType = QuestInteractionType.None;
+
+    LocText m_text;
+    DialogObject m_dialogObject;
 
     private void Awake()
     {
@@ -57,5 +69,17 @@ public class QuestEntity : Interactable
     public override void Interact(GameObject caster)
     {
         return;
+    }
+
+    public void ResetInteraction()
+    {
+        m_interactionType = QuestInteractionType.None;
+    }
+
+    public void SetDialogInteraction(LocText text, DialogObject dialog)
+    {
+        m_interactionType = QuestInteractionType.Dialog;
+        m_text = text;
+        m_dialogObject = dialog;
     }
 }

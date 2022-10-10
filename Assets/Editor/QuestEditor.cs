@@ -17,6 +17,7 @@ class QuestEditor : OdinMenuEditorWindow
     }
 
     List<QuestEditorQuestTab> m_tabs = new List<QuestEditorQuestTab>();
+    Dictionary<int, bool> m_foldoutTabs = new Dictionary<int, bool>();
 
     public void UpdateWindow()
     {
@@ -51,6 +52,35 @@ class QuestEditor : OdinMenuEditorWindow
         tree.Add("Add Quest", new QuestEditorNewQuestTab(this));
 
         return tree;
+    }
+
+    public bool GetFoldoutState(int questID, int objective)
+    {
+        int id = FoldoutID(questID, objective);
+
+        bool state = true;
+
+        if (!m_foldoutTabs.TryGetValue(id, out state))
+            state = objective >= 0;
+
+        return state;
+    }
+
+    public void SetFoldoutState(int questID, int objective, bool state)
+    {
+        int id = FoldoutID(questID, objective);
+
+        if (!m_foldoutTabs.ContainsKey(id))
+            m_foldoutTabs.Add(id, state);
+        else m_foldoutTabs[id] = state;
+    }
+
+    int FoldoutID(int questID, int objective)
+    {
+        int hash = 27;
+        hash = (13 * hash) + questID.GetHashCode();
+        hash = (13 * hash) + objective.GetHashCode();
+        return hash;
     }
 }
 
@@ -117,12 +147,118 @@ class QuestEditorQuestTab
         }
         GUILayout.EndHorizontal();
 
+        bool state = m_editor.GetFoldoutState(m_ID, -1);
+        state = EditorGUILayout.BeginFoldoutHeaderGroup(state, "Objectives", null, ShowObjectiveContextMenu);
+        EditorGUILayout.EndFoldoutHeaderGroup();
 
-        if(EditorGUI.EndChangeCheck() || edited)
+        if (state)
+        {
+            GUILayout.Space(5);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(15);
+            GUILayout.BeginVertical();
+            int nbQuestObjective = quest.GetObjectiveNb();
+            for(int i = 0; i < nbQuestObjective; i++)
+            {
+                DisplayOneObjective(i, quest.GetObjective(i));
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+        }
+
+        m_editor.SetFoldoutState(m_ID, -1, state);
+
+        if (EditorGUI.EndChangeCheck() || edited)
         {
             EditorUtility.SetDirty(quest);
             AssetDatabase.SaveAssets();
         }
+    }
+
+    void DisplayOneObjective(int objectiveIndex, QuestObjectiveObjectBase objective)
+    {
+        //https://docs.unity3d.com/ScriptReference/EditorGUILayout.BeginFoldoutHeaderGroup.html
+
+        bool state = m_editor.GetFoldoutState(m_ID, objectiveIndex);
+        state = EditorGUILayout.BeginFoldoutHeaderGroup(state, objective.GetObectiveName(), null, (Rect rect)=> { ShowOneObjectiveContextMenu(rect, objectiveIndex); });
+        
+        if(state)
+            objective.OnInspectorGUI();
+
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        m_editor.SetFoldoutState(m_ID, objectiveIndex, state);
+    }
+
+    void ShowObjectiveContextMenu(Rect position)
+    {
+        const string baseMenu = "New Objective";
+
+        var allObjectiveTypes = AppDomain.CurrentDomain.GetAssemblies()
+         .SelectMany(assembly => assembly.GetTypes())
+         .Where(type => type.IsSubclassOf(typeof(QuestObjectiveObjectBase))).ToArray();
+
+        var menu = new GenericMenu();
+        foreach (var t in allObjectiveTypes)
+        {
+            const string baseString = "QuestObjectiveObject";
+            string name = t.Name;
+            if (name.StartsWith(baseString))
+                name = name.Substring(baseString.Length);
+            menu.AddItem(new GUIContent(baseMenu + "/" + name), false, () => { NewObjectiveClicked(t); });
+
+        }
+        menu.DropDown(position);
+    }
+
+    void NewObjectiveClicked(Type objectiveType)
+    {
+        var quest = QuestList.GetQuest(m_ID);
+        if (quest == null)
+            return;
+
+        quest.AddObjectiveEditor(Activator.CreateInstance(objectiveType) as QuestObjectiveObjectBase);
+    }
+
+    void ShowOneObjectiveContextMenu(Rect position, int objective)
+    {
+        var quest = QuestList.GetQuest(m_ID);
+        if (quest == null)
+            return;
+
+        int nbObjective = quest.GetObjectiveNb();
+
+        var menu = new GenericMenu();
+        if(objective > 0)
+            menu.AddItem(new GUIContent("Move UP"), false, ()=>{ MoveObjective(objective, objective - 1); });
+        if(objective < nbObjective - 1)
+            menu.AddItem(new GUIContent("Move DOWN"), false, () => { MoveObjective(objective, objective + 1); });
+        menu.AddItem(new GUIContent("Delete"), false, () => { RemoveObjective(objective); });
+        menu.DropDown(position);
+    }
+
+    void MoveObjective(int objective, int newIndex)
+    {
+        var quest = QuestList.GetQuest(m_ID);
+        if (quest == null)
+            return;
+
+        quest.MoveObjectiveEditor(objective, newIndex);
+
+        bool state = m_editor.GetFoldoutState(m_ID, objective);
+        bool otherState = m_editor.GetFoldoutState(m_ID, newIndex);
+
+        m_editor.SetFoldoutState(m_ID, objective, otherState);
+        m_editor.SetFoldoutState(m_ID, newIndex, state);
+    }
+
+    void RemoveObjective(int objective)
+    {
+        var quest = QuestList.GetQuest(m_ID);
+        if (quest == null)
+            return;
+
+        quest.RemoveObjectiveEditor(objective);
     }
 }
 

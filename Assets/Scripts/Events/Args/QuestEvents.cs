@@ -95,4 +95,36 @@ public class GetQuestEntityIDEvent
     public string id;
 }
 
+public class QuestObjectiveCompletedEvent
+{
+    public int questID;
+    public int objectiveIndex;
 
+    public QuestObjectiveCompletedEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
+
+public class QuestObjectiveFailedEvent
+{
+    public int questID;
+    public int objectiveIndex;
+
+    public QuestObjectiveFailedEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
+
+public class QuestStartTalkEvent
+{
+    public QuestEntity entity;
+
+    public QuestStartTalkEvent(QuestEntity _entity)
+    {
+        entity = _entity;
+    }
+}

@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e404d521eccf5154eb4594851009effe, type: 3}
-  m_Name: Test
+  m_Script: {fileID: 11500000, guid: 882fc52adeb026f43ad0c582797d541c, type: 3}
+  m_Name: Dialog01
   m_EditorClassIdentifier: 
-  m_texts:
-  - m_id: 24
-    m_textID: Dialog1
-  - m_id: 25
-    m_textID: Dialog2
-  - m_id: 26
-    m_textID: Dialog3
+  m_texts: []

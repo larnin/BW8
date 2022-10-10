@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
         m_subscriberList.Add(new Event<TeleportPlayerEvent>.Subscriber(OnTeleport));
         m_subscriberList.Add(new Event<GetPlayerLifeEvent>.Subscriber(GetPlayerLife));
+        m_subscriberList.Add(new Event<GetPlayerPositionEvent>.Subscriber(GetPlayerPos));
 
         m_subscriberList.Subscribe();
     }
@@ -230,6 +231,11 @@ public class PlayerController : MonoBehaviour
 
         e.life = life.life;
         e.maxLife = life.maxLife;
+    }
+
+    void GetPlayerPos(GetPlayerPositionEvent e)
+    {
+        e.pos = transform.position;
     }
 }
 

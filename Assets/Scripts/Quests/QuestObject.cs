@@ -19,20 +19,57 @@ public class QuestObject : SerializedScriptableObject
     [HideInInspector] [SerializeField] int m_parentQuestID;
     public int parentQuestID { get { return m_parentQuestID; } set { m_parentQuestID = value; } }
 
-    [HideInInspector] [SerializeField] List<QuestObjectiveObjectBase> m_objectives;
-    public int GetObjectiveNb() { return m_objectives.Count; }
+    [HideInInspector] [SerializeField] List<QuestObjectiveObjectBase> m_objectives = new List<QuestObjectiveObjectBase>();
+    public int GetObjectiveNb() 
+    {
+        if (m_objectives == null)
+            return 0;
+        return m_objectives.Count; 
+    }
     
     public QuestObjectiveObjectBase GetObjective(int index)
     {
+        if (m_objectives == null)
+            return null;
+        
         if (index < 0 || index >= m_objectives.Count)
             return null;
         return m_objectives[index];
     }
 
 #if UNITY_EDITOR
-    public List<QuestObjectiveObjectBase> GetObjectiveListEditor()
+    public void AddObjectiveEditor(QuestObjectiveObjectBase objective)
     {
-        return m_objectives;
+        if (m_objectives == null)
+            m_objectives = new List<QuestObjectiveObjectBase>();
+        m_objectives.Add(objective);
+    }
+
+    public void RemoveObjectiveEditor(int index)
+    {
+        if (m_objectives == null)
+            return;
+
+        if (index < 0 || index >= m_objectives.Count)
+            return;
+
+        m_objectives.RemoveAt(index);
+    }
+
+    public void MoveObjectiveEditor(int fromIndex, int toIndex)
+    {
+        if (m_objectives == null)
+            return;
+
+        if (fromIndex < 0 || fromIndex >= m_objectives.Count)
+            return;
+        if (toIndex < 0 || toIndex >= m_objectives.Count)
+            return;
+
+        var obj = m_objectives[fromIndex];
+
+        m_objectives.RemoveAt(fromIndex);
+        m_objectives.Insert(toIndex, obj);
     }
 #endif
 }

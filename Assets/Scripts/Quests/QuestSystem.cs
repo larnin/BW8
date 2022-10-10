@@ -39,24 +39,34 @@ public class QuestSystem : MonoBehaviour
         {
             var quest = QuestList.GetQuestFromIndex(i);
             if(quest.parentQuestID == QuestObject.invalidQuestID)
-            {
-                var data = new QuestData();
-                data.questID = quest.questID;
-                data.objectiveIndex = 0;
-                
-                m_activeQuests.Add(data);
-            }
+                StartQuestObjective(quest.questID, 0);
         }
     }
 
     private void Update()
     {
-        
-    }
+        List<QuestData> nextQuests = new List<QuestData>();
+        List<QuestData> completedQuests = new List<QuestData>();
+        List<QuestData> failedQuests = new List<QuestData>();
 
-    void UpdateQuest(QuestData data)
-    {
+        foreach(var quest in m_activeQuests)
+        {
+            var result = quest.objective.Update();
 
+            if (result == QuestCompletionState.Running)
+                nextQuests.Add(quest);
+            else if (result == QuestCompletionState.Completed)
+                completedQuests.Add(quest);
+            else if (result == QuestCompletionState.Failed)
+                failedQuests.Add(quest);
+        }
+
+        m_activeQuests = nextQuests;
+
+        foreach (var quest in completedQuests)
+            OnQuestObjectiveCompleted(quest.questID, quest.objectiveIndex, quest.objective);
+        foreach (var quest in failedQuests)
+            OnQuestObjectiveFailed(quest.questID, quest.objectiveIndex, quest.objective);
     }
 
     void IsQuestCompleted(IsQuestCompletedEvent e)
@@ -121,12 +131,62 @@ public class QuestSystem : MonoBehaviour
         var quest = QuestList.GetQuest(questID);
         if(quest == null)
         {
-            Debug.LogError("Unable to start objective index " + objectiveIndex + " on quest ID " + questID);
+            Debug.LogError("Start Quest - Unable to find quest ID " + questID);
             return data;
         }
 
+        if(objectiveIndex < 0 || objectiveIndex >= quest.GetObjectiveNb())
+        {
+            Debug.LogError("Start Quest - Unable to start objective " + objectiveIndex + " on quest " + quest.questName + " ID " + questID);
+            return data;
+        }
 
+        data.objective = quest.GetObjective(objectiveIndex).MakeObjective();
+
+        data.objective.OnStart();
 
         return data;
+    }
+
+    void OnQuestObjectiveCompleted(int questID, int questObjectiveIndex, QuestObjectiveBase questObjective)
+    {
+        questObjective.OnCompletion();
+
+        var quest = QuestList.GetQuest(questID);
+        if (quest == null)
+            return;
+
+        if(questObjectiveIndex == quest.GetObjectiveNb() - 1)
+        {
+            StartNextQuest(questID);
+            return;
+        }
+
+        StartQuestObjective(questID, questObjectiveIndex + 1);
+
+        Event<QuestObjectiveCompletedEvent>.Broadcast(new QuestObjectiveCompletedEvent(questID, questObjectiveIndex));
+    }
+
+    void StartNextQuest(int questID)
+    {
+        m_completedQuests.Add(questID);
+
+        int nbQuest = QuestList.GetQuestNb();
+        for (int i = 0; i < nbQuest; i++)
+        {
+            var quest = QuestList.GetQuestFromIndex(i);
+
+            if (quest.parentQuestID == questID)
+                StartQuestObjective(quest.questID, 0);
+        }
+    }
+
+    void OnQuestObjectiveFailed(int questID, int questObjectiveIndex, QuestObjectiveBase questObjective)
+    {
+        questObjective.OnFail();
+
+        //todo
+
+        Event<QuestObjectiveFailedEvent>.Broadcast(new QuestObjectiveFailedEvent(questID, questObjectiveIndex));
     }
 }

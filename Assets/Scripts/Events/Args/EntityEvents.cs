@@ -12,6 +12,11 @@ public class GetPlayerMoneyEvent
     public int money;
 }
 
+public class GetPlayerPositionEvent
+{
+    public Vector2 pos;
+}
+
 public class PickupEvent
 {
     public ItemType type;

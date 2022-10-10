@@ -25,6 +25,11 @@ namespace NLocalization
         Rect m_setupRect;
 #endif
 
+        public void DrawInspectorGUI()
+        {
+            OnInspectorGUI();
+        }
+
         [OnInspectorGUI]
         private void OnInspectorGUI()
         {
