@@ -27,6 +27,7 @@ public class QuestEntity : Interactable
     private void Awake()
     {
         m_subscriberList.Add(new Event<GetQuestEntityIDEvent>.LocalSubscriber(GetID, gameObject));
+        m_subscriberList.Add(new Event<DeathEvent>.LocalSubscriber(OnDeath, gameObject));
         m_subscriberList.Subscribe();
     }
 
@@ -46,8 +47,15 @@ public class QuestEntity : Interactable
         e.id = m_nameID;
     }
 
+    public string GetNameID()
+    {
+        return m_nameID;
+    }
+
     public override bool CanInteract()
     {
+        if (m_interactionType == QuestInteractionType.Dialog)
+            return true;
         return false;
     }
 
@@ -58,16 +66,24 @@ public class QuestEntity : Interactable
 
     public override int GetInteractionTextID()
     {
+        if (m_interactionType == QuestInteractionType.Dialog)
+            return m_text.GetTextID();
         return LocTable.invalidID;
     }
 
     public override Vector2 GetOffset()
     {
-        return Vector2.zero;
+        return new Vector2(0, m_textOffset);
     }
 
     public override void Interact(GameObject caster)
     {
+        if (m_interactionType == QuestInteractionType.Dialog)
+        {
+            DialogPopup.StartDialog(m_dialogObject);
+            Event<QuestStartTalkEvent>.Broadcast(new QuestStartTalkEvent(this)); 
+            return;
+        }
         return;
     }
 
@@ -81,5 +97,10 @@ public class QuestEntity : Interactable
         m_interactionType = QuestInteractionType.Dialog;
         m_text = text;
         m_dialogObject = dialog;
+    }
+
+    void OnDeath(DeathEvent e)
+    {
+        Event<QuestKillEntityEvent>.Broadcast(new QuestKillEntityEvent(this));
     }
 }

@@ -128,3 +128,13 @@ public class QuestStartTalkEvent
         entity = _entity;
     }
 }
+
+public class QuestKillEntityEvent
+{
+    public QuestEntity entity;
+    
+    public QuestKillEntityEvent(QuestEntity _entity)
+    {
+        entity = _entity;
+    }
+}
