@@ -25,6 +25,7 @@ public class LootType : ScriptableObject
     public class OneLootType
     {
         public ItemType type;
+        public int maxStack;
         public List<OneLoot> loots;
     }
 
@@ -139,6 +140,18 @@ public class LootType : ScriptableObject
             items.Add(GameObject.Instantiate(l.prefab));
 
         return items;
+    }
+
+    public static int GetMaxStack(ItemType item)
+    {
+        Load();
+        if (m_instance == null)
+            return 0;
+
+        OneLootType oneLootType = Get(item);
+        if (oneLootType == null)
+            return 1;
+        return oneLootType.maxStack;
     }
 
     public static LootParams GetParams()

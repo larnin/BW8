@@ -17,18 +17,6 @@ public class GetPlayerPositionEvent
     public Vector2 pos;
 }
 
-public class PickupEvent
-{
-    public ItemType type;
-    public int stack;
-
-    public PickupEvent(ItemType _type, int _stack)
-    {
-        type = _type;
-        stack = _stack;
-    }
-}
-
 public class GetLifeEvent
 {
     public int life;

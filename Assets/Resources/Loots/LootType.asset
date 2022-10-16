@@ -9,24 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e78737852647f43953ce57337b4f5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b43089cf7599e34cb7b11c9fc0d6cbb, type: 3}
   m_Name: LootType
   m_EditorClassIdentifier: 
   m_loots:
-  - type: 1
-    loots:
-    - prefab: {fileID: 8319903954191850614, guid: b6f1202330896c747a4a6a7a612cf9a2, type: 3}
-      stack: 1
   - type: 0
+    maxStack: 0
     loots:
     - prefab: {fileID: 8319903954191850614, guid: baa83f249cb05384dbb988813e0cfd86, type: 3}
+      stack: 1
+  - type: 1
+    maxStack: 0
+    loots:
+    - prefab: {fileID: 8319903954191850614, guid: b6f1202330896c747a4a6a7a612cf9a2, type: 3}
       stack: 1
   m_lootsParams:
     m_radius: 0.3
     m_layerLootHit:
       serializedVersion: 2
-      m_Bits: 272
-    m_minMoveSpeed: 5
-    m_maxMoveSpeed: 10
-    m_brakePower: 20
+      m_Bits: 256
+    m_minMoveSpeed: 1
+    m_maxMoveSpeed: 2
+    m_brakePower: 5
     m_pickupSpeed: 10

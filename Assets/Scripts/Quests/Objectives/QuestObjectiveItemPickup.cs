@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class QuestObjectiveKill : QuestObjectiveBase
+public class QuestObjectiveItemPickup : QuestObjectiveBase
 {
-    QuestObjectiveObjectKill m_questObject;
-    List<int> m_kills = new List<int>();
+    QuestObjectiveObjectItemPickup m_questObject;
+    List<int> m_nbPickup = new List<int>();
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    public QuestObjectiveKill(QuestObjectiveObjectKill questObject)
+    public QuestObjectiveItemPickup(QuestObjectiveObjectItemPickup questObject)
     {
         m_questObject = questObject;
     }
@@ -28,12 +28,12 @@ public class QuestObjectiveKill : QuestObjectiveBase
 
     public override void OnStart()
     {
-        m_kills.Clear();
-        foreach (var k in m_questObject.m_killList)
-            m_kills.Add(0);
+        m_nbPickup.Clear();
+        for (int i = 0; i < m_questObject.m_itemList.Count(); i++)
+            m_nbPickup.Add(0);
 
         m_subscriberList.Clear();
-        m_subscriberList.Add(new Event<QuestKillEntityEvent>.Subscriber(OnKill));
+        m_subscriberList.Add(new Event<ItemPickedUpEvent>.Subscriber(OnPickupItem));
         m_subscriberList.Subscribe();
     }
 
@@ -44,24 +44,22 @@ public class QuestObjectiveKill : QuestObjectiveBase
 
     public override QuestCompletionState Update()
     {
-        for(int i = 0; i < m_questObject.m_killList.Count; i++)
+        for(int i = 0; i < m_questObject.m_itemList.Count; i++)
         {
-            if (m_kills[i] < m_questObject.m_killList[i].m_count)
+            if (m_nbPickup[i] < m_questObject.m_itemList[i].m_count)
                 return QuestCompletionState.Running;
         }
 
         return QuestCompletionState.Completed;
     }
 
-    void OnKill(QuestKillEntityEvent e)
+    void OnPickupItem(ItemPickedUpEvent e)
     {
-        var nameID = e.entity.GetNameID();
-
-        for(int i = 0; i < m_questObject.m_killList.Count; i++)
+        for(int i = 0; i < m_questObject.m_itemList.Count; i++)
         {
-            if (nameID == m_questObject.m_killList[i].m_entity)
+            if (e.type == m_questObject.m_itemList[i].m_itemType)
             {
-                m_kills[i]++;
+                m_nbPickup[i] += e.stack;
                 break;
             }
         }
