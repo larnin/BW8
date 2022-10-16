@@ -325,13 +325,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5567905363470712295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3155d821ffed7844d9a5a21b5aacd8a8, type: 3}
+  m_Script: {fileID: 11500000, guid: b5a5601d01339c248b2428854c4dadc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_appearOffset: 50
   m_appearDuration: 0.5
-  m_textSpeed: 10
-  m_fasterSpeed: 50
+  m_textSpeed: 5
+  m_fasterSpeed: 30
   m_arrowBlinkSpeed: 2
   m_maxLineEachBox: 3
 --- !u!1 &6274857811166074767

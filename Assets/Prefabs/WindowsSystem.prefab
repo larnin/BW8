@@ -43,16 +43,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5362886255978582813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d9b1d922d62de1429e80a4e8f337553, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d47fdb5860f27f45bbd0e25563a0863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Menus:
-  - name: Dialog
-    menu: {fileID: 5567905363470712295, guid: df480a25e8037e944968ea0041082c1f, type: 3}
-    pauseGame: 1
   - name: HUD
     menu: {fileID: 2684901893882325710, guid: 1d92233bf97ef694bbcbeb1d68bb0c26, type: 3}
     pauseGame: 0
+  - name: Dialog
+    menu: {fileID: 5567905363470712295, guid: df480a25e8037e944968ea0041082c1f, type: 3}
+    pauseGame: 1
 --- !u!114 &8248660968915146212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5362886255978582813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21e865a2b20d88844854f12783b6454a, type: 3}
+  m_Script: {fileID: 11500000, guid: 206a22b4c0a93bc48b83824ab93f1866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8295263992774862808

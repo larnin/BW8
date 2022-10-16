@@ -38,6 +38,6 @@ public class QuestObjectiveItemInInventory : QuestObjectiveBase
                 return QuestCompletionState.Failed;
         }
 
-        return QuestCompletionState.Completed;
+        return QuestCompletionState.Completed;  
     }
 }

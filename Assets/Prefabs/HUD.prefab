@@ -113,12 +113,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2684901893882325710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abb0089b2e3f46344b66ed15461b1d67, type: 3}
+  m_Script: {fileID: 11500000, guid: 003deed82b13d94479465f331392c45e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_heartPrefab: {fileID: 8852399860137848967, guid: 4501dd75ec7ffe74ca622d8589c7884c, type: 3}
   m_heartOrigin: {fileID: 3695692992457429520}
-  m_heartOffset: 18
+  m_heartOffset: 20
 --- !u!1 &3695692992457429520
 GameObject:
   m_ObjectHideFlags: 0
