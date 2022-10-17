@@ -16,7 +16,7 @@ public class QuestObjectiveObjectTalk : QuestObjectiveObjectBase
     [SerializeField] public DialogObject m_dialog;
     [SerializeField] public string m_targetName;
 
-    public override string GetObectiveName()
+    public override string GetObjectiveName()
     {
         return "Talk";
     }
@@ -26,7 +26,7 @@ public class QuestObjectiveObjectTalk : QuestObjectiveObjectBase
         return new QuestObjectiveTalk(this);
     }
 
-    protected override void OnSpecificInspectorGUI()
+    protected override void OnInspectorGUI()
     {
 #if UNITY_EDITOR
         GUILayout.BeginHorizontal();

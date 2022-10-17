@@ -21,7 +21,7 @@ public class QuestObjectiveObjectKill : QuestObjectiveObjectBase
 {
     [SerializeField] public List<QuestObjectiveOneKill> m_killList = new List<QuestObjectiveOneKill>(); 
 
-    public override string GetObectiveName()
+    public override string GetObjectiveName()
     {
         return "Kill";
     }
@@ -31,7 +31,7 @@ public class QuestObjectiveObjectKill : QuestObjectiveObjectBase
         return new QuestObjectiveKill(this);
     }
 
-    protected override void OnSpecificInspectorGUI()
+    protected override void OnInspectorGUI()
     {
 #if UNITY_EDITOR
         if (m_killList == null)

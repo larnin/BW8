@@ -143,14 +143,14 @@ public class QuestSystem : MonoBehaviour
 
         data.objective = quest.GetObjective(objectiveIndex).MakeObjective();
 
-        data.objective.OnStart();
+        data.objective.Start();
 
         return data;
     }
 
     void OnQuestObjectiveCompleted(int questID, int questObjectiveIndex, QuestObjectiveBase questObjective)
     {
-        questObjective.OnCompletion();
+        questObjective.End(QuestCompletionState.Completed);
 
         var quest = QuestList.GetQuest(questID);
         if (quest == null)
@@ -183,7 +183,7 @@ public class QuestSystem : MonoBehaviour
 
     void OnQuestObjectiveFailed(int questID, int questObjectiveIndex, QuestObjectiveBase questObjective)
     {
-        questObjective.OnFail();
+        questObjective.End(QuestCompletionState.Failed);
 
         //todo
 

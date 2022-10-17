@@ -11,22 +11,12 @@ public class QuestObjectiveKill : QuestObjectiveBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    public QuestObjectiveKill(QuestObjectiveObjectKill questObject)
+    public QuestObjectiveKill(QuestObjectiveObjectKill questObject) : base(questObject)
     {
         m_questObject = questObject;
     }
 
-    public override void OnCompletion()
-    {
-        OnEnd();
-    }
-
-    public override void OnFail()
-    {
-        OnEnd();
-    }
-
-    public override void OnStart()
+    protected override void OnStart()
     {
         m_kills.Clear();
         foreach (var k in m_questObject.m_killList)
@@ -37,12 +27,12 @@ public class QuestObjectiveKill : QuestObjectiveBase
         m_subscriberList.Subscribe();
     }
 
-    void OnEnd()
+    protected override void OnEnd(QuestCompletionState state)
     {
         m_subscriberList.Unsubscribe();
     }
 
-    public override QuestCompletionState Update()
+    protected override QuestCompletionState OnUpdate()
     {
         for(int i = 0; i < m_questObject.m_killList.Count; i++)
         {

@@ -15,7 +15,7 @@ public class QuestObjectiveObjectEntityOnTrigger : QuestObjectiveObjectBase
     [SerializeField] public string m_entityName;
     [SerializeField] public int m_count = 1;
 
-    public override string GetObectiveName()
+    public override string GetObjectiveName()
     {
         return "Entity on trigger";
     }
@@ -25,7 +25,7 @@ public class QuestObjectiveObjectEntityOnTrigger : QuestObjectiveObjectBase
         return new QuestObjectiveEntityOnTrigger(this);
     }
 
-    protected override void OnSpecificInspectorGUI()
+    protected override void OnInspectorGUI()
     {
 #if UNITY_EDITOR
         GUILayout.BeginHorizontal();

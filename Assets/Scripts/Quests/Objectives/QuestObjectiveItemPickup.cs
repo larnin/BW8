@@ -11,22 +11,12 @@ public class QuestObjectiveItemPickup : QuestObjectiveBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    public QuestObjectiveItemPickup(QuestObjectiveObjectItemPickup questObject)
+    public QuestObjectiveItemPickup(QuestObjectiveObjectItemPickup questObject) : base(questObject)
     {
         m_questObject = questObject;
     }
 
-    public override void OnCompletion()
-    {
-        OnEnd();
-    }
-
-    public override void OnFail()
-    {
-        OnEnd();
-    }
-
-    public override void OnStart()
+    protected override void OnStart()
     {
         m_nbPickup.Clear();
         for (int i = 0; i < m_questObject.m_itemList.Count(); i++)
@@ -37,12 +27,12 @@ public class QuestObjectiveItemPickup : QuestObjectiveBase
         m_subscriberList.Subscribe();
     }
 
-    void OnEnd()
+    protected override void OnEnd(QuestCompletionState state)
     {
         m_subscriberList.Unsubscribe();
     }
 
-    public override QuestCompletionState Update()
+    protected override QuestCompletionState OnUpdate()
     {
         for(int i = 0; i < m_questObject.m_itemList.Count; i++)
         {

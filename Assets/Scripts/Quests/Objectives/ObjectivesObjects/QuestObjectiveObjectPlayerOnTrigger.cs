@@ -13,7 +13,7 @@ public class QuestObjectiveObjectPlayerOnTrigger : QuestObjectiveObjectBase
 {
     [SerializeField] public string m_triggerName;
 
-    public override string GetObectiveName()
+    public override string GetObjectiveName()
     {
         return "Player on trigger";
     }
@@ -23,7 +23,7 @@ public class QuestObjectiveObjectPlayerOnTrigger : QuestObjectiveObjectBase
         return new QuestObjectivePlayerOnTrigger(this);
     }
 
-    protected override void OnSpecificInspectorGUI()
+    protected override void OnInspectorGUI()
     {
 #if UNITY_EDITOR
         GUILayout.BeginHorizontal();

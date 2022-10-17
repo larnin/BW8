@@ -9,18 +9,12 @@ public class QuestObjectiveEntityOnTrigger : QuestObjectiveBase
 {
     QuestObjectiveObjectEntityOnTrigger m_questObject;
 
-    public QuestObjectiveEntityOnTrigger(QuestObjectiveObjectEntityOnTrigger questObject)
+    public QuestObjectiveEntityOnTrigger(QuestObjectiveObjectEntityOnTrigger questObject) : base(questObject)
     {
         m_questObject = questObject;
     }
 
-    public override void OnCompletion() { }
-
-    public override void OnFail() { }
-
-    public override void OnStart() { }
-
-    public override QuestCompletionState Update()
+    protected override QuestCompletionState OnUpdate()
     {
         GetFirstQuestEntityEvent getEntity = new GetFirstQuestEntityEvent(m_questObject.m_triggerName);
         Event<GetFirstQuestEntityEvent>.Broadcast(getEntity);

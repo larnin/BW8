@@ -32,6 +32,28 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 1|QuestObjectiveObjectPlayerOnTrigger, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[QuestFailConditionObjectBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 3|QuestFailConditionObjectTimer, Assembly-CSharp
+    - Name: m_timer
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_triggerName
       Entry: 1
       Data: Trigger
@@ -40,7 +62,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|QuestObjectiveObjectPlayerOnTrigger, Assembly-CSharp
+      Data: 4|QuestObjectiveObjectPlayerOnTrigger, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_triggerName
       Entry: 6
       Data: 
@@ -49,7 +74,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|QuestObjectiveObjectEntityOnTrigger, Assembly-CSharp
+      Data: 5|QuestObjectiveObjectEntityOnTrigger, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_triggerName
       Entry: 6
       Data: 
@@ -64,10 +92,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|QuestObjectiveObjectTalk, Assembly-CSharp
+      Data: 6|QuestObjectiveObjectTalk, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_text
       Entry: 7
-      Data: 5|NLocalization.LocText, Assembly-CSharp
+      Data: 7|NLocalization.LocText, Assembly-CSharp
     - Name: m_id
       Entry: 3
       Data: 27
@@ -88,38 +119,17 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 6|QuestObjectiveObjectKill, Assembly-CSharp
+      Data: 8|QuestObjectiveObjectKill, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_killList
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[QuestObjectiveOneKill, Assembly-CSharp]],
+      Data: 9|System.Collections.Generic.List`1[[QuestObjectiveOneKill, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 3
-    - Name: 
-      Entry: 7
-      Data: 8|QuestObjectiveOneKill, Assembly-CSharp
-    - Name: m_entity
-      Entry: 6
-      Data: 
-    - Name: m_count
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|QuestObjectiveOneKill, Assembly-CSharp
-    - Name: m_entity
-      Entry: 6
-      Data: 
-    - Name: m_count
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 7
       Data: 10|QuestObjectiveOneKill, Assembly-CSharp
@@ -133,6 +143,30 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 11|QuestObjectiveOneKill, Assembly-CSharp
+    - Name: m_entity
+      Entry: 6
+      Data: 
+    - Name: m_count
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|QuestObjectiveOneKill, Assembly-CSharp
+    - Name: m_entity
+      Entry: 6
+      Data: 
+    - Name: m_count
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -143,17 +177,20 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 11|QuestObjectiveObjectItemPickup, Assembly-CSharp
+      Data: 13|QuestObjectiveObjectItemPickup, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_itemList
       Entry: 7
-      Data: 12|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
+      Data: 14|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 13|QuestObjectiveOneItem, Assembly-CSharp
+      Data: 15|QuestObjectiveOneItem, Assembly-CSharp
     - Name: m_itemType
       Entry: 3
       Data: 1
@@ -174,17 +211,20 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 14|QuestObjectiveObjectItemsInInventory, Assembly-CSharp
+      Data: 16|QuestObjectiveObjectItemsInInventory, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 6
+      Data: 
     - Name: m_itemList
       Entry: 7
-      Data: 15|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
+      Data: 17|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 16|QuestObjectiveOneItem, Assembly-CSharp
+      Data: 18|QuestObjectiveOneItem, Assembly-CSharp
     - Name: m_itemType
       Entry: 3
       Data: 0
@@ -196,7 +236,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 17|QuestObjectiveOneItem, Assembly-CSharp
+      Data: 19|QuestObjectiveOneItem, Assembly-CSharp
     - Name: m_itemType
       Entry: 3
       Data: 1

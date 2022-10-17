@@ -11,18 +11,27 @@ using UnityEditor;
 
 public abstract class QuestObjectiveObjectBase
 {
+    [SerializeField] public List<QuestFailConditionObjectBase> m_failConditions = new List<QuestFailConditionObjectBase>();
+
+#if UNITY_EDITOR
+    bool m_failConditionListOpen = false;
+    List<bool> m_failConditionsOpen = new List<bool>();
+#endif
+
     protected const string visualBoxType = "box";
 
-    public abstract string GetObectiveName();
+    public abstract string GetObjectiveName();
 
     public abstract QuestObjectiveBase MakeObjective();
 
-    public void OnInspectorGUI()
+    public void InspectorGUI()
     {
-        OnSpecificInspectorGUI();
+        DrawFailConditions();
+        
+        OnInspectorGUI();
     }
 
-    protected abstract void OnSpecificInspectorGUI();
+    protected virtual void OnInspectorGUI() { }
 
     protected void DrawItemListGUI(List<QuestObjectiveOneItem> itemList)
     {
@@ -57,5 +66,75 @@ public abstract class QuestObjectiveObjectBase
         if (removeIndex >= 0)
             itemList.RemoveAt(removeIndex);
 #endif
+    }
+
+    void DrawFailConditions()
+    {
+#if UNITY_EDITOR
+        if (m_failConditions == null || m_failConditions.Count == 0)
+            return;
+
+        GUILayout.Space(5);
+        m_failConditionListOpen = EditorGUILayout.BeginFoldoutHeaderGroup(m_failConditionListOpen, "Fail conditions");
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        if (m_failConditionListOpen)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(10);
+            GUILayout.BeginVertical();
+            for (int i = 0; i < m_failConditions.Count; i++)
+            {
+                DrawOneFailCondition(i);
+            }
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+        }
+#endif
+    }
+
+    void DrawOneFailCondition(int failConditionIndex)
+    {
+#if UNITY_EDITOR
+        if (m_failConditionsOpen == null)
+            m_failConditionsOpen = new List<bool>();
+        while (m_failConditionsOpen.Count <= failConditionIndex)
+            m_failConditionsOpen.Add(false);
+
+        var failCondition = m_failConditions[failConditionIndex];
+
+        GUILayout.Space(5);
+
+        m_failConditionsOpen[failConditionIndex] = EditorGUILayout.BeginFoldoutHeaderGroup(m_failConditionsOpen[failConditionIndex], failCondition.GetFailConditionName(), null, 
+            (rect)=> { ShowOneFailConditionContextMenu(rect, failConditionIndex); });
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        if (!m_failConditionsOpen[failConditionIndex])
+            return;
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginVertical();
+        failCondition.InspectorGUI();
+        GUILayout.EndVertical();
+        GUILayout.EndHorizontal();
+#endif
+    }
+
+    void ShowOneFailConditionContextMenu(Rect position, int failConditionIndex)
+    {
+#if UNITY_EDITOR
+        var menu = new GenericMenu();
+        menu.AddItem(new GUIContent("Delete"), false, () => { RemoveFailCondition(failConditionIndex); });
+        menu.DropDown(position);
+#endif
+    }
+
+    void RemoveFailCondition(int failConditionIndex)
+    {
+        if (failConditionIndex < 0 || failConditionIndex >= m_failConditions.Count)
+            return;
+
+        m_failConditions.RemoveAt(failConditionIndex);
     }
 }

@@ -14,29 +14,19 @@ public class QuestObjectiveTalk : QuestObjectiveBase
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    public QuestObjectiveTalk(QuestObjectiveObjectTalk questObject)
+    public QuestObjectiveTalk(QuestObjectiveObjectTalk questObject) : base(questObject)
     {
         m_questObject = questObject;
     }
 
-    public override void OnCompletion()
-    {
-        OnEnd();
-    }
-
-    public override void OnFail()
-    {
-        OnEnd();
-    }
-
-    public override void OnStart() 
+    protected override void OnStart() 
     {
         m_subscriberList.Clear();
         m_subscriberList.Add(new Event<QuestStartTalkEvent>.Subscriber(OnStartTalk));
         m_subscriberList.Subscribe();
     }
 
-    void OnEnd()
+    protected override void OnEnd(QuestCompletionState state)
     {
         DisconnectEntity();
         m_completed = false;
@@ -44,7 +34,7 @@ public class QuestObjectiveTalk : QuestObjectiveBase
         m_subscriberList.Unsubscribe();
     }
 
-    public override QuestCompletionState Update()
+    protected override QuestCompletionState OnUpdate()
     {
         if (m_questEntity == null)
             ConnectNewEntity();
@@ -70,7 +60,8 @@ public class QuestObjectiveTalk : QuestObjectiveBase
 
     void DisconnectEntity()
     {
-        m_questEntity.ResetInteraction();
+        if(m_questEntity != null)
+            m_questEntity.ResetInteraction();
 
         m_questEntity = null;
     }

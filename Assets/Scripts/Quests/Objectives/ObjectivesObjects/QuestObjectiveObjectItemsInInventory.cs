@@ -11,7 +11,7 @@ public class QuestObjectiveObjectItemsInInventory : QuestObjectiveObjectBase
     [SerializeField] public List<QuestObjectiveOneItem> m_itemList = new List<QuestObjectiveOneItem>();
     [SerializeField] public bool m_removeOnCompletion = false;
 
-    public override string GetObectiveName()
+    public override string GetObjectiveName()
     {
         return "Items in inventory";
     }
@@ -21,7 +21,7 @@ public class QuestObjectiveObjectItemsInInventory : QuestObjectiveObjectBase
         return new QuestObjectiveItemInInventory(this);
     }
 
-    protected override void OnSpecificInspectorGUI()
+    protected override void OnInspectorGUI()
     {
 #if UNITY_EDITOR
         if (m_itemList == null)

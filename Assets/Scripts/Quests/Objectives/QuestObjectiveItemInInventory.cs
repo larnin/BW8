@@ -8,14 +8,14 @@ public class QuestObjectiveItemInInventory : QuestObjectiveBase
 {
     QuestObjectiveObjectItemsInInventory m_questObject;
 
-    public QuestObjectiveItemInInventory(QuestObjectiveObjectItemsInInventory questObject)
+    public QuestObjectiveItemInInventory(QuestObjectiveObjectItemsInInventory questObject) : base(questObject)
     {
         m_questObject = questObject;
     }
 
-    public override void OnCompletion() 
+    protected override void OnEnd(QuestCompletionState state) 
     { 
-        if(m_questObject.m_removeOnCompletion)
+        if(state == QuestCompletionState.Completed && m_questObject.m_removeOnCompletion)
         { 
             foreach(var item in m_questObject.m_itemList)
             {
@@ -24,11 +24,7 @@ public class QuestObjectiveItemInInventory : QuestObjectiveBase
         }
     }
 
-    public override void OnFail() { }
-
-    public override void OnStart() { }
-
-    public override QuestCompletionState Update()
+    protected override QuestCompletionState OnUpdate()
     {
         foreach(var item in m_questObject.m_itemList)
         {

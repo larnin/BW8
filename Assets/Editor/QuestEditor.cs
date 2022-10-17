@@ -156,7 +156,7 @@ class QuestEditorQuestTab
             GUILayout.Space(5);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Space(15);
+            GUILayout.Space(10);
             GUILayout.BeginVertical();
             int nbQuestObjective = quest.GetObjectiveNb();
             for(int i = 0; i < nbQuestObjective; i++)
@@ -181,13 +181,21 @@ class QuestEditorQuestTab
         //https://docs.unity3d.com/ScriptReference/EditorGUILayout.BeginFoldoutHeaderGroup.html
 
         bool state = m_editor.GetFoldoutState(m_ID, objectiveIndex);
-        state = EditorGUILayout.BeginFoldoutHeaderGroup(state, objective.GetObectiveName(), null, (Rect rect)=> { ShowOneObjectiveContextMenu(rect, objectiveIndex); });
-        
-        if(state)
-            objective.OnInspectorGUI();
+        state = EditorGUILayout.BeginFoldoutHeaderGroup(state, objective.GetObjectiveName(), null, (Rect rect)=> { ShowOneObjectiveContextMenu(rect, objectiveIndex); });
+
+        m_editor.SetFoldoutState(m_ID, objectiveIndex, state);
 
         EditorGUILayout.EndFoldoutHeaderGroup();
-        m_editor.SetFoldoutState(m_ID, objectiveIndex, state);
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginVertical();
+
+        if(state)
+            objective.InspectorGUI();
+
+        GUILayout.EndVertical();
+        GUILayout.EndHorizontal();
+
     }
 
     void ShowObjectiveContextMenu(Rect position)
@@ -206,7 +214,6 @@ class QuestEditorQuestTab
             if (name.StartsWith(baseString))
                 name = name.Substring(baseString.Length);
             menu.AddItem(new GUIContent(baseMenu + "/" + name), false, () => { NewObjectiveClicked(t); });
-
         }
         menu.DropDown(position);
     }
@@ -229,12 +236,43 @@ class QuestEditorQuestTab
         int nbObjective = quest.GetObjectiveNb();
 
         var menu = new GenericMenu();
-        if(objective > 0)
+
+        const string baseMenu = "New Fail Condition";
+
+        var allFailConditionTypeTypes = AppDomain.CurrentDomain.GetAssemblies()
+         .SelectMany(assembly => assembly.GetTypes())
+         .Where(type => type.IsSubclassOf(typeof(QuestFailConditionObjectBase))).ToArray();
+
+        foreach (var t in allFailConditionTypeTypes)
+        {
+            const string baseString = "QuestFailConditionObject";
+            string name = t.Name;
+            if (name.StartsWith(baseString))
+                name = name.Substring(baseString.Length);
+            menu.AddItem(new GUIContent(baseMenu + "/" + name), false, () => { NewFailConditionClicked(objective, t); });
+        }
+
+        if (objective > 0)
             menu.AddItem(new GUIContent("Move UP"), false, ()=>{ MoveObjective(objective, objective - 1); });
         if(objective < nbObjective - 1)
             menu.AddItem(new GUIContent("Move DOWN"), false, () => { MoveObjective(objective, objective + 1); });
         menu.AddItem(new GUIContent("Delete"), false, () => { RemoveObjective(objective); });
         menu.DropDown(position);
+    }
+
+    void NewFailConditionClicked(int objective, Type failConditionType)
+    {
+        var quest = QuestList.GetQuest(m_ID);
+        if (quest == null)
+            return;
+
+        if (objective < 0 || objective >= quest.GetObjectiveNb())
+            return;
+
+        var objectiveObject = quest.GetObjective(objective);
+        if (objectiveObject.m_failConditions == null)
+            objectiveObject.m_failConditions = new List<QuestFailConditionObjectBase>();
+        objectiveObject.m_failConditions.Add(Activator.CreateInstance(failConditionType) as QuestFailConditionObjectBase);
     }
 
     void MoveObjective(int objective, int newIndex)

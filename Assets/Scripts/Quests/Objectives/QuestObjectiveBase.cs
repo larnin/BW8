@@ -13,11 +13,53 @@ public enum QuestCompletionState
 
 public abstract class QuestObjectiveBase
 {
-    public abstract void OnStart();
-    
-    public abstract void OnCompletion();
-    
-    public abstract void OnFail();
+    List<QuestFailConditionBase> m_failConditions = new List<QuestFailConditionBase>();
 
-    public abstract QuestCompletionState Update();
+    public QuestObjectiveBase(QuestObjectiveObjectBase questObject)
+    {
+        MakeFailConditions(questObject);
+    }
+
+    public void Start()
+    {
+        foreach (var f in m_failConditions)
+            f.Start();
+
+        OnStart();
+    }
+
+    protected virtual void OnStart() { }
+
+    public void End(QuestCompletionState state)
+    {
+        foreach (var f in m_failConditions)
+            f.End(state);
+
+        OnEnd(state);
+    }
+
+    protected virtual void OnEnd(QuestCompletionState state) { }
+
+    public QuestCompletionState Update()
+    {
+        foreach(var f in m_failConditions)
+        {
+            var state = f.Update();
+            if (state == QuestCompletionState.Failed)
+                return state;
+        }
+
+        return OnUpdate();
+    }
+
+    protected abstract QuestCompletionState OnUpdate();
+
+    void MakeFailConditions(QuestObjectiveObjectBase questObject)
+    {
+        if (questObject.m_failConditions == null || questObject.m_failConditions.Count == 0)
+            return;
+
+        foreach (var fail in questObject.m_failConditions)
+            m_failConditions.Add(fail.MakeFailCondition());
+    }
 }
