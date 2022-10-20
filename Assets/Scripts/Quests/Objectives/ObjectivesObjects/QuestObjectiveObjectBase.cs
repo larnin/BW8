@@ -33,7 +33,7 @@ public abstract class QuestObjectiveObjectBase
 
     protected virtual void OnInspectorGUI() { }
 
-    protected void DrawItemListGUI(List<QuestObjectiveOneItem> itemList)
+    public static void DrawItemListGUI(List<QuestObjectiveOneItem> itemList)
     {
 #if UNITY_EDITOR
         int removeIndex = -1;
@@ -65,6 +65,39 @@ public abstract class QuestObjectiveObjectBase
             itemList.Add(new QuestObjectiveOneItem());
         if (removeIndex >= 0)
             itemList.RemoveAt(removeIndex);
+#endif
+    }
+
+    public static void DrawEntityListGUI(List<QuestObjectiveOneKill> entityList)
+    {
+#if UNITY_EDITOR
+        int removeIndex = -1;
+
+        for (int i = 0; i < entityList.Count; i++)
+        {
+            GUILayout.BeginVertical(visualBoxType);
+            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical();
+            QuestObjectiveOneKill oneKill = entityList[i];
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Entity", GUILayout.MaxWidth(100));
+            oneKill.m_entity = GUILayout.TextField(oneKill.m_entity);
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Count", GUILayout.MaxWidth(100));
+            oneKill.m_count = EditorGUILayout.IntField(oneKill.m_count);
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+            GUILayout.Space(5);
+            if (GUILayout.Button("X", GUILayout.MaxWidth(30)))
+                removeIndex = i;
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+        }
+        if (GUILayout.Button("Add"))
+            entityList.Add(new QuestObjectiveOneKill());
+        if (removeIndex >= 0)
+            entityList.RemoveAt(removeIndex);
 #endif
     }
 
