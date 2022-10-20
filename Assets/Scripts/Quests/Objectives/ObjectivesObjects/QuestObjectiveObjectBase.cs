@@ -12,10 +12,12 @@ using UnityEditor;
 public abstract class QuestObjectiveObjectBase
 {
     [SerializeField] public List<QuestFailConditionObjectBase> m_failConditions = new List<QuestFailConditionObjectBase>();
+    [SerializeField] public QuestFailActionObjectBase m_failAction = null;
 
 #if UNITY_EDITOR
     bool m_failConditionListOpen = false;
     List<bool> m_failConditionsOpen = new List<bool>();
+    bool m_failActionOpen = false;
 #endif
 
     protected const string visualBoxType = "box";
@@ -27,6 +29,7 @@ public abstract class QuestObjectiveObjectBase
     public void InspectorGUI()
     {
         DrawFailConditions();
+        DrawFailAction();
         
         OnInspectorGUI();
     }
@@ -154,6 +157,32 @@ public abstract class QuestObjectiveObjectBase
 #endif
     }
 
+    void DrawFailAction()
+    {
+#if UNITY_EDITOR
+        if (m_failConditions == null || m_failConditions.Count == 0)
+            return;
+
+        string failActionName = "None";
+        if (m_failAction != null)
+            failActionName = m_failAction.GetFailActionName();
+
+        GUILayout.Space(5);
+        m_failActionOpen = EditorGUILayout.BeginFoldoutHeaderGroup(m_failActionOpen, "Fail action - " + failActionName, null, ShowFailActionContextMenu);
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        if(m_failActionOpen && m_failAction != null)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(10);
+            GUILayout.BeginVertical();
+            m_failAction.InspectorGUI();
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
+        }
+#endif
+    }
+
     void ShowOneFailConditionContextMenu(Rect position, int failConditionIndex)
     {
 #if UNITY_EDITOR
@@ -169,5 +198,40 @@ public abstract class QuestObjectiveObjectBase
             return;
 
         m_failConditions.RemoveAt(failConditionIndex);
+    }
+
+    void ShowFailActionContextMenu(Rect position)
+    {
+#if UNITY_EDITOR
+
+        const string baseMenu = "Change action";
+
+        var allObjectiveTypes = AppDomain.CurrentDomain.GetAssemblies()
+         .SelectMany(assembly => assembly.GetTypes())
+         .Where(type => type.IsSubclassOf(typeof(QuestFailActionObjectBase))).ToArray();
+
+        var menu = new GenericMenu();
+        if (m_failAction != null)
+            menu.AddItem(new GUIContent("Remove action"), false, RemoveFailAction);
+        foreach (var t in allObjectiveTypes)
+        {
+            const string baseString = "QuestFailActionObject";
+            string name = t.Name;
+            if (name.StartsWith(baseString))
+                name = name.Substring(baseString.Length);
+            menu.AddItem(new GUIContent(baseMenu + "/" + name), false, () => { NewFailAction(t); });
+        }
+        menu.DropDown(position);
+#endif
+    }
+
+    void RemoveFailAction()
+    {
+        m_failAction = null;
+    }
+
+    void NewFailAction(Type failActionType)
+    {
+        m_failAction = Activator.CreateInstance(failActionType) as QuestFailActionObjectBase;
     }
 }
