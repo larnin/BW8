@@ -5,6 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class StartQuestObjectiveEvent
+{
+    public int questID;
+    public int objectiveIndex;
+
+    public StartQuestObjectiveEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
+
+
 public class IsQuestCompletedEvent
 {
     public int questID;

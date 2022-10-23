@@ -24,6 +24,7 @@ public class QuestSystem : MonoBehaviour
         m_subscriberList.Add(new Event<IsQuestActiveEvent>.Subscriber(IsQuestActive));
         m_subscriberList.Add(new Event<IsQuestCompletedEvent>.Subscriber(IsQuestCompleted));
         m_subscriberList.Add(new Event<IsQuestObjectiveCompletedEvent>.Subscriber(IsQuestObjectiveCompleted));
+        m_subscriberList.Add(new Event<StartQuestObjectiveEvent>.Subscriber(StartQuestObjective));
         m_subscriberList.Subscribe();
     }
 
@@ -109,6 +110,15 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
+    void StartQuestObjective(StartQuestObjectiveEvent e)
+    {
+        m_completedQuests.Remove(e.questID);
+        m_activeQuests.RemoveAll(x => (x.questID == e.questID));
+
+        StartQuestObjective(e.questID, e.objectiveIndex);
+
+    }
+
     void IsQuestActive(IsQuestActiveEvent e)
     {
         e.active = false;
@@ -122,7 +132,7 @@ public class QuestSystem : MonoBehaviour
         }
     }
 
-    QuestData StartQuestObjective(int questID, int objectiveIndex)
+    void StartQuestObjective(int questID, int objectiveIndex)
     {
         QuestData data = new QuestData();
         data.questID = questID;
@@ -132,20 +142,20 @@ public class QuestSystem : MonoBehaviour
         if(quest == null)
         {
             Debug.LogError("Start Quest - Unable to find quest ID " + questID);
-            return data;
+            return;
         }
 
         if(objectiveIndex < 0 || objectiveIndex >= quest.GetObjectiveNb())
         {
             Debug.LogError("Start Quest - Unable to start objective " + objectiveIndex + " on quest " + quest.questName + " ID " + questID);
-            return data;
+            return;
         }
 
         data.objective = quest.GetObjective(objectiveIndex).MakeObjective();
 
         data.objective.Start();
 
-        return data;
+        m_activeQuests.Add(data);
     }
 
     void OnQuestObjectiveCompleted(int questID, int questObjectiveIndex, QuestObjectiveBase questObjective)

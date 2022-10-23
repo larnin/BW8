@@ -15,6 +15,6 @@ public class QuestFailActionStartObjective : QuestFailActionBase
 
     public override void Execute()
     {
-        //todo
+        Event<StartQuestObjectiveEvent>.Broadcast(new StartQuestObjectiveEvent(m_failAction.m_questID, m_failAction.m_objectiveIndex));
     }
 }
