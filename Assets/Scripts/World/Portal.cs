@@ -10,7 +10,8 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == m_collideLayer)
-            Event<StartChangeWorldEvent>.Broadcast(new StartChangeWorldEvent(m_world, m_spawnName));
+        if (((1 << collision.gameObject.layer) & m_collideLayer) != 0)
+            SceneSystem.ChangeWorld(m_world, m_spawnName);
+            //Event<StartChangeWorldEvent>.Broadcast(new StartChangeWorldEvent(m_world, m_spawnName));
     }
 }

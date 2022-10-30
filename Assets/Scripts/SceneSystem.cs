@@ -76,6 +76,8 @@ public class SceneSystem
             Event<SetWorldEvent>.Broadcast(new SetWorldEvent(world));
 
             Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false));
+
+            m_starting = false;
         });
 
     }
