@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class SaveSystem
 {
-    const string savePath = "/BW8/Save/";
+    const string savePath = "/Save/";
     const string headerName = "Header";
     const string saveName = "Save";
     const string extensionName = ".save";
@@ -17,7 +17,18 @@ public class SaveSystem
     SavedData[] m_slotsHeaders;
 
     int m_currentSlot = -1;
-    Dictionary<string, SavedData> m_slotDataGroups;
+    Dictionary<string, SavedData> m_slotDataGroups = new Dictionary<string, SavedData>();
+
+    static SaveSystem m_save;
+    public static SaveSystem instance
+    {
+        get
+        {
+            if (m_save == null)
+                m_save = new SaveSystem();
+            return m_save;
+        }
+    }
 
     public SaveSystem()
     {
@@ -80,14 +91,14 @@ public class SaveSystem
         Byte[] bytes = LoadFile(path);
         if(bytes == null || bytes.Length == 0)
         {
-            m_slotDataGroups = null;
+            m_slotDataGroups.Clear();
             return;
         }
 
         SaveReadData data = new SaveReadData();
         data.SetData(bytes, bytes.Length);
 
-        m_slotDataGroups = new Dictionary<string, SavedData>();
+        m_slotDataGroups.Clear();
 
         int nbGroups = data.ReadInt();
         for(int i = 0; i < nbGroups; i++)
@@ -109,14 +120,6 @@ public class SaveSystem
         if (m_currentSlot < 0 || m_currentSlot >= nbSlots)
             return;
 
-        string savePath = GetSlotPath(m_currentSlot);
-
-        if(m_slotDataGroups == null)
-        {
-            DeleteFile(savePath);
-            return;
-        }
-
         SaveWriteData data = new SaveWriteData();
 
         data.Write(m_slotDataGroups.Count);
@@ -127,6 +130,7 @@ public class SaveSystem
             group.Value.Save(data);
         }
 
+        string savePath = GetSlotPath(m_currentSlot);
         SaveFile(savePath, data.GetData());
     }
 
@@ -147,6 +151,9 @@ public class SaveSystem
     {
         if (slot < 0 || slot >= nbSlots)
             return null;
+
+        if (m_slotsHeaders[slot] == null)
+            m_slotsHeaders[slot] = new SavedData();
         return m_slotsHeaders[slot];
     }
 
@@ -156,6 +163,8 @@ public class SaveSystem
             return;
 
         RemoveSlot(slot);
+
+        m_currentSlot = slot;
     }
 
     public void RemoveSlot(int slot)
@@ -186,6 +195,9 @@ public class SaveSystem
     {
         try
         {
+            string directory = path.Substring(0, path.LastIndexOf('/'));
+            Directory.CreateDirectory(directory);
+
             FileStream file = File.Create(path);
 
             file.Write(data, 0, data.Length);
