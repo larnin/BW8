@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        m_rigidbody = GetComponent<Rigidbody2D>();
+
         m_subscriberList.Add(new Event<StartRollEvent>.LocalSubscriber(OnStartRoll, gameObject));
         m_subscriberList.Add(new Event<GetStatusEvent>.LocalSubscriber(GetStatus, gameObject));
 
@@ -45,8 +47,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        m_rigidbody = GetComponent<Rigidbody2D>();
-
         m_oldPosition = transform.position;
         m_direction = new Vector2(0, -1);
 

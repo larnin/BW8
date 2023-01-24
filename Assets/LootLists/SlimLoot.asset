@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbbdbdb281f4090438c44dad5aba25a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 53ab1df95265adc4d989ea1a981b7ff2, type: 3}
   m_Name: SlimLoot
   m_EditorClassIdentifier: 
   m_lootGroup:
   - loots:
     - item: 1
       minStack: 2
-      maxStack: 5
-      weight: 10
+      maxStack: 3
+      weight: 100
     - item: 1
-      minStack: 20
-      maxStack: 30
+      minStack: 5
+      maxStack: 10
       weight: 1
   m_loots:
   - item: 0
