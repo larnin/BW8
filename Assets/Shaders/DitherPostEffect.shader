@@ -7,7 +7,7 @@ Shader "Hidden/DitherPostEffect"
     SubShader
 	{
 		// No culling or depth
-		Cull Off ZWrite Off ZTest Always
+		Cull Off ZWrite Off ZTest Off
 
 		Pass
 		{
@@ -45,6 +45,19 @@ Shader "Hidden/DitherPostEffect"
 			fixed4 frag(v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
+
+				if (col.r > 0.9 && col.g < 0.1 && col.b < 0.1)
+					return float4(1, 0, 0, 1);
+				if (col.r > 0.9 && col.g > 0.9 && col.b < 0.1)
+					return float4(1, 1, 0, 1);
+				if (col.r < 0.1 && col.g > 0.9 && col.b < 0.1)
+					return float4(0, 1, 0, 1);
+				if (col.r < 0.1 && col.g > 0.9 && col.b > 0.9)
+					return float4(0, 1, 1, 1);
+				if (col.r < 0.1 && col.g < 0.1 && col.b > 0.9)
+					return float4(0, 0, 1, 1);
+				if (col.r > 0.9 && col.g < 0.1 && col.b > 0.9)
+					return float4(1, 0, 1, 1);
 
 				float level = (col.r + col.g + col.b) / 3;
 
