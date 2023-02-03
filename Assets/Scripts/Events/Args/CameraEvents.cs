@@ -54,3 +54,23 @@ class SetScreenColorEvent
         lightColor = _lightColor;
     }
 }
+
+class SetCustomScreenColorEvent
+{
+    public Color redColor;
+    public Color yellowColor;
+    public Color greenColor;
+    public Color cyanColor;
+    public Color blueColor;
+    public Color pinkColor;
+
+    public SetCustomScreenColorEvent(Color _redColor, Color _yellowColor, Color _greenColor, Color _cyanColor, Color _blueColor, Color _pinkColor)
+    {
+        redColor = _redColor;
+        yellowColor = _yellowColor;
+        greenColor = _greenColor;
+        cyanColor = _cyanColor;
+        blueColor = _blueColor;
+        pinkColor = _pinkColor;
+    }
+}
