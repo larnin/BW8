@@ -44,25 +44,19 @@ Shader "Hidden/DitherPostEffect"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.uv);
-
-				if (col.r > 0.9 && col.g < 0.1 && col.b < 0.1)
-					return float4(1, 0, 0, 1);
-				if (col.r > 0.9 && col.g > 0.9 && col.b < 0.1)
-					return float4(1, 1, 0, 1);
-				if (col.r < 0.1 && col.g > 0.9 && col.b < 0.1)
-					return float4(0, 1, 0, 1);
-				if (col.r < 0.1 && col.g > 0.9 && col.b > 0.9)
-					return float4(0, 1, 1, 1);
-				if (col.r < 0.1 && col.g < 0.1 && col.b > 0.9)
-					return float4(0, 0, 1, 1);
-				if (col.r > 0.9 && col.g < 0.1 && col.b > 0.9)
-					return float4(1, 0, 1, 1);
-
-				float level = (col.r + col.g + col.b) / 3;
+				float4 col = tex2D(_MainTex, i.uv);
 
 				float4 lightColor = float4(1, 1, 1, 1);
 				float4 darkColor = float4(0, 0, 0, 1);
+
+				float4 hsv = colorToHSV(col);
+				if (hsv.z > _DarkLevel && hsv.y > 0.5)
+				{
+					float h = floor(hsv.x / 60) * 60;
+					lightColor = HSVToColor(float4(h, 1, 1, 1));
+				}
+
+				float level = hsv.z;
 
 				if (level <= _DarkLevel)
 					return darkColor;
@@ -105,6 +99,65 @@ Shader "Hidden/DitherPostEffect"
 			float ditherLevel3(int2 pos)
 			{
 				return (pos.x + pos.y) % 2;
+			}
+
+			float4 colorToHSV(float4 col)
+			{
+				float4 hsv = float4(0, 0, 0, col.a);
+
+				float minValue = min(col.r, min(col.g, col.b));
+				float maxValue = max(col.r, max(col.g, col.b));
+
+				hsv.z = maxValue;
+
+				float delta = maxValue - minValue;
+				if (delta < 0.00001)
+				{
+					hsv.x = 0;
+					hsv.y = 0;
+					return hsv;
+				}
+
+				if (maxValue > 0)
+					hsv.y = (delta / maxValue);
+				else
+				{
+					hsv.x = 0;
+					hsv.y = 0;
+				}
+				
+				if (col.r >= maxValue)
+					hsv.x = (col.g - col.b) / delta;
+				else if (col.g >= maxValue)
+					hsv.x = 2 + (col.b - col.r) / delta;
+				else hsv.x = 4 + (col.r - col.g) / delta;
+
+				hsv.x *= 60;
+
+				if (hsv.x < 0)
+					hsv.x += 360;
+
+				return hsv;
+			}
+
+			float4 HSVToColor(float4 hsv)
+			{
+				float4 col = hsv.z;
+
+				float varH = hsv.x * 6 / 360;
+				float varI = floor(varH);
+				float var1 = hsv.z * (1 - hsv.y);
+				float var2 = hsv.z * (1 - hsv.y * (varH - varI));
+				float var3 = hsv.z * (1 - hsv.y * (1 - (varH - varI)));
+
+				if (varI == 0) { col = float4(hsv.z, var3, var1, hsv.a); }
+				else if (varI == 1) { col = float4(var2, hsv.z, var1, hsv.a); }
+				else if (varI == 2) { col = float4(var1, hsv.z, var3, hsv.a); }
+				else if (varI == 3) { col = float4(var1, var2, hsv.z, hsv.a); }
+				else if (varI == 4) { col = float4(var3, var1, hsv.z, hsv.a); }
+				else { col = float4(hsv.z, var1, var2, hsv.a); }
+
+				return col;
 			}
 
 			ENDCG
