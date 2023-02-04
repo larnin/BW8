@@ -78,6 +78,9 @@ public class CameraFollow : MonoBehaviour
         position.x = x;
         position.y = y;
         transform.position = position;
+
+        Vector2 offset = new Vector2(pos.x - x, pos.y - y);
+        Event<SetCameraPlaneOffsetEvent>.Broadcast(new SetCameraPlaneOffsetEvent(offset));
     }
 
     void GetCamera(GetCameraEvent e)

@@ -74,3 +74,13 @@ class SetCustomScreenColorEvent
         pinkColor = _pinkColor;
     }
 }
+
+class SetCameraPlaneOffsetEvent
+{
+    public Vector2 offset;
+
+    public SetCameraPlaneOffsetEvent(Vector2 _offset)
+    {
+        offset = _offset;
+    }
+}
