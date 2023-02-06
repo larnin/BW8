@@ -51,8 +51,8 @@ Shader "Hidden/ColorPostEffect"
 
 			fixed4 frag(v2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.uv);
-
+				float4 col = tex2D(_MainTex, i.uv);
+				
 				if (col.r > 0.9 && col.g < 0.1 && col.b < 0.1)
 					return _RedColor;
 				if (col.r > 0.9 && col.g > 0.9 && col.b < 0.1)

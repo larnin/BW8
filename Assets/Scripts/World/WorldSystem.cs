@@ -55,6 +55,9 @@ public class WorldSystem : MonoBehaviour
 
         m_world = e.world;
 
+        if(e.world != null)
+            DebugLogs.Log("Change world to " + e.world.name);
+
         UpdateWorld(true);
     }
 

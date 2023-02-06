@@ -83,7 +83,7 @@ public class LootType : ScriptableObject
         }
 
         if(m_instance == null)
-            Debug.LogError("The LootType asset does not exist in the Ressources/" + s_path + " folder");
+            DebugLogs.LogError("The LootType asset does not exist in the Ressources/" + s_path + " folder");
     }
 
     static OneLootType Get(ItemType item)

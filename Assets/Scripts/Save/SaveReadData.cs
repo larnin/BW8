@@ -47,7 +47,7 @@ public class SaveReadData
 
         if (m_dataIndex + size > m_dataSize)
         {
-            Debug.LogError("Read too many bytes !");
+            DebugLogs.LogError("Read too many bytes !");
             return bytes;
         }
 

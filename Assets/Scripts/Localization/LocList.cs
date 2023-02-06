@@ -35,7 +35,7 @@ namespace NLocalization
                 {
                     if (m_table != null)
                     {
-                        Debug.LogError("Multiple table found in resource directory \"" + path + "\" - Loaded \"" + m_table.name + "\" - New \"" + table.name + "\"");
+                        DebugLogs.LogError("Multiple table found in resource directory \"" + path + "\" - Loaded \"" + m_table.name + "\" - New \"" + table.name + "\"");
                         continue;
                     }
                     m_table = table;
@@ -76,7 +76,7 @@ namespace NLocalization
 
             AssetDatabase.SaveAssets();
 #else
-            Debug.LogError("You can't initialize languages outside the editor");
+            DebugLogs.LogError("You can't initialize languages outside the editor");
 #endif
         }
 

@@ -166,7 +166,7 @@ public class SaveValue
                 m_value = value3i;
                 break;
             default:
-                Debug.LogError("Unknow save value type");
+                DebugLogs.LogError("Unknow save value type");
                 break;
         }
     }
@@ -211,7 +211,7 @@ public class SaveValue
                 data.Write(value3i.z);
                 break;
             default:
-                Debug.LogError("Unknow save value type");
+                DebugLogs.LogError("Unknow save value type");
                 break;
         }
     }

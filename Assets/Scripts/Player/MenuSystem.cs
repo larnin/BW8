@@ -70,7 +70,7 @@ public class MenuSystem : MonoBehaviour
         }
         if(prefab == null)
         {
-            Debug.LogError("No menu named " + name);
+            DebugLogs.LogError("No menu named " + name);
             return default(T);
         }
 
@@ -87,7 +87,7 @@ public class MenuSystem : MonoBehaviour
         T comp = menu.GetComponentInChildren<T>();
         if (comp == null)
         {
-            Debug.LogError("No component " + typeof(T).Name + " in menu " + name);
+            DebugLogs.LogError("No component " + typeof(T).Name + " in menu " + name);
             Destroy(menu);
             return comp;
         }
@@ -131,7 +131,7 @@ public class MenuSystem : MonoBehaviour
 
         T comp = openMenu.GetComponentInChildren<T>();
         if (comp == null)
-            Debug.LogError("No component " + typeof(T).Name + " in menu " + name);
+            DebugLogs.LogError("No component " + typeof(T).Name + " in menu " + name);
         return comp;
     }
 

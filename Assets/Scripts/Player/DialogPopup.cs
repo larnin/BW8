@@ -74,7 +74,7 @@ public class DialogPopup : MonoBehaviour
         m_box = transform.Find("Bubble");
         if(m_box == null)
         {
-            Debug.LogError("Can't find the Bubble child");
+            DebugLogs.LogError("Can't find the Bubble child");
             gameObject.SetActive(false);
             return;
         }
