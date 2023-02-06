@@ -15,6 +15,8 @@ public class DebugLogs : MonoBehaviour
     List<string> m_logs = new List<string>();
     SubscriberList m_subscriberList = new SubscriberList();
 
+    Vector2 m_scrollPos = Vector2.zero;
+
     void Awake()
     {
         if (m_instance != null)
@@ -43,10 +45,14 @@ public class DebugLogs : MonoBehaviour
         if (e.type != DebugWindowType.Window_Log)
             return;
 
+        m_scrollPos = GUILayout.BeginScrollView(m_scrollPos);
+
         for(int i = 0; i < m_logs.Count; i++)
         {
             GUILayout.Label(m_logs[i]);
         }
+
+        GUILayout.EndScrollView();
     }
 
     public static void Log(string str)
