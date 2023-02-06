@@ -103,7 +103,7 @@ namespace NLocalization
             var table = list.GetTable();
             if (table == null)
             {
-                Debug.LogError("No localization table found");
+                DebugLogs.LogError("No localization table found");
                 return;
             }
 
@@ -115,11 +115,11 @@ namespace NLocalization
                 if (list.GetNbLang() > 0)
                 {
                     lang = list.GetLanguage(0);
-                    Debug.LogWarning("Default or selected langage not found, using the first langage found : " + lang.languageID);
+                    DebugLogs.LogWarning("Default or selected langage not found, using the first langage found : " + lang.languageID);
                 }
                 else
                 {
-                    Debug.LogError("No langage found");
+                    DebugLogs.LogError("No langage found");
                     return;
                 }
             }
@@ -134,7 +134,7 @@ namespace NLocalization
                 m_texts.Add(id, new LocData(textID, text));
             }
 
-            Debug.Log("Localization loaded : " + lang.languageID);
+            DebugLogs.Log("Localization loaded : " + lang.languageID);
         }
 
         public static bool ProcessFilter(string text, string filter)

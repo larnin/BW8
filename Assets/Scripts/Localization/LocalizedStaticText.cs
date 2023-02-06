@@ -25,7 +25,7 @@ namespace NLocalization
                 tmp.text = str;
                 return;
             }
-            Debug.LogError("No text component found in the gameobject " + name);
+            DebugLogs.LogError("No text component found in the gameobject " + name);
         }
     }
 }

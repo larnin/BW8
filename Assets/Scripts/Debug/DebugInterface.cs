@@ -16,9 +16,15 @@ public enum DebugWindowType
 
 public class DebugInterface : MonoBehaviour
 {
+    const string saveName = "Debug.save";
     const float minWindowSize = 100;
     const float handleSize = 25;
     const float toolbarHeight = 30;
+
+    static DebugInterface m_instance;
+
+    SavedData m_save = new SavedData();
+    float m_lastSaveUpdate = 0;
 
     class ResizeInfo
     {
@@ -63,6 +69,11 @@ public class DebugInterface : MonoBehaviour
 
     private void Awake()
     {
+        if (m_instance != null)
+            Destroy(gameObject);
+        m_instance = this;
+        DontDestroyOnLoad(gameObject);
+
         m_subscriberList.Add(new Event<IsDebugEnabledEvent>.Subscriber(DebugEnabled));
         m_subscriberList.Subscribe();
 
@@ -70,6 +81,11 @@ public class DebugInterface : MonoBehaviour
         m_windows.Clear();
         for (int i = 0; i < nbWindow; i++)
             m_windows.Add(new WindowInfo(i, ((DebugWindowType)i).ToString()));
+    }
+
+    private void Start()
+    {
+        Load();
     }
 
     private void OnDestroy()
@@ -81,14 +97,14 @@ public class DebugInterface : MonoBehaviour
     {
         if (Keyboard.current.f5Key.wasPressedThisFrame)
             m_enabled = !m_enabled;
+
+        TrySave();
     }
 
     private void OnGUI()
     {
-        if (!m_enabled)
-            return;
-
-        DrawToolbar();
+        if (m_enabled)
+            DrawToolbar();
 
         ResizeWindow();
 
@@ -266,5 +282,95 @@ public class DebugInterface : MonoBehaviour
         for (int i = 0; i < m_popupOpen.Count; i++)
             if (i != index)
                 m_popupOpen[i] = false;
+    }
+
+    void OnLoad()
+    {
+        foreach (var w in m_windows)
+            LoadWindow(w);
+    }
+
+    void LoadWindow(WindowInfo w)
+    {
+        w.rect.position = m_save.GetVector2(w.name + "_Pos", w.rect.position);
+        w.rect.size = m_save.GetVector2(w.name + "_Size", w.rect.size);
+    }
+
+    void TrySave()
+    {
+        if (Time.time - m_lastSaveUpdate < 1)
+            return;
+        m_lastSaveUpdate = Time.time;
+
+        bool needToSave = false;
+        foreach(var w in m_windows)
+            needToSave |= TrySaveWindow(w);
+
+        if (needToSave)
+            Save();
+    }
+
+    bool TrySaveWindow(WindowInfo w)
+    {
+        bool changed = TryUpdateValue(w.name + "_Pos", w.rect.position);
+        changed |= TryUpdateValue(w.name + "_Size", w.rect.size); ;
+
+        return changed;
+    }
+
+    void Load()
+    {
+        var bytes = SaveSystem.LoadFile(SaveSystem.GetSavePath(saveName));
+
+        if (bytes != null)
+        {
+            var data = new SaveReadData();
+            data.SetData(bytes, bytes.Length);
+
+            m_save.Load(data);
+        }
+
+        OnLoad();
+    }
+
+    void Save()
+    {
+        var data = new SaveWriteData();
+        m_save.Save(data);
+
+        SaveSystem.SaveFile(SaveSystem.GetSavePath(saveName), data.GetData());
+    }
+
+    bool TryUpdateValue(string name, Vector2 value)
+    {
+        Vector2 oldValue = m_save.GetVector2(name);
+        if((oldValue - value).sqrMagnitude > 0.01f)
+        {
+            m_save.Set(name, value);
+            return true;
+        }
+        return false;
+    }
+
+    bool TryUpdateValue(string name, string value)
+    {
+        string oldValue = m_save.GetString(name);
+        if(oldValue != value)
+        {
+            m_save.Set(name, value);
+            return true;
+        }
+        return false;
+    }
+
+    bool TryUpdateValue(string name, float value)
+    {
+        float oldValue = m_save.GetFloat(name);
+        if(oldValue != value)
+        {
+            m_save.Set(name, value);
+            return true;
+        }
+        return false;
     }
 }

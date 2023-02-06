@@ -21,7 +21,7 @@ public class SceneSystem
 
         if (!Application.CanStreamedLevelBeLoaded(sceneName))
         {
-            Debug.LogError("Can't load scene " + sceneName + ". Back to main menu");
+            DebugLogs.LogError("Can't load scene " + sceneName + ". Back to main menu");
             sceneName = defaultSceneName;
         }
 

@@ -141,13 +141,13 @@ public class QuestSystem : MonoBehaviour
         var quest = QuestList.GetQuest(questID);
         if(quest == null)
         {
-            Debug.LogError("Start Quest - Unable to find quest ID " + questID);
+            DebugLogs.LogError("Start Quest - Unable to find quest ID " + questID);
             return;
         }
 
         if(objectiveIndex < 0 || objectiveIndex >= quest.GetObjectiveNb())
         {
-            Debug.LogError("Start Quest - Unable to start objective " + objectiveIndex + " on quest " + quest.questName + " ID " + questID);
+            DebugLogs.LogError("Start Quest - Unable to start objective " + objectiveIndex + " on quest " + quest.questName + " ID " + questID);
             return;
         }
 

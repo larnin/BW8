@@ -191,7 +191,7 @@ public class SaveSystem
         return m_slotDataGroups[name];
     }
 
-    void SaveFile(string path, Byte[] data)
+    public static void SaveFile(string path, Byte[] data)
     {
         try
         {
@@ -211,7 +211,7 @@ public class SaveSystem
         }
     }
 
-    Byte[] LoadFile(string path)
+    public static Byte[] LoadFile(string path)
     {
         try
         {
@@ -229,7 +229,7 @@ public class SaveSystem
         return null;
     }
 
-    void DeleteFile(string path)
+    public static void DeleteFile(string path)
     {
         try
         {
@@ -246,11 +246,16 @@ public class SaveSystem
 
     string GetSlotPath(int slot)
     {
-        return Application.persistentDataPath + savePath + saveName + slot.ToString() + extensionName;
+        return GetSavePath(saveName + slot.ToString() + extensionName);
     }   
     
     string GetHeaderPath(int slot)
     {
-        return Application.persistentDataPath + savePath + headerName + slot.ToString() + extensionName;
+        return GetSavePath(headerName + slot.ToString() + extensionName);
+    }
+
+    public static string GetSavePath(string fileName)
+    {
+        return Application.persistentDataPath + savePath + fileName;
     }
 }
