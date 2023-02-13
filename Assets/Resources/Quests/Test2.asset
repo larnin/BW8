@@ -26,4 +26,4 @@ MonoBehaviour:
       Data: 
   m_questName: Test2
   m_questID: 1
-  m_parentQuestID: -1
+  m_parentQuestID: 0
