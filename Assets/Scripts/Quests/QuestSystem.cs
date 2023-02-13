@@ -114,7 +114,7 @@ public class QuestSystem : MonoBehaviour
             {
                 if (e.objectiveIndex == q.objectiveIndex)
                     e.state = ObjectiveState.Started;
-                else if (e.questID < q.questID)
+                else if (e.objectiveIndex < q.objectiveIndex)
                     e.state = ObjectiveState.Completed;
                 else e.state = ObjectiveState.NotStarted;
                 return;
@@ -374,14 +374,17 @@ public class QuestSystem : MonoBehaviour
                 else if(GUILayout.Button("Start", GUILayout.MaxWidth(70)))
                     Event<StartQuestObjectiveEvent>.Broadcast(new StartQuestObjectiveEvent(quest.questID, i));
 
-                if (!questCompleted.completed)
+                if (objectiveCompleted.state != ObjectiveState.Completed)
                 {
                     if (GUILayout.Button("Complete", GUILayout.MaxWidth(70)))
                         Event<CompleteQuestObjectiveEvent>.Broadcast(new CompleteQuestObjectiveEvent(quest.questID, i));
                 }
-                else if (GUILayout.Button("Reset", GUILayout.MaxWidth(70)))
-                    Event<ResetQuestObjectiveEvent>.Broadcast(new ResetQuestObjectiveEvent(quest.questID, i));
 
+                if (questCompleted.completed)
+                {
+                    if (GUILayout.Button("Reset", GUILayout.MaxWidth(70)))
+                        Event<ResetQuestObjectiveEvent>.Broadcast(new ResetQuestObjectiveEvent(quest.questID, i));
+                }
 
                 GUILayout.EndHorizontal();
             }
