@@ -134,7 +134,15 @@ public class PlayerInventory : MonoBehaviour
 
     int GetItemInventory(ItemType type)
     {
-        return 0;
+        int nb = 0;
+
+        for(int i = 0; i < m_size; i++)
+        {
+            if (m_inventory[i].itemType == type)
+                nb += m_inventory[i].stack;
+        }
+
+        return nb;
     }
 
     int RemoveItem(ItemType type, int count)
@@ -260,7 +268,16 @@ public class PlayerInventory : MonoBehaviour
         if (e.slot < 0 || e.slot >= m_size)
             return;
 
-        m_inventory[e.slot].stack = 0;
+        if (e.stack < 0 || e.stack >= m_inventory[e.slot].stack)
+        {
+            e.removedStack = m_inventory[e.slot].stack;
+            m_inventory[e.slot].stack = 0;
+        }
+        else
+        {
+            e.removedStack = e.stack;
+            m_inventory[e.slot].stack -= e.stack;
+        }
     }
    
     void RemoveInventoryItem(RemoveInventoryItemEvent e)
