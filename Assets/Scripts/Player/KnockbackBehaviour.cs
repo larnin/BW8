@@ -40,7 +40,7 @@ class KnockbackBehaviour : MonoBehaviour
         if (m_duration > 0)
         {
             e.offsetVelocity = m_velocity;
-            e.overrideVelocity = true;
+            e.velocityMultiplier = 0;
         }
     }
 

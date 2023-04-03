@@ -66,7 +66,8 @@ public class PlayerController : MonoBehaviour
             GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
             Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
 
-            if (velocityData.overrideVelocity)
+            //todo better velocity process
+            if (velocityData.velocityMultiplier < 0.5f)
                 m_rigidbody.velocity = velocityData.offsetVelocity;
             else
             {

@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public enum EquipementSlot
@@ -41,7 +45,10 @@ public class PlayerEquipement : MonoBehaviour
 
     void SetDefaultEquipement()
     {
+        if(m_equipement == null)
+            m_equipement = new ItemType?[Enum.GetValues(typeof(EquipementSlot)).Length];
 
+        m_equipement[(int)EquipementSlot.LeftHand] = ItemType.Sword;
     }
 
     void SetEquipement(SetEquipementEvent e)
@@ -95,5 +102,30 @@ public class PlayerEquipement : MonoBehaviour
         Event<RemoveInventorySlotEvent>.Broadcast(removeItem);
 
         return item.type;
+    }
+
+    [OnInspectorGUI]
+    void DisplayEquipement()
+    {
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlaying)
+            SetDefaultEquipement();
+
+        int nbEquipement = Enum.GetValues(typeof(EquipementSlot)).Length;
+
+        GUILayout.Label("Equipement:");
+        GUI.enabled = false;
+        for (int i = 0; i < nbEquipement; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(((EquipementSlot)i).ToString());
+            if (m_equipement[i] == null)
+                GUILayout.TextField("No item");
+            else GUILayout.TextField(m_equipement[i].ToString());
+            
+            GUILayout.EndHorizontal();
+        }
+        GUI.enabled = true;
+#endif
     }
 }

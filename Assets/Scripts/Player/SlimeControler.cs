@@ -93,7 +93,7 @@ public class SlimeControler : MonoBehaviour
 
             GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
             Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
-            if (velocityData.overrideVelocity)
+            if (velocityData.velocityMultiplier < 0.5f)
                 m_rigidbody.velocity = velocityData.offsetVelocity;
         }
 

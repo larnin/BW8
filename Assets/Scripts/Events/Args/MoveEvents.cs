@@ -37,12 +37,12 @@ public class TeleportPlayerEvent
 
 public class GetOffsetVelocityEvent
 {
-    public bool overrideVelocity;
+    public float velocityMultiplier;
     public Vector2 offsetVelocity;
 
     public GetOffsetVelocityEvent()
     {
-        overrideVelocity = false;
+        velocityMultiplier = 0;
         offsetVelocity = Vector2.zero;
     }
 }

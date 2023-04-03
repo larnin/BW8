@@ -21,7 +21,7 @@ public class PlayerAttackController : MonoBehaviour
     private void Awake()
     {
         m_subscriberList.Add(new Event<GetOffsetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
-        m_subscriberList.Add(new Event<StartUseEvent>.LocalSubscriber(Use, gameObject));
+        m_subscriberList.Add(new Event<StartUseWeaponEvent>.LocalSubscriber(Use, gameObject));
 
         m_subscriberList.Subscribe();
     }
@@ -36,11 +36,11 @@ public class PlayerAttackController : MonoBehaviour
         if(!m_waiting && m_duration < m_attackDuration)
         {
             e.offsetVelocity = Vector2.zero;
-            e.overrideVelocity = true;
+            e.velocityMultiplier = 0;
         }
     }
 
-    void Use(StartUseEvent e)
+    void Use(StartUseWeaponEvent e)
     {
         if (!m_waiting)
             return;

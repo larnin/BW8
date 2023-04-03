@@ -9,6 +9,8 @@ public enum ItemType
 {
     Heart,
     Money,
+    Sword,
+    Vacuum,
 }
 
 public class PlayerInventory : MonoBehaviour
