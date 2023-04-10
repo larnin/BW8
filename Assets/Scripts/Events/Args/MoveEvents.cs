@@ -42,7 +42,7 @@ public class GetOffsetVelocityEvent
 
     public GetOffsetVelocityEvent()
     {
-        velocityMultiplier = 0;
+        velocityMultiplier = 1;
         offsetVelocity = Vector2.zero;
     }
 }

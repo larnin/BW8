@@ -88,7 +88,7 @@ public class LootList : ScriptableObject
             if (lootCount[i] <= 0)
                 continue;
 
-            var objects = LootType.MakeLoots((ItemType)i, lootCount[i]);
+            var objects = World.lootType.MakeLoots((ItemType)i, lootCount[i]);
             foreach (var o in objects)
                 loots.Add(o);
         }

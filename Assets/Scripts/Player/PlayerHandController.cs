@@ -11,6 +11,12 @@ public class PlayerHandController : MonoBehaviour
     {
         public ItemType item;
         public PlayerHandActionBase action;
+
+        public PlayerAction(ItemType _item, PlayerHandActionBase _action)
+        {
+            item = _item;
+            action = _action;
+        }
     }
 
     List<PlayerAction> m_actions = new List<PlayerAction>();
@@ -22,24 +28,29 @@ public class PlayerHandController : MonoBehaviour
 
     private void Awake()
     {
-        //todo add actions
+        m_subscriberList.Add(new Event<StartUseWeaponEvent>.LocalSubscriber(StartUseWeapon, gameObject));
+        m_subscriberList.Add(new Event<EndUseWeaponEvent>.LocalSubscriber(EndUseWeapon, gameObject));
+        m_subscriberList.Add(new Event<StartUseItemEvent>.LocalSubscriber(StartUseItem, gameObject));
+        m_subscriberList.Add(new Event<EndUseItemEvent>.LocalSubscriber(EndUseItem, gameObject));
 
+        m_subscriberList.Add(new Event<GetOffsetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
         m_subscriberList.Subscribe();
+
+        m_actions.Add(new PlayerAction(ItemType.Sword, new PlayerHandActionSword(this)));
     }
 
     private void Start()
     {
         foreach (var a in m_actions)
             a.action.OnInit();
-
-        m_subscriberList.Add(new Event<GetOffsetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
-        m_subscriberList.Unsubscribe();
     }
 
     private void OnDestroy()
     {
         foreach (var a in m_actions)
             a.action.OnDestroy();
+
+        m_subscriberList.Unsubscribe();
     }
 
     private void Update()
@@ -76,12 +87,15 @@ public class PlayerHandController : MonoBehaviour
 
         if(index != actionIndex)
         {
-            m_actions[index].action.EndProcess();
+            if(index >= 0)
+                m_actions[index].action.EndProcess();
             index = actionIndex;
-            m_actions[index].action.BeginProcess();
+            if(index >= 0)
+                m_actions[index].action.BeginProcess();
         }
 
-        m_actions[index].action.Process(inputPressed);
+        if(index >= 0)
+            m_actions[index].action.Process(inputPressed);
     }
 
     void GetVelocity(GetOffsetVelocityEvent e)

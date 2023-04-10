@@ -71,7 +71,7 @@ public class PlayerInventory : MonoBehaviour
     int AddItemInventory(ItemType type, int stack)
     {
         int initialStack = stack;
-        int maxStack = LootType.GetMaxStack(type);
+        int maxStack = World.lootType.GetMaxStack(type);
 
         var slots = GetSlotsOfType(type);
 
@@ -212,7 +212,7 @@ public class PlayerInventory : MonoBehaviour
     {
         int count = 0;
 
-        int maxStack = LootType.GetMaxStack(type);
+        int maxStack = World.lootType.GetMaxStack(type);
 
         foreach (var item in m_inventory)
         {
