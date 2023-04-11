@@ -33,6 +33,7 @@ public class PlayerHandController : MonoBehaviour
         m_subscriberList.Add(new Event<StartUseItemEvent>.LocalSubscriber(StartUseItem, gameObject));
         m_subscriberList.Add(new Event<EndUseItemEvent>.LocalSubscriber(EndUseItem, gameObject));
 
+        m_subscriberList.Add(new Event<GetStatusEvent>.LocalSubscriber(GetStatus, gameObject));
         m_subscriberList.Add(new Event<GetOffsetVelocityEvent>.LocalSubscriber(GetVelocity, gameObject));
         m_subscriberList.Subscribe();
 
@@ -140,5 +141,13 @@ public class PlayerHandController : MonoBehaviour
     {
         if (m_rightHandActionIndex >= 0)
             m_actions[m_rightHandActionIndex].action.OnPressEnd();
+    }
+
+    void GetStatus(GetStatusEvent e)
+    {
+        if (m_rightHandActionIndex >= 0)
+            e.lockActions |= m_actions[m_rightHandActionIndex].action.AreActionsLocked();
+        if (m_leftHandActionIndex >= 0)
+            e.lockActions |= m_actions[m_leftHandActionIndex].action.AreActionsLocked();
     }
 }

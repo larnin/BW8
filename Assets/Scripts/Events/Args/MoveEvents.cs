@@ -50,11 +50,11 @@ public class GetOffsetVelocityEvent
 public class GetStatusEvent
 {
     public Vector2 direction;
-    public bool rolling;
+    public bool lockActions;
 
     public GetStatusEvent()
     {
         direction = Vector2.zero;
-        rolling = false;
+        lockActions = false;
     }
 }

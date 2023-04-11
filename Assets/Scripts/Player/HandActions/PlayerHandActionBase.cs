@@ -28,4 +28,8 @@ public abstract class PlayerHandActionBase
         offsetVelocity = Vector2.zero;
         velocityMultiplier = 1;
     }
+    public virtual bool AreActionsLocked()
+    {
+        return false;
+    }
 }

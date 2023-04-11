@@ -24,7 +24,7 @@ public class PlayerHandActionSword : PlayerHandActionBase
 
         GetStatusEvent status = new GetStatusEvent();
         Event<GetStatusEvent>.Broadcast(status, m_player.gameObject);
-        if (status.rolling)
+        if (status.lockActions)
             return;
 
         m_waiting = false;
@@ -70,4 +70,8 @@ public class PlayerHandActionSword : PlayerHandActionBase
         }
     }
 
+    public override bool AreActionsLocked()
+    {
+        return !m_waiting;
+    }
 }
