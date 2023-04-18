@@ -137,3 +137,19 @@ public class GetPlayingAnimationEvent
 
     }
 }
+
+public class GetAnimationDurationEvent
+{
+    public string name;
+    public AnimationDirection direction;
+
+    public float duration;
+
+    public GetAnimationDurationEvent(string _name, AnimationDirection _direction)
+    {
+        name = _name;
+        direction = _direction;
+
+        duration = 0;
+    }
+}

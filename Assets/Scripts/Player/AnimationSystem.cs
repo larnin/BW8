@@ -41,6 +41,7 @@ public class AnimationSystem : MonoBehaviour
         m_subscriberList.Add(new Event<GetAnimationCountEvent>.LocalSubscriber(GetAnimCount, gameObject));
         m_subscriberList.Add(new Event<GetAnimationEvent>.LocalSubscriber(GetAnim, gameObject));
         m_subscriberList.Add(new Event<GetPlayingAnimationEvent>.LocalSubscriber(GetPlayingAnim, gameObject));
+        m_subscriberList.Add(new Event<GetAnimationDurationEvent>.LocalSubscriber(GetAnimationDuration, gameObject));
 
         m_subscriberList.Subscribe();
     }
@@ -107,9 +108,7 @@ public class AnimationSystem : MonoBehaviour
     {
         Animation anim = m_layers[layer].animations[0];
 
-        string fullName = anim.name;
-        if(anim.direction != AnimationDirection.none)
-            fullName += "_" + anim.direction.ToString();
+        string fullName = GetFullAnimationName(anim.name, anim.direction);
 
         m_animator.enabled = true;
         m_animator.Play(fullName);
@@ -211,5 +210,33 @@ public class AnimationSystem : MonoBehaviour
         e.layer = m_playingAnimation.layer;
         e.loop = anim.loop;
         e.name = anim.name;
+    }
+
+    void GetAnimationDuration(GetAnimationDurationEvent e)
+    {
+        var clip = FindAnimation(GetFullAnimationName(e.name, e.direction));
+        if (clip != null)
+            e.duration = clip.length;
+    }
+
+    AnimationClip FindAnimation(string name)
+    {
+        foreach (AnimationClip clip in m_animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == name)
+            {
+                return clip;
+            }
+        }
+
+        return null;
+    }
+
+    string GetFullAnimationName(string name, AnimationDirection dir)
+    {
+        string fullName = name;
+        if (dir != AnimationDirection.none)
+            fullName += "_" + dir.ToString();
+        return fullName;
     }
 }

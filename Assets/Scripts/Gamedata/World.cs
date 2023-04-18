@@ -13,6 +13,18 @@ public static class World
     static string s_path = "World";
     static string s_lootTypeName = "LootType";
     static string s_swordName = "Sword";
+    static string s_commonName = "Common";
+
+    static CommonData m_commonData;
+    public static CommonData common
+    {
+        get
+        {
+            if (m_commonData == null)
+                Load();
+            return m_commonData;
+        }
+    }
 
     static LootType m_lootType;
     public static LootType lootType 
@@ -42,6 +54,7 @@ public static class World
     {
         m_lootType = Create<LootType>(s_lootTypeName) ?? m_lootType;
         m_sword = Create<SwordData>(s_swordName) ?? m_sword;
+        m_commonData = Create<CommonData>(s_commonName) ?? m_commonData;
 
         AssetDatabase.SaveAssets();
     }
@@ -69,6 +82,7 @@ public static class World
     {
         m_lootType = LoadOneInstance<LootType>(s_lootTypeName);
         m_sword = LoadOneInstance<SwordData>(s_swordName);
+        m_commonData = LoadOneInstance<CommonData>(s_commonName);
     }
 
     static T LoadOneInstance<T>(string name) where T : ScriptableObject

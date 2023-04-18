@@ -15,8 +15,6 @@ public class SlimeControler : MonoBehaviour
     [SerializeField] float m_jumpDistance = 2;
     [SerializeField] float m_jumpMoveSpeed = 2;
     [SerializeField] float m_playerDetectionRadius = 5;
-    [SerializeField] LayerMask m_playerLayer;
-    [SerializeField] LayerMask m_groundLayer;
     [SerializeField] float m_groundTestRadius = 0.5f;
     [SerializeField] int m_damage = 1;
     [SerializeField] float m_knockback = 1;
@@ -111,7 +109,9 @@ public class SlimeControler : MonoBehaviour
 
         m_endJump = m_startJump + dir * m_jumpDistance;
 
-        var hit = Physics2D.CircleCast(m_startJump, m_groundTestRadius, dir, m_jumpDistance, m_groundLayer.value);
+        var commonData = World.common;
+
+        var hit = Physics2D.CircleCast(m_startJump, m_groundTestRadius, dir, m_jumpDistance, commonData.groundLayer.value);
         if (hit.collider != null)
             m_endJump = hit.centroid;
 
@@ -196,7 +196,8 @@ public class SlimeControler : MonoBehaviour
 
     void TestDuration()
     {
-        var obj = Physics2D.OverlapCircle(transform.position, m_playerDetectionRadius, m_playerLayer);
+        var commonData = World.common;
+        var obj = Physics2D.OverlapCircle(transform.position, m_playerDetectionRadius, commonData.playerLayer);
         if (obj != null)
         {
             m_haveFoundPlayer = true;
@@ -220,7 +221,8 @@ public class SlimeControler : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if((m_playerLayer & (1<<collision.gameObject.layer)) != 0)
+        var commonData = World.common;
+        if ((commonData.playerLayer & (1<<collision.gameObject.layer)) != 0)
         {
             Event<HitEvent>.Broadcast(new HitEvent(m_damage, gameObject, m_knockback), collision.gameObject);
         }
@@ -230,6 +232,7 @@ public class SlimeControler : MonoBehaviour
     {
         enabled = false;
         m_rigidbody.velocity = Vector2.zero;
+        m_rigidbody.angularVelocity = 0;
     }
 }
 
