@@ -29,7 +29,10 @@ public class MoleControler : MonoBehaviour
     [SerializeField] float m_outDurationAfterThrow = 1;
     [SerializeField] float m_throwTimeDelay = 0.1f;
     [SerializeField] float m_collisionRadius = 0.2f;
-    [SerializeField] GameObject m_projectile;
+    [SerializeField] ProjectileType m_projectile;
+    [SerializeField] float m_projectileSpeed = 5;
+    [SerializeField] float m_projectileDistance = 5;
+
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -303,7 +306,37 @@ public class MoleControler : MonoBehaviour
 
     void ThrowObject()
     {
+        if (m_target == null)
+            return;
 
+        var projectiles = World.projectiles;
+        var commonData = World.common;
+        if (projectiles == null || commonData == null)
+            return;
+
+        var prefab = projectiles.GetProjectile(m_projectile);
+        if (prefab == null)
+            return;
+
+        var obj = Instantiate(prefab);
+
+        var projectile = obj.GetComponent<IProjectile>();
+        if(projectile != null)
+        {
+            projectile.SetVelocity(m_projectileSpeed);
+            projectile.SetMaxDistance(m_projectileDistance);
+            projectile.SetHitLayer(commonData.playerLayer);
+            projectile.Throw();
+        }
+
+        Vector3 pos = transform.position;
+        pos.z -= 0.1f;
+        obj.transform.position = pos;
+
+        Vector3 dir = m_target.transform.position - pos;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(0, 0, angle);
+        obj.transform.rotation = rot;
     }
 
     void CheckPlayer()

@@ -14,6 +14,7 @@ public static class World
     static string s_lootTypeName = "LootType";
     static string s_swordName = "Sword";
     static string s_commonName = "Common";
+    static string s_projectilesName = "Projectiles";
 
     static CommonData m_commonData;
     public static CommonData common
@@ -48,6 +49,17 @@ public static class World
         }
     }
 
+    static ProjectileList m_projectiles;
+    public static ProjectileList projectiles
+    {
+        get
+        {
+            if (m_projectiles == null)
+                Load();
+            return m_projectiles;
+        }
+    }
+
 #if UNITY_EDITOR
     [MenuItem("Game/Create Gamedata World")]
     public static void MakeWorld()
@@ -55,6 +67,7 @@ public static class World
         m_lootType = Create<LootType>(s_lootTypeName) ?? m_lootType;
         m_sword = Create<SwordData>(s_swordName) ?? m_sword;
         m_commonData = Create<CommonData>(s_commonName) ?? m_commonData;
+        m_projectiles = Create<ProjectileList>(s_projectilesName) ?? m_projectiles;
 
         AssetDatabase.SaveAssets();
     }
@@ -83,6 +96,7 @@ public static class World
         m_lootType = LoadOneInstance<LootType>(s_lootTypeName);
         m_sword = LoadOneInstance<SwordData>(s_swordName);
         m_commonData = LoadOneInstance<CommonData>(s_commonName);
+        m_projectiles = LoadOneInstance<ProjectileList>(s_projectilesName);
     }
 
     static T LoadOneInstance<T>(string name) where T : ScriptableObject
