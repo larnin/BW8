@@ -326,6 +326,7 @@ public class MoleControler : MonoBehaviour
             projectile.SetVelocity(m_projectileSpeed);
             projectile.SetMaxDistance(m_projectileDistance);
             projectile.SetHitLayer(commonData.playerLayer);
+            projectile.SetCaster(gameObject);
             projectile.Throw();
         }
 

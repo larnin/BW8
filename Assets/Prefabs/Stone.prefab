@@ -56,6 +56,7 @@ MonoBehaviour:
     m_Bits: 64
   m_height: 1
   m_fallTime: 1
+  m_radius: 0.22
 --- !u!58 &2007655443389492621
 CircleCollider2D:
   m_ObjectHideFlags: 0

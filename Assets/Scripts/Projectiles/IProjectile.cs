@@ -18,6 +18,7 @@ public interface IProjectile
 
     public void SetDamage(int damages, float knockback);
     public void SetHitLayer(LayerMask hitLayer);
+    public void SetCaster(GameObject caster);
 
     public void Throw();
 }

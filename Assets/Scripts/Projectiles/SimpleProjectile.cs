@@ -11,6 +11,7 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
     [SerializeField] LayerMask m_hitLayer;
     [SerializeField] float m_height = 1;
     [SerializeField] float m_fallTime = 1;
+    [SerializeField] float m_radius = 0.5f;
 
     bool m_isThrow = false;
     float m_traveledDistance = 0;
@@ -22,6 +23,8 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
     Transform m_shadow;
     Transform m_render;
     Collider2D m_collider;
+
+    GameObject m_caster;
 
     private void Awake()
     {
@@ -55,6 +58,11 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
     public void SetVelocity(float speed)
     {
         m_speed = speed;
+    }
+
+    public void SetCaster(GameObject caster)
+    {
+        m_caster = caster;
     }
 
     public void Throw()
@@ -112,14 +120,45 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         newPos.y += delta;
 
         m_shadowOffset = height;
-        
+
+        Vector3 movement = newPos - pos;
+        Vector3 newMovement = movement;
+        if (dist > 0)
+        {
+            newMovement = ProcessCollide(movement);
+            if (newMovement != movement)
+            {
+                bool setDirection = true;
+                Vector3 secondHitMovement = ProcessCollide(newMovement);
+                if (secondHitMovement != newMovement)
+                {
+                    setDirection = false;
+                    m_speed = 0;
+                    m_falling = true;
+                }
+
+                float newDist = newMovement.magnitude;
+                if (newDist < 0.01f)
+                {
+                    setDirection = false;
+                    m_speed = 0;
+                    m_falling = true;
+                }
+
+                if (setDirection)
+                {
+                    Vector3 newDir = newMovement.normalized;
+                    transform.right = newDir;
+                }
+            }
+        }
+        newPos = pos + newMovement;
         transform.position = newPos;
 
         newPos.y -= m_shadowOffset;
         newPos.z = m_shadow.position.z;
         m_shadow.position = newPos;
     }
-
 
     float GetHeight()
     {
@@ -131,5 +170,69 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         float height = DOVirtual.EasedValue(m_height, 0, normalizedTime, Ease.OutBounce);
 
         return height;
+    }
+
+    Vector3 ProcessCollide(Vector3 dir)
+    {
+        Vector3 pos = transform.position;
+        float dist = dir.magnitude;
+        Vector3 normDir = dir / dist;
+
+        var hits = Physics2D.CircleCastAll(pos, m_radius, normDir, dist);
+
+        if (hits.Length == 0)
+            return dir;
+
+        bool collide = false;
+        float distance = 0;
+        Vector2 normal = Vector2.zero;
+        GameObject hitObject = null;
+
+        foreach(var hit in hits)
+        {
+            if (hit.collider.gameObject == m_caster)
+                continue;
+
+            if(!collide || hit.distance < distance)
+            {
+                collide = true;
+                distance = hit.distance;
+                normal = hit.normal;
+                hitObject = hit.collider.gameObject;
+            }
+        }
+
+        if(collide)
+        {
+            if (hitObject != null)
+            {
+                int layer = 1 << hitObject.layer;
+                if ((layer & m_hitLayer.value) != 0)
+                {
+                    GameObject caster = m_caster == null ? gameObject : m_caster;
+                    Event<HitEvent>.Broadcast(new HitEvent(m_damages, caster, m_knockback), hitObject);
+                }
+            }
+
+            var newDir = Vector3.Reflect(dir, normal);
+            float newDist = dist - distance;
+            if (newDist < 0)
+                return dir;
+
+            if (!m_falling)
+            {
+                m_falling = true;
+                m_fallTimer = 0;
+            }
+
+            if (newDist <= 0.001f)
+                return Vector3.zero;
+
+            m_speed *= 0.5f;
+
+            return newDir;
+        }
+
+        return dir;
     }
 }
