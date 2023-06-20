@@ -21,7 +21,6 @@ public abstract class PlayerHandActionBase
     public virtual void EndProcess() { }
     public virtual void AlwaysProcess() { }
     public virtual void OnPress() { }
-    public virtual void OnPressUpdate() { }
     public virtual void OnPressEnd() { }
     public virtual void GetVelocity(out Vector2 offsetVelocity, out float velocityMultiplier) 
     { 

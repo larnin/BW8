@@ -50,11 +50,13 @@ public class GetOffsetVelocityEvent
 public class GetStatusEvent
 {
     public Vector2 direction;
+    public Vector2 velocity;
     public bool lockActions;
 
     public GetStatusEvent()
     {
         direction = Vector2.zero;
+        velocity = Vector2.zero;
         lockActions = false;
     }
 }

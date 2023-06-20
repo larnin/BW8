@@ -13,6 +13,7 @@ public static class World
     static string s_path = "World";
     static string s_lootTypeName = "LootType";
     static string s_swordName = "Sword";
+    static string s_vacuumName = "Vacuum";
     static string s_commonName = "Common";
     static string s_projectilesName = "Projectiles";
 
@@ -49,6 +50,17 @@ public static class World
         }
     }
 
+    static VacuumData m_vacuum;
+    public static VacuumData vacuum
+    {
+        get
+        {
+            if (m_vacuum == null)
+                Load();
+            return m_vacuum;
+        }
+    }
+
     static ProjectileList m_projectiles;
     public static ProjectileList projectiles
     {
@@ -66,6 +78,7 @@ public static class World
     {
         m_lootType = Create<LootType>(s_lootTypeName) ?? m_lootType;
         m_sword = Create<SwordData>(s_swordName) ?? m_sword;
+        m_vacuum = Create<VacuumData>(s_vacuumName) ?? m_vacuum;
         m_commonData = Create<CommonData>(s_commonName) ?? m_commonData;
         m_projectiles = Create<ProjectileList>(s_projectilesName) ?? m_projectiles;
 
@@ -95,6 +108,7 @@ public static class World
     {
         m_lootType = LoadOneInstance<LootType>(s_lootTypeName);
         m_sword = LoadOneInstance<SwordData>(s_swordName);
+        m_vacuum = LoadOneInstance<VacuumData>(s_vacuumName);
         m_commonData = LoadOneInstance<CommonData>(s_commonName);
         m_projectiles = LoadOneInstance<ProjectileList>(s_projectilesName);
     }

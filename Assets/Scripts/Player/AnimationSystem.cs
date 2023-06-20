@@ -19,6 +19,7 @@ public class AnimationSystem : MonoBehaviour
         public string name;
         public AnimationDirection direction;
         public bool loop;
+        public float startNormTime;
     }
 
     class Layer
@@ -111,7 +112,9 @@ public class AnimationSystem : MonoBehaviour
         string fullName = GetFullAnimationName(anim.name, anim.direction);
 
         m_animator.enabled = true;
-        m_animator.Play(fullName);
+        if (anim.startNormTime < 0)
+            m_animator.Play(fullName);
+        else m_animator.Play(fullName, -1, anim.startNormTime);
 
         m_playingAnimation.currentlyPlaying = true;
         m_playingAnimation.layer = layer;
@@ -142,6 +145,7 @@ public class AnimationSystem : MonoBehaviour
         anim.direction = e.direction;
         anim.loop = e.loop;
         anim.name = e.name;
+        anim.startNormTime = e.startNormTime;
 
         if (!e.after)
             m_layers[e.layer].animations.Clear();
@@ -210,6 +214,9 @@ public class AnimationSystem : MonoBehaviour
         e.layer = m_playingAnimation.layer;
         e.loop = anim.loop;
         e.name = anim.name;
+
+        AnimatorStateInfo animState = m_animator.GetCurrentAnimatorStateInfo(0);
+        e.normTime = animState.normalizedTime;
     }
 
     void GetAnimationDuration(GetAnimationDurationEvent e)

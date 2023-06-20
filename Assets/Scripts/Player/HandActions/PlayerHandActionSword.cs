@@ -37,6 +37,14 @@ public class PlayerHandActionSword : PlayerHandActionBase
         Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent("Attack", dir, 2), m_player.gameObject);
     }
 
+    public override void BeginProcess()
+    {
+        m_duration = 0;
+        m_haveAttacked = false;
+        m_waiting = true;
+        m_direction = Vector2.zero;
+    }
+
     public override void Process(bool inputPressed)
     {
         if (m_waiting)
