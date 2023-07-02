@@ -49,6 +49,7 @@ public class PlayerEquipement : MonoBehaviour
             m_equipement = new ItemType?[Enum.GetValues(typeof(EquipementSlot)).Length];
 
         m_equipement[(int)EquipementSlot.LeftHand] = ItemType.Sword;
+        m_equipement[(int)EquipementSlot.RightHand] = ItemType.Vacuum;
     }
 
     void SetEquipement(SetEquipementEvent e)

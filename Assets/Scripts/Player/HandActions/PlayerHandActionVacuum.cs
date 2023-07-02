@@ -48,9 +48,9 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         m_direction = AnimationDirectionEx.GetDirection(dir);
 
         var duration = new GetAnimationDurationEvent(startAnim, dir);
-        Event<GetAnimationDurationEvent>.Broadcast(duration);
+        Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
         m_duration = duration.duration;
-        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(startAnim, dir, 2));
+        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(startAnim, dir, 2), m_player.gameObject);
     }
 
     public override void BeginProcess()
@@ -74,7 +74,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
                     {
                         m_state = State.Loop;
                         AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-                        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim, dir, 2, true));
+                        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim, dir, 2, true), m_player.gameObject);
                     }
                     break;
                 }
@@ -121,24 +121,25 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
             m_state = State.End;
             AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
             var duration = new GetAnimationDurationEvent(endAnim, dir);
-            Event<GetAnimationDurationEvent>.Broadcast(duration);
+            Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
             m_duration = duration.duration;
-            Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(endAnim, dir, 2));
+            Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(endAnim, dir, 2), m_player.gameObject);
             return;
         }
 
         GetStatusEvent status = new GetStatusEvent();
-        Event<GetStatusEvent>.Broadcast(status, m_player.gameObject);
+        Event<GetStatusEvent>.Broadcast(status, m_player.gameObject, m_player.gameObject);
 
         bool moving = status.velocity.magnitude > 0.1f;
+        Debug.Log(status.velocity.magnitude);
         if(moving != m_moving)
         {
             m_moving = moving;
             AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
 
             if (m_moving)
-                Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(moveAnim, dir, 2, true));
-            else Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim, dir, 2, true));
+                Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(moveAnim, dir, 2, true), m_player.gameObject);
+            else Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim, dir, 2, true), m_player.gameObject);
         }
     }
 }

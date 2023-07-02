@@ -447,6 +447,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mole
       objectReference: {fileID: 0}
+    - target: {fileID: 4427790864341982022, guid: 6633e0add86942b49b0071572fe4aa40, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6633e0add86942b49b0071572fe4aa40, type: 3}
 --- !u!1 &1611226192

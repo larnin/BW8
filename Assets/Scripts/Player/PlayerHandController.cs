@@ -38,6 +38,7 @@ public class PlayerHandController : MonoBehaviour
         m_subscriberList.Subscribe();
 
         m_actions.Add(new PlayerAction(ItemType.Sword, new PlayerHandActionSword(this)));
+        m_actions.Add(new PlayerAction(ItemType.Vacuum, new PlayerHandActionVacuum(this)));
     }
 
     private void Start()
@@ -59,8 +60,8 @@ public class PlayerHandController : MonoBehaviour
         GetInputsEvent inputs = new GetInputsEvent();
         Event<GetInputsEvent>.Broadcast(inputs, gameObject);
 
-        UpdateCurrentAction(ref m_leftHandActionIndex, inputs.useWeapon);
-        UpdateCurrentAction(ref m_rightHandActionIndex, inputs.useItem);
+        UpdateCurrentAction(ref m_leftHandActionIndex, inputs.useWeapon, EquipementSlot.LeftHand);
+        UpdateCurrentAction(ref m_rightHandActionIndex, inputs.useItem, EquipementSlot.RightHand);
 
         foreach (var a in m_actions)
             a.action.AlwaysProcess();
@@ -77,9 +78,9 @@ public class PlayerHandController : MonoBehaviour
         return -1;
     }
 
-    void UpdateCurrentAction(ref int index, bool inputPressed)
+    void UpdateCurrentAction(ref int index, bool inputPressed, EquipementSlot slot)
     {
-        GetEquipementEvent equipementData = new GetEquipementEvent(EquipementSlot.LeftHand);
+        GetEquipementEvent equipementData = new GetEquipementEvent(slot);
         Event<GetEquipementEvent>.Broadcast(equipementData);
 
         int actionIndex = -1;

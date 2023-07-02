@@ -13,7 +13,6 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
     [SerializeField] float m_fallTime = 1;
     [SerializeField] float m_radius = 0.5f;
 
-    bool m_isThrow = false;
     float m_traveledDistance = 0;
     bool m_started = false;
     float m_shadowOffset;

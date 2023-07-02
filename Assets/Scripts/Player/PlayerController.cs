@@ -238,6 +238,7 @@ public class PlayerController : MonoBehaviour
     {
         e.direction = m_direction;
         e.lockActions |= m_rolling;
+        e.velocity = m_rigidbody.velocity;
     }
 
     void GetPlayerLife(GetPlayerLifeEvent e)
