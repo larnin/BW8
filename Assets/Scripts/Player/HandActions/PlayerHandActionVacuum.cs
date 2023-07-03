@@ -20,10 +20,21 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         End,
     }
 
+    class ParticleData
+    {
+        public ParticleSystem system;
+        public float duration;
+        public float initialEmission;
+    }
+
     State m_state = State.Disabled;
     float m_duration = 0;
     Vector2 m_direction = Vector2.zero;
     bool m_moving = false;
+
+    AnimationDirection m_particleDirection = AnimationDirection.none;
+    GameObject m_particules;
+    List<ParticleData> m_particlesDatas = new List<ParticleData>();
 
 
     public PlayerHandActionVacuum(PlayerHandController player) : base(player)
@@ -61,6 +72,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
     public override void Process(bool inputPressed)
     {
+        UpdateParticles();
+
         if (m_state == State.Disabled)
             return;
 
@@ -131,7 +144,6 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         Event<GetStatusEvent>.Broadcast(status, m_player.gameObject, m_player.gameObject);
 
         bool moving = status.velocity.magnitude > 0.1f;
-        Debug.Log(status.velocity.magnitude);
         if(moving != m_moving)
         {
             m_moving = moving;
@@ -141,5 +153,106 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
                 Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(moveAnim, dir, 2, true), m_player.gameObject);
             else Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim, dir, 2, true), m_player.gameObject);
         }
+    }
+
+    void UpdateParticles()
+    {
+        float maxDuration = World.vacuum.particleAppearDuration;
+
+        if (m_state == State.Start || m_state == State.Loop)
+        {
+            if(m_particules != null)
+            {
+                AnimationDirection currentDirection = AnimationDirectionEx.GetDirection(m_direction);
+                if (currentDirection != m_particleDirection)
+                    DestroyParticleSystem();
+            }
+
+            if (m_particules == null)
+                MakeParticleSystem();
+            foreach (var p in m_particlesDatas)
+            {
+                p.duration += Time.deltaTime;
+                if (p.duration > maxDuration)
+                    p.duration = maxDuration;
+            }
+        }
+        else if(m_state == State.End || m_state == State.Disabled)
+        {
+            if(m_particules != null)
+            {
+                int nbStopped = 0;
+                foreach(var p in m_particlesDatas)
+                {
+                    p.duration -= Time.deltaTime * 10;
+                    if(p.duration <= 0)
+                    {
+                        p.duration = 0;
+                        nbStopped++;
+                    }
+                }
+                if (nbStopped >= m_particlesDatas.Count)
+                    DestroyParticleSystem();
+            }
+        }
+
+        foreach(var p in m_particlesDatas)
+        {
+            float multiplier = p.duration / maxDuration;
+            if (multiplier > 1)
+                multiplier = 1;
+
+            var em = p.system.emission;
+            em.rateOverTimeMultiplier =  multiplier * p.initialEmission;
+        }
+    }
+
+    void MakeParticleSystem()
+    {
+        if (m_particules != null)
+            DestroyParticleSystem();
+
+        m_particleDirection = AnimationDirectionEx.GetDirection(m_direction);
+
+        GameObject selectedPrefab = World.vacuum.particlesLeftPrefab;
+        if (m_particleDirection == AnimationDirection.Up)
+            selectedPrefab = World.vacuum.particlesUpPrefab;
+        else if (m_particleDirection == AnimationDirection.Down)
+            selectedPrefab = World.vacuum.particleDownPrefab;
+
+        m_particules = GameObject.Instantiate(selectedPrefab);
+        m_particules.transform.parent = m_player.transform;
+        m_particules.transform.localPosition = Vector3.zero;
+        m_particules.transform.localRotation = Quaternion.identity;
+
+        if (m_particleDirection == AnimationDirection.Right)
+            m_particules.transform.localRotation = Quaternion.Euler(0, 0, 180);
+
+        var particleSystems = m_particules.GetComponentsInChildren<ParticleSystem>();
+        foreach(var p in particleSystems)
+        {
+            var data = new ParticleData();
+            data.duration = 0;
+            data.system = p;
+            var em = p.emission;
+            data.initialEmission = em.rateOverTimeMultiplier;
+            m_particlesDatas.Add(data);
+        }
+    }
+
+    void DestroyParticleSystem()
+    {
+        if (m_particules == null)
+            return;
+
+        foreach (var p in m_particlesDatas)
+        {
+            var em = p.system.emission;
+            em.rateOverTimeMultiplier = 0;
+        }
+
+        GameObject.Destroy(m_particules, 5);
+        m_particules = null;
+        m_particlesDatas.Clear();
     }
 }

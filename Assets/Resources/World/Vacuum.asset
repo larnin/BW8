@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c581c2a656e0134ca5028d777ce1b70, type: 3}
   m_Name: Vacuum
   m_EditorClassIdentifier: 
-  m_moveSpeedMultiplier: 0.5
-  m_attractDistance: 3
+  moveSpeedMultiplier: 0.5
+  attractDistance: 3
+  attractDelay: 0.5
+  attractSpeed: 5
+  particlesLeftPrefab: {fileID: 39866284434408236, guid: 56a0071466cb3eb4ebcf32ed966c67ba, type: 3}
+  particlesUpPrefab: {fileID: 6790984965908101209, guid: 22cfb855059754f4c898d311ef351fb3, type: 3}
+  particleDownPrefab: {fileID: 374627668940539027, guid: 135e45408b4a0d446add0eb723df4727, type: 3}
