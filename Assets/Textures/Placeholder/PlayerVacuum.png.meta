@@ -1460,6 +1460,1350 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_64
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 362
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 948316eec9bdebb47b6f2e21e92a6d9e
+      internalID: 118320036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_65
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 362
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e04095ecbe5a8d4d9d66b8252d8acf6
+      internalID: -1335270190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_66
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 362
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9746a6061fdc817438db122bf6edb686
+      internalID: 2006892532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_67
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 362
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 137334e8f086746489ec861e6c5e24db
+      internalID: -2015504020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_68
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 338
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f586e6e6bb636a0429898c394353c862
+      internalID: -1133582682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_69
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 338
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 833f5172791381b42a0eecfd77b16f77
+      internalID: -1017210278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_70
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 338
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd8cf58e220c6664caf9d051446b3e9e
+      internalID: -494478445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_71
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 338
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1410dc91570c914419359a096a0e20fc
+      internalID: -921072621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_72
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 314
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6126e615e0b7a4d4ba8415de54aaa869
+      internalID: 1256306682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_73
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 314
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 916a2f660ca196543a164d126ae83983
+      internalID: 1736101212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_74
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 314
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1a0addad33868b4e89d26dfc68636fb
+      internalID: 1931051614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_75
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 314
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c13d5f1000619b48a191d81659c0a51
+      internalID: -174445641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_76
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 290
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b712486bf862604b9c27af0692bff04
+      internalID: -690271174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_77
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 290
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a2f691226a605a48ad1473792a87e75
+      internalID: -1936143687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_78
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 290
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8970e28a435244a4babdf8c0004e5303
+      internalID: 879197899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_79
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 290
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0863c0a344ee39542b5d6daf1d59b3aa
+      internalID: 1461744991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_80
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 266
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afa3a8a6942dce14681515aa4fc28ddc
+      internalID: -536013039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_81
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 266
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f6dfc1248cfcd14fbd1bb165e14e130
+      internalID: -1419174190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_82
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 266
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c64e7819d6369e2438cc3b5ce6870220
+      internalID: 967206440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_83
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 266
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27acc4052de82bc4eb893c5163f590a5
+      internalID: 210467832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_84
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 242
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 417f523047b8ef04fb2b8dc8ebead02a
+      internalID: 1003647485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_85
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 242
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df9b02bee99df61409fb01163c893812
+      internalID: 634836172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_86
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 242
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9363d8d78c283d64d8abb2a3c833acad
+      internalID: 271016568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_87
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 242
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03457c3c7ab9fc44eb4726ac701a8c6c
+      internalID: -724218538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_88
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 218
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a5ed333655ab4a4bae461b7c189ae43
+      internalID: -24406635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_89
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 218
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f91b72b71b4f26e449e0834d682cb2a7
+      internalID: 1116903120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_90
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 218
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 133a0d66a51cabe4885d9e1a408c6c2a
+      internalID: -463051181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_91
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 218
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7c0522234cb4ca43a5269ee518dd0c7
+      internalID: 1614044533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_92
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 194
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f759d3f510899474593bdeb02edf4230
+      internalID: -412685007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_93
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 194
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fc1abe61c52ca94b8924c24c5a3ee24
+      internalID: 2137604073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_94
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 194
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5d7a99a8a7b8b440acd8f211eb4f84e
+      internalID: 822229048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_95
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 194
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2062279e690b7b14bbe23eef0f6a761d
+      internalID: 2004962315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_96
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 170
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d07f91d9fb82e3439924f94a5a8b6fb
+      internalID: -786229381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_97
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 170
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3add7d42fb59be641abf6f3bdcd13b46
+      internalID: -935012824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_98
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 170
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: febe1286e352d6d4ea84d4e3158b2e4d
+      internalID: 1273759802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_99
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 170
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9947e0fdf71f82f41afb9d45344a611c
+      internalID: 1048685300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_100
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 146
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fd34edd2589c1445a4ed189ecf3fbe2
+      internalID: 875493784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_101
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 146
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd32f113949756948a9935d99dc94a56
+      internalID: -496206548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_102
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 146
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9ce1b778d39c144a870855ac7ad532a
+      internalID: 942569748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_103
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 146
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e28dbd113f612e46bc0d31ce6b3a87e
+      internalID: -1480962614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_104
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 122
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ddfb506ecee5f746ac20b6b0541f7d2
+      internalID: 870574411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_105
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 122
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a1d8b0e85117e24cab8ff8d5cdad1e3
+      internalID: 1166631152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_106
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 122
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 507a0be6bb76a12428fb664267c08679
+      internalID: 730460550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_107
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 122
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e06b88c6b30dbda45afae696c607b473
+      internalID: -1819567888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_108
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 98
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 758680e48e05cd443835e6d1131c120d
+      internalID: 766770661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_109
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 98
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a934b7948b352a46a9f1d8b968ebd5d
+      internalID: 884235222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_110
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 98
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dc6cd4ff9da6ad408b91c95bfc35658
+      internalID: 1517932143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_111
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 98
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93fdf3c0c6b9e6b4db05e21bcfc525f4
+      internalID: 765715540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_112
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 74
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74821745c3835ee488e80a9c7ee9ad24
+      internalID: -1222469072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_113
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 74
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c8a0a0b41d936d44926312e519746bf
+      internalID: -140284389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_114
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 74
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deef60bb72ffba94986b6cf4c1fe081f
+      internalID: 883668815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_115
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 74
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db4c20ece92f1fa4a9e68afc72f499d4
+      internalID: 860540522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_116
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 50
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d94b46e32a99de48bdb203791be087e
+      internalID: -148513730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_117
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 50
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 690a88e11e060cd4e80b0c4939daacb0
+      internalID: -726802358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_118
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 50
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56c69b93d6b382c47a5687185e753499
+      internalID: 839214298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_119
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 50
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f6acdf4a0159e941ad4dd07380d65ff
+      internalID: 1961350335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_120
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 26
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da5c125d7c1101e4f897ba5a2ea86b6e
+      internalID: 451875079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_121
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 26
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2137edf35085d724ab28ad68ecfe2566
+      internalID: -1384797429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_122
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 26
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a1f18e529be2cb4ca5596849ba0683a
+      internalID: 453289049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_123
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 26
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b88329c00cca32846a91da7015d9972a
+      internalID: -2022142928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_124
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 2
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8eda2b300ba0464b888a531e3680284
+      internalID: 914677910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_125
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 2
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60a089f034ac0c244abd3184c7db1d32
+      internalID: 1682403797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_126
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 2
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47716abc61dea4945989a8990fa9a0c7
+      internalID: 388001059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerVacuum_127
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d51f961a0b0dc64ca5e17fb76403946
+      internalID: -1649146282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1473,68 +2817,132 @@ TextureImporter:
     nameFileIdTable:
       PlayerVacuum_59: -520695254
       PlayerVacuum_61: 171640879
-      PlayerVacuum_0: -784452611
       PlayerVacuum_43: 881067088
       PlayerVacuum_15: 1180424293
+      PlayerVacuum_79: 1461744991
+      PlayerVacuum_106: 730460550
+      PlayerVacuum_89: 1116903120
       PlayerVacuum_11: 1162231319
-      PlayerVacuum_40: -1169255142
+      PlayerVacuum_88: -24406635
+      PlayerVacuum_127: -1649146282
       PlayerVacuum_12: 237441010
       PlayerVacuum_13: 1467573742
-      PlayerVacuum_22: -490882816
+      PlayerVacuum_68: -1133582682
+      PlayerVacuum_90: -463051181
       PlayerVacuum_30: -858137507
+      PlayerVacuum_93: 2137604073
+      PlayerVacuum_83: 210467832
       PlayerVacuum_29: -1793600857
-      PlayerVacuum_16: -1162114978
       PlayerVacuum_10: -942315275
-      PlayerVacuum_42: 1735981489
-      PlayerVacuum_38: 804937652
+      PlayerVacuum_67: -2015504020
+      PlayerVacuum_84: 1003647485
       PlayerVacuum_27: -418348497
       PlayerVacuum_46: -673925541
+      PlayerVacuum_74: 1931051614
+      PlayerVacuum_114: 883668815
+      PlayerVacuum_115: 860540522
+      PlayerVacuum_105: 1166631152
       PlayerVacuum_55: -36626927
       PlayerVacuum_24: -136902903
       PlayerVacuum_6: 1770366498
-      PlayerVacuum_23: 924699961
+      PlayerVacuum_108: 766770661
+      PlayerVacuum_119: 1961350335
       PlayerVacuum_44: -243979005
-      PlayerVacuum_48: -665415651
       PlayerVacuum_14: -660426246
       PlayerVacuum_32: -251055243
       PlayerVacuum_58: -462220901
       PlayerVacuum_25: 446677735
-      PlayerVacuum_20: 1711523701
-      PlayerVacuum_19: -507137974
-      PlayerVacuum_34: 957501483
+      PlayerVacuum_64: 118320036
+      PlayerVacuum_116: -148513730
+      PlayerVacuum_125: 1682403797
+      PlayerVacuum_126: 388001059
+      PlayerVacuum_82: 967206440
+      PlayerVacuum_120: 451875079
       PlayerVacuum_5: -958186838
       PlayerVacuum_37: 1400115390
       PlayerVacuum_45: 1726240776
-      PlayerVacuum_63: 250116947
+      PlayerVacuum_104: 870574411
+      PlayerVacuum_95: 2004962315
+      PlayerVacuum_81: -1419174190
       PlayerVacuum_2: 1136358213
-      PlayerVacuum_39: -782810401
       PlayerVacuum_31: -339965132
-      PlayerVacuum_26: 1944563201
-      PlayerVacuum_36: -1121285327
-      PlayerVacuum_47: 350663306
       PlayerVacuum_53: -249418646
-      PlayerVacuum_60: -1044510911
-      PlayerVacuum_3: -1204058480
+      PlayerVacuum_101: -496206548
+      PlayerVacuum_124: 914677910
       PlayerVacuum_52: 946917391
       PlayerVacuum_50: 1943728661
-      PlayerVacuum_4: -1995725101
+      PlayerVacuum_75: -174445641
       PlayerVacuum_35: 1594783583
-      PlayerVacuum_8: 2014841187
+      PlayerVacuum_51: -961754298
       PlayerVacuum_49: -874045608
       PlayerVacuum_17: 1674302165
-      PlayerVacuum_56: 2077073433
-      PlayerVacuum_51: -961754298
+      PlayerVacuum_121: -1384797429
+      PlayerVacuum_76: -690271174
       PlayerVacuum_54: 810787646
       PlayerVacuum_62: -973368574
       PlayerVacuum_33: -2142596043
       PlayerVacuum_1: -195307473
       PlayerVacuum_7: 595392574
+      PlayerVacuum_41: 585155371
+      PlayerVacuum_18: -667916910
+      PlayerVacuum_123: -2022142928
+      PlayerVacuum_87: -724218538
+      PlayerVacuum_0: -784452611
+      PlayerVacuum_80: -536013039
+      PlayerVacuum_112: -1222469072
+      PlayerVacuum_113: -140284389
+      PlayerVacuum_118: 839214298
+      PlayerVacuum_111: 765715540
+      PlayerVacuum_40: -1169255142
+      PlayerVacuum_98: 1273759802
+      PlayerVacuum_100: 875493784
+      PlayerVacuum_22: -490882816
+      PlayerVacuum_71: -921072621
+      PlayerVacuum_86: 271016568
+      PlayerVacuum_42: 1735981489
+      PlayerVacuum_16: -1162114978
+      PlayerVacuum_117: -726802358
+      PlayerVacuum_38: 804937652
+      PlayerVacuum_70: -494478445
+      PlayerVacuum_23: 924699961
+      PlayerVacuum_99: 1048685300
+      PlayerVacuum_48: -665415651
+      PlayerVacuum_78: 879197899
+      PlayerVacuum_20: 1711523701
+      PlayerVacuum_19: -507137974
+      PlayerVacuum_34: 957501483
+      PlayerVacuum_103: -1480962614
+      PlayerVacuum_107: -1819567888
+      PlayerVacuum_63: 250116947
+      PlayerVacuum_85: 634836172
+      PlayerVacuum_39: -782810401
+      PlayerVacuum_26: 1944563201
+      PlayerVacuum_47: 350663306
+      PlayerVacuum_102: 942569748
+      PlayerVacuum_60: -1044510911
+      PlayerVacuum_36: -1121285327
+      PlayerVacuum_109: 884235222
+      PlayerVacuum_3: -1204058480
+      PlayerVacuum_4: -1995725101
+      PlayerVacuum_8: 2014841187
+      PlayerVacuum_56: 2077073433
+      PlayerVacuum_77: -1936143687
+      PlayerVacuum_122: 453289049
+      PlayerVacuum_65: -1335270190
+      PlayerVacuum_69: -1017210278
+      PlayerVacuum_73: 1736101212
+      PlayerVacuum_92: -412685007
+      PlayerVacuum_94: 822229048
+      PlayerVacuum_110: 1517932143
       PlayerVacuum_57: 797000688
       PlayerVacuum_28: 8510274
-      PlayerVacuum_41: 585155371
+      PlayerVacuum_66: 2006892532
+      PlayerVacuum_91: 1614044533
+      PlayerVacuum_72: 1256306682
       PlayerVacuum_9: 817946343
-      PlayerVacuum_18: -667916910
       PlayerVacuum_21: 982991512
+      PlayerVacuum_97: -935012824
+      PlayerVacuum_96: -786229381
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
