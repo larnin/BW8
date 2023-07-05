@@ -11,13 +11,14 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
     const string loopAnim = "Vacuum_Loop";
     const string moveAnim = "Vacuum_Move";
     const string endAnim = "Vacuum_End";
+    const string fullAnim = "_Full";
 
     enum State
     {
         Disabled,
         Start,
         Loop,
-        End,
+        End
     }
 
     class ParticleData
@@ -32,10 +33,12 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
     Vector2 m_direction = Vector2.zero;
     bool m_moving = false;
 
+    bool m_Full = false;
+    ProjectileType m_projectile;
+
     AnimationDirection m_particleDirection = AnimationDirection.none;
     GameObject m_particules;
     List<ParticleData> m_particlesDatas = new List<ParticleData>();
-
 
     public PlayerHandActionVacuum(PlayerHandController player) : base(player)
     {

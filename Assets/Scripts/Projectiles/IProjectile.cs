@@ -21,4 +21,10 @@ public interface IProjectile
     public void SetCaster(GameObject caster);
 
     public void Throw();
+
+    public void StartAttract(GameObject target);
+    public void StopAttract();
+
+    public ProjectileType GetProjectileType();
+    public void SetProjectileType(ProjectileType type);
 }

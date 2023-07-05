@@ -25,6 +25,8 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
 
     GameObject m_caster;
 
+    ProjectileType m_projectileType = ProjectileType.Stone;
+
     private void Awake()
     {
         m_collider = GetComponent<Collider2D>();
@@ -233,5 +235,25 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         }
 
         return dir;
+    }
+
+    public ProjectileType GetProjectileType()
+    {
+        return m_projectileType;
+    }
+
+    public void SetProjectileType(ProjectileType type)
+    {
+        m_projectileType = type;
+    }
+
+    public void StartAttract(GameObject target)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void StopAttract()
+    {
+        throw new System.NotImplementedException();
     }
 }
