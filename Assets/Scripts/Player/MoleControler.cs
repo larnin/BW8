@@ -319,16 +319,15 @@ public class MoleControler : MonoBehaviour
             return;
 
         var obj = Instantiate(prefab);
+        
+        SetProjectileDataEvent projectileData = new SetProjectileDataEvent();
+        projectileData.speed = m_projectileSpeed;
+        projectileData.maxDistance = m_projectileDistance;
+        projectileData.hitLayer = commonData.playerLayer;
+        projectileData.caster = gameObject;
+        Event<SetProjectileDataEvent>.Broadcast(projectileData, obj);
 
-        var projectile = obj.GetComponent<IProjectile>();
-        if(projectile != null)
-        {
-            projectile.SetVelocity(m_projectileSpeed);
-            projectile.SetMaxDistance(m_projectileDistance);
-            projectile.SetHitLayer(commonData.playerLayer);
-            projectile.SetCaster(gameObject);
-            projectile.Throw();
-        }
+        Event<ThrowEvent>.Broadcast(new ThrowEvent(), obj);
 
         Vector3 pos = transform.position;
         pos.z -= 0.1f;

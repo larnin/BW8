@@ -2,7 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class SimpleProjectile : MonoBehaviour, IProjectile
+public class SimpleProjectile : MonoBehaviour
 {
     [SerializeField] float m_speed = 5;
     [SerializeField] float m_distance = 5;
@@ -25,7 +25,9 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
 
     GameObject m_caster;
 
-    ProjectileType m_projectileType = ProjectileType.Stone;
+    ProjectileType m_projectileType = ProjectileType.None;
+
+    SubscriberList m_subscriberList = new SubscriberList();
 
     private void Awake()
     {
@@ -35,49 +37,16 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         m_render = transform.Find("Render");
         m_shadowOffset = m_height;
         m_falling = false;
+
+        m_subscriberList.Add(new Event<SetProjectileDataEvent>.LocalSubscriber(SetData, gameObject));
+        m_subscriberList.Add(new Event<ThrowEvent>.LocalSubscriber(Throw, gameObject));
+
+        m_subscriberList.Subscribe();
     }
 
-    public void SetDamage(int damages, float knockback)
+    private void OnDestroy()
     {
-        if (damages >= 0)
-            m_damages = damages;
-        if (knockback >= 0)
-            m_knockback = knockback;
-    }
-
-    public void SetHitLayer(LayerMask hitLayer)
-    {
-        m_hitLayer = hitLayer;
-    }
-
-    public void SetMaxDistance(float distance)
-    {
-        if (distance >= 0)
-            m_distance = distance;
-    }
-
-    public void SetVelocity(float speed)
-    {
-        m_speed = speed;
-    }
-
-    public void SetCaster(GameObject caster)
-    {
-        m_caster = caster;
-    }
-
-    public void Throw()
-    {
-        m_started = true;
-        m_traveledDistance = 0;
-        m_falling = false;
-        m_fallTimer = 0;
-        m_shadowOffset = m_height;
-
-        Vector3 pos = transform.position;
-        pos.y -= m_height;
-        pos.z = m_shadow.position.z;
-        m_shadow.position = pos;
+        m_subscriberList.Unsubscribe();
     }
 
     private void LateUpdate()
@@ -237,23 +206,35 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         return dir;
     }
 
-    public ProjectileType GetProjectileType()
+    void SetData(SetProjectileDataEvent e)
     {
-        return m_projectileType;
+        if (e.damages >= 0)
+            m_damages = e.damages;
+        if (e.knockback >= 0)
+            m_knockback = e.knockback;
+
+        m_hitLayer = e.hitLayer;
+
+        if (e.maxDistance >= 0)
+            m_distance = e.maxDistance;
+
+        if(m_speed >= 0)
+            m_speed = e.speed;
+
+        m_caster = e.caster;
     }
 
-    public void SetProjectileType(ProjectileType type)
+    void Throw(ThrowEvent e)
     {
-        m_projectileType = type;
-    }
+        m_started = true;
+        m_traveledDistance = 0;
+        m_falling = false;
+        m_fallTimer = 0;
+        m_shadowOffset = m_height;
 
-    public void StartAttract(GameObject target)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void StopAttract()
-    {
-        throw new System.NotImplementedException();
+        Vector3 pos = transform.position;
+        pos.y -= m_height;
+        pos.z = m_shadow.position.z;
+        m_shadow.position = pos;
     }
 }

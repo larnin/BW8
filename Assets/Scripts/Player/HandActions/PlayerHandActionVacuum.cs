@@ -34,7 +34,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
     bool m_moving = false;
 
     bool m_Full = false;
-    ProjectileType m_projectile;
+    GameObject m_projectile; //disabled attracted projectile, need to ne thrown later
+    List<GameObject> m_attractedObjects = new List<GameObject>();
 
     AnimationDirection m_particleDirection = AnimationDirection.none;
     GameObject m_particules;

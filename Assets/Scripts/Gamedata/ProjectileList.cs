@@ -21,12 +21,7 @@ public class ProjectileList : ScriptableObject
         foreach(var p in m_projectiles)
         {
             if (p.type == type)
-            {
-                var projectile = p.projectile.GetComponent<IProjectile>();
-                if (projectile != null)
-                    projectile.SetProjectileType(type);
                 return p.projectile;
-            }
         }
 
         return null;
