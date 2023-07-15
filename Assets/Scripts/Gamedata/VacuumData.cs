@@ -17,4 +17,5 @@ public class VacuumData : ScriptableObject
     public GameObject particlesUpPrefab = null;
     public GameObject particleDownPrefab = null;
     public float particleAppearDuration = 1.0f;
+    public LayerMask attractLayer;
 }

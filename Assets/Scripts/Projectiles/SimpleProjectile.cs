@@ -25,8 +25,6 @@ public class SimpleProjectile : MonoBehaviour
 
     GameObject m_caster;
 
-    ProjectileType m_projectileType = ProjectileType.None;
-
     SubscriberList m_subscriberList = new SubscriberList();
 
     private void Awake()

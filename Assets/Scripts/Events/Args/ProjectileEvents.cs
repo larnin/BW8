@@ -18,3 +18,27 @@ public class SetProjectileDataEvent
 }
 
 public class ThrowEvent { }
+
+public class CanBeAttractedEvent
+{
+    public bool canBeAttracted = false;
+}
+
+public class IsDetroyedWhenCatch
+{
+    public bool destroyedWhenCatch = false;
+}
+
+public class StartAttractEvent
+{
+    public GameObject target;
+    public float speedMultiplier = 1;
+
+    public StartAttractEvent(GameObject _target, float _speedMultiplier = 1)
+    {
+        target = _target;
+        speedMultiplier = _speedMultiplier;
+    }
+}
+
+public class StopAttractEvent { }
