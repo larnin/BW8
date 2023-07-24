@@ -58,7 +58,13 @@ public class SimpleProjectile : MonoBehaviour
         if (!m_started)
             return;
         if (m_falling && m_fallTimer > m_fallTime)
+        {
+            m_started = false;
+
+            Event<SetDefaultBehaviourEvent>.Broadcast(new SetDefaultBehaviourEvent(), gameObject);
+
             return;
+        }
 
         float speed = m_speed;
 
@@ -234,5 +240,7 @@ public class SimpleProjectile : MonoBehaviour
         pos.y -= m_height;
         pos.z = m_shadow.position.z;
         m_shadow.position = pos;
+
+        Event<SetExclusiveBehaviourEvent>.Broadcast(new SetExclusiveBehaviourEvent(this), gameObject);
     }
 }
