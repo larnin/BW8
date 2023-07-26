@@ -36,6 +36,7 @@ public class SimpleProjectile : MonoBehaviour
         m_shadowOffset = m_height;
         m_falling = false;
 
+        m_subscriberList.Add(new Event<CanBeThrownEvent>.LocalSubscriber(CanBeThrown, gameObject));
         m_subscriberList.Add(new Event<SetProjectileDataEvent>.LocalSubscriber(SetData, gameObject));
         m_subscriberList.Add(new Event<ThrowEvent>.LocalSubscriber(Throw, gameObject));
 
@@ -208,6 +209,11 @@ public class SimpleProjectile : MonoBehaviour
         }
 
         return dir;
+    }
+
+    void CanBeThrown(CanBeThrownEvent e)
+    {
+        e.canBeThrown = true;
     }
 
     void SetData(SetProjectileDataEvent e)

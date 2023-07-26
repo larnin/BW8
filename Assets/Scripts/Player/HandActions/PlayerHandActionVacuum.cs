@@ -373,8 +373,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
             if(dist <= catchDist)
             {
-                IsDetroyedWhenCatch destroyWhenCatch = new IsDetroyedWhenCatch();
-                Event<IsDetroyedWhenCatch>.Broadcast(destroyWhenCatch, obj);
+                IsDestroyedWhenCatchEvent destroyWhenCatch = new IsDestroyedWhenCatchEvent();
+                Event<IsDestroyedWhenCatchEvent>.Broadcast(destroyWhenCatch, obj);
                 if (destroyWhenCatch.destroyedWhenCatch)
                 {
                     GameObject.Destroy(obj);

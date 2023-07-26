@@ -18,4 +18,6 @@ public class VacuumData : ScriptableObject
     public GameObject particleDownPrefab = null;
     public float particleAppearDuration = 1.0f;
     public LayerMask attractLayer;
+    public float m_shakeAmplitide = 0.1f;
+    public float m_shakeFrequency = 5;
 }

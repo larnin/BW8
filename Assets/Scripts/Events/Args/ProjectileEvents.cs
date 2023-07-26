@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class CanBeThrownEvent
+{
+    public bool canBeThrown = false;
+}
+
 public class SetProjectileDataEvent
 {
     public float speed = -1;
@@ -24,7 +29,7 @@ public class CanBeAttractedEvent
     public bool canBeAttracted = false;
 }
 
-public class IsDetroyedWhenCatch
+public class IsDestroyedWhenCatchEvent
 {
     public bool destroyedWhenCatch = false;
 }
