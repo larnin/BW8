@@ -31,7 +31,7 @@ public class FireflyControler : MonoBehaviour
     private void OnDisable()
     {
         transform.position = new Vector3(m_render.position.x, m_render.position.y, transform.position.z);
-        m_render.localPosition = new Vector3(0, m_render.localPosition.y, 0);
+        m_render.localPosition = new Vector3(0, 0, m_render.localPosition.z);
     }
 
     private void Update()

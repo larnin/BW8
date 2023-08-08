@@ -232,7 +232,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
     {
         float maxDuration = World.vacuum.particleAppearDuration;
 
-        if (m_state == State.Start || m_state == State.Loop)
+        if (m_state == State.Start || m_state == State.Loop && !m_Full)
         {
             if(m_particules != null)
             {
@@ -250,7 +250,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
                     p.duration = maxDuration;
             }
         }
-        else if(m_state == State.End || m_state == State.Disabled)
+        else if(m_state == State.End || m_state == State.Disabled || m_Full)
         {
             if(m_particules != null)
             {
@@ -335,7 +335,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         Vector2 origin = m_player.transform.position;
 
         Rect attractRect = new Rect();
-        attractRect.size = m_direction * World.vacuum.attractDistance + orthoDir * World.vacuum.attractWidth;
+        Vector2 size = m_direction * World.vacuum.attractDistance + orthoDir * World.vacuum.attractWidth;
+        attractRect.size = new Vector2(MathF.Abs(size.x), MathF.Abs(size.y));
         attractRect.center = origin + m_direction * World.vacuum.attractDistance * 0.5f;
 
         var allBox = Physics2D.OverlapBoxAll(attractRect.center, attractRect.size, 0, World.vacuum.attractLayer);
@@ -397,6 +398,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         m_moving = false;
         m_state = State.Start;
 
+        m_attractedObjects.Remove(obj);
+
         StopAttract();
 
         AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
@@ -428,6 +431,10 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
             projectileData.caster = m_player.gameObject;
             projectileData.hitLayer = World.vacuum.attractLayer;
             Event<SetProjectileDataEvent>.Broadcast(projectileData, m_projectile);
+
+            float angle = Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg;
+            Quaternion rot = Quaternion.Euler(0, 0, angle);
+            m_projectile.transform.rotation = rot;
 
             Event<ThrowEvent>.Broadcast(new ThrowEvent(), m_projectile);
 

@@ -9,7 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5328999291619239416}
+  - component: {fileID: 2438844392690681329}
   - component: {fileID: 5328999291619239423}
+  - component: {fileID: 6555471280707470793}
+  - component: {fileID: 1468906725040270531}
+  - component: {fileID: 7067550959830947399}
   m_Layer: 0
   m_Name: Firefly
   m_TagString: Untagged
@@ -33,6 +37,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2438844392690681329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328999291619239422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76865e0908827f643abaa3f5df8cb40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_defaultBehaviour: {fileID: 5328999291619239423}
+  m_behaviours:
+  - {fileID: 5328999291619239423}
+  - {fileID: 6555471280707470793}
+  - {fileID: 1468906725040270531}
 --- !u!114 &5328999291619239423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,6 +68,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_moveRadius: 0.5
   m_moveSpeed: 2
+--- !u!114 &6555471280707470793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328999291619239422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61be3dfff1ebe194793cbacb8c12e2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speed: 5
+  m_distance: 5
+  m_damages: 1
+  m_knockback: 0
+  m_hitLayer:
+    serializedVersion: 2
+    m_Bits: 511
+  m_height: 1
+  m_fallTime: 1
+  m_radius: 0.2
+--- !u!114 &1468906725040270531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328999291619239422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c52e68d67287db4d8cbbff00956afa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_destroyWhenCatch: 0
+  m_shakeDuration: 0.5
+  m_attractBaseSpeed: 5
+--- !u!58 &7067550959830947399
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328999291619239422}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!1 &5328999291797169979
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +251,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
+  m_Intensity: 150
   m_Range: 5
   m_SpotAngle: 104
   m_InnerSpotAngle: 21.80208

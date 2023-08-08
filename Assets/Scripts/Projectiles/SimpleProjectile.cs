@@ -13,6 +13,12 @@ public class SimpleProjectile : MonoBehaviour
     [SerializeField] float m_fallTime = 1;
     [SerializeField] float m_radius = 0.5f;
 
+    int m_useDamages;
+    float m_useKnockback;
+    LayerMask m_useHitLayer;
+    float m_useDistance;
+    float m_useSpeed;
+
     float m_traveledDistance = 0;
     bool m_started = false;
     float m_shadowOffset;
@@ -21,7 +27,6 @@ public class SimpleProjectile : MonoBehaviour
 
     Transform m_shadow;
     Transform m_render;
-    Collider2D m_collider;
 
     GameObject m_caster;
 
@@ -29,8 +34,6 @@ public class SimpleProjectile : MonoBehaviour
 
     private void Awake()
     {
-        m_collider = GetComponent<Collider2D>();
-        m_collider.enabled = false;
         m_shadow = transform.Find("Shadow");
         m_render = transform.Find("Render");
         m_shadowOffset = m_height;
@@ -51,7 +54,8 @@ public class SimpleProjectile : MonoBehaviour
     private void LateUpdate()
     {
         m_render.rotation = Quaternion.identity;
-        m_shadow.rotation = Quaternion.identity;
+        if(m_shadow != null)
+            m_shadow.rotation = Quaternion.identity;
     }
 
     void FixedUpdate()
@@ -67,13 +71,13 @@ public class SimpleProjectile : MonoBehaviour
             return;
         }
 
-        float speed = m_speed;
+        float speed = m_useSpeed;
 
         if (m_falling)
         {
             m_fallTimer += Time.deltaTime;
             float normalizedTime = m_fallTimer / m_fallTime;
-            speed = m_speed * (1 - normalizedTime);
+            speed = m_useSpeed * (1 - normalizedTime);
         }
 
         Vector3 pos = transform.position;
@@ -81,7 +85,7 @@ public class SimpleProjectile : MonoBehaviour
         float dist = speed * Time.deltaTime;
         m_traveledDistance += dist;
         Vector3 dir = transform.right * dist;
-        if (!m_falling && m_traveledDistance >= m_distance)
+        if (!m_falling && m_traveledDistance >= m_useDistance)
         {
             m_falling = true;
             m_fallTimer = 0;
@@ -108,7 +112,7 @@ public class SimpleProjectile : MonoBehaviour
                 if (secondHitMovement != newMovement)
                 {
                     setDirection = false;
-                    m_speed = 0;
+                    m_useSpeed = 0;
                     m_falling = true;
                 }
 
@@ -116,23 +120,28 @@ public class SimpleProjectile : MonoBehaviour
                 if (newDist < 0.01f)
                 {
                     setDirection = false;
-                    m_speed = 0;
+                    m_useSpeed = 0;
                     m_falling = true;
                 }
 
                 if (setDirection)
                 {
                     Vector3 newDir = newMovement.normalized;
+                    Vector3 up = transform.up;
                     transform.right = newDir;
+                    transform.up = up;
                 }
             }
         }
         newPos = pos + newMovement;
         transform.position = newPos;
 
-        newPos.y -= m_shadowOffset;
-        newPos.z = m_shadow.position.z;
-        m_shadow.position = newPos;
+        if (m_shadow != null)
+        {
+            newPos.y -= m_shadowOffset;
+            newPos.z = m_shadow.position.z;
+            m_shadow.position = newPos;
+        }
     }
 
     float GetHeight()
@@ -153,7 +162,7 @@ public class SimpleProjectile : MonoBehaviour
         float dist = dir.magnitude;
         Vector3 normDir = dir / dist;
 
-        var hits = Physics2D.CircleCastAll(pos, m_radius, normDir, dist);
+        var hits = Physics2D.CircleCastAll(pos, m_radius, normDir, dist, m_useHitLayer);
 
         if (hits.Length == 0)
             return dir;
@@ -165,7 +174,10 @@ public class SimpleProjectile : MonoBehaviour
 
         foreach(var hit in hits)
         {
-            if (hit.collider.gameObject == m_caster)
+            if (hit.collider.isTrigger)
+                continue;
+
+            if (hit.collider.gameObject == m_caster || hit.collider.gameObject == gameObject)
                 continue;
 
             if(!collide || hit.distance < distance)
@@ -181,12 +193,8 @@ public class SimpleProjectile : MonoBehaviour
         {
             if (hitObject != null)
             {
-                int layer = 1 << hitObject.layer;
-                if ((layer & m_hitLayer.value) != 0)
-                {
-                    GameObject caster = m_caster == null ? gameObject : m_caster;
-                    Event<HitEvent>.Broadcast(new HitEvent(m_damages, caster, m_knockback), hitObject);
-                }
+                GameObject caster = m_caster == null ? gameObject : m_caster;
+                Event<HitEvent>.Broadcast(new HitEvent(m_useDamages, caster, m_useKnockback), hitObject);
             }
 
             var newDir = Vector3.Reflect(dir, normal);
@@ -203,12 +211,21 @@ public class SimpleProjectile : MonoBehaviour
             if (newDist <= 0.001f)
                 return Vector3.zero;
 
-            m_speed *= 0.5f;
+            m_useSpeed *= 0.5f;
 
             return newDir;
         }
 
         return dir;
+    }
+
+    void Init()
+    {
+        m_useDamages = m_damages;
+        m_useKnockback = m_knockback;
+        m_useHitLayer = m_hitLayer;
+        m_useDistance = m_distance;
+        m_useSpeed = m_speed;
     }
 
     void CanBeThrown(CanBeThrownEvent e)
@@ -218,18 +235,20 @@ public class SimpleProjectile : MonoBehaviour
 
     void SetData(SetProjectileDataEvent e)
     {
-        if (e.damages >= 0)
-            m_damages = e.damages;
-        if (e.knockback >= 0)
-            m_knockback = e.knockback;
+        Init();
 
-        m_hitLayer = e.hitLayer;
+        if (e.damages >= 0)
+            m_useDamages = e.damages;
+        if (e.knockback >= 0)
+            m_useKnockback = e.knockback;
+
+        m_useHitLayer = e.hitLayer;
 
         if (e.maxDistance >= 0)
-            m_distance = e.maxDistance;
+            m_useDistance = e.maxDistance;
 
-        if(m_speed >= 0)
-            m_speed = e.speed;
+        if(e.speed >= 0)
+            m_useSpeed = e.speed;
 
         m_caster = e.caster;
     }
@@ -242,10 +261,13 @@ public class SimpleProjectile : MonoBehaviour
         m_fallTimer = 0;
         m_shadowOffset = m_height;
 
-        Vector3 pos = transform.position;
-        pos.y -= m_height;
-        pos.z = m_shadow.position.z;
-        m_shadow.position = pos;
+        if (m_shadow != null)
+        {
+            Vector3 pos = transform.position;
+            pos.y -= m_height;
+            pos.z = m_shadow.position.z;
+            m_shadow.position = pos;
+        }
 
         Event<SetExclusiveBehaviourEvent>.Broadcast(new SetExclusiveBehaviourEvent(this), gameObject);
     }
