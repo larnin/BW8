@@ -11,14 +11,17 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
     const string loopAnim = "Vacuum_Loop";
     const string moveAnim = "Vacuum_Move";
     const string endAnim = "Vacuum_End";
-    const string fullAnim = "_Full";
+    const string catchAnim = "Vacuum_Catch";
+    const string fireAnim = "Vacuum_Fire";
 
     enum State
     {
         Disabled,
         Start,
         Loop,
-        End
+        End,
+        CatchObject,
+        Fire,
     }
 
     class ParticleData
@@ -56,23 +59,41 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         if (status.lockActions)
             return;
 
-        m_state = State.Start;
-        m_Full = false;
-        m_moving = false;
 
         AnimationDirection dir = AnimationDirectionEx.GetDirection(status.direction);
         m_direction = AnimationDirectionEx.GetDirection(dir);
 
-        var duration = new GetAnimationDurationEvent(startAnim, dir);
-        Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
-        m_duration = duration.duration;
-        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(startAnim, dir, 2), m_player.gameObject);
+        if (m_Full)
+        {
+            ThrowObject();
+
+            m_state = State.Fire;
+            m_moving = false;
+            m_Full = false;
+
+            var duration = new GetAnimationDurationEvent(fireAnim, dir);
+            Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
+            m_duration = duration.duration;
+            Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(fireAnim, dir, 2), m_player.gameObject);
+        }
+        else
+        {
+            m_state = State.Start;
+            m_Full = false;
+            m_moving = false;
+
+            var duration = new GetAnimationDurationEvent(startAnim, dir);
+            Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
+            m_duration = duration.duration;
+            Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(startAnim, dir, 2), m_player.gameObject);
+        }
     }
 
     public override void BeginProcess()
     {
         m_state = State.Disabled;
         m_duration = 0;
+        m_Full = false;
     }
 
     public override void Process(bool inputPressed)
@@ -84,14 +105,6 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
         m_duration -= Time.deltaTime;
 
-        if (m_Full)
-            ProcessFull(inputPressed);
-        else ProcessEmpty(inputPressed);
-        
-    }
-
-    void ProcessEmpty(bool inputPressed)
-    {
         switch (m_state)
         {
             case State.Start:
@@ -109,6 +122,8 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
                     ProcessLoop(inputPressed);
                     break;
                 }
+            case State.CatchObject:
+            case State.Fire:
             case State.End:
                 {
                     if (m_duration <= 0)
@@ -121,40 +136,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
             default:
                 break;
         }
-    }
 
-    void ProcessFull(bool inputPressed)
-    {
-        switch (m_state)
-        {
-            case State.Start:
-                {
-                    if (m_duration <= 0)
-                    {
-                        m_state = State.Loop;
-                        AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-                        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim + fullAnim, dir, 2, true), m_player.gameObject);
-                    }
-                    break;
-                }
-            case State.Loop:
-                {
-                    ProcessLoopFull(inputPressed);
-                    break;
-                }
-            case State.End:
-                {
-                    if (m_duration <= 0)
-                    {
-                        m_state = State.Disabled;
-                        m_Full = false;
-                        m_duration = 0;
-                    }
-                    break;
-                }
-            default:
-                break;
-        }
     }
 
     public override void GetVelocity(out Vector2 offsetVelocity, out float velocityMultiplier)
@@ -162,7 +144,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         offsetVelocity = Vector2.zero;
         velocityMultiplier = 1;
 
-        if (m_state == State.Start || m_state == State.End)
+        if (m_state == State.Start || m_state == State.End || m_state == State.CatchObject || m_state == State.Fire)
             velocityMultiplier = 0;
         else if (m_state == State.Loop)
             velocityMultiplier = World.vacuum.moveSpeedMultiplier;
@@ -205,34 +187,11 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
         }
     }
 
-    void ProcessLoopFull(bool inputPressed)
-    {
-        if (!inputPressed)
-        {
-            ThrowObject();
-            return;
-        }
-
-        GetStatusEvent status = new GetStatusEvent();
-        Event<GetStatusEvent>.Broadcast(status, m_player.gameObject, m_player.gameObject);
-
-        bool moving = status.velocity.magnitude > 0.1f;
-        if (moving != m_moving)
-        {
-            m_moving = moving;
-            AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-
-            if (m_moving)
-                Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(moveAnim + fullAnim, dir, 2, true), m_player.gameObject);
-            else Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(loopAnim + fullAnim, dir, 2, true), m_player.gameObject);
-        }
-    }
-
     void UpdateParticles()
     {
         float maxDuration = World.vacuum.particleAppearDuration;
 
-        if (m_state == State.Start || m_state == State.Loop && !m_Full)
+        if (m_state == State.Start || m_state == State.Loop)
         {
             if(m_particules != null)
             {
@@ -250,7 +209,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
                     p.duration = maxDuration;
             }
         }
-        else if(m_state == State.End || m_state == State.Disabled || m_Full)
+        else
         {
             if(m_particules != null)
             {
@@ -396,7 +355,7 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
         m_Full = true;
         m_moving = false;
-        m_state = State.Start;
+        m_state = State.CatchObject;
 
         m_attractedObjects.Remove(obj);
 
@@ -404,10 +363,10 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
         AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
 
-        var duration = new GetAnimationDurationEvent(startAnim + fullAnim, dir);
+        var duration = new GetAnimationDurationEvent(catchAnim, dir);
         Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
         m_duration = duration.duration;
-        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(startAnim + fullAnim, dir, 2), m_player.gameObject);
+        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(catchAnim, dir, 2), m_player.gameObject);
     }
 
     void StopAttract()
@@ -440,13 +399,5 @@ public class PlayerHandActionVacuum : PlayerHandActionBase
 
             m_projectile = null;
         }
-
-        m_state = State.End;
-        AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-        var duration = new GetAnimationDurationEvent(endAnim + fullAnim, dir);
-        Event<GetAnimationDurationEvent>.Broadcast(duration, m_player.gameObject);
-        m_duration = duration.duration;
-        Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(endAnim + fullAnim, dir, 2), m_player.gameObject);
-        StopAttract();
     }
 }
