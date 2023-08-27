@@ -90,6 +90,7 @@ MonoBehaviour:
   m_height: 1
   m_fallTime: 1
   m_radius: 0.2
+  m_canFall: 0
 --- !u!114 &1468906725040270531
 MonoBehaviour:
   m_ObjectHideFlags: 0

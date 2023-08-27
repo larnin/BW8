@@ -12,6 +12,7 @@ public class SimpleProjectile : MonoBehaviour
     [SerializeField] float m_height = 1;
     [SerializeField] float m_fallTime = 1;
     [SerializeField] float m_radius = 0.5f;
+    [SerializeField] bool m_canFall = true;
 
     int m_useDamages;
     float m_useKnockback;
@@ -88,7 +89,9 @@ public class SimpleProjectile : MonoBehaviour
         if (!m_falling && m_traveledDistance >= m_useDistance)
         {
             m_falling = true;
-            m_fallTimer = 0;
+            if (m_canFall)
+                m_fallTimer = 0;
+            else m_fallTimer = m_fallTime;
         }
 
         Vector3 newPos = pos + dir;
@@ -151,9 +154,9 @@ public class SimpleProjectile : MonoBehaviour
 
         float normalizedTime = m_fallTimer / m_fallTime;
 
-        float height = DOVirtual.EasedValue(m_height, 0, normalizedTime, Ease.OutBounce);
-
-        return height;
+        if (!m_canFall)
+            return m_height;
+        return DOVirtual.EasedValue(m_height, 0, normalizedTime, Ease.OutBounce);
     }
 
     Vector3 ProcessCollide(Vector3 dir)
