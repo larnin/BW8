@@ -19,6 +19,7 @@ Shader "Hidden/DitherPostEffect"
 
 			uniform float _DarkLevel = 0;
 			uniform float _LightLevel = 1;
+			uniform float4 _offset;
 
 			struct appdata
 			{
@@ -67,7 +68,9 @@ Shader "Hidden/DitherPostEffect"
 				level /= (_LightLevel - _DarkLevel);
 				level *= 5;
 
-				int2 pos = int2(floor(i.vertex.x), floor(i.vertex.y));
+				float2 tempPos = i.vertex.xy + _offset.xy;
+
+				int2 pos = int2(floor(tempPos.x), floor(tempPos.y));
 
 				if (level < 1)
 					level = ditherLevel1(pos);
