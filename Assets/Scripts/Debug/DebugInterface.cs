@@ -200,12 +200,12 @@ public class DebugInterface : MonoBehaviour
 
         GUI.Box(new Rect(0, 0, Screen.width, toolbarHeight), "");
 
-        PopupData[] windowsDatas = new PopupData[Enum.GetValues(typeof(DebugWindowType)).Length];
+        DebugPopupData[] windowsDatas = new DebugPopupData[Enum.GetValues(typeof(DebugWindowType)).Length];
         for (int i = 0; i < windowsDatas.Length; i++)
-            windowsDatas[i] = new PopupData(((DebugWindowType)i).ToString(), m_windows[i].enabled);
+            windowsDatas[i] = new DebugPopupData(((DebugWindowType)i).ToString(), m_windows[i].enabled);
 
         bool selected = GetPopupOpen(popupID_Debug);
-        int clicked = DrawPopup(new Rect(labelspacing + (labelspacing + labelWidth) * popupID_Debug, 2, labelWidth, toolbarHeight - 4), ref selected, "Windows", windowsDatas);
+        int clicked = DebugLayout.DrawPopup(new Rect(labelspacing + (labelspacing + labelWidth) * popupID_Debug, 2, labelWidth, toolbarHeight - 4), ref selected, "Windows", windowsDatas);
         if (selected)
             CloseOthersPopup(popupID_Debug);
         SetPopupOpen(popupID_Debug, selected);
@@ -214,54 +214,7 @@ public class DebugInterface : MonoBehaviour
             m_windows[clicked].enabled = !m_windows[clicked].enabled;
     }
 
-    class PopupData
-    {
-        public string name;
-        public bool selected;
-
-        public PopupData(string _name, bool _selected = false)
-        {
-            name = _name;
-            selected = _selected;
-        }
-    }
-
     const int popupID_Debug = 0;
-
-    //return new selected state
-    int DrawPopup(Rect rect, ref bool selected, string label, PopupData[] datas)
-    {
-        int returnValue = -1;
-
-        const float buttonSpacing = 2;
-        const float buttonHeight = 20;
-
-        if (GUI.Button(rect, label))
-            selected = !selected;
-
-        if (selected)
-        {
-            float height = datas.Length * buttonHeight + buttonSpacing + buttonSpacing;
-            GUI.Box(new Rect(rect.x, rect.y + rect.height, rect.width, height), "");
-
-            for (int i = 0; i < datas.Length; i++)
-            {
-                float y = buttonSpacing + i * (buttonSpacing + buttonHeight);
-                if (GUI.Button(new Rect(rect.x + buttonSpacing, rect.y + rect.height + y, rect.width - 2 * buttonSpacing, buttonHeight), datas[i].name))
-                {
-                    selected = false;
-                    returnValue = i;
-                }
-
-                if(datas[i].selected)
-                {
-                    GUI.Label(new Rect(rect.x + rect.width - buttonSpacing - buttonHeight, rect.y + rect.height + y, buttonHeight, buttonHeight), "✓");
-                }
-            }
-        }
-
-        return returnValue;
-    }
 
     bool GetPopupOpen(int index)
     {

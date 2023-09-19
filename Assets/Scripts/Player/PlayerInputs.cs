@@ -7,14 +7,16 @@ public class PlayerInputs : MonoBehaviour
     const string InputsName = "Player";
     const string MoveName = "Move";
     const string RollName = "Roll";
-    const string UseName = "Use";
+    const string UseWeaponName = "UseWeapon";
+    const string UseItemName = "UseItem";
     const string InteractName = "Interact";
 
     PlayerInput m_inputs;
 
     Vector2 m_direction = Vector2.zero;
     bool m_roll = false;
-    bool m_use = false;
+    bool m_useWeapon = false;
+    bool m_useItem = false;
     bool m_interact = false;
 
     SubscriberList m_subscriberList = new SubscriberList();
@@ -75,17 +77,30 @@ public class PlayerInputs : MonoBehaviour
                 Event<EndRollEvent>.Broadcast(new EndRollEvent(), gameObject, true);
             }
         }
-        else if (e.action.name == UseName)
+        else if (e.action.name == UseWeaponName)
         {
             if (e.phase == InputActionPhase.Started)
             {
-                m_use = true;
-                Event<StartUseEvent>.Broadcast(new StartUseEvent(), gameObject, true);
+                m_useWeapon = true;
+                Event<StartUseWeaponEvent>.Broadcast(new StartUseWeaponEvent(), gameObject, true);
             }
             else if (e.phase == InputActionPhase.Canceled)
             {
-                m_roll = false;
-                Event<EndUseEvent>.Broadcast(new EndUseEvent(), gameObject, true);
+                m_useWeapon = false;
+                Event<EndUseWeaponEvent>.Broadcast(new EndUseWeaponEvent(), gameObject, true);
+            }
+        }
+        else if (e.action.name == UseItemName)
+        {
+            if (e.phase == InputActionPhase.Started)
+            {
+                m_useItem = true;
+                Event<StartUseItemEvent>.Broadcast(new StartUseItemEvent(), gameObject, true);
+            }
+            else if (e.phase == InputActionPhase.Canceled)
+            {
+                m_useItem = false;
+                Event<EndUseItemEvent>.Broadcast(new EndUseItemEvent(), gameObject, true);
             }
         }
         else if(e.action.name == InteractName)
@@ -107,7 +122,8 @@ public class PlayerInputs : MonoBehaviour
     {
         e.direction = m_direction;
         e.roll = m_roll;
-        e.use = m_use;
+        e.useWeapon = m_useWeapon;
+        e.useItem = m_useItem;
         e.interact = m_interact;
     }
 }

@@ -31,7 +31,7 @@ public class QuestObjectiveItemInInventory : QuestObjectiveBase
             GetInventoryItemEvent itemData = new GetInventoryItemEvent(item.m_itemType);
             Event<GetInventoryItemEvent>.Broadcast(itemData);
             if (itemData.stack < item.m_count)
-                return QuestCompletionState.Failed;
+                return QuestCompletionState.Running;
         }
 
         return QuestCompletionState.Completed;  

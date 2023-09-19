@@ -66,13 +66,8 @@ public class PlayerController : MonoBehaviour
             GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
             Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
 
-            if (velocityData.overrideVelocity)
-                m_rigidbody.velocity = velocityData.offsetVelocity;
-            else
-            {
-                UpdateRoll();
-                UpdateVelocity();
-            }
+            UpdateRoll();
+            UpdateVelocity(velocityData.velocityMultiplier, velocityData.offsetVelocity);
         }
 
         m_oldPosition = transform.position;
@@ -97,7 +92,7 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    void UpdateVelocity()
+    void UpdateVelocity(float multiplier, Vector2 offset)
     {
         if (m_rolling)
             return;
@@ -110,36 +105,54 @@ public class PlayerController : MonoBehaviour
 
         Vector2 wantedVelocity = Vector2.zero;
         if(inputMagnitude > 0)
-            wantedVelocity = m_inputsDirection.normalized * inputMagnitude * m_maxSpeed;
+            wantedVelocity = m_inputsDirection.normalized * inputMagnitude * m_maxSpeed * multiplier;
 
         //do each axis separately
         Vector2 velocity = m_rigidbody.velocity;
 
         float frameAcceleration = m_acceleration * Time.deltaTime;
 
-        if(velocity.x < wantedVelocity.x)
+        if (multiplier <= 0.01f)
+            velocity = Vector2.zero;
+        else
         {
-            velocity.x += frameAcceleration;
-            if (velocity.x > wantedVelocity.x)
-                velocity.x = wantedVelocity.x;
-        }
-        else if(velocity.x > wantedVelocity.x)
-        {
-            velocity.x -= frameAcceleration;
             if (velocity.x < wantedVelocity.x)
-                velocity.x = wantedVelocity.x;
-        }    
-        if(velocity.y < wantedVelocity.y)
-        {
-            velocity.y += frameAcceleration;
-            if (velocity.y > wantedVelocity.y)
-                velocity.y = wantedVelocity.y;
-        }
-        else if( velocity.y > wantedVelocity.y)
-        {
-            velocity.y -= frameAcceleration;
+            {
+                velocity.x += frameAcceleration;
+                if (velocity.x > wantedVelocity.x)
+                    velocity.x = wantedVelocity.x;
+            }
+            else if (velocity.x > wantedVelocity.x)
+            {
+                velocity.x -= frameAcceleration;
+                if (velocity.x < wantedVelocity.x)
+                    velocity.x = wantedVelocity.x;
+            }
             if (velocity.y < wantedVelocity.y)
-                velocity.y = wantedVelocity.y;
+            {
+                velocity.y += frameAcceleration;
+                if (velocity.y > wantedVelocity.y)
+                    velocity.y = wantedVelocity.y;
+            }
+            else if (velocity.y > wantedVelocity.y)
+            {
+                velocity.y -= frameAcceleration;
+                if (velocity.y < wantedVelocity.y)
+                    velocity.y = wantedVelocity.y;
+            }
+        }
+
+        if(offset.sqrMagnitude > 0.1f)
+        {
+            if (offset.x > 0 && offset.x > velocity.x)
+                velocity.x = offset.x;
+            if (offset.x < 0 && offset.x < velocity.x)
+                velocity.x = offset.x;
+
+            if (offset.y > 0 && offset.y > velocity.y)
+                velocity.y = offset.y;
+            if (offset.y < 0 && offset.y < velocity.y)
+                velocity.y = offset.y;
         }
 
         float velocityMagnitude = velocity.magnitude;
@@ -204,7 +217,10 @@ public class PlayerController : MonoBehaviour
 
     void OnStartRoll(StartRollEvent e)
     {
-        m_inputsStartRoll = true;
+        GetStatusEvent status = new GetStatusEvent();
+        Event<GetStatusEvent>.Broadcast(status, gameObject);
+        if(!status.lockActions)
+            m_inputsStartRoll = true;
     }
 
     void OnTeleport(TeleportPlayerEvent e)
@@ -221,7 +237,8 @@ public class PlayerController : MonoBehaviour
     void GetStatus(GetStatusEvent e)
     {
         e.direction = m_direction;
-        e.rolling = m_rolling;
+        e.lockActions |= m_rolling;
+        e.velocity = m_rigidbody.velocity;
     }
 
     void GetPlayerLife(GetPlayerLifeEvent e)

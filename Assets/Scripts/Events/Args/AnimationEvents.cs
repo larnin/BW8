@@ -62,23 +62,25 @@ public class PlayAnimationEvent
     public bool loop;
     public bool after;
     public int layer;
+    public float startNormTime;
 
-    public PlayAnimationEvent(string _name, bool _loop = false, bool _after = false)
-    : this(_name, AnimationDirection.none, 0, _loop, _after) { }
+    public PlayAnimationEvent(string _name, bool _loop = false, bool _after = false, float _startNormTime = -1)
+    : this(_name, AnimationDirection.none, 0, _loop, _after, _startNormTime) { }
 
-    public PlayAnimationEvent(string _name, int _layer, bool _loop = false, bool _after = false)
-    : this(_name, AnimationDirection.none, _layer, _loop, _after) { }
+    public PlayAnimationEvent(string _name, int _layer, bool _loop = false, bool _after = false, float _startNormTime = -1)
+    : this(_name, AnimationDirection.none, _layer, _loop, _after, _startNormTime) { }
 
-    public PlayAnimationEvent(string _name, AnimationDirection _direction, bool _loop = false, bool _after = false)
-        : this(_name, _direction, 0, _loop, _after) { }
+    public PlayAnimationEvent(string _name, AnimationDirection _direction, bool _loop = false, bool _after = false, float _startNormTime = -1)
+        : this(_name, _direction, 0, _loop, _after, _startNormTime) { }
 
-    public PlayAnimationEvent(string _name, AnimationDirection _direction, int _layer, bool _loop = false, bool _after = false)
+    public PlayAnimationEvent(string _name, AnimationDirection _direction, int _layer, bool _loop = false, bool _after = false, float _startNormTime = -1)
     {
         direction = _direction;
         layer = _layer;
         loop = _loop;
         after = _after;
         name = _name;
+        startNormTime = _startNormTime;
     }
 }
 
@@ -131,9 +133,26 @@ public class GetPlayingAnimationEvent
     public AnimationDirection direction;
     public bool loop;
     public int layer;
+    public float normTime;
 
     public GetPlayingAnimationEvent()
     {
 
+    }
+}
+
+public class GetAnimationDurationEvent
+{
+    public string name;
+    public AnimationDirection direction;
+
+    public float duration;
+
+    public GetAnimationDurationEvent(string _name, AnimationDirection _direction)
+    {
+        name = _name;
+        direction = _direction;
+
+        duration = 0;
     }
 }

@@ -3,8 +3,11 @@
 public class StartRollEvent { }
 public class EndRollEvent { }
 
-public class StartUseEvent { }
-public class EndUseEvent { }
+public class StartUseWeaponEvent { }
+public class EndUseWeaponEvent { }
+
+public class StartUseItemEvent { }
+public class EndUseItemEvent { }
 
 public class StartInteractEvent { }
 public class EndInteractEvent { }
@@ -13,7 +16,8 @@ public class GetInputsEvent
 {
     public Vector2 direction;
     public bool roll;
-    public bool use;
+    public bool useWeapon;
+    public bool useItem;
     public bool interact;
 }
 

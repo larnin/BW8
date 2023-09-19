@@ -17,6 +17,41 @@ public class StartQuestObjectiveEvent
     }
 }
 
+public class StopQuestObjectiveEvent
+{
+    public int questID;
+    public int objectiveIndex;
+
+    public StopQuestObjectiveEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
+
+public class CompleteQuestObjectiveEvent
+{
+    public int questID;
+    public int objectiveIndex;
+
+    public CompleteQuestObjectiveEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
+
+public class ResetQuestObjectiveEvent
+{
+    public int questID;
+    public int objectiveIndex;
+
+    public ResetQuestObjectiveEvent(int _questID, int _objectiveIndex)
+    {
+        questID = _questID;
+        objectiveIndex = _objectiveIndex;
+    }
+}
 
 public class IsQuestCompletedEvent
 {
@@ -34,13 +69,13 @@ public class IsQuestObjectiveCompletedEvent
 {
     public int questID;
     public int objectiveIndex;
-    public bool completed;
+    public QuestSystem.ObjectiveState state;
 
     public IsQuestObjectiveCompletedEvent(int _questID, int _objective)
     {
         questID = _questID;
         objectiveIndex = _objective;
-        completed = false;
+        state = QuestSystem.ObjectiveState.NotStarted;
     }
 }
 

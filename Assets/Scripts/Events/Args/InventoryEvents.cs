@@ -60,10 +60,14 @@ public class GetInventoryItemEvent
 public class RemoveInventorySlotEvent
 {
     public int slot;
+    public int stack;
 
-    public RemoveInventorySlotEvent(int _slot)
+    public int removedStack;
+
+    public RemoveInventorySlotEvent(int _slot, int _stack = -1)
     {
         slot = _slot;
+        stack = _stack;
     }
 }
 

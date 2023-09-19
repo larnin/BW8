@@ -86,7 +86,7 @@ public class LootItem : Interactable
 
     void OnInit()
     {
-        var lootParams = LootType.GetParams();
+        var lootParams = World.lootType.GetParams();
 
         var rand = new StaticRandomGenerator<MT19937>();
         var dirDistrib = new UniformVector2CircleSurfaceDistribution();
@@ -100,7 +100,7 @@ public class LootItem : Interactable
 
     void OnDrop()
     {
-        var lootParams = LootType.GetParams();
+        var lootParams = World.lootType.GetParams();
 
         float dist = m_speed * Time.deltaTime;
         Vector2 currentPos = transform.position;
@@ -166,7 +166,7 @@ public class LootItem : Interactable
         float dist = dir.magnitude;
         dir /= dist;
 
-        var lootParams = LootType.GetParams();
+        var lootParams = World.lootType.GetParams();
 
         float updateDist = lootParams.m_pickupSpeed * Time.deltaTime;
         if (updateDist >= dist)

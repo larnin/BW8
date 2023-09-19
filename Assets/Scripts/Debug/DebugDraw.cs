@@ -24,6 +24,11 @@ public static class DebugDraw
         Circle(pos, radius, Quaternion.identity, color, duration);
     }
 
+    public static void Circle2D(Vector3 pos, float radius, Color color, float duration = -1)
+    {
+        Circle(pos, radius, Quaternion.Euler(90, 0, 0), color, duration);
+    }
+
     public static void Circle(Vector3 pos, float radius, Quaternion angle, Color color, float duration = -1)
     {
         const int nbPart = 16;

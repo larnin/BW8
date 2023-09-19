@@ -19,6 +19,7 @@ public class AnimationSystem : MonoBehaviour
         public string name;
         public AnimationDirection direction;
         public bool loop;
+        public float startNormTime;
     }
 
     class Layer
@@ -41,6 +42,7 @@ public class AnimationSystem : MonoBehaviour
         m_subscriberList.Add(new Event<GetAnimationCountEvent>.LocalSubscriber(GetAnimCount, gameObject));
         m_subscriberList.Add(new Event<GetAnimationEvent>.LocalSubscriber(GetAnim, gameObject));
         m_subscriberList.Add(new Event<GetPlayingAnimationEvent>.LocalSubscriber(GetPlayingAnim, gameObject));
+        m_subscriberList.Add(new Event<GetAnimationDurationEvent>.LocalSubscriber(GetAnimationDuration, gameObject));
 
         m_subscriberList.Subscribe();
     }
@@ -107,12 +109,12 @@ public class AnimationSystem : MonoBehaviour
     {
         Animation anim = m_layers[layer].animations[0];
 
-        string fullName = anim.name;
-        if(anim.direction != AnimationDirection.none)
-            fullName += "_" + anim.direction.ToString();
+        string fullName = GetFullAnimationName(anim.name, anim.direction);
 
         m_animator.enabled = true;
-        m_animator.Play(fullName);
+        if (anim.startNormTime < 0)
+            m_animator.Play(fullName);
+        else m_animator.Play(fullName, -1, anim.startNormTime);
 
         m_playingAnimation.currentlyPlaying = true;
         m_playingAnimation.layer = layer;
@@ -143,6 +145,7 @@ public class AnimationSystem : MonoBehaviour
         anim.direction = e.direction;
         anim.loop = e.loop;
         anim.name = e.name;
+        anim.startNormTime = e.startNormTime;
 
         if (!e.after)
             m_layers[e.layer].animations.Clear();
@@ -211,5 +214,36 @@ public class AnimationSystem : MonoBehaviour
         e.layer = m_playingAnimation.layer;
         e.loop = anim.loop;
         e.name = anim.name;
+
+        AnimatorStateInfo animState = m_animator.GetCurrentAnimatorStateInfo(0);
+        e.normTime = animState.normalizedTime;
+    }
+
+    void GetAnimationDuration(GetAnimationDurationEvent e)
+    {
+        var clip = FindAnimation(GetFullAnimationName(e.name, e.direction));
+        if (clip != null)
+            e.duration = clip.length;
+    }
+
+    AnimationClip FindAnimation(string name)
+    {
+        foreach (AnimationClip clip in m_animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == name)
+            {
+                return clip;
+            }
+        }
+
+        return null;
+    }
+
+    string GetFullAnimationName(string name, AnimationDirection dir)
+    {
+        string fullName = name;
+        if (dir != AnimationDirection.none)
+            fullName += "_" + dir.ToString();
+        return fullName;
     }
 }
