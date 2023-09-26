@@ -16,6 +16,6 @@ MonoBehaviour:
   attackDelay: 0.1
   attackRadius: 0.8
   attackDuration: 0.3
-  attackCooldown: 0.5
+  attackCooldown: 0.3
   damage: 1
   knockback: 5
