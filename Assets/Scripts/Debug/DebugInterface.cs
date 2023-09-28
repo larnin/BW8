@@ -14,6 +14,11 @@ public enum DebugWindowType
     Window_Inventory,
 }
 
+public enum DebugDrawType
+{
+    Draw_GameplayLights,
+}
+
 public class DebugInterface : MonoBehaviour
 {
     const string saveName = "Debug.save";
@@ -67,6 +72,8 @@ public class DebugInterface : MonoBehaviour
     ResizeInfo m_resize = new ResizeInfo();
     List<bool> m_popupOpen = new List<bool>();
 
+    bool[] m_debugDraws = new bool[Enum.GetValues(typeof(DebugWindowType)).Length];
+
     private void Awake()
     {
         if (m_instance != null)
@@ -75,6 +82,7 @@ public class DebugInterface : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         m_subscriberList.Add(new Event<IsDebugEnabledEvent>.Subscriber(DebugEnabled));
+        m_subscriberList.Add(new Event<DebugDrawEvent>.Subscriber(OnDebugDraw));
         m_subscriberList.Subscribe();
 
         int nbWindow = Enum.GetValues(typeof(DebugWindowType)).Length;
@@ -99,6 +107,12 @@ public class DebugInterface : MonoBehaviour
             m_enabled = !m_enabled;
 
         TrySave();
+
+        for(int i = 0; i < m_debugDraws.Length; i++)
+        {
+            if(m_debugDraws[i])
+                Event<DebugDrawEvent>.Broadcast(new DebugDrawEvent((DebugDrawType)i));
+        }
     }
 
     private void OnGUI()
@@ -120,6 +134,16 @@ public class DebugInterface : MonoBehaviour
     void DebugEnabled(IsDebugEnabledEvent e)
     {
         e.enabled = m_enabled;
+    }
+
+    void OnDebugDraw(DebugDrawEvent e)
+    {
+        switch(e.type)
+        {
+            case DebugDrawType.Draw_GameplayLights:
+                GameplayLight.DebugDrawLights();
+                break;
+        }
     }
 
     void DrawWindow(int id)
@@ -200,21 +224,42 @@ public class DebugInterface : MonoBehaviour
 
         GUI.Box(new Rect(0, 0, Screen.width, toolbarHeight), "");
 
-        DebugPopupData[] windowsDatas = new DebugPopupData[Enum.GetValues(typeof(DebugWindowType)).Length];
-        for (int i = 0; i < windowsDatas.Length; i++)
-            windowsDatas[i] = new DebugPopupData(((DebugWindowType)i).ToString(), m_windows[i].enabled);
+        // window
+        {
+            DebugPopupData[] windowsDatas = new DebugPopupData[Enum.GetValues(typeof(DebugWindowType)).Length];
+            for (int i = 0; i < windowsDatas.Length; i++)
+                windowsDatas[i] = new DebugPopupData(((DebugWindowType)i).ToString(), m_windows[i].enabled);
 
-        bool selected = GetPopupOpen(popupID_Debug);
-        int clicked = DebugLayout.DrawPopup(new Rect(labelspacing + (labelspacing + labelWidth) * popupID_Debug, 2, labelWidth, toolbarHeight - 4), ref selected, "Windows", windowsDatas);
-        if (selected)
-            CloseOthersPopup(popupID_Debug);
-        SetPopupOpen(popupID_Debug, selected);
-        
-        if(clicked >= 0)
-            m_windows[clicked].enabled = !m_windows[clicked].enabled;
+            bool selected = GetPopupOpen(popupID_Debug);
+            int clicked = DebugLayout.DrawPopup(new Rect(labelspacing + (labelspacing + labelWidth) * popupID_Debug, 2, labelWidth, toolbarHeight - 4), ref selected, "Windows", windowsDatas);
+            if (selected)
+                CloseOthersPopup(popupID_Debug);
+            SetPopupOpen(popupID_Debug, selected);
+
+            if (clicked >= 0)
+                m_windows[clicked].enabled = !m_windows[clicked].enabled;
+        }
+
+        //debug draws
+        {
+            DebugPopupData[] windowsDatas = new DebugPopupData[Enum.GetValues(typeof(DebugDrawType)).Length];
+            for (int i = 0; i < windowsDatas.Length; i++)
+                windowsDatas[i] = new DebugPopupData(((DebugDrawType)i).ToString(), m_debugDraws[i]);
+
+            bool selected = GetPopupOpen(popupID_Draw);
+            int clicked = DebugLayout.DrawPopup(new Rect(labelspacing + (labelspacing + labelWidth) * popupID_Draw, 2, labelWidth, toolbarHeight - 4), ref selected, "Debug draws", windowsDatas);
+            if (selected)
+                CloseOthersPopup(popupID_Draw);
+            SetPopupOpen(popupID_Draw, selected);
+
+            if (clicked >= 0)
+                m_debugDraws[clicked] = !m_debugDraws[clicked];
+        }
+
     }
 
     const int popupID_Debug = 0;
+    const int popupID_Draw = 1;
 
     bool GetPopupOpen(int index)
     {

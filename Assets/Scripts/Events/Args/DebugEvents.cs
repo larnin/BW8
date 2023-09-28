@@ -23,3 +23,13 @@ public class DrawDebugWindowEvent
         rect = _rect;
     }
 }
+
+public class DebugDrawEvent
+{
+    public DebugDrawType type;
+
+    public DebugDrawEvent(DebugDrawType _type)
+    {
+        type = _type;
+    }
+}

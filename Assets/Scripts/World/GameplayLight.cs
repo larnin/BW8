@@ -35,7 +35,7 @@ public class GameplayLight : MonoBehaviour
     private void OnEnable()
     {
         if (m_ID == -1)
-            ReserveID();
+            m_ID = ReserveID();
     }
 
     private void Update()
@@ -89,7 +89,7 @@ public class GameplayLight : MonoBehaviour
         m_lights.Remove(id);
     }
 
-    static bool IsOnLight(Vector2 pos)
+    public static bool IsOnLight(Vector2 pos)
     {
         foreach(var l in m_lights)
         {
@@ -99,5 +99,13 @@ public class GameplayLight : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public static void DebugDrawLights()
+    {
+        foreach(var l in m_lights)
+        {
+            DebugDraw.Circle2D(l.Value.center, l.Value.radius, Color.red);
+        }
     }
 }
