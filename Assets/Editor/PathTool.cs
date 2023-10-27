@@ -69,6 +69,7 @@ public class PathTool : EditorTool, IDrawSelectedHandles
             offPos = Handles.Slider2D(offPos, Vector3.forward, Vector3.up, Vector3.left, 0.015f, Handles.DotHandleCap, 0.0f);
             if (EditorGUI.EndChangeCheck())
             {
+                Undo.RecordObject(path, "Move Path");
                 float dist = (offPos - pos).magnitude;
                 path.SetPointWidth(i, dist);
             }
@@ -77,19 +78,20 @@ public class PathTool : EditorTool, IDrawSelectedHandles
             offPos2 = Handles.Slider2D(offPos2, Vector3.forward, Vector3.up, Vector3.left, 0.015f, Handles.DotHandleCap, 0.0f);
             if (EditorGUI.EndChangeCheck())
             {
+                Undo.RecordObject(path, "Move Path");
                 float dist = (offPos2 - pos).magnitude;
                 path.SetPointWidth(i, dist);
             }
         }
     }
-
+    
     void DrawOnePathDebug(Path path)
     {
         int nbPoint = path.IsLoop() ? path.GetPointNb() : path.GetPointNb() - 1;
 
         for (int i = 0; i < nbPoint; i++)
         {
-            int nextIndex = i < nbPoint - 1 ? i + 1 : 0;
+            int nextIndex = i < path.GetPointNb() - 1 ? i + 1 : 0;
 
             Vector3 pos = path.GetPointPos(i);
             Vector3 nextPos = path.GetPointPos(nextIndex);

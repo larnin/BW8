@@ -119,8 +119,16 @@ public class Path : MonoBehaviour
 
         if(lastPointIndex == nextPointIndex)
         {
-            Vector2 offset = pos - lastPos;
-            nextPos = pos + offset;
+            if (index == 0)
+            {
+                Vector2 offset = pos - nextPos;
+                lastPos = pos + offset;
+            }
+            else
+            {
+                Vector2 offset = pos - lastPos;
+                nextPos = pos + offset;
+            }
         }
 
         Vector2 dir = (lastPos - pos).normalized + (pos - nextPos).normalized;
