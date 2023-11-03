@@ -337,20 +337,13 @@ MonoBehaviour:
   m_init: 1
   m_loop: 0
   m_points:
-  - position: {x: 1.1749806, y: 0.8900991}
-    width: 0.10601388
-  - position: {x: -0.6877135, y: 0.47862512}
-    width: 0.4751254
-  - position: {x: 0.9044099, y: 0.37749493}
-    width: 0.09763971
-  - position: {x: 1.294349, y: -0.15674278}
-    width: 0.1908968
-  - position: {x: 0.37375903, y: -0.22047007}
-    width: 0.16368109
-  - position: {x: 0.5497627, y: -0.7951438}
-    width: 0.14642358
-  - position: {x: 1.711318, y: -0.45884702}
-    width: 0.11603527
+  - position: {x: 0.077634335, y: 4.6551538}
+    width: 2.8160825
+  - position: {x: 2.2888045, y: -0.85722095}
+    width: 0.99564034
+  - position: {x: -4.1963024, y: -5.095553}
+    width: 1.11
+  m_ID: 
 --- !u!4 &342170840
 Transform:
   m_ObjectHideFlags: 0
