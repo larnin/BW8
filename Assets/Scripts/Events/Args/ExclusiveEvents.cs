@@ -26,3 +26,5 @@ public class GetDefaultBehaviourEvent
 {
     public MonoBehaviour defaultBehaviour;
 }
+
+public class ExclusiveLateUpdate { }

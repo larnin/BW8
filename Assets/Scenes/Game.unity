@@ -335,14 +335,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_init: 1
-  m_loop: 0
+  m_loop: 1
   m_points:
   - position: {x: 0.077634335, y: 4.6551538}
     width: 2.8160825
   - position: {x: 2.2888045, y: -0.85722095}
     width: 0.99564034
-  - position: {x: -4.1963024, y: -5.095553}
+  - position: {x: -4.3657527, y: -4.9745164}
     width: 1.11
+  - position: {x: -8.230448, y: 0.8956663}
+    width: 0.7266194
   m_ID: 
 --- !u!4 &342170840
 Transform:

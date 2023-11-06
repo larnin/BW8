@@ -24,25 +24,25 @@ public class Path : MonoBehaviour
     [SerializeField] [HideInInspector] bool m_init = false;
     [SerializeField] bool m_loop = true;
     [SerializeField] List<PathPoint> m_points;
-    [SerializeField] string m_ID;
+    [SerializeField] string m_name;
 
     static List<Path> m_paths = new List<Path>();
 
-    public static Path GetPath(string id)
+    public static Path GetPath(string name)
     {
         foreach (var p in m_paths)
         {
             if (p == null)
                 continue;
 
-            if (p.GetID() == id)
+            if (p.GetName() == name)
                 return p;
         }
 
         return null;
     }
 
-    public static List<Path> GetPaths(string id)
+    public static List<Path> GetPaths(string name)
     {
         List<Path> paths = new List<Path>();
         foreach(var p in m_paths)
@@ -50,7 +50,7 @@ public class Path : MonoBehaviour
             if (p == null)
                 continue;
 
-            if (p.GetID() == id)
+            if (p.GetName() == name)
                 paths.Add(p);
         }
 
@@ -201,7 +201,7 @@ public class Path : MonoBehaviour
         return globalPos;
     }
 
-    public string GetID() { return m_ID; }
+    public string GetName() { return m_name; }
 
     public int GetNextPointIndex(Vector3 pos, bool forward)
     {
@@ -220,24 +220,9 @@ public class Path : MonoBehaviour
         //first check is on pathArea
         for(int i = 0; i < nbSegments; i++)
         {
-            int j = i == m_points.Count - 1 ? 0 : i + 1;
-
-            float wI = m_points[i].width;
-            float wJ = m_points[j].width;
-
-            if (wI < 0.01f && wJ < 0.01f)
+            Vector3 A, B, C, D;
+            if (!GetSegmentParameters(i, out A, out B, out C, out D))
                 continue;
-
-            Vector3 dirI = GetPointOrthoDir(i);
-            Vector3 dirJ = GetPointOrthoDir(j);
-
-            Vector3 posI = GetPointPos(i);
-            Vector3 posJ = GetPointPos(j);
-
-            Vector3 A = posI + wI * dirI;
-            Vector3 D = posI - wI * dirI;
-            Vector3 B = posJ + wJ * dirJ;
-            Vector3 C = posJ - wJ * dirJ;
 
             if (!IsOnQuadrilateralShape(pos, A, B, C, D))
                 continue;
@@ -247,8 +232,76 @@ public class Path : MonoBehaviour
                 return offset + i;
         }
 
-        return 0;
-        //todo out of shape
+        float bestDistance = float.MaxValue;
+        float bestIndex = 0;
+
+        for (int i = 0; i < nbSegments; i++)
+        {
+            int j = i == m_points.Count - 1 ? 0 : i + 1;
+
+            Vector3 A = GetPointPos(i);
+            Vector3 B = GetPointPos(j);
+
+            float f = Mathf.Clamp01(GetProjectionOnSegment(pos, A, B));
+            Vector3 p = A * f + B * (1 - f);
+
+            float dist = (p - pos).sqrMagnitude;
+            if(dist < bestDistance)
+            {
+                bestDistance = dist;
+                bestIndex = f + i;
+            }    
+        }
+
+        return bestIndex;
+    }
+
+    public bool IsOnShape(Vector3 pos)
+    {
+        int nbSegments = m_loop ? m_points.Count : m_points.Count - 1;
+        for (int i = 0; i < nbSegments; i++)
+        {
+            Vector3 A, B, C, D;
+            if (!GetSegmentParameters(i, out A, out B, out C, out D))
+                continue;
+
+            if (IsOnQuadrilateralShape(pos, A, B, C, D))
+                return true;
+        }
+
+        return false;
+    }
+
+    bool GetSegmentParameters(int index, out Vector3 A, out Vector3 B, out Vector3 C, out Vector3 D, bool forceGet = false)
+    {
+        int i = index;
+
+        int j = i == m_points.Count - 1 ? 0 : i + 1;
+
+        float wI = m_points[i].width;
+        float wJ = m_points[j].width;
+
+        if (wI < 0.01f && wJ < 0.01f && !forceGet)
+        {
+            A = Vector3.zero;
+            B = Vector3.zero;
+            C = Vector3.zero;
+            D = Vector3.zero;
+            return false;
+        }
+
+        Vector3 dirI = GetPointOrthoDir(i);
+        Vector3 dirJ = GetPointOrthoDir(j);
+
+        Vector3 posI = GetPointPos(i);
+        Vector3 posJ = GetPointPos(j);
+
+        A = posJ + wJ * dirJ;
+        D = posJ - wJ * dirJ;
+        B = posI + wI * dirI;
+        C = posI - wI * dirI;
+
+        return true;
     }
 
     static float GetProjectionOnSegment(Vector3 pos, Vector3 p1, Vector3 p2)
@@ -315,7 +368,7 @@ public class Path : MonoBehaviour
             Vector3 P3 = D * t + C * (1 - t);
             Vector3 P4 = A * t + B * (1 - t);
             
-            if (Utility.IsLeft(P, P3, P4))
+            if (Utility.IsRight(P, P3, P4))
                 tMax = t;
             else tMin = t;
         }
@@ -344,7 +397,7 @@ public class Path : MonoBehaviour
             float index = GetProgress(point);
 
             GUI.color = Color.blue;
-            Vector2 screenPos = new Vector2(mousePos.x, Screen.height - mousePos.y);
+            Vector2 screenPos = new Vector2(mousePos.x + 10, Screen.height - mousePos.y);
             GUI.Label(new Rect(screenPos, new Vector2(100, 20)), index.ToString());
         }
     }
