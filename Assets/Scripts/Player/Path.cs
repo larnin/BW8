@@ -377,60 +377,51 @@ public class Path : MonoBehaviour
         return tEnd;
     }
 
-    private void OnGUI()
+    Vector3 GetNextTarget(Vector3 pos, float distance)
     {
-        var cam = Camera.main;
-        if (cam == null)
-            return;
+        float current = GetProgress(pos);
 
-        var mousePos = Mouse.current.position.ReadValue();
+        int nextIndex = Mathf.FloorToInt(current);
 
-        var ray = cam.ScreenPointToRay(mousePos);
+        if (nextIndex - current < 0.01f && !m_loop && nextIndex == m_paths.Count)
+            return pos;
 
-        var p = new Plane(transform.forward, transform.position);
+        if (nextIndex >= m_paths.Count)
+            nextIndex = 0;
 
-        float enter = 0;
-        if(p.Raycast(ray, out enter))
+        int lastIndex = Mathf.CeilToInt(current);
+
+        Vector3 lastPos = GetPointPos(lastIndex);
+        Vector3 nextPos = GetPointPos(nextIndex);
+
+        float dist = (lastPos - nextPos).magnitude;
+
+        float part = distance - lastIndex; // to check - distance in world unit && index in path unit
+
+        float distToNext = dist * (1 - part);
+
+        if(distToNext > distance)
         {
-            Vector3 point = ray.GetPoint(enter);
+            distance -= distToNext;
+            if (distance < 0.01f)
+                return nextPos;
 
-            float index = GetProgress(point);
+            int afterIndex = nextIndex + 1;
+            if(afterIndex >= m_paths.Count)
+            {
+                if (!m_loop)
+                    return nextPos;
+                afterIndex = 0;
+            }
 
-            GUI.color = Color.blue;
-            Vector2 screenPos = new Vector2(mousePos.x + 10, Screen.height - mousePos.y);
-            GUI.Label(new Rect(screenPos, new Vector2(100, 20)), index.ToString());
+            Vector3 afterPos = GetPointPos(afterIndex);
+
+            float evaluatedOffset = 0.01f;
+
+            Vector3 evaluatedPos = nextPos * evaluatedOffset + afterPos * (1 - evaluatedOffset);
+            return GetNextTarget(evaluatedPos, distance);
         }
-    }
 
-    private void Update()
-    {
-        int nbPoint = IsLoop() ? GetPointNb() : GetPointNb() - 1;
-
-        for (int i = 0; i < nbPoint; i++)
-        {
-            int nextIndex = i < GetPointNb() - 1 ? i + 1 : 0;
-
-            Vector3 pos = GetPointPos(i);
-            Vector3 nextPos = GetPointPos(nextIndex);
-
-            Vector3 orthoDir = GetPointOrthoDir(i);
-            Vector3 nextOrthoDir = GetPointOrthoDir(nextIndex);
-
-            float width = GetPointWidth(i);
-            float nextWidth = GetPointWidth(nextIndex);
-
-            Debug.DrawLine(pos, nextPos, Color.yellow);
-
-            Vector3 offPos = pos + orthoDir * width;
-            Vector3 nextOffPos = nextPos + nextOrthoDir * nextWidth;
-            Debug.DrawLine(offPos, nextOffPos, Color.green);
-
-            Vector3 offPos2 = pos - orthoDir * width;
-            Vector3 nextOffPos2 = nextPos - nextOrthoDir * nextWidth;
-            Debug.DrawLine(offPos2, nextOffPos2, Color.green);
-
-            Debug.DrawLine(offPos, offPos2, Color.green);
-            Debug.DrawLine(nextOffPos, nextOffPos2, Color.green);
-        }
+        
     }
 }

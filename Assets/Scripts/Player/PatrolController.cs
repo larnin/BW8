@@ -8,6 +8,7 @@ using UnityEngine;
 public class PatrolController : MonoBehaviour
 {
     [SerializeField] string m_pathName;
+    [SerializeField] float m_pointValidationDistance = 0.2f;
 
     float m_currentIndex;
 
