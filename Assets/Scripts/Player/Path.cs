@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using NRand;
 
 [Serializable]
 public class PathPoint
@@ -377,7 +378,7 @@ public class Path : MonoBehaviour
         return tEnd;
     }
 
-    Vector3 GetNextTarget(Vector3 pos, float distance)
+    Vector3 GetNextTarget(Vector3 pos, float distance, float deviation)
     {
         float current = GetProgress(pos);
 
@@ -394,9 +395,18 @@ public class Path : MonoBehaviour
         Vector3 lastPos = GetPointPos(lastIndex);
         Vector3 nextPos = GetPointPos(nextIndex);
 
-        float dist = (lastPos - nextPos).magnitude;
+        float part = lastIndex - current;
 
-        float part = distance - lastIndex; // to check - distance in world unit && index in path unit
+        Vector3 A, B, C, D;
+        GetSegmentParameters(lastIndex, out A, out B, out C, out D, true);
+        Vector3 p4 = A * part + B * (1 - part);
+        Vector3 p3 = D * part + C * (1 - part);
+        float pPercent = 0.5f;
+        float p3p4 = (p3 - p4).magnitude;
+        if(p3p4 > 0.01f)
+            pPercent = (p3 - pos).magnitude / p3p4;
+
+        float dist = (lastPos - nextPos).magnitude;
 
         float distToNext = dist * (1 - part);
 
@@ -404,24 +414,45 @@ public class Path : MonoBehaviour
         {
             distance -= distToNext;
             if (distance < 0.01f)
-                return nextPos;
+                return CalculateDeviation(nextIndex, pPercent, deviation);
 
             int afterIndex = nextIndex + 1;
             if(afterIndex >= m_paths.Count)
             {
                 if (!m_loop)
-                    return nextPos;
-                afterIndex = 0;
+                    return CalculateDeviation(nextIndex, pPercent, deviation);
             }
-
-            Vector3 afterPos = GetPointPos(afterIndex);
-
-            float evaluatedOffset = 0.01f;
-
-            Vector3 evaluatedPos = nextPos * evaluatedOffset + afterPos * (1 - evaluatedOffset);
-            return GetNextTarget(evaluatedPos, distance);
+            
+            Vector3 evaluatedPosWithDeviation = CalculateDeviation(nextIndex + 0.01f, pPercent, 0);
+            return GetNextTarget(evaluatedPosWithDeviation, distance, deviation);
         }
 
-        
+        float nextComputedIndex = current + distance / dist;
+        return CalculateDeviation(nextComputedIndex, pPercent, deviation);
+    }
+
+    Vector3 CalculateDeviation(float index, float currentPercent, float deviation)
+    {
+        int lastIndex = Mathf.CeilToInt(index);
+        float part = index - lastIndex;
+
+        Vector3 A, B, C, D;
+        GetSegmentParameters(lastIndex, out A, out B, out C, out D, true);
+        Vector3 p4 = A * part + B * (1 - part);
+        Vector3 p3 = D * part + C * (1 - part);
+
+        float dist = (p4 - p3).magnitude;
+
+        float min = currentPercent * dist - deviation;
+        if (min < 0)
+            min = 0;
+        float max = currentPercent * dist + deviation;
+        if (max > dist)
+            max = dist;
+
+        float randValue = new UniformFloatDistribution(0, 1).Next(new StaticRandomGenerator<MT19937>());
+        float percent = (max * randValue + min * (1 - randValue)) / dist;
+
+        return p3 * (percent) + p4 * (1 - percent);
     }
 }
