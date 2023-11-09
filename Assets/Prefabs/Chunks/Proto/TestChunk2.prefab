@@ -8755,10 +8755,12 @@ MonoBehaviour:
     width: 0.5050143
   - position: {x: 7.0171623, y: 1.1214046}
     width: 0.42248628
-  - position: {x: 6.9413795, y: -1.7579632}
-    width: 0.42537913
-  - position: {x: -0.039110184, y: -1.6997318}
-    width: 1.46922
+  - position: {x: 6.9916306, y: -2.1767082}
+    width: 0.4274925
+  - position: {x: 5.1924286, y: -2.3617172}
+    width: 0.27231944
+  - position: {x: 0.111637115, y: -2.855465}
+    width: 1.673547
   - position: {x: -0.14442062, y: 4.048662}
     width: 0.5669757
   m_name: PathTest

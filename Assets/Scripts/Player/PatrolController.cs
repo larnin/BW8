@@ -28,9 +28,9 @@ public class PatrolController : MonoBehaviour
             return;
         }
 
-        Vector3 nextPos = p.GetNextTarget(transform.position, m_nextDistance, m_deviation);
+        Vector2 nextPos = p.GetNextTarget(transform.position, m_nextDistance, m_deviation);
         
-        Event<StartMoveEvent>.Broadcast(new StartMoveEvent(nextPos), gameObject);
+        Event<StartMoveEvent>.Broadcast(new StartMoveEvent(new Vector3(nextPos.x, nextPos.y, transform.position.z)), gameObject);
         m_nextPoint = nextPos;
     }
 
@@ -49,7 +49,6 @@ public class PatrolController : MonoBehaviour
                 GetNextPoint();
             
             Vector3 next = new Vector3(m_nextPoint.x, m_nextPoint.y, transform.position.z);
-            DebugDraw.Line(transform.position, next, Color.red);
         }
     }
 }
