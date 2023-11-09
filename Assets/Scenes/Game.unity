@@ -305,62 +305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2cbf776eb258cd4e9b970518de90537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &342170838
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 342170840}
-  - component: {fileID: 342170839}
-  m_Layer: 0
-  m_Name: Path
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &342170839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342170838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a3eee9482cee0458a054cd366cc4d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_init: 1
-  m_loop: 1
-  m_points:
-  - position: {x: 0.077634335, y: 4.6551538}
-    width: 2.8160825
-  - position: {x: 2.2888045, y: -0.85722095}
-    width: 0.99564034
-  - position: {x: -4.3657527, y: -4.9745164}
-    width: 1.11
-  - position: {x: -8.230448, y: 0.8956663}
-    width: 0.7266194
-  m_ID: 
---- !u!4 &342170840
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342170838}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.06, y: 0.529, z: 0.08461782}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &620588219 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 210216555140520872, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
@@ -561,6 +505,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210216554658858083, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555419423539, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5254261931953189587, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_Name
       value: CameraGroup

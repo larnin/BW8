@@ -378,8 +378,9 @@ public class Path : MonoBehaviour
         return tEnd;
     }
 
-    Vector3 GetNextTarget(Vector3 pos, float distance, float deviation)
+    public Vector3 GetNextTarget(Vector3 pos, float distance, float deviation)
     {
+        pos.z = transform.position.z;
         float current = GetProgress(pos);
 
         int nextIndex = Mathf.FloorToInt(current);
@@ -405,6 +406,7 @@ public class Path : MonoBehaviour
         float p3p4 = (p3 - p4).magnitude;
         if(p3p4 > 0.01f)
             pPercent = (p3 - pos).magnitude / p3p4;
+        pPercent = Mathf.Clamp01(pPercent);
 
         float dist = (lastPos - nextPos).magnitude;
 
@@ -452,6 +454,8 @@ public class Path : MonoBehaviour
 
         float randValue = new UniformFloatDistribution(0, 1).Next(new StaticRandomGenerator<MT19937>());
         float percent = (max * randValue + min * (1 - randValue)) / dist;
+        
+        DebugDraw.Line(p3, p4, Color.cyan, 100);
 
         return p3 * (percent) + p4 * (1 - percent);
     }
