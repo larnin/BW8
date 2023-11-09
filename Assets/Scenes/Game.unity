@@ -507,12 +507,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 210216554658858083, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 210216555419423539, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8400000, guid: 5f08cffe0558f2f4e81f55e933bc7c36, type: 2}
     - target: {fileID: 5254261931953189587, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_Name
       value: CameraGroup
