@@ -16,5 +16,33 @@ public class BehaviorStateMachineGraph : EditorWindow
         return GetWindow<BehaviorStateMachineGraph>("Behavior State Machine");
     }
 
+    private void OnEnable()
+    {
+        AddGraphView();
 
+        AddStyles();
+    }
+
+    private void AddGraphView()
+    {
+        m_graphView = new BehaviorStateMachineGraphView(this);
+
+        m_graphView.StretchToParentSize();
+
+        rootVisualElement.Add(m_graphView);
+    }
+    private void AddStyles()
+    {
+        rootVisualElement.AddStyleSheets("BehaviorStateMachine/BSMVariables.uss");
+    }
+
+    public void EnableSaving()
+    {
+        //todo
+    }
+
+    public void DisableSaving()
+    {
+        //todo
+    }
 }

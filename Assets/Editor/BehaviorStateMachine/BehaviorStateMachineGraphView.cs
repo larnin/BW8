@@ -4,12 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
+
+class BSMNodeError
+{
+    public Color Color { get; private set; }
+    public List<BSMNode> Nodes = new List<BSMNode>();
+
+    public BSMNodeError()
+    {
+        Color = new Color32(
+               (byte)UnityEngine.Random.Range(65, 256),
+               (byte)UnityEngine.Random.Range(50, 176),
+               (byte)UnityEngine.Random.Range(50, 176),
+               255
+           );
+    }
+}
 
 public class BehaviorStateMachineGraphView : GraphView
 {
     BehaviorStateMachineGraph m_editorWindow;
+
+    SerializableDictionary<string, BSMNodeError> ungroupedNodes;
+
+    private int nameErrorsAmount;
+
+    public int NameErrorsAmount
+    {
+        get
+        {
+            return nameErrorsAmount;
+        }
+
+        set
+        {
+            nameErrorsAmount = value;
+
+            if (nameErrorsAmount == 0)
+            {
+                m_editorWindow.EnableSaving();
+            }
+
+            if (nameErrorsAmount == 1)
+            {
+                m_editorWindow.DisableSaving();
+            }
+        }
+    }
     public BehaviorStateMachineGraphView(BehaviorStateMachineGraph editorWindow)
     {
         m_editorWindow = editorWindow;
@@ -36,8 +80,8 @@ public class BehaviorStateMachineGraphView : GraphView
     private void AddStyles()
     {
         this.AddStyleSheets(
-            "DialogueSystem/DSGraphViewStyles.uss",
-            "DialogueSystem/DSNodeStyles.uss"
+            "BehaviorStateMachine/BSMGraphViewStyles.uss",
+            "BehaviorStateMachine/BSMNodeStyles.uss"
         );
     }
 
@@ -234,5 +278,64 @@ public class BehaviorStateMachineGraphView : GraphView
 
             return changes;
         };
+    }
+
+    public void AddUngroupedNode(BSMNode node)
+    {
+        string nodeName = node.NodeName.ToLower();
+
+        if (!ungroupedNodes.ContainsKey(nodeName))
+        {
+            BSMNodeError nodeError = new BSMNodeError();
+            nodeError.Nodes.Add(node);
+            ungroupedNodes.Add(nodeName, nodeError);
+
+            return;
+        }
+
+        Color errorColor = ungroupedNodes[nodeName].Color;
+        List<BSMNode> list = ungroupedNodes[nodeName].Nodes;
+        list.Add(node);
+
+        node.SetErrorStyle(errorColor);
+        if (list.Count == 2)
+        {
+            list[0].SetErrorStyle(errorColor);
+            NameErrorsAmount++;
+        }
+    }
+
+    public void RemoveUngroupedNode(BSMNode node)
+    {
+        string nodeName = node.NodeName.ToLower();
+
+        List<BSMNode> list = ungroupedNodes[nodeName].Nodes;
+
+        list.Remove(node);
+        
+        if (list.Count == 1)
+        {
+            NameErrorsAmount--;
+            list[0].ResetStyle();
+
+            return;
+        }
+
+        if (list.Count == 0)
+            ungroupedNodes.Remove(nodeName);
+    }
+
+    private void AddManipulators()
+    {
+        SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
+
+        this.AddManipulator(new ContentDragger());
+        this.AddManipulator(new SelectionDragger());
+        this.AddManipulator(new RectangleSelector());
+
+        this.AddManipulator(CreateNodeContextualMenu("Add Node (Single Choice)", DSDialogueType.SingleChoice));
+        this.AddManipulator(CreateNodeContextualMenu("Add Node (Multiple Choice)", DSDialogueType.MultipleChoice));
+
+        this.AddManipulator(CreateGroupContextualMenu());
     }
 }
