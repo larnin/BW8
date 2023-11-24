@@ -27,6 +27,7 @@ public class BSMNode : Node
     public virtual void Initialize(string nodeName, BehaviorStateMachineGraphView view, Vector2 position)
     {
         ID = Guid.NewGuid().ToString();
+        NodeName = nodeName;
 
         SetPosition(new Rect(position, Vector2.zero));
 
@@ -78,9 +79,15 @@ public class BSMNode : Node
 
         /* INPUT CONTAINER */
 
-        Port inputPort = this.CreatePort("Dialogue Connection", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
+        Port inputPort = this.CreatePort("In", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
 
         inputContainer.Add(inputPort);
+
+        /* OUTPUT CONTAINER */
+
+        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+
+        outputContainer.Add(outputPort);
     }
 
     public void DisconnectAllPorts()
