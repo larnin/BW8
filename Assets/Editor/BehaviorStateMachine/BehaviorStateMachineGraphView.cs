@@ -130,36 +130,36 @@ public class BehaviorStateMachineGraphView : GraphView
         //todo
         graphViewChanged = (changes) =>
         {
-            //if (changes.edgesToCreate != null)
-            //{
-            //    foreach (Edge edge in changes.edgesToCreate)
-            //    {
-            //        DSNode nextNode = (DSNode)edge.input.node;
+            if (changes.edgesToCreate != null)
+            {
+                foreach (Edge edge in changes.edgesToCreate)
+                {
+                    BSMNode nextNode = (BSMNode)edge.input.node;
 
-            //        DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
+                    DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
 
-            //        choiceData.NodeID = nextNode.ID;
-            //    }
-            //}
+                    choiceData.NodeID = nextNode.ID;
+                }
+            }
 
-            //if (changes.elementsToRemove != null)
-            //{
-            //    Type edgeType = typeof(Edge);
+            if (changes.elementsToRemove != null)
+            {
+                Type edgeType = typeof(Edge);
 
-            //    foreach (GraphElement element in changes.elementsToRemove)
-            //    {
-            //        if (element.GetType() != edgeType)
-            //        {
-            //            continue;
-            //        }
+                foreach (GraphElement element in changes.elementsToRemove)
+                {
+                    if (element.GetType() != edgeType)
+                    {
+                        continue;
+                    }
 
-            //        Edge edge = (Edge)element;
+                    Edge edge = (Edge)element;
 
-            //        DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
+                    DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
 
-            //        choiceData.NodeID = "";
-            //    }
-            //}
+                    choiceData.NodeID = "";
+                }
+            }
 
             return changes;
         };
