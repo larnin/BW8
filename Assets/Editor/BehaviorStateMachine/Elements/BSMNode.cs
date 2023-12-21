@@ -88,6 +88,8 @@ public class BSMNode : Node
         Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
 
         outputContainer.Add(outputPort);
+
+        RefreshExpandedState();
     }
 
     public void DisconnectAllPorts()

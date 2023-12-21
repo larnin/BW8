@@ -28,7 +28,8 @@ public class BehaviorStateMachineGraphView : GraphView
 {
     BehaviorStateMachineGraph m_editorWindow;
 
-    SerializableDictionary<string, BSMNodeError> ungroupedNodes = new SerializableDictionary<string, BSMNodeError>();
+    SerializableDictionary<string, BSMNodeError> m_ungroupedNodes = new SerializableDictionary<string, BSMNodeError>();
+    BSMStartNode m_startNode;
 
     private int nameErrorsAmount = 0;
 
@@ -64,6 +65,8 @@ public class BehaviorStateMachineGraphView : GraphView
 
         OnElementsDeleted();
         OnGraphViewChanged();
+
+        AddStartNode();
     }
 
     private void AddGridBackground()
@@ -97,6 +100,9 @@ public class BehaviorStateMachineGraphView : GraphView
             {
                 if (selectedElement is BSMNode node)
                 {
+                    if (node is BSMStartNode)
+                        continue;
+
                     nodesToDelete.Add(node);
 
                     continue;
@@ -136,9 +142,9 @@ public class BehaviorStateMachineGraphView : GraphView
                 {
                     BSMNode nextNode = (BSMNode)edge.input.node;
 
-                    DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
+                    //DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
 
-                    choiceData.NodeID = nextNode.ID;
+                    //choiceData.NodeID = nextNode.ID;
                 }
             }
 
@@ -155,9 +161,9 @@ public class BehaviorStateMachineGraphView : GraphView
 
                     Edge edge = (Edge)element;
 
-                    DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
+                    //DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
 
-                    choiceData.NodeID = "";
+                    //choiceData.NodeID = "";
                 }
             }
 
@@ -169,17 +175,17 @@ public class BehaviorStateMachineGraphView : GraphView
     {
         string nodeName = node.NodeName.ToLower();
 
-        if (!ungroupedNodes.ContainsKey(nodeName))
+        if (!m_ungroupedNodes.ContainsKey(nodeName))
         {
             BSMNodeError nodeError = new BSMNodeError();
             nodeError.Nodes.Add(node);
-            ungroupedNodes.Add(nodeName, nodeError);
+            m_ungroupedNodes.Add(nodeName, nodeError);
 
             return;
         }
 
-        Color errorColor = ungroupedNodes[nodeName].Color;
-        List<BSMNode> list = ungroupedNodes[nodeName].Nodes;
+        Color errorColor = m_ungroupedNodes[nodeName].Color;
+        List<BSMNode> list = m_ungroupedNodes[nodeName].Nodes;
         list.Add(node);
 
         node.SetErrorStyle(errorColor);
@@ -194,7 +200,7 @@ public class BehaviorStateMachineGraphView : GraphView
     {
         string nodeName = node.NodeName.ToLower();
 
-        List<BSMNode> list = ungroupedNodes[nodeName].Nodes;
+        List<BSMNode> list = m_ungroupedNodes[nodeName].Nodes;
 
         list.Remove(node);
         
@@ -207,7 +213,14 @@ public class BehaviorStateMachineGraphView : GraphView
         }
 
         if (list.Count == 0)
-            ungroupedNodes.Remove(nodeName);
+            m_ungroupedNodes.Remove(nodeName);
+    }
+
+    private void AddStartNode()
+    {
+        var node = CreateNode("Start", BSMNodeType.Start, Vector2.zero, true, false);
+        m_startNode = node as BSMStartNode;
+        AddElement(node);
     }
 
     private void AddManipulators()
@@ -229,6 +242,8 @@ public class BehaviorStateMachineGraphView : GraphView
             name = "New State";
         else if (dialogueType == BSMNodeType.Condition)
             name = "New Condition";
+        else if (dialogueType == BSMNodeType.Start)
+            return null;
 
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(name, dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
@@ -237,7 +252,7 @@ public class BehaviorStateMachineGraphView : GraphView
         return contextualMenuManipulator;
     }
 
-    public BSMNode CreateNode(string nodeName, BSMNodeType dialogueType, Vector2 position, bool shouldDraw = true)
+    public BSMNode CreateNode(string nodeName, BSMNodeType dialogueType, Vector2 position, bool shouldDraw = true, bool addList = true)
     {
         Type nodeType = null;
 
@@ -245,6 +260,8 @@ public class BehaviorStateMachineGraphView : GraphView
             nodeType = typeof(BSMStateNode);
         else if (dialogueType == BSMNodeType.Condition)
             nodeType = typeof(BSMConditionNode);
+        else if (dialogueType == BSMNodeType.Start)
+            nodeType = typeof(BSMStartNode);
 
         if (nodeType == null)
             return null;
@@ -258,7 +275,8 @@ public class BehaviorStateMachineGraphView : GraphView
             node.Draw();
         }
 
-        AddUngroupedNode(node);
+        if(addList)
+            AddUngroupedNode(node);
 
         return node;
     }
@@ -275,5 +293,32 @@ public class BehaviorStateMachineGraphView : GraphView
         Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
 
         return localMousePosition;
+    }
+
+    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+    {
+        List<Port> compatiblePorts = new List<Port>();
+
+        ports.ForEach(port =>
+        {
+            if (startPort.node is BSMStartNode && !(port.node is BSMStateNode))
+                return;
+
+            if (startPort.node is BSMStateNode && port.node is BSMStateNode)
+                return;
+
+            if (startPort == port)
+                return;
+
+            if (startPort.node == port.node)
+                return;
+
+            if (startPort.direction == port.direction)
+                return;
+
+            compatiblePorts.Add(port);
+        });
+
+        return compatiblePorts;
     }
 }
