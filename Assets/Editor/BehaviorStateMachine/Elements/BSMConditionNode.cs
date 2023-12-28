@@ -15,10 +15,17 @@ public class BSMConditionNode : BSMNode
     {
         base.Draw();
 
+        LocalDraw();
+    }
+
+    void LocalDraw()
+    {
+        extensionContainer.Clear();
+
         if (m_condition == null)
             DrawSetCondition();
         else DrawCondition();
-        
+
         RefreshExpandedState();
     }
 
@@ -30,12 +37,26 @@ public class BSMConditionNode : BSMNode
 
     void DrawCondition()
     {
+        string conditionName = BSMConditionBase.GetName(m_condition.GetType());
 
+        var header = new VisualElement();
+        header.AddToClassList("bsm-condition__header");
+        Label labelName = new Label(conditionName);
+        header.Add(labelName);
+        var removeButton = BSMUtility.CreateButton("X", RemoveCondition);
+        removeButton.AddToClassList("bsm-node__condition-remove");
+        header.Add(removeButton);
+
+        extensionContainer.Add(header);
+        var element = m_condition.GetElement();
+        if (element != null)
+            extensionContainer.Add(element);
     }
 
     public void SetCondition(BSMConditionBase condition)
     {
         m_condition = condition;
+        LocalDraw();
     }
 
     void CreatePopup()
@@ -43,5 +64,10 @@ public class BSMConditionNode : BSMNode
         var pos = GetPosition();
 
         UnityEditor.PopupWindow.Show(pos, new BSMConditionNodePopup(this));
+    }
+
+    void RemoveCondition()
+    {
+        SetCondition(null);
     }
 }

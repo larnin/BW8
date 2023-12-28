@@ -31,10 +31,12 @@ public class BSMConditionNodePopup : PopupWindowContent
         m_scrollPos = GUILayout.BeginScrollView(m_scrollPos);
         foreach (var t in types)
         {
-            if (!Loc.ProcessFilter(t.Name, m_filter))
+            string name = BSMConditionBase.GetName(t);
+
+            if (!Loc.ProcessFilter(name, m_filter))
                 continue;
 
-            if (GUILayout.Button(t.Name))
+            if (GUILayout.Button(name))
             {
                 SetCondition(t);
                 editorWindow.Close();
@@ -48,6 +50,8 @@ public class BSMConditionNodePopup : PopupWindowContent
         if (m_node == null)
             return;
 
-        //todo
+        var condition = Activator.CreateInstance(t) as BSMConditionBase;
+        if (condition != null)
+            m_node.SetCondition(condition);
     }
 }

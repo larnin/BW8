@@ -107,6 +107,17 @@
 	color: var(--bsm-colors-window-yellow);
 }
 
+.bsm-node__condition-remove
+{
+	max-width: 20px;
+}
+
+.bsm-condition__header
+{
+	flex-direction: row;
+	align-items: stretch;
+}
+
 /* ELEMENTS */
 
 TextField
