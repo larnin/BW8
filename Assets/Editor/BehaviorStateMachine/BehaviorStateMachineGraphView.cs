@@ -80,7 +80,7 @@ public class BehaviorStateMachineGraphView : GraphView
 
     private void AddStyles()
     {
-        this.AddStyleSheets(
+        this.AddStyleSheets( 
             "BehaviorStateMachine/BSMGraphViewStyles.uss",
             "BehaviorStateMachine/BSMNodeStyles.uss"
         );

@@ -13,12 +13,10 @@ public class BSMStartNode : BSMNode
         /* TITLE CONTAINER */
 
         Label labelName = new Label(NodeName);
-
-        labelName.AddClasses(
-            "bsm-node__text-field",
-            "bsm-node__text-field__hidden",
-            "bsm-node__filename-text-field"
-        );
+        labelName.style.paddingBottom = 8;
+        labelName.style.paddingLeft = 8;
+        labelName.style.paddingRight = 8;
+        labelName.style.paddingTop = 8;
 
         titleContainer.Insert(0, labelName);
 

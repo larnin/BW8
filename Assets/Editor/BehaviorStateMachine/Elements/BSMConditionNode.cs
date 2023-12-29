@@ -40,11 +40,16 @@ public class BSMConditionNode : BSMNode
         string conditionName = BSMConditionBase.GetName(m_condition.GetType());
 
         var header = new VisualElement();
-        header.AddToClassList("bsm-condition__header");
+        header.style.flexDirection = FlexDirection.Row;
+        header.style.justifyContent = Justify.SpaceBetween;
         Label labelName = new Label(conditionName);
+        labelName.style.paddingBottom = 4;
+        labelName.style.paddingLeft = 4;
+        labelName.style.paddingRight = 4;
+        labelName.style.paddingTop = 4;
         header.Add(labelName);
         var removeButton = BSMUtility.CreateButton("X", RemoveCondition);
-        removeButton.AddToClassList("bsm-node__condition-remove");
+        removeButton.style.maxWidth = 20;
         header.Add(removeButton);
 
         extensionContainer.Add(header);
