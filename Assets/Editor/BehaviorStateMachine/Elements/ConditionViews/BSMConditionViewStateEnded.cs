@@ -14,6 +14,11 @@ public class BSMConditionViewStateEnded : BSMConditionViewBase
         m_condition = condition;
     }
 
+    public override BSMConditionBase GetCondition()
+    {
+        return m_condition;
+    }
+
     public override VisualElement GetElement()
     {
         return new HelpBox("Transition when the previous state is ended", HelpBoxMessageType.Info);

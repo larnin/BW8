@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 public abstract class BSMConditionViewBase
 {
     public abstract VisualElement GetElement();
+    public abstract BSMConditionBase GetCondition();
 
     public static BSMConditionViewBase Create(BSMConditionBase condition)
     {

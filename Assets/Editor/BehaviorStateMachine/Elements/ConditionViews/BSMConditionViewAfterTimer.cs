@@ -15,6 +15,11 @@ public class BSMConditionViewAfterTimer : BSMConditionViewBase
         m_condition = condition;
     }
 
+    public override BSMConditionBase GetCondition()
+    {
+        return m_condition;
+    }
+
     public override VisualElement GetElement()
     {
         var prop = new FloatField("Duration");
