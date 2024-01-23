@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-public class BehaviorStateMachineGraph : EditorWindow
+public class BSMGraph : EditorWindow
 {
-    private BehaviorStateMachineGraphView m_graphView;
+    private BSMGraphView m_graphView;
 
     [MenuItem("Game/Behavior State Machine")]
-    public static BehaviorStateMachineGraph Open()
+    public static BSMGraph Open()
     {
-        return GetWindow<BehaviorStateMachineGraph>("Behavior State Machine");
+        return GetWindow<BSMGraph>("Behavior State Machine");
     }
 
     private void OnEnable()
@@ -25,7 +25,7 @@ public class BehaviorStateMachineGraph : EditorWindow
 
     private void AddGraphView()
     {
-        m_graphView = new BehaviorStateMachineGraphView(this);
+        m_graphView = new BSMGraphView(this);
 
         m_graphView.StretchToParentSize();
 

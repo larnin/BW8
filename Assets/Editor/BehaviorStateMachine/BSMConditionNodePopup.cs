@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+public interface BSMConditionNodePopupCallback
+{
+    public void SetCondition(BSMConditionBase condition);
+}
+
 public class BSMConditionNodePopup : PopupWindowContent
 {
     string m_filter = "";
-    BSMConditionNode m_node;
+    BSMConditionNodePopupCallback m_node;
 
     Vector2 m_scrollPos = Vector2.zero;
 
-    public BSMConditionNodePopup(BSMConditionNode node)
+    public BSMConditionNodePopup(BSMConditionNodePopupCallback node)
     {
         m_node = node;
     }

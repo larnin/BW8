@@ -7,8 +7,5 @@ using UnityEngine.UIElements;
 
 public class BSMConditionStateEnded : BSMConditionBase
 {
-    public override VisualElement GetElement()
-    {
-        return new HelpBox("Transition when the previous state is ended", HelpBoxMessageType.Info);
-    }
+    
 }

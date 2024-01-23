@@ -7,23 +7,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-class BSMConditionAfterTimer : BSMConditionBase
+public class BSMConditionAfterTimer : BSMConditionBase
 {
     [SerializeField] float m_fTimer;
-    
-    public override VisualElement GetElement()
-    {
-        var prop = new FloatField("Duration");
-        prop.value = m_fTimer;
-        prop.RegisterValueChangedCallback(ValueChanged);
-
-        return prop;
-    }
-
-    void ValueChanged(ChangeEvent<float> value)
-    {
-        m_fTimer = value.newValue;
-        if (m_fTimer < 0)
-            m_fTimer = 0;
-    }
+    public float timer { get { return m_fTimer; } set { m_fTimer = value; } }
 }

@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-public static class BSMUtility
+public static class BSMEditorUtility
 {
     public static VisualElement AddClasses(this VisualElement element, params string[] classNames)
     {
@@ -29,27 +29,6 @@ public static class BSMUtility
         }
 
         return element;
-    }
-
-    public static Button CreateButton(string text, Action onClick = null)
-    {
-        Button button = new Button(onClick)
-        {
-            text = text
-        };
-
-        return button;
-    }
-
-    public static Foldout CreateFoldout(string title, bool collapsed = false)
-    {
-        Foldout foldout = new Foldout()
-        {
-            text = title,
-            value = !collapsed
-        };
-
-        return foldout;
     }
 
     public static Port CreatePort(this BSMNode node, string portName = "", Orientation orientation = Orientation.Horizontal, Direction direction = Direction.Output, Port.Capacity capacity = Port.Capacity.Single)

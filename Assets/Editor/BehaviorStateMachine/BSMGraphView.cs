@@ -24,9 +24,9 @@ class BSMNodeError
     }
 }
 
-public class BehaviorStateMachineGraphView : GraphView
+public class BSMGraphView : GraphView
 {
-    BehaviorStateMachineGraph m_editorWindow;
+    BSMGraph m_editorWindow; 
 
     SerializableDictionary<string, BSMNodeError> m_ungroupedNodes = new SerializableDictionary<string, BSMNodeError>();
     BSMStartNode m_startNode;
@@ -55,7 +55,7 @@ public class BehaviorStateMachineGraphView : GraphView
             }
         }
     }
-    public BehaviorStateMachineGraphView(BehaviorStateMachineGraph editorWindow)
+    public BSMGraphView(BSMGraph editorWindow)
     {
         m_editorWindow = editorWindow;
 

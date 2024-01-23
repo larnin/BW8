@@ -17,6 +17,4 @@ public abstract class BSMConditionBase
 
         return name;
     }
-
-    public abstract VisualElement GetElement();
 }

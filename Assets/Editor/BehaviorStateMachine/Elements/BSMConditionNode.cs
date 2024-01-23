@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEngine;
 
-public class BSMConditionNode : BSMNode
+public class BSMConditionNode : BSMNode, BSMConditionNodePopupCallback
 {
     BSMConditionBase m_condition = null;
+    BSMConditionViewBase m_conditionView = null;
+
+    VisualElement m_button;
 
     public override void Draw() 
     {
@@ -22,7 +26,9 @@ public class BSMConditionNode : BSMNode
     {
         extensionContainer.Clear();
 
-        if (m_condition == null)
+        m_button = null;
+
+        if (m_condition == null || m_conditionView == null)
             DrawSetCondition();
         else DrawCondition();
 
@@ -31,8 +37,8 @@ public class BSMConditionNode : BSMNode
 
     void DrawSetCondition()
     {
-        Button addChoiceButton = BSMUtility.CreateButton("Set condition", CreatePopup);
-        extensionContainer.Add(addChoiceButton);
+        m_button = BSMUtility.CreateButton("Set condition", CreatePopup);
+        extensionContainer.Add(m_button);
     }
 
     void DrawCondition()
@@ -53,7 +59,7 @@ public class BSMConditionNode : BSMNode
         header.Add(removeButton);
 
         extensionContainer.Add(header);
-        var element = m_condition.GetElement();
+        var element = m_conditionView.GetElement();
         if (element != null)
             extensionContainer.Add(element);
     }
@@ -61,14 +67,22 @@ public class BSMConditionNode : BSMNode
     public void SetCondition(BSMConditionBase condition)
     {
         m_condition = condition;
+        if (m_condition == null)
+            m_conditionView = null;
+        else m_conditionView = BSMConditionViewBase.Create(m_condition);
         LocalDraw();
     }
 
     void CreatePopup()
     {
-        var pos = GetPosition();
+        if (m_button == null)
+            return;
 
-        UnityEditor.PopupWindow.Show(pos, new BSMConditionNodePopup(this));
+        var pos = m_button.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        UnityEditor.PopupWindow.Show(rect, new BSMConditionNodePopup(this));
     }
 
     void RemoveCondition()

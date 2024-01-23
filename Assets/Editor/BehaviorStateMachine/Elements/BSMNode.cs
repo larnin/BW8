@@ -12,7 +12,7 @@ public class BSMNode : Node
     public string ID { get; set; }
     public string NodeName { get; set; }
 
-    protected BehaviorStateMachineGraphView m_graphView;
+    protected BSMGraphView m_graphView;
 
     static Color defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
 
@@ -24,7 +24,7 @@ public class BSMNode : Node
         base.BuildContextualMenu(evt);
     }
 
-    public virtual void Initialize(string nodeName, BehaviorStateMachineGraphView view, Vector2 position)
+    public virtual void Initialize(string nodeName, BSMGraphView view, Vector2 position)
     {
         ID = Guid.NewGuid().ToString();
         NodeName = nodeName;
@@ -41,7 +41,7 @@ public class BSMNode : Node
     {
         /* TITLE CONTAINER */
 
-        TextField dialogueNameTextField = BSMUtility.CreateTextField(NodeName, null, callback =>
+        TextField dialogueNameTextField = BSMEditorUtility.CreateTextField(NodeName, null, callback =>
         {
             TextField target = (TextField)callback.target;
 

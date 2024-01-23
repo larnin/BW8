@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class BSMConditionMultiCondition : BSMConditionBase
 {
-    enum BSMConditionOperator
+    public enum BSMConditionOperator
     {
         OR,
         AND,
@@ -18,34 +18,32 @@ public class BSMConditionMultiCondition : BSMConditionBase
     }
 
     [SerializeField] List<BSMConditionBase> m_conditions = new List<BSMConditionBase>();
-    VisualElement m_baseContainer;
+    [SerializeField] BSMConditionOperator m_operator = BSMConditionOperator.AND;
+    public BSMConditionOperator conditionOperator { get { return m_operator; } set { m_operator = value; } }
 
-    public override VisualElement GetElement()
-    {
-        VisualElement bloc = new VisualElement();
-
-
-
-        return bloc;
-    }
-
-    void UpdateBaseContainer()
-    {
-
-    }
-
-    void AddCondition(BSMConditionBase condition)
+    public void AddCondition(BSMConditionBase condition)
     {
         m_conditions.Add(condition);
-        UpdateBaseContainer();
     }
 
-    void RemoveCondition(int index)
+    public void RemoveCondition(int index)
     {
         if (index < 0 || index >= m_conditions.Count)
             return;
 
         m_conditions.RemoveAt(index);
-        UpdateBaseContainer();
+    }
+
+    public int GetConditionNb()
+    {
+        return m_conditions.Count;
+    }
+
+    public BSMConditionBase GetCondition(int index)
+    {
+        if (index < 0 || index >= m_conditions.Count)
+            return null;
+
+        return m_conditions[index];
     }
 }
