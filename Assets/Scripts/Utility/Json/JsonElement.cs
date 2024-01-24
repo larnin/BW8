@@ -111,6 +111,21 @@ public class JsonArray : JsonElement, IEnumerable<JsonElement>
         m_elements.Add(element);
     }
 
+    public void Add(string value)
+    {
+        Add(new JsonString(value));
+    }
+
+    public void Add(int value)
+    {
+        Add(new JsonNumber(value));
+    }
+
+    public void Add(float value)
+    {
+        Add(new JsonNumber(value));
+    }
+
     public bool Remove(JsonElement element)
     {
         return m_elements.Remove(element);
