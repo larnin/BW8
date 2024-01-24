@@ -12,4 +12,21 @@ public class BSMStateIdle : BSMStateBase
 
     public string animation { get { return m_animation; } set { m_animation = value; } }
     public bool isOrientable { get { return m_isOrientable; } set { m_isOrientable = value; } }
+
+    public override void Load(JsonObject obj)
+    {
+        var animElt = obj.GetElement("Anim");
+        if (animElt != null && animElt.IsJsonString())
+            m_animation = animElt.String();
+
+        var orientElt = obj.GetElement("Orientable");
+        if (orientElt != null && orientElt.IsJsonNumber())
+            m_isOrientable = orientElt.Int() != 0;
+    }
+
+    public override void Save(JsonObject obj)
+    {
+        obj.AddElement("Anim", m_animation);
+        obj.AddElement("Orientable", m_isOrientable ? 1 : 0);
+    }
 }

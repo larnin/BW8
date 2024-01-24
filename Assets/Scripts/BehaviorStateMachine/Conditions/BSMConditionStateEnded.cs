@@ -7,5 +7,7 @@ using UnityEngine.UIElements;
 
 public class BSMConditionStateEnded : BSMConditionBase
 {
-    
+    public override void Load(JsonObject obj) { }
+
+    public override void Save(JsonObject obj) { }
 }

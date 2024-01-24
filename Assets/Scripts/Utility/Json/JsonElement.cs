@@ -185,6 +185,21 @@ public class JsonObject : JsonElement, IEnumerable<KeyValuePair<string, JsonElem
         m_elements[key] = element;
     }
 
+    public void AddElement(string key, string value)
+    {
+        AddElement(key, new JsonString(value));
+    }
+
+    public void AddElement(string key, int value)
+    {
+        AddElement(key, new JsonNumber(value));
+    }
+
+    public void AddElement(string key, float value)
+    {
+        AddElement(key, new JsonNumber(value));
+    }
+
     public bool RemoveElement(string key)
     {
         return m_elements.Remove(key);
