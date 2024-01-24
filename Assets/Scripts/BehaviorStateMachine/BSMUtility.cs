@@ -27,4 +27,28 @@ public static class BSMUtility
 
         return foldout;
     }
+
+    public static TextField CreateTextField(string title, string text, Action<string> callback = null)
+    {
+        TextField field = new TextField(title)
+        {
+            value = text
+        };
+        if (callback != null)
+            field.RegisterValueChangedCallback(x => { callback(x.newValue); });
+        return field;
+    }
+
+    public static Toggle CreateCheckbox(string title, bool toggled, Action<bool> callback = null)
+    {
+        Toggle checkbox = new Toggle(title)
+        {
+            value = toggled,
+        };
+
+        if (callback != null)
+            checkbox.RegisterValueChangedCallback(x => { callback(x.newValue); });
+
+        return checkbox;
+    }
 }
