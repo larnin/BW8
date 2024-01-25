@@ -20,6 +20,7 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
 
         LocalDraw();
     }
+
     void LocalDraw()
     {
         extensionContainer.Clear();
@@ -91,5 +92,43 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
     void RemoveState()
     {
         SetState(null);
+    }
+
+    public override void UpdateStyle(bool error)
+    {
+        base.UpdateStyle(error);
+
+        if (error)
+        {
+            mainContainer.style.backgroundColor = errorBackgroundColor;
+            mainContainer.style.borderBottomColor = errorBorderColor;
+            mainContainer.style.borderLeftColor = errorBorderColor;
+            mainContainer.style.borderRightColor = errorBorderColor;
+            mainContainer.style.borderTopColor = errorBorderColor;
+        }
+        else
+        {
+            Color backgroundColor = new Color(0.1f, 0.1f, 0.15f);
+            Color borderColor = new Color(0.3f, 0.3f, 0.5f);
+
+            mainContainer.style.backgroundColor = backgroundColor;
+            mainContainer.style.borderBottomColor = borderColor;
+            mainContainer.style.borderLeftColor = borderColor;
+            mainContainer.style.borderRightColor = borderColor;
+            mainContainer.style.borderTopColor = borderColor;
+        }
+
+        float borderWidth = 1;
+        float borderRadius = 2;
+
+        mainContainer.style.borderBottomWidth = borderWidth;
+        mainContainer.style.borderLeftWidth = borderWidth;
+        mainContainer.style.borderRightWidth = borderWidth;
+        mainContainer.style.borderTopWidth = borderWidth;
+
+        mainContainer.style.borderBottomLeftRadius = borderRadius;
+        mainContainer.style.borderBottomRightRadius = borderRadius;
+        mainContainer.style.borderTopLeftRadius = borderRadius;
+        mainContainer.style.borderTopRightRadius = borderRadius;
     }
 }

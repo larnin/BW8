@@ -9,12 +9,15 @@ using UnityEngine.UIElements;
 
 public class BSMNode : Node
 {
+    public static Color errorBorderColor = new Color(1, 0, 0);
+    public static Color errorBackgroundColor = new Color(0.5f, 0.2f, 0.2f);
+
     public string ID { get; set; }
     public string NodeName { get; set; }
 
     protected BSMGraphView m_graphView;
 
-    static Color defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
+    protected bool m_error = false;
 
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
@@ -35,6 +38,8 @@ public class BSMNode : Node
 
         mainContainer.AddToClassList("bsm-node__main-container");
         extensionContainer.AddToClassList("bsm-node__extension-container");
+
+        UpdateStyle(m_error);
     }
 
     public virtual void Draw()
@@ -45,28 +50,9 @@ public class BSMNode : Node
         {
             TextField target = (TextField)callback.target;
 
-            target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
-
-            if (string.IsNullOrEmpty(target.value))
-            {
-                if (!string.IsNullOrEmpty(NodeName))
-                {
-                    m_graphView.NameErrorsAmount++;
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(NodeName))
-                {
-                    m_graphView.NameErrorsAmount--;
-                }
-            }
-
-            m_graphView.RemoveUngroupedNode(this);
+            target.value = callback.newValue.RemoveSpecialCharacters();
 
             NodeName = target.value;
-
-            m_graphView.AddUngroupedNode(this);
         });
 
         dialogueNameTextField.AddClasses(
@@ -121,13 +107,8 @@ public class BSMNode : Node
         }
     }
 
-    public void SetErrorStyle(Color color)
+    public virtual void UpdateStyle(bool error)
     {
-        mainContainer.style.backgroundColor = color;
-    }
-
-    public void ResetStyle()
-    {
-        mainContainer.style.backgroundColor = defaultBackgroundColor;
+        m_error = error;
     }
 }

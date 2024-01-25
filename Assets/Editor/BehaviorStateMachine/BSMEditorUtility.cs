@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public static class BSMEditorUtility
@@ -91,5 +92,34 @@ public static class BSMEditorUtility
         textArea.multiline = true;
 
         return textArea;
+    }
+
+    public static List<Edge> GetAllOutEdge(BSMNode node)
+    {
+        List<Edge> edges = new List<Edge>();
+
+        foreach(Port port in node.outputContainer.Children())
+        {
+            if (port == null)
+                continue;
+
+            foreach (var e in port.connections)
+                edges.Add(e);
+        }
+
+        return edges;
+    }
+
+    public static BSMNodeType GetType(BSMNode node)
+    {
+        if (node is BSMNodeCondition)
+            return BSMNodeType.Condition;
+        else if (node is BSMNodeStart)
+            return BSMNodeType.Label;
+        else if (node is BSMNodeState)
+            return BSMNodeType.State;
+        else Debug.LogError("Unknow node type " + node.ToString());
+
+        return BSMNodeType.Label;
     }
 }

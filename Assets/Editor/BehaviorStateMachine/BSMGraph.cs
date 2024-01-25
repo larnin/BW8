@@ -35,14 +35,4 @@ public class BSMGraph : EditorWindow
     {
         rootVisualElement.AddStyleSheets("BehaviorStateMachine/BSMVariables.uss");
     }
-
-    public void EnableSaving()
-    {
-        //todo
-    }
-
-    public void DisableSaving()
-    {
-        //todo
-    }
 }

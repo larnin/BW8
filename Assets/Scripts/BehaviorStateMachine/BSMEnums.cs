@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 public enum BSMNodeType
 {
-    Start,
-    State,
+    Label,
+    Goto,
     Condition,
+    State,
 }

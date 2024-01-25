@@ -8,53 +8,13 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
 
-class BSMNodeError
-{
-    public Color Color { get; private set; }
-    public List<BSMNode> Nodes = new List<BSMNode>();
-
-    public BSMNodeError()
-    {
-        Color = new Color32(
-               (byte)UnityEngine.Random.Range(65, 256),
-               (byte)UnityEngine.Random.Range(50, 176),
-               (byte)UnityEngine.Random.Range(50, 176),
-               255
-           );
-    }
-}
-
 public class BSMGraphView : GraphView
 {
-    BSMGraph m_editorWindow; 
+    BSMGraph m_editorWindow;
 
-    SerializableDictionary<string, BSMNodeError> m_ungroupedNodes = new SerializableDictionary<string, BSMNodeError>();
+    List<BSMNode> m_nodes = new List<BSMNode>();
     BSMNodeStart m_startNode;
 
-    private int nameErrorsAmount = 0;
-
-    public int NameErrorsAmount
-    {
-        get
-        {
-            return nameErrorsAmount;
-        }
-
-        set
-        {
-            nameErrorsAmount = value;
-
-            if (nameErrorsAmount == 0)
-            {
-                m_editorWindow.EnableSaving();
-            }
-
-            if (nameErrorsAmount == 1)
-            {
-                m_editorWindow.DisableSaving();
-            }
-        }
-    }
     public BSMGraphView(BSMGraph editorWindow)
     {
         m_editorWindow = editorWindow;
@@ -122,12 +82,14 @@ public class BSMGraphView : GraphView
 
             foreach (BSMNode nodeToDelete in nodesToDelete)
             {
-                RemoveUngroupedNode(nodeToDelete);
+                RemoveNode(nodeToDelete, false);
 
                 nodeToDelete.DisconnectAllPorts();
 
                 RemoveElement(nodeToDelete);
             }
+
+            ProcessErrors();
         };
     }
 
@@ -136,90 +98,31 @@ public class BSMGraphView : GraphView
         //todo
         graphViewChanged = (changes) =>
         {
-            if (changes.edgesToCreate != null)
-            {
-                foreach (Edge edge in changes.edgesToCreate)
-                {
-                    BSMNode nextNode = (BSMNode)edge.input.node;
-
-                    //DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
-
-                    //choiceData.NodeID = nextNode.ID;
-                }
-            }
-
-            if (changes.elementsToRemove != null)
-            {
-                Type edgeType = typeof(Edge);
-
-                foreach (GraphElement element in changes.elementsToRemove)
-                {
-                    if (element.GetType() != edgeType)
-                    {
-                        continue;
-                    }
-
-                    Edge edge = (Edge)element;
-
-                    //DSChoiceSaveData choiceData = (DSChoiceSaveData)edge.output.userData;
-
-                    //choiceData.NodeID = "";
-                }
-            }
+            ProcessErrors();
 
             return changes;
         };
     }
 
-    public void AddUngroupedNode(BSMNode node)
+    public void AddNode(BSMNode node, bool checkError = true)
     {
-        string nodeName = node.NodeName.ToLower();
-
-        if (!m_ungroupedNodes.ContainsKey(nodeName))
-        {
-            BSMNodeError nodeError = new BSMNodeError();
-            nodeError.Nodes.Add(node);
-            m_ungroupedNodes.Add(nodeName, nodeError);
-
-            return;
-        }
-
-        Color errorColor = m_ungroupedNodes[nodeName].Color;
-        List<BSMNode> list = m_ungroupedNodes[nodeName].Nodes;
-        list.Add(node);
-
-        node.SetErrorStyle(errorColor);
-        if (list.Count == 2)
-        {
-            list[0].SetErrorStyle(errorColor);
-            NameErrorsAmount++;
-        }
+        m_nodes.Add(node);
+        if(checkError)
+            ProcessErrors();
     }
 
-    public void RemoveUngroupedNode(BSMNode node)
+    public void RemoveNode(BSMNode node, bool checkError = true)
     {
-        string nodeName = node.NodeName.ToLower();
-
-        List<BSMNode> list = m_ungroupedNodes[nodeName].Nodes;
-
-        list.Remove(node);
-        
-        if (list.Count == 1)
-        {
-            NameErrorsAmount--;
-            list[0].ResetStyle();
-
-            return;
-        }
-
-        if (list.Count == 0)
-            m_ungroupedNodes.Remove(nodeName);
+        m_nodes.Remove(node);
+        if(checkError)
+            ProcessErrors();
     }
 
     private void AddStartNode()
     {
-        var node = CreateNode("Start", BSMNodeType.Start, Vector2.zero, true, false);
+        var node = CreateNode("Start", BSMNodeType.Label, Vector2.zero, true, false);
         m_startNode = node as BSMNodeStart;
+        AddNode(m_startNode);
         AddElement(node);
     }
 
@@ -242,7 +145,7 @@ public class BSMGraphView : GraphView
             name = "New State";
         else if (dialogueType == BSMNodeType.Condition)
             name = "New Condition";
-        else if (dialogueType == BSMNodeType.Start)
+        else if (dialogueType == BSMNodeType.Label)
             return null;
 
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
@@ -260,7 +163,7 @@ public class BSMGraphView : GraphView
             nodeType = typeof(BSMNodeState);
         else if (dialogueType == BSMNodeType.Condition)
             nodeType = typeof(BSMNodeCondition);
-        else if (dialogueType == BSMNodeType.Start)
+        else if (dialogueType == BSMNodeType.Label)
             nodeType = typeof(BSMNodeStart);
 
         if (nodeType == null)
@@ -275,8 +178,9 @@ public class BSMGraphView : GraphView
             node.Draw();
         }
 
-        if(addList)
-            AddUngroupedNode(node);
+        if (addList)
+            m_nodes.Add(node);
+            AddNode(node);
 
         return node;
     }
@@ -322,6 +226,90 @@ public class BSMGraphView : GraphView
         return compatiblePorts;
     }
 
+    public void ProcessErrors()
+    {
+        ClearErrors();
+
+        foreach (var node in m_nodes)
+            node.UpdateStyle(false);
+
+        for(int i = 0; i < m_nodes.Count; i++)
+        {
+            int namesError = 1;
+
+            var node = m_nodes[i];
+
+            for(int j = i + 1; j< m_nodes.Count; j++)
+            {
+                if(m_nodes[j].NodeName == node.NodeName)
+                {
+                    if (namesError == 1)
+                        node.UpdateStyle(true);
+                    m_nodes[j].UpdateStyle(true);
+
+                    namesError++;
+                }
+            }
+
+            foreach(var edge in BSMEditorUtility.GetAllOutEdge(node))
+            {
+                if (edge.output == null)
+                    continue;
+                if (edge.output.node == null)
+                    continue;
+
+                var nextNode = edge.output.node as BSMNode;
+                if (node == null)
+                    continue;
+
+                var inType = BSMEditorUtility.GetType(node);
+                var outType = BSMEditorUtility.GetType(nextNode);
+
+                if (inType == BSMNodeType.Label && node != m_startNode)
+                    continue;
+
+                if(outType == BSMNodeType.Goto)
+                {
+                    var realNextNode = PropagateGoto(nextNode);
+                    if (realNextNode == null)
+                        continue;
+                    outType = BSMEditorUtility.GetType(realNextNode);
+
+                    if (outType == BSMNodeType.Label || outType == BSMNodeType.Goto)
+                        continue;
+                }
+
+
+            }
+
+            if (namesError > 1)
+                AddError(namesError + " Nodes are named " + node.name);
+        }
+    }
+
+    BSMNode PropagateGoto(BSMNode gotoNode)
+    {
+
+        return null;
+    }
+
+    void SetEdgeStyle(Edge edge, bool error)
+    {
+        if (error)
+            edge.style.color = BSMNode.errorBorderColor;
+        else edge.style.color = new Color(.8f, .8f, .8f);
+    }
+
+    void AddError(string error)
+    {
+
+    }
+
+    void ClearErrors()
+    {
+
+    }
+
     public void Load(BSMSaveData data)
     {
         List<BSMNode> nodes = new List<BSMNode>();
@@ -333,24 +321,29 @@ public class BSMGraphView : GraphView
         }
 
         foreach (var node in nodes)
+        {
             AddElement(node);
+            AddNode(node, false);
+        }
 
         CreateConnexions(nodes, data.nodes);
+
+        ProcessErrors();
     }
 
     BSMNode LoadNode(BSMSaveNode data)
     {
         BSMNode node = null;
 
-        if (data.nodeType == BSMSaveNodeType.Label) //todo change
+        if (data.nodeType == BSMNodeType.Label) //todo change
             node = new BSMNodeStart();
-        else if(data.nodeType == BSMSaveNodeType.Condition)
+        else if(data.nodeType == BSMNodeType.Condition)
         {
             var nodeConditon = new BSMNodeCondition();
             nodeConditon.SetCondition(data.data as BSMConditionBase);
             node = nodeConditon;
         }
-        else if(data.nodeType == BSMSaveNodeType.State)
+        else if(data.nodeType == BSMNodeType.State)
         {
             var nodeState = new BSMNodeState();
             nodeState.SetState(data.data as BSMStateBase);
@@ -404,10 +397,7 @@ public class BSMGraphView : GraphView
     {
         BSMSaveData data = new BSMSaveData();
 
-        data.nodes.Add(SaveNode(m_startNode));
-
-        foreach (var groupNode in m_ungroupedNodes)
-            foreach (var node in groupNode.Value.Nodes)
+        foreach (var node in m_nodes)
                 data.nodes.Add(SaveNode(node));
 
         return data;
@@ -440,27 +430,22 @@ public class BSMGraphView : GraphView
             }
         }
 
-        if (node is BSMNodeStart) // todo change to lbl node
-        {
-            data.nodeType = BSMSaveNodeType.Label;
-        }
-        else if (node is BSMNodeCondition)
-        {
-            data.nodeType = BSMSaveNodeType.Condition;
+        data.nodeType = BSMEditorUtility.GetType(node);
 
+        if (data.nodeType == BSMNodeType.Condition)
+        {
             var nodeCondition = node as BSMNodeCondition;
             if(nodeCondition != null)
                 data.data = nodeCondition.GetCondition();
         }
-        else if (node is BSMNodeState)
+        else if (data.nodeType == BSMNodeType.State)
         {
-            data.nodeType = BSMSaveNodeType.State;
+            data.nodeType = BSMNodeType.State;
 
             var nodeState = node as BSMNodeState;
             if(nodeState != null)
                 data.data = nodeState.GetState();
         }
-        else Debug.LogError("Save unknow node type !");
 
         return data;
     }

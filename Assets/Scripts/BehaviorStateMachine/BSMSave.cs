@@ -11,19 +11,11 @@ public interface BSMSerializable
     public void Save(JsonObject obj);
 }
 
-public enum BSMSaveNodeType
-{
-    Label,
-    Goto,
-    Condition,
-    State,
-}
-
 public class BSMSaveNode
 {
     public string id;
     public string name;
-    public BSMSaveNodeType nodeType;
+    public BSMNodeType nodeType;
     public Rect position;
 
     public object data;
@@ -55,9 +47,9 @@ public class BSMSaveNode
         if (dataElt != null && dataElt.IsJsonObject())
         {
             var dataObj = dataElt.JsonObject();
-            if (nodeType == BSMSaveNodeType.Condition)
+            if (nodeType == BSMNodeType.Condition)
                 data = BSMConditionBase.LoadCondition(dataObj);
-            else if (nodeType == BSMSaveNodeType.State)
+            else if (nodeType == BSMNodeType.State)
                 data = BSMStateBase.LoadState(dataObj);
         }
 
@@ -86,9 +78,9 @@ public class BSMSaveNode
         if(data != null)
         {
             JsonObject dataObj = null;
-            if (nodeType == BSMSaveNodeType.Condition)
+            if (nodeType == BSMNodeType.Condition)
                 dataObj = BSMConditionBase.SaveCondition(data as BSMConditionBase);
-            else if (nodeType == BSMSaveNodeType.State)
+            else if (nodeType == BSMNodeType.State)
                 dataObj = BSMStateBase.SaveState(data as BSMStateBase);
 
             if (dataObj != null)

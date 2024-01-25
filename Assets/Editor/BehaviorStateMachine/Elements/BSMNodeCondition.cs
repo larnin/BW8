@@ -94,4 +94,42 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
     {
         SetCondition(null);
     }
+
+    public override void UpdateStyle(bool error)
+    {
+        base.UpdateStyle(error);
+
+        if(error)
+        {
+            mainContainer.style.backgroundColor = errorBackgroundColor;
+            mainContainer.style.borderBottomColor = errorBorderColor;
+            mainContainer.style.borderLeftColor = errorBorderColor;
+            mainContainer.style.borderRightColor = errorBorderColor;
+            mainContainer.style.borderTopColor = errorBorderColor;
+        }
+        else
+        {
+            Color backgroundColor = new Color(0.15f, 0.15f, 0.1f);
+            Color borderColor = new Color(0.5f, 0.5f, 0.3f);
+
+            mainContainer.style.backgroundColor = backgroundColor;
+            mainContainer.style.borderBottomColor = borderColor;
+            mainContainer.style.borderLeftColor = borderColor;
+            mainContainer.style.borderRightColor = borderColor;
+            mainContainer.style.borderTopColor = borderColor;
+        }
+
+        float borderWidth = 2;
+        float borderRadius = 20;
+
+        mainContainer.style.borderBottomWidth = borderWidth;
+        mainContainer.style.borderLeftWidth = borderWidth;
+        mainContainer.style.borderRightWidth = borderWidth;
+        mainContainer.style.borderTopWidth = borderWidth;
+
+        mainContainer.style.borderBottomLeftRadius = borderRadius;
+        mainContainer.style.borderBottomRightRadius = borderRadius;
+        mainContainer.style.borderTopLeftRadius = borderRadius;
+        mainContainer.style.borderTopRightRadius = borderRadius;
+    }
 }
