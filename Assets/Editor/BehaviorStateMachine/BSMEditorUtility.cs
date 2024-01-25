@@ -40,6 +40,34 @@ public static class BSMEditorUtility
         return port;
     }
 
+    public static Edge ConnectNodes(BSMNode first, BSMNode second)
+    {
+        if (first.outputContainer == null)
+            return null;
+        Port outPort = null;
+        foreach(Port port in first.outputContainer.Children())
+        {
+            if (port == null)
+                continue;
+            outPort = port;
+            break;
+        }
+        if (outPort == null)
+            return null;
+        if (second.inputContainer == null)
+            return null;
+        Port inPort = null;
+        foreach(Port port in second.inputContainer.Children())
+        {
+            if (port == null)
+                continue;
+            inPort = port;
+            break;
+        }
+
+        return outPort.ConnectTo(inPort);
+    }
+
     public static TextField CreateTextField(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
     {
         TextField textField = new TextField()

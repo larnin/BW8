@@ -21,20 +21,20 @@ public enum BSMSaveNodeType
 
 public class BSMSaveNode
 {
-    public int id;
+    public string id;
     public string name;
     public BSMSaveNodeType nodeType;
-    public Vector2 position;
+    public Rect position;
 
     public object data;
 
-    public List<int> outNodes = new List<int>();
+    public List<string> outNodes = new List<string>();
 
     public void Load(JsonObject obj)
     {
         var idElt = obj.GetElement("ID");
-        if (idElt != null && idElt.IsJsonNumber())
-            id = idElt.Int();
+        if (idElt != null && idElt.IsJsonString())
+            id = idElt.String();
 
         var nameElt = obj.GetElement("Name");
         if (nameElt != null && nameElt.IsJsonString())
@@ -49,7 +49,7 @@ public class BSMSaveNode
 
         var posElt = obj.GetElement("Pos");
         if (posElt != null && posElt.IsJsonArray())
-            position = Json.ToVector2(posElt.JsonArray(), position);
+            position = Json.ToRect(posElt.JsonArray(), position);
 
         var dataElt = obj.GetElement("Data");
         if (dataElt != null && dataElt.IsJsonObject())
@@ -68,8 +68,8 @@ public class BSMSaveNode
             var outArray = outElt.JsonArray();
             foreach(var e in outArray)
             {
-                if (e.IsJsonNumber())
-                    outNodes.Add(e.Int());
+                if (e.IsJsonString())
+                    outNodes.Add(e.String());
             }
         }
     }
@@ -81,7 +81,7 @@ public class BSMSaveNode
         obj.AddElement("ID", id);
         obj.AddElement("Name", name);
         obj.AddElement("Type", nodeType.ToString());
-        obj.AddElement("Pos", Json.FromVector2(position));
+        obj.AddElement("Pos", Json.FromRect(position));
 
         if(data != null)
         {

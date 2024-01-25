@@ -29,7 +29,7 @@ public class BSMGraphView : GraphView
     BSMGraph m_editorWindow; 
 
     SerializableDictionary<string, BSMNodeError> m_ungroupedNodes = new SerializableDictionary<string, BSMNodeError>();
-    BSMStartNode m_startNode;
+    BSMNodeStart m_startNode;
 
     private int nameErrorsAmount = 0;
 
@@ -100,7 +100,7 @@ public class BSMGraphView : GraphView
             {
                 if (selectedElement is BSMNode node)
                 {
-                    if (node is BSMStartNode)
+                    if (node is BSMNodeStart)
                         continue;
 
                     nodesToDelete.Add(node);
@@ -219,7 +219,7 @@ public class BSMGraphView : GraphView
     private void AddStartNode()
     {
         var node = CreateNode("Start", BSMNodeType.Start, Vector2.zero, true, false);
-        m_startNode = node as BSMStartNode;
+        m_startNode = node as BSMNodeStart;
         AddElement(node);
     }
 
@@ -257,11 +257,11 @@ public class BSMGraphView : GraphView
         Type nodeType = null;
 
         if (dialogueType == BSMNodeType.State)
-            nodeType = typeof(BSMStateNode);
+            nodeType = typeof(BSMNodeState);
         else if (dialogueType == BSMNodeType.Condition)
-            nodeType = typeof(BSMConditionNode);
+            nodeType = typeof(BSMNodeCondition);
         else if (dialogueType == BSMNodeType.Start)
-            nodeType = typeof(BSMStartNode);
+            nodeType = typeof(BSMNodeStart);
 
         if (nodeType == null)
             return null;
@@ -301,10 +301,10 @@ public class BSMGraphView : GraphView
 
         ports.ForEach(port =>
         {
-            if (startPort.node is BSMStartNode && !(port.node is BSMStateNode))
+            if (startPort.node is BSMNodeStart && !(port.node is BSMNodeState))
                 return;
 
-            if (startPort.node is BSMStateNode && port.node is BSMStateNode)
+            if (startPort.node is BSMNodeState && port.node is BSMNodeState)
                 return;
 
             if (startPort == port)
@@ -320,5 +320,148 @@ public class BSMGraphView : GraphView
         });
 
         return compatiblePorts;
+    }
+
+    public void Load(BSMSaveData data)
+    {
+        List<BSMNode> nodes = new List<BSMNode>();
+
+        foreach(var dataNode in data.nodes)
+        {
+            var node = LoadNode(dataNode);
+            nodes.Add(node);
+        }
+
+        foreach (var node in nodes)
+            AddElement(node);
+
+        CreateConnexions(nodes, data.nodes);
+    }
+
+    BSMNode LoadNode(BSMSaveNode data)
+    {
+        BSMNode node = null;
+
+        if (data.nodeType == BSMSaveNodeType.Label) //todo change
+            node = new BSMNodeStart();
+        else if(data.nodeType == BSMSaveNodeType.Condition)
+        {
+            var nodeConditon = new BSMNodeCondition();
+            nodeConditon.SetCondition(data.data as BSMConditionBase);
+            node = nodeConditon;
+        }
+        else if(data.nodeType == BSMSaveNodeType.State)
+        {
+            var nodeState = new BSMNodeState();
+            nodeState.SetState(data.data as BSMStateBase);
+            node = nodeState;
+        }
+
+        node.ID = data.id;
+        node.name = data.name;
+        node.SetPosition(data.position);
+
+        return node;
+    }
+
+    void CreateConnexions(List<BSMNode> nodes, List<BSMSaveNode> datas)
+    {
+        List<Edge> edges = new List<Edge>();
+
+        foreach(var data in datas)
+        {
+            var node = GetFromID(nodes, data.id);
+            if (node == null)
+                continue;
+            foreach (var connexion in data.outNodes)
+            {
+                var outNode = GetFromID(nodes, connexion);
+                if (outNode == null)
+                    continue;
+
+                var edge = BSMEditorUtility.ConnectNodes(node, outNode);
+                if (edge != null)
+                    edges.Add(edge);
+            }
+        }
+
+        foreach (var edge in edges)
+            AddElement(edge);
+    }
+
+    static BSMNode GetFromID(List<BSMNode> nodes, string id)
+    {
+        foreach(var node in nodes)
+        {
+            if (node.ID == id)
+                return node;
+        }
+
+        return null;
+    }
+
+    public BSMSaveData Save()
+    {
+        BSMSaveData data = new BSMSaveData();
+
+        data.nodes.Add(SaveNode(m_startNode));
+
+        foreach (var groupNode in m_ungroupedNodes)
+            foreach (var node in groupNode.Value.Nodes)
+                data.nodes.Add(SaveNode(node));
+
+        return data;
+    }
+
+    BSMSaveNode SaveNode(BSMNode node)
+    {
+        BSMSaveNode data = new BSMSaveNode();
+
+        data.id = node.ID;
+        data.name = node.name;
+        data.position = node.GetPosition();
+
+        foreach(Port port in node.outputContainer.Children())
+        {
+            if (port == null)
+                continue;
+
+            foreach(var connexion in port.connections)
+            {
+                if (connexion.output == null)
+                    continue;
+                if (connexion.output.node == null)
+                    continue;
+
+                var nextNode = connexion.output.node as BSMNode;
+                if (nextNode == null)
+                    continue;
+                data.outNodes.Add(nextNode.ID);
+            }
+        }
+
+        if (node is BSMNodeStart) // todo change to lbl node
+        {
+            data.nodeType = BSMSaveNodeType.Label;
+        }
+        else if (node is BSMNodeCondition)
+        {
+            data.nodeType = BSMSaveNodeType.Condition;
+
+            var nodeCondition = node as BSMNodeCondition;
+            if(nodeCondition != null)
+                data.data = nodeCondition.GetCondition();
+        }
+        else if (node is BSMNodeState)
+        {
+            data.nodeType = BSMSaveNodeType.State;
+
+            var nodeState = node as BSMNodeState;
+            if(nodeState != null)
+                data.data = nodeState.GetState();
+        }
+        else Debug.LogError("Save unknow node type !");
+
+        return data;
     }
 }

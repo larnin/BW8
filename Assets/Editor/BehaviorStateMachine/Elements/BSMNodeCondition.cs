@@ -4,71 +4,78 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEngine;
 
-public class BSMStateNode : BSMNode, BSMStateNodePopupCallback
+public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
 {
-    BSMStateBase m_state = null;
-    BSMStateViewBase m_stateView = null;
+    BSMConditionBase m_condition = null;
+    BSMConditionViewBase m_conditionView = null;
 
     VisualElement m_button;
 
-    public override void Draw()
+    public override void Draw() 
     {
         base.Draw();
 
         LocalDraw();
     }
+
     void LocalDraw()
     {
         extensionContainer.Clear();
 
         m_button = null;
 
-        if (m_state == null || m_stateView == null)
-            DrawSetState();
-        else DrawState();
+        if (m_condition == null || m_conditionView == null)
+            DrawSetCondition();
+        else DrawCondition();
 
         RefreshExpandedState();
     }
 
-    void DrawSetState()
+    void DrawSetCondition()
     {
-        m_button = BSMUtility.CreateButton("Set state", CreatePopup);
+        m_button = BSMUtility.CreateButton("Set condition", CreatePopup);
         extensionContainer.Add(m_button);
     }
 
-    void DrawState()
+    void DrawCondition()
     {
-        string stateName = BSMStateBase.GetName(m_state.GetType());
+        string conditionName = BSMConditionBase.GetName(m_condition.GetType());
 
         var header = new VisualElement();
         header.style.flexDirection = FlexDirection.Row;
         header.style.justifyContent = Justify.SpaceBetween;
-        Label labelName = new Label(stateName);
+        Label labelName = new Label(conditionName);
         labelName.style.paddingBottom = 4;
         labelName.style.paddingLeft = 4;
         labelName.style.paddingRight = 4;
         labelName.style.paddingTop = 4;
         header.Add(labelName);
-        var removeButton = BSMUtility.CreateButton("X", RemoveState);
+        var removeButton = BSMUtility.CreateButton("X", RemoveCondition);
         removeButton.style.maxWidth = 20;
         header.Add(removeButton);
 
         extensionContainer.Add(header);
-        var element = m_stateView.GetElement();
+        var element = m_conditionView.GetElement();
         if (element != null)
             extensionContainer.Add(element);
     }
 
-    public void SetState(BSMStateBase state)
+    public void SetCondition(BSMConditionBase condition)
     {
-        m_state = state;
-        if (m_state == null)
-            m_stateView = null;
-        else m_stateView = BSMStateViewBase.Create(m_state);
+        m_condition = condition;
+        if (m_condition == null)
+            m_conditionView = null;
+        else m_conditionView = BSMConditionViewBase.Create(m_condition);
         LocalDraw();
+    }
+
+    public BSMConditionBase GetCondition()
+    {
+        return m_condition;
     }
 
     void CreatePopup()
@@ -80,11 +87,11 @@ public class BSMStateNode : BSMNode, BSMStateNodePopupCallback
         pos.y -= 100;
         var rect = new Rect(pos, new Vector2(200, 100));
 
-        UnityEditor.PopupWindow.Show(rect, new BSMStateNodePopup(this));
+        UnityEditor.PopupWindow.Show(rect, new BSMConditionNodePopup(this));
     }
 
-    void RemoveState()
+    void RemoveCondition()
     {
-        SetState(null);
+        SetCondition(null);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-public class BSMStartNode : BSMNode
+public class BSMNodeStart : BSMNode
 {
     public override void Draw() 
     {
