@@ -114,7 +114,7 @@ public static class BSMEditorUtility
     {
         if (node is BSMNodeCondition)
             return BSMNodeType.Condition;
-        else if (node is BSMNodeStart)
+        else if (node is BSMNodeLabel)
             return BSMNodeType.Label;
         else if (node is BSMNodeState)
             return BSMNodeType.State;

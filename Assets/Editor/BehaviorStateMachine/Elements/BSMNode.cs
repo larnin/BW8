@@ -53,6 +53,8 @@ public class BSMNode : Node
             target.value = callback.newValue.RemoveSpecialCharacters();
 
             NodeName = target.value;
+
+            m_graphView.ProcessErrors();
         });
 
         dialogueNameTextField.AddClasses(

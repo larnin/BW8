@@ -13,7 +13,7 @@ public class BSMGraphView : GraphView
     BSMGraph m_editorWindow;
 
     List<BSMNode> m_nodes = new List<BSMNode>();
-    BSMNodeStart m_startNode;
+    BSMNodeLabel m_startNode;
 
     public BSMGraphView(BSMGraph editorWindow)
     {
@@ -60,7 +60,7 @@ public class BSMGraphView : GraphView
             {
                 if (selectedElement is BSMNode node)
                 {
-                    if (node is BSMNodeStart)
+                    if (node == m_startNode)
                         continue;
 
                     nodesToDelete.Add(node);
@@ -120,8 +120,10 @@ public class BSMGraphView : GraphView
 
     private void AddStartNode()
     {
-        var node = CreateNode("Start", BSMNodeType.Label, Vector2.zero, true, false);
-        m_startNode = node as BSMNodeStart;
+        var node = CreateNode("Start", BSMNodeType.Label, new Vector2(10, 10), false, false);
+        m_startNode = node as BSMNodeLabel;
+        m_startNode.isStartNode = true;
+        node.Draw();
         AddNode(m_startNode);
         AddElement(node);
     }
@@ -134,8 +136,10 @@ public class BSMGraphView : GraphView
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
 
+        this.AddManipulator(CreateNodeContextualMenu("Add Label", BSMNodeType.Label));
+        this.AddManipulator(CreateNodeContextualMenu("Add Goto", BSMNodeType.Goto));
         this.AddManipulator(CreateNodeContextualMenu("Add State", BSMNodeType.State));
-        this.AddManipulator(CreateNodeContextualMenu("Add Condition", BSMNodeType.Condition));
+        this.AddManipulator(CreateNodeContextualMenu("Add Condition", BSMNodeType.Condition)); 
     }
 
     private IManipulator CreateNodeContextualMenu(string actionTitle, BSMNodeType dialogueType)
@@ -146,7 +150,10 @@ public class BSMGraphView : GraphView
         else if (dialogueType == BSMNodeType.Condition)
             name = "New Condition";
         else if (dialogueType == BSMNodeType.Label)
-            return null;
+            name = "New Label";
+        else if (dialogueType == BSMNodeType.Goto)
+            name = "New Goto";
+        else return null;
 
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(name, dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
@@ -164,7 +171,7 @@ public class BSMGraphView : GraphView
         else if (dialogueType == BSMNodeType.Condition)
             nodeType = typeof(BSMNodeCondition);
         else if (dialogueType == BSMNodeType.Label)
-            nodeType = typeof(BSMNodeStart);
+            nodeType = typeof(BSMNodeLabel);
 
         if (nodeType == null)
             return null;
@@ -179,7 +186,6 @@ public class BSMGraphView : GraphView
         }
 
         if (addList)
-            m_nodes.Add(node);
             AddNode(node);
 
         return node;
@@ -205,10 +211,13 @@ public class BSMGraphView : GraphView
 
         ports.ForEach(port =>
         {
-            if (startPort.node is BSMNodeStart && !(port.node is BSMNodeState))
+            if (startPort.node is BSMNodeLabel && !(port.node is BSMNodeState))
                 return;
 
             if (startPort.node is BSMNodeState && port.node is BSMNodeState)
+                return;
+
+            if (startPort.node is BSMNodeCondition && port.node is BSMNodeCondition)
                 return;
 
             if (startPort == port)
@@ -253,6 +262,8 @@ public class BSMGraphView : GraphView
 
             foreach(var edge in BSMEditorUtility.GetAllOutEdge(node))
             {
+                SetEdgeStyle(edge, false);
+
                 if (edge.output == null)
                     continue;
                 if (edge.output.node == null)
@@ -279,35 +290,59 @@ public class BSMGraphView : GraphView
                         continue;
                 }
 
-
+                if (node == m_startNode && outType != BSMNodeType.State)
+                {
+                    AddError("Start node must be connected to a state node");
+                    SetEdgeStyle(edge, true);
+                }
+                else if (inType == outType)
+                {
+                    AddError("You can't connect 2 nodes of the same type together - Nodes " + node.NodeName + " & " + nextNode.NodeName);
+                    SetEdgeStyle(edge, true);
+                }
             }
 
             if (namesError > 1)
-                AddError(namesError + " Nodes are named " + node.name);
+                AddError(namesError + " Nodes are named " + node.NodeName + ", names must be unique");
         }
     }
 
     BSMNode PropagateGoto(BSMNode gotoNode)
     {
-
+        //todo
         return null;
     }
 
     void SetEdgeStyle(Edge edge, bool error)
     {
+        Color borderColor = new Color(.8f, .8f, .8f);
+
         if (error)
-            edge.style.color = BSMNode.errorBorderColor;
-        else edge.style.color = new Color(.8f, .8f, .8f);
+        {
+            edge.style.borderLeftColor = BSMNode.errorBorderColor;
+            edge.style.borderBottomColor = BSMNode.errorBorderColor;
+            edge.style.borderRightColor = BSMNode.errorBorderColor;
+            edge.style.borderTopColor = BSMNode.errorBorderColor;
+        }
+        else
+        {
+            edge.style.borderLeftColor = borderColor;
+            edge.style.borderBottomColor = borderColor;
+            edge.style.borderRightColor = borderColor;
+            edge.style.borderTopColor = borderColor;
+        }
     }
 
     void AddError(string error)
     {
-
+        if (m_editorWindow != null)
+            m_editorWindow.AddError(error);
     }
 
     void ClearErrors()
     {
-
+        if (m_editorWindow != null)
+            m_editorWindow.ClearErrors();
     }
 
     public void Load(BSMSaveData data)
@@ -336,7 +371,7 @@ public class BSMGraphView : GraphView
         BSMNode node = null;
 
         if (data.nodeType == BSMNodeType.Label) //todo change
-            node = new BSMNodeStart();
+            node = new BSMNodeLabel();
         else if(data.nodeType == BSMNodeType.Condition)
         {
             var nodeConditon = new BSMNodeCondition();
