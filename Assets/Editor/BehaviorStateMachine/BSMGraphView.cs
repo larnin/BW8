@@ -483,7 +483,7 @@ public class BSMGraphView : GraphView
             node = nodeState;
         }
         
-        node.ID = data.id;
+        node.ID = data.ID;
         node.NodeName = data.name;
         node.SetPosition(data.position);
         node.Initialize(data.name, this, data.position.position, false);
@@ -497,7 +497,7 @@ public class BSMGraphView : GraphView
 
         foreach(var data in datas)
         {
-            var node = GetFromID(nodes, data.id);
+            var node = GetFromID(nodes, data.ID);
             if (node == null)
                 continue;
             foreach (var connexion in data.outNodes)
@@ -541,7 +541,7 @@ public class BSMGraphView : GraphView
     {
         BSMSaveNode data = new BSMSaveNode();
 
-        data.id = node.ID;
+        data.ID = node.ID;
         data.name = node.NodeName;
         data.position = node.GetPosition();
 

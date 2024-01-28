@@ -18,6 +18,16 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
     {
         base.Draw();
 
+        /* INPUT CONTAINER */
+
+        Port inputPort = this.CreatePort("In", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
+
+        inputContainer.Add(inputPort);
+
+        /* OUTPUT CONTAINER */
+
+        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+
         LocalDraw();
     }
 

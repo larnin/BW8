@@ -13,7 +13,7 @@ public interface BSMSerializable
 
 public class BSMSaveNode
 {
-    public string id;
+    public string ID;
     public string name;
     public BSMNodeType nodeType;
     public Rect position;
@@ -26,7 +26,7 @@ public class BSMSaveNode
     {
         var idElt = obj.GetElement("ID");
         if (idElt != null && idElt.IsJsonString())
-            id = idElt.String();
+            ID = idElt.String();
 
         var nameElt = obj.GetElement("Name");
         if (nameElt != null && nameElt.IsJsonString())
@@ -76,7 +76,7 @@ public class BSMSaveNode
     {
         JsonObject obj = new JsonObject();
 
-        obj.AddElement("ID", id);
+        obj.AddElement("ID", ID);
         obj.AddElement("Name", name);
         obj.AddElement("Type", nodeType.ToString());
         obj.AddElement("Pos", Json.FromRect(position));

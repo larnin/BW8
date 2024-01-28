@@ -12,6 +12,11 @@ public class BSMConditionAfterTimer : BSMConditionBase
     [SerializeField] float m_fTimer;
     public float timer { get { return m_fTimer; } set { m_fTimer = value; } }
 
+    public override bool IsValid(BSMStateBase state)
+    {
+        return false;
+    }
+
     public override void Load(JsonObject obj)
     {
         var timerElement = obj.GetElement("Timer");

@@ -7,6 +7,11 @@ using UnityEngine.UIElements;
 
 public class BSMConditionStateEnded : BSMConditionBase
 {
+    public override bool IsValid(BSMStateBase state)
+    {
+        return false;
+    }
+
     public override void Load(JsonObject obj) { }
 
     public override void Save(JsonObject obj) { }

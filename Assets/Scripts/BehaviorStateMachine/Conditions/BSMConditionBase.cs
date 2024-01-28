@@ -10,6 +10,8 @@ public abstract class BSMConditionBase
     public abstract void Load(JsonObject obj);
     public abstract void Save(JsonObject obj);
 
+    public abstract bool IsValid(BSMStateBase state);
+
     public static string GetName(Type type)
     {
         const string startString = "BSMCondition";

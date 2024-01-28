@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public abstract class BSMStateBase
 {
+    protected BSMControler m_controler;
+
     public abstract void Load(JsonObject obj);
     public abstract void Save(JsonObject obj);
 
@@ -56,4 +58,25 @@ public abstract class BSMStateBase
 
         return obj;
     }
+
+    public void SetControler(BSMControler controler)
+    {
+        m_controler = controler;
+    }
+
+    public virtual void Init() { }
+
+    public virtual void Update() { }
+
+    public virtual void LateUpdate() { }
+
+    public virtual void FixedUpdate() { }
+
+    public virtual void UpdateAlways() { }
+
+    public virtual void BeginUpdate() { }
+
+    public virtual void EndUpdate() { }
+
+    public virtual void OnDestroy() { }
 }

@@ -15,6 +15,7 @@ public class BSMConditionMultiCondition : BSMConditionBase
         XOR,
         NOR,
         NAND,
+        XNOR,
     }
 
     [SerializeField] List<BSMConditionBase> m_conditions = new List<BSMConditionBase>();
@@ -86,5 +87,34 @@ public class BSMConditionMultiCondition : BSMConditionBase
                 array.Add(condObj);
         }
         obj.AddElement("Conditions", array);
+    }
+
+    public override bool IsValid(BSMStateBase state)
+    {
+        int nbValid = 0;
+
+        foreach(var condition in m_conditions)
+        {
+            if (condition.IsValid(state))
+                nbValid++;
+        }
+
+        switch(m_operator)
+        {
+            case BSMConditionOperator.OR:
+                return nbValid > 0;
+            case BSMConditionOperator.AND:
+                return nbValid == m_conditions.Count;
+            case BSMConditionOperator.XOR:
+                return nbValid % 2 == 0;
+            case BSMConditionOperator.NAND:
+                return nbValid < m_conditions.Count;
+            case BSMConditionOperator.NOR:
+                return nbValid == 0;
+            case BSMConditionOperator.XNOR:
+                return nbValid % 2 != 0;
+        }
+
+        return false;
     }
 }
