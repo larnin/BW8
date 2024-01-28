@@ -165,7 +165,8 @@ public class BSMNodeGoto : BSMNode, BSMDropdownCallback
 
     void UpdateButtonText()
     {
-        m_labelButton.text = GetButtonText();
+        if(m_labelButton != null)
+            m_labelButton.text = GetButtonText();
     }
 
     public void UpdateTarget()

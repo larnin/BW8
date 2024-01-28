@@ -14,7 +14,7 @@ public static class SaveEx
     public static string GetSaveFilePath(string title, string basePath = "", string filter = "")
     {
 #if UNITY_EDITOR
-        return EditorUtility.SaveFilePanel(title, basePath, "Level", filter);
+        return EditorUtility.SaveFilePanel(title, basePath, "Behavior", filter);
 #else
         return "";
 #endif
@@ -68,6 +68,12 @@ public static class SaveEx
             return "";
 
         return asset.text;
+    }
+
+    public static void SaveAsset(string assetName, string text)
+    {
+        File.WriteAllText(assetName, text);
+        AssetDatabase.Refresh();
     }
 }
 

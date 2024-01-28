@@ -1,0 +1,84 @@
+{
+  "Nodes": [
+    {
+      "ID": "14e4e8ea-d9be-4613-8783-3509e4b5afbf",
+      "Name": "Start",
+      "Type": "Label",
+      "Pos": [
+        192.0,
+        107.0,
+        88.0,
+        77.0
+      ],
+      "OutNodes": [
+        "e389327f-63e2-4d13-8c90-975db62f7027"
+      ]
+    },
+    {
+      "ID": "2ac9ab6b-c599-4163-b64f-bb2b4730be61",
+      "Name": "LABEL_Lbl",
+      "Type": "Label",
+      "Pos": [
+        182.0,
+        263.0,
+        149.0,
+        77.0
+      ],
+      "OutNodes": [
+        "e389327f-63e2-4d13-8c90-975db62f7027"
+      ]
+    },
+    {
+      "ID": "e389327f-63e2-4d13-8c90-975db62f7027",
+      "Name": "New State",
+      "Type": "State",
+      "Pos": [
+        480.0,
+        202.0,
+        205.0,
+        156.0
+      ],
+      "Data": {
+        "Type": "BSMStateIdle",
+        "Anim": "Idle",
+        "Orientable": 1.0
+      },
+      "OutNodes": [
+        "980ecd70-91fb-4392-a8b0-a5fe1de18ef1"
+      ]
+    },
+    {
+      "ID": "980ecd70-91fb-4392-a8b0-a5fe1de18ef1",
+      "Name": "New Condition",
+      "Type": "Condition",
+      "Pos": [
+        741.0,
+        218.0,
+        197.0,
+        140.0
+      ],
+      "Data": {
+        "Type": "BSMConditionAfterTimer",
+        "Timer": 5.0
+      },
+      "OutNodes": [
+        "b969aaee-58c8-4d50-80b0-14d0fb8ef2f7"
+      ]
+    },
+    {
+      "ID": "b969aaee-58c8-4d50-80b0-14d0fb8ef2f7",
+      "Name": "GOTO_Goto",
+      "Type": "Goto",
+      "Pos": [
+        1005.0,
+        263.0,
+        149.0,
+        101.0
+      ],
+      "Data": {
+        "LabelID": "2ac9ab6b-c599-4163-b64f-bb2b4730be61"
+      },
+      "OutNodes": []
+    }
+  ]
+}

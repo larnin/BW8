@@ -27,9 +27,10 @@ public class BSMNode : Node
         base.BuildContextualMenu(evt);
     }
 
-    public virtual void Initialize(string nodeName, BSMGraphView view, Vector2 position)
+    public virtual void Initialize(string nodeName, BSMGraphView view, Vector2 position, bool createID = true)
     {
-        ID = Guid.NewGuid().ToString();
+        if(createID)
+            ID = Guid.NewGuid().ToString();
         NodeName = nodeName;
 
         SetPosition(new Rect(position, Vector2.zero));

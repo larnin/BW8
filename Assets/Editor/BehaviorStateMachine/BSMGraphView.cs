@@ -269,12 +269,12 @@ public class BSMGraphView : GraphView
             {
                 SetEdgeStyle(edge, false);
 
-                if (edge.output == null)
+                if (edge.input == null)
                     continue;
-                if (edge.output.node == null)
+                if (edge.input.node == null)
                     continue;
 
-                var nextNode = edge.output.node as BSMNode;
+                var nextNode = edge.input.node as BSMNode;
                 if (node == null)
                     continue;
 
@@ -341,12 +341,12 @@ public class BSMGraphView : GraphView
         var edges = BSMEditorUtility.GetAllOutEdge(nextNode);
         foreach(var edge in edges)
         {
-            if (edge.output == null)
+            if (edge.input == null)
                 continue;
-            if (edge.output.node == null)
+            if (edge.input.node == null)
                 continue;
 
-            return edge.output.node as BSMNode;
+            return edge.input.node as BSMNode;
         }
         return null;
     }
@@ -407,8 +407,26 @@ public class BSMGraphView : GraphView
             m_editorWindow.ClearErrors();
     }
 
+    void Clean()
+    {
+        foreach(var node in m_nodes)
+            RemoveElement(node);
+
+        var elements = edges.ToList();
+        foreach(var element in elements)
+        {
+            if(element is Edge)
+                RemoveElement(element as Edge);
+        }
+
+        m_nodes.Clear();
+        m_startNode = null;
+    }
+
     public void Load(BSMSaveData data)
     {
+        Clean();
+
         List<BSMNode> nodes = new List<BSMNode>();
 
         foreach(var dataNode in data.nodes)
@@ -419,9 +437,13 @@ public class BSMGraphView : GraphView
 
         foreach (var node in nodes)
         {
+            node.Draw();
             AddElement(node);
             AddNode(node, false);
         }
+
+        if(m_startNode == null)
+            AddStartNode();
 
         CreateConnexions(nodes, data.nodes);
 
@@ -433,20 +455,28 @@ public class BSMGraphView : GraphView
         BSMNode node = null;
 
         if (data.nodeType == BSMNodeType.Label)
-            node = new BSMNodeLabel();
+        {
+            var nodeLabel = new BSMNodeLabel();
+            node = nodeLabel;
+            if (data.name == "Start")
+            {
+                m_startNode = nodeLabel;
+                m_startNode.isStartNode = true;
+            }
+        }
         else if (data.nodeType == BSMNodeType.Goto)
         {
             var nodeGoto = new BSMNodeGoto();
             nodeGoto.SetLabelID(data.data as string);
             node = nodeGoto;
         }
-        else if(data.nodeType == BSMNodeType.Condition)
+        else if (data.nodeType == BSMNodeType.Condition)
         {
             var nodeConditon = new BSMNodeCondition();
             nodeConditon.SetCondition(data.data as BSMConditionBase);
             node = nodeConditon;
         }
-        else if(data.nodeType == BSMNodeType.State)
+        else if (data.nodeType == BSMNodeType.State)
         {
             var nodeState = new BSMNodeState();
             nodeState.SetState(data.data as BSMStateBase);
@@ -454,8 +484,9 @@ public class BSMGraphView : GraphView
         }
         
         node.ID = data.id;
-        node.name = data.name;
+        node.NodeName = data.name;
         node.SetPosition(data.position);
+        node.Initialize(data.name, this, data.position.position, false);
 
         return node;
     }
@@ -511,7 +542,7 @@ public class BSMGraphView : GraphView
         BSMSaveNode data = new BSMSaveNode();
 
         data.id = node.ID;
-        data.name = node.name;
+        data.name = node.NodeName;
         data.position = node.GetPosition();
 
         foreach(Port port in node.outputContainer.Children())
@@ -521,12 +552,12 @@ public class BSMGraphView : GraphView
 
             foreach(var connexion in port.connections)
             {
-                if (connexion.output == null)
+                if (connexion.input == null)
                     continue;
-                if (connexion.output.node == null)
+                if (connexion.input.node == null)
                     continue;
 
-                var nextNode = connexion.output.node as BSMNode;
+                var nextNode = connexion.input.node as BSMNode;
                 if (nextNode == null)
                     continue;
                 data.outNodes.Add(nextNode.ID);
