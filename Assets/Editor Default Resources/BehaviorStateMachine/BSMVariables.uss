@@ -23,6 +23,7 @@
 	--bsm-metrics-window-pixels-16: 16px;
 	--bsm-metrics-window-pixels-25: 25px;
 	--bsm-metrics-window-pixels-35: 35px;
+	--bsm-metrics-window-pixels-80: 80px;
 	--bsm-metrics-window-pixels-120: 120px;
 	--bsm-metrics-window-pixels-160: 160px;
 	--bsm-metrics-window-pixels-240: 240px;

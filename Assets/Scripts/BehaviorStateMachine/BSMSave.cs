@@ -51,6 +51,12 @@ public class BSMSaveNode
                 data = BSMConditionBase.LoadCondition(dataObj);
             else if (nodeType == BSMNodeType.State)
                 data = BSMStateBase.LoadState(dataObj);
+            else if(nodeType == BSMNodeType.Goto)
+            {
+                var IDElt = dataObj.GetElement("LabelID");
+                if (IDElt != null && IDElt.IsJsonString())
+                    data = IDElt.String();
+            }
         }
 
         outNodes.Clear();
@@ -82,6 +88,11 @@ public class BSMSaveNode
                 dataObj = BSMConditionBase.SaveCondition(data as BSMConditionBase);
             else if (nodeType == BSMNodeType.State)
                 dataObj = BSMStateBase.SaveState(data as BSMStateBase);
+            else if(nodeType == BSMNodeType.Goto)
+            {
+                dataObj = new JsonObject();
+                dataObj.AddElement("LabelID", data as string);
+            }
 
             if (dataObj != null)
                 obj.AddElement("Data", dataObj);

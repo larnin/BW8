@@ -98,7 +98,7 @@ public class BSMGraphView : GraphView
         //todo
         graphViewChanged = (changes) =>
         {
-            ProcessErrors();
+            ProcessErrors(); //does not works for edges, need to delay this call
 
             return changes;
         };
@@ -172,6 +172,8 @@ public class BSMGraphView : GraphView
             nodeType = typeof(BSMNodeCondition);
         else if (dialogueType == BSMNodeType.Label)
             nodeType = typeof(BSMNodeLabel);
+        else if (dialogueType == BSMNodeType.Goto)
+            nodeType = typeof(BSMNodeGoto);
 
         if (nodeType == null)
             return null;
@@ -212,6 +214,9 @@ public class BSMGraphView : GraphView
         ports.ForEach(port =>
         {
             if (startPort.node is BSMNodeLabel && !(port.node is BSMNodeState))
+                return;
+
+            if (startPort.node is BSMNodeGoto && port.node is BSMNodeLabel)
                 return;
 
             if (startPort.node is BSMNodeState && port.node is BSMNodeState)
@@ -305,11 +310,44 @@ public class BSMGraphView : GraphView
             if (namesError > 1)
                 AddError(namesError + " Nodes are named " + node.NodeName + ", names must be unique");
         }
+
+        foreach (var node in GetALLGotoNodes())
+            node.UpdateTarget();
     }
 
-    BSMNode PropagateGoto(BSMNode gotoNode)
+    BSMNode PropagateGoto(BSMNode node)
     {
-        //todo
+        if (!(node is BSMNodeGoto))
+            return null;
+
+        var gotoNode = node as BSMNodeGoto;
+
+        string lblID = gotoNode.GetLabelID();
+        if (lblID == null)
+            return null;
+
+        BSMNode nextNode = null;
+
+        var nodes = GetAllLabelNodes();
+        foreach(var n in nodes)
+        {
+            if (n.ID == lblID)
+                nextNode = n;
+        }
+
+        if (nextNode == null)
+            return null;
+
+        var edges = BSMEditorUtility.GetAllOutEdge(nextNode);
+        foreach(var edge in edges)
+        {
+            if (edge.output == null)
+                continue;
+            if (edge.output.node == null)
+                continue;
+
+            return edge.output.node as BSMNode;
+        }
         return null;
     }
 
@@ -331,6 +369,30 @@ public class BSMGraphView : GraphView
             edge.style.borderRightColor = borderColor;
             edge.style.borderTopColor = borderColor;
         }
+    }
+
+    public List<BSMNodeLabel> GetAllLabelNodes()
+    {
+        List<BSMNodeLabel> labels = new List<BSMNodeLabel>();
+        foreach(var node in m_nodes)
+        {
+            if (node is BSMNodeLabel)
+                labels.Add(node as BSMNodeLabel);
+        }
+
+        return labels;
+    }
+
+    public List<BSMNodeGoto> GetALLGotoNodes()
+    {
+        List<BSMNodeGoto> gotos = new List<BSMNodeGoto>();
+        foreach (var node in m_nodes)
+        {
+            if (node is BSMNodeGoto)
+                gotos.Add(node as BSMNodeGoto);
+        }
+
+        return gotos;
     }
 
     void AddError(string error)
@@ -370,8 +432,14 @@ public class BSMGraphView : GraphView
     {
         BSMNode node = null;
 
-        if (data.nodeType == BSMNodeType.Label) //todo change
+        if (data.nodeType == BSMNodeType.Label)
             node = new BSMNodeLabel();
+        else if (data.nodeType == BSMNodeType.Goto)
+        {
+            var nodeGoto = new BSMNodeGoto();
+            nodeGoto.SetLabelID(data.data as string);
+            node = nodeGoto;
+        }
         else if(data.nodeType == BSMNodeType.Condition)
         {
             var nodeConditon = new BSMNodeCondition();
@@ -384,7 +452,7 @@ public class BSMGraphView : GraphView
             nodeState.SetState(data.data as BSMStateBase);
             node = nodeState;
         }
-
+        
         node.ID = data.id;
         node.name = data.name;
         node.SetPosition(data.position);
@@ -475,11 +543,15 @@ public class BSMGraphView : GraphView
         }
         else if (data.nodeType == BSMNodeType.State)
         {
-            data.nodeType = BSMNodeType.State;
-
             var nodeState = node as BSMNodeState;
             if(nodeState != null)
                 data.data = nodeState.GetState();
+        }
+        else if(data.nodeType == BSMNodeType.Goto)
+        {
+            var nodeGoto = node as BSMNodeGoto;
+            if (nodeGoto != null)
+                data.data = nodeGoto.GetLabelID();
         }
 
         return data;

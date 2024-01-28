@@ -118,6 +118,8 @@ public static class BSMEditorUtility
             return BSMNodeType.Label;
         else if (node is BSMNodeState)
             return BSMNodeType.State;
+        else if (node is BSMNodeGoto)
+            return BSMNodeType.Goto;
         else Debug.LogError("Unknow node type " + node.ToString());
 
         return BSMNodeType.Label;

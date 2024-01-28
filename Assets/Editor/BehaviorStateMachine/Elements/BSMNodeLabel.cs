@@ -9,6 +9,8 @@ using UnityEngine.UIElements;
 
 public class BSMNodeLabel : BSMNode
 {
+    public static string lbl = "LABEL_";
+
     bool m_startNode = false;
     public bool isStartNode { get { return m_startNode; } set { m_startNode = value; } }
 
@@ -28,11 +30,9 @@ public class BSMNodeLabel : BSMNode
         }
         else
         {
-            string lbl = "LABEL_";
-
             string localName = NodeName;
             if (localName.StartsWith(lbl))
-                localName.Remove(0, lbl.Length);
+                localName = localName.Remove(0, lbl.Length);
 
             TextField dialogueNameTextField = BSMEditorUtility.CreateTextField(localName, null, callback =>
             {
@@ -51,12 +51,14 @@ public class BSMNodeLabel : BSMNode
                 "bsm-node__filename-text-field"
             );
 
+            dialogueNameTextField.style.minWidth = 100;
+
             titleContainer.Insert(0, dialogueNameTextField);
         }
 
         /* OUTPUT CONTAINER */
 
-        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Multi);
+        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
 
         outputContainer.Add(outputPort);
 
