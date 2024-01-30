@@ -12,9 +12,22 @@ public class BSMConditionAfterTimer : BSMConditionBase
     [SerializeField] float m_fTimer;
     public float timer { get { return m_fTimer; } set { m_fTimer = value; } }
 
-    public override bool IsValid(BSMStateBase state)
+    float m_time = 0;
+
+    public override bool IsValid()
     {
-        return false;
+        return m_time >= m_fTimer;
+    }
+
+    public override void BeginUpdate()
+    {
+        m_time = 0;
+    }
+
+    public override void Update() 
+    {
+        if (!Gamestate.instance.paused)
+            m_time += Time.deltaTime;
     }
 
     public override void Load(JsonObject obj)

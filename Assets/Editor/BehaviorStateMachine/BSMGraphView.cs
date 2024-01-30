@@ -14,6 +14,7 @@ public class BSMGraphView : GraphView
 
     List<BSMNode> m_nodes = new List<BSMNode>();
     BSMNodeLabel m_startNode;
+    BSMNodeLabel m_anyStateNode;
 
     public BSMGraphView(BSMGraph editorWindow)
     {
@@ -27,6 +28,7 @@ public class BSMGraphView : GraphView
         OnGraphViewChanged();
 
         AddStartNode();
+        AddAnyStateNode();
     }
 
     private void AddGridBackground()
@@ -61,6 +63,9 @@ public class BSMGraphView : GraphView
                 if (selectedElement is BSMNode node)
                 {
                     if (node == m_startNode)
+                        continue;
+
+                    if (node == m_anyStateNode)
                         continue;
 
                     nodesToDelete.Add(node);
@@ -122,9 +127,19 @@ public class BSMGraphView : GraphView
     {
         var node = CreateNode("Start", BSMNodeType.Label, new Vector2(10, 10), false, false);
         m_startNode = node as BSMNodeLabel;
-        m_startNode.isStartNode = true;
+        m_startNode.nodeType = BSMNodeLabelType.Start;
         node.Draw();
         AddNode(m_startNode);
+        AddElement(node);
+    }
+
+    private void AddAnyStateNode()
+    {
+        var node = CreateNode("Any State", BSMNodeType.Label, new Vector2(10, 100), false, false);
+        m_anyStateNode = node as BSMNodeLabel;
+        m_anyStateNode.nodeType = BSMNodeLabelType.AnyState;
+        node.Draw();
+        AddNode(m_anyStateNode);
         AddElement(node);
     }
 
@@ -213,8 +228,16 @@ public class BSMGraphView : GraphView
 
         ports.ForEach(port =>
         {
-            if (startPort.node is BSMNodeLabel && !(port.node is BSMNodeState))
-                return;
+            if (startPort.node is BSMNodeLabel)
+            {
+                var nodeLabel = startPort.node as BSMNodeLabel;
+
+                if(nodeLabel.nodeType == BSMNodeLabelType.AnyState&& !(port.node is BSMNodeCondition))
+                    return;
+
+                if (nodeLabel.nodeType != BSMNodeLabelType.AnyState && !(port.node is BSMNodeState))
+                    return;
+            }
 
             if (startPort.node is BSMNodeGoto && port.node is BSMNodeLabel)
                 return;
@@ -281,7 +304,7 @@ public class BSMGraphView : GraphView
                 var inType = BSMEditorUtility.GetType(node);
                 var outType = BSMEditorUtility.GetType(nextNode);
 
-                if (inType == BSMNodeType.Label && node != m_startNode)
+                if (inType == BSMNodeType.Label && (node != m_startNode || node != m_anyStateNode))
                     continue;
 
                 if(outType == BSMNodeType.Goto)
@@ -298,6 +321,11 @@ public class BSMGraphView : GraphView
                 if (node == m_startNode && outType != BSMNodeType.State)
                 {
                     AddError("Start node must be connected to a state node");
+                    SetEdgeStyle(edge, true);
+                }
+                else if(node == m_anyStateNode && outType != BSMNodeType.Condition)
+                {
+                    AddError("Any State node must be connected to a condition node");
                     SetEdgeStyle(edge, true);
                 }
                 else if (inType == outType)
@@ -421,6 +449,7 @@ public class BSMGraphView : GraphView
 
         m_nodes.Clear();
         m_startNode = null;
+        m_anyStateNode = null;
     }
 
     public void Load(BSMSaveData data)
@@ -445,6 +474,9 @@ public class BSMGraphView : GraphView
         if(m_startNode == null)
             AddStartNode();
 
+        if (m_anyStateNode == null)
+            AddAnyStateNode();
+
         CreateConnexions(nodes, data.nodes);
 
         ProcessErrors();
@@ -461,7 +493,12 @@ public class BSMGraphView : GraphView
             if (data.name == "Start")
             {
                 m_startNode = nodeLabel;
-                m_startNode.isStartNode = true;
+                m_startNode.nodeType = BSMNodeLabelType.Start;
+            }
+            else if(data.name == "Any State")
+            {
+                m_anyStateNode = nodeLabel;
+                m_anyStateNode.nodeType = BSMNodeLabelType.AnyState;
             }
         }
         else if (data.nodeType == BSMNodeType.Goto)

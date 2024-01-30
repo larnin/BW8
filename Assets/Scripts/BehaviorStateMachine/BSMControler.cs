@@ -11,6 +11,7 @@ public class BSMControler : MonoBehaviour
 
     int m_startStateIndex;
     List<BSMControlerState> m_states = new List<BSMControlerState>();
+    BSMControlerAnyState m_anyState = new BSMControlerAnyState();
 
     int m_currentStateIndex = -1;
 
@@ -26,6 +27,11 @@ public class BSMControler : MonoBehaviour
         public string name;
         public string ID;
 
+        public List<BSMControlerTransition> transitions;
+    }
+
+    class BSMControlerAnyState
+    {
         public List<BSMControlerTransition> transitions;
     }
 
@@ -58,6 +64,7 @@ public class BSMControler : MonoBehaviour
 
         LoadStates(saveData);
         LoadStart(saveData);
+        LoadAnyState(saveData);
         LoadTransitions(saveData);
         AfterLoad();
     }
@@ -105,6 +112,33 @@ public class BSMControler : MonoBehaviour
         int startIndex = GetStateIndex(startNode.outNodes[0]);
     }
 
+    void LoadAnyState(BSMSaveData data)
+    {
+        BSMSaveNode anyStateNode = null;
+
+        foreach (var element in data.nodes)
+        {
+            if (element.nodeType != BSMNodeType.Label)
+                continue;
+
+            if (element.name == "Any State")
+            {
+                anyStateNode = element;
+                break;
+            }
+        }
+
+        if (anyStateNode == null)
+            return;
+
+        foreach(var outNode in anyStateNode.outNodes)
+        {
+            var newTransition = LoadTransition(data, outNode);
+            if (newTransition != null)
+                m_anyState.transitions.Add(newTransition);
+        }
+    }
+
     void LoadTransitions(BSMSaveData data)
     {
         foreach(var state in m_states)
@@ -115,47 +149,54 @@ public class BSMControler : MonoBehaviour
 
             foreach(var output in stateSave.outNodes)
             {
-                var transition = GetSaveNode(data.nodes, output);
-                if (transform == null)
-                    continue;
-
-                if (transition.nodeType == BSMNodeType.Goto)
-                {
-                    transition = PropagateGoto(data.nodes, transition);
-                    if (transition == null)
-                        continue;
-                }
-
-                if (transition.nodeType != BSMNodeType.Condition)
-                    continue;
-
-                if (transition.outNodes.Count == 0)
-                    continue;
-
-                var nextNode = GetSaveNode(data.nodes, transition.outNodes[0]);
-                
-                if(nextNode.nodeType == BSMNodeType.Goto)
-                {
-                    nextNode = PropagateGoto(data.nodes, nextNode);
-                    if (nextNode == null)
-                        continue;
-                }
-
-                if (nextNode.nodeType != BSMNodeType.State)
-                    continue;
-
-                if (GetState(nextNode.ID) == null)
-                    continue;
-
-                BSMControlerTransition newTransition = new BSMControlerTransition();
-                newTransition.condition = transition.data as BSMConditionBase;
-                if (newTransition.condition == null)
-                    continue;
-                newTransition.nextStateID = nextNode.ID;
-
-                state.transitions.Add(newTransition);
+                var newTransition = LoadTransition(data, output);
+                if(newTransition != null)
+                    state.transitions.Add(newTransition);
             }
         }
+    }
+
+    BSMControlerTransition LoadTransition(BSMSaveData data, string nodeID)
+    {
+        var transition = GetSaveNode(data.nodes, nodeID);
+        if (transform == null)
+            return null;
+
+        if (transition.nodeType == BSMNodeType.Goto)
+        {
+            transition = PropagateGoto(data.nodes, transition);
+            if (transition == null)
+                return null;
+        }
+
+        if (transition.nodeType != BSMNodeType.Condition)
+            return null;
+
+        if (transition.outNodes.Count == 0)
+            return null;
+
+        var nextNode = GetSaveNode(data.nodes, transition.outNodes[0]);
+
+        if (nextNode.nodeType == BSMNodeType.Goto)
+        {
+            nextNode = PropagateGoto(data.nodes, nextNode);
+            if (nextNode == null)
+                return null;
+        }
+
+        if (nextNode.nodeType != BSMNodeType.State)
+            return null;
+
+        if (GetState(nextNode.ID) == null)
+            return null;
+
+        BSMControlerTransition newTransition = new BSMControlerTransition();
+        newTransition.condition = transition.data as BSMConditionBase;
+        if (newTransition.condition == null)
+            return null;
+        newTransition.nextStateID = nextNode.ID;
+
+        return newTransition;
     }
 
     void AfterLoad()
@@ -164,7 +205,15 @@ public class BSMControler : MonoBehaviour
         {
             state.state.SetControler(this);
             state.state.Init();
+            foreach(var transition in state.transitions)
+            {
+                transition.condition.SetState(state.state);
+                transition.condition.Init();
+            }
         }
+
+        foreach (var transition in m_anyState.transitions)
+            transition.condition.Init();
     }
 
     BSMSaveNode GetSaveNode(List<BSMSaveNode> nodes, string ID)
@@ -205,8 +254,13 @@ public class BSMControler : MonoBehaviour
     void ResetDatas()
     {
         foreach (var state in m_states)
+        {
             state.state.OnDestroy();
+            foreach (var transition in state.transitions)
+                transition.condition.OnDestroy();
+        }
         m_states.Clear();
+        m_anyState.transitions.Clear();
 
         m_currentStateIndex = -1;
         m_startStateIndex = -1;
@@ -236,10 +290,24 @@ public class BSMControler : MonoBehaviour
         UpdateCurrentState();
 
         if (m_currentStateIndex >= 0)
+        {
             m_states[m_currentStateIndex].state.Update();
+            foreach (var transition in m_states[m_currentStateIndex].transitions)
+                transition.condition.Update();
+
+            foreach (var transition in m_anyState.transitions)
+                transition.condition.Update();
+        }
 
         foreach (var state in m_states)
+        {
             state.state.UpdateAlways();
+            foreach (var transition in state.transitions)
+                transition.condition.UpdateAlways();
+        }
+
+        foreach (var transition in m_anyState.transitions)
+            transition.condition.UpdateAlways();
     }
 
     private void LateUpdate()
@@ -261,7 +329,7 @@ public class BSMControler : MonoBehaviour
             if(m_startStateIndex >= 0)
             {
                 m_currentStateIndex = m_startStateIndex;
-                m_states[m_currentStateIndex].state.BeginUpdate();
+                StartUpdate(m_currentStateIndex);
             }
             return;
         }
@@ -270,7 +338,7 @@ public class BSMControler : MonoBehaviour
 
         foreach (var transition in m_states[m_currentStateIndex].transitions)
         {
-            if (transition.condition.IsValid(m_states[m_currentStateIndex].state))
+            if (transition.condition.IsValid())
             {
                 int index = GetStateIndex(transition.nextStateID);
                 if (index >= 0)
@@ -281,11 +349,50 @@ public class BSMControler : MonoBehaviour
             }
         }
 
+        if(nextState < 0)
+        {
+            foreach(var transition in m_anyState.transitions)
+            {
+                if(transition.condition.IsValid())
+                {
+                    int index = GetStateIndex(transition.nextStateID);
+                    if (index >= 0)
+                    {
+                        nextState = index;
+                        break;
+                    }
+                }
+            }
+        }
+
         if(nextState >= 0)
         {
-            m_states[m_currentStateIndex].state.EndUpdate();
+            EndUpdate(m_startStateIndex);
             m_currentStateIndex = nextState;
-            m_states[m_currentStateIndex].state.BeginUpdate();
+            StartUpdate(m_startStateIndex);
         }
+    }
+
+    void StartUpdate(int stateIndex)
+    {
+        m_states[stateIndex].state.BeginUpdate();
+        foreach (var transition in m_states[stateIndex].transitions)
+            transition.condition.BeginUpdate();
+
+        foreach(var transition in m_anyState.transitions)
+        {
+            transition.condition.SetState(m_states[stateIndex].state);
+            transition.condition.BeginUpdate();
+        }
+    }
+
+    void EndUpdate(int stateIndex)
+    {
+        m_states[stateIndex].state.EndUpdate();
+        foreach (var transition in m_states[stateIndex].transitions)
+            transition.condition.EndUpdate();
+
+        foreach (var transition in m_anyState.transitions)
+            transition.condition.EndUpdate();
     }
 }

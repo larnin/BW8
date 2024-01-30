@@ -7,10 +7,41 @@ using UnityEngine.UIElements;
 
 public abstract class BSMConditionBase
 {
+    protected BSMStateBase m_state;
+
     public abstract void Load(JsonObject obj);
     public abstract void Save(JsonObject obj);
 
-    public abstract bool IsValid(BSMStateBase state);
+    public abstract bool IsValid();
+
+    public virtual void Init() { }
+
+    public virtual void Update() { }
+
+    public virtual void UpdateAlways() { }
+
+    public virtual void BeginUpdate() { }
+
+    public virtual void EndUpdate() { }
+
+    public virtual void OnDestroy() { }
+
+    public virtual void OnStateChange() { }
+
+    public void SetState(BSMStateBase state) 
+    { 
+        m_state = state;
+        OnStateChange();
+    }
+
+    public BSMStateBase GetState() { return m_state; }
+
+    public BSMControler GetControler()
+    {
+        if (m_state == null)
+            return null;
+        return m_state.GetControler();
+    }
 
     public static string GetName(Type type)
     {

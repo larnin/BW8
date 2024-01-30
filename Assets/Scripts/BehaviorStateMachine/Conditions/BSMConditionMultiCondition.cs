@@ -89,13 +89,13 @@ public class BSMConditionMultiCondition : BSMConditionBase
         obj.AddElement("Conditions", array);
     }
 
-    public override bool IsValid(BSMStateBase state)
+    public override bool IsValid()
     {
         int nbValid = 0;
 
         foreach(var condition in m_conditions)
         {
-            if (condition.IsValid(state))
+            if (condition.IsValid())
                 nbValid++;
         }
 

@@ -7,18 +7,26 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum BSMNodeLabelType
+{
+    Label,
+    Start,
+    AnyState,
+}
+
 public class BSMNodeLabel : BSMNode
 {
     public static string lbl = "LABEL_";
 
-    bool m_startNode = false;
-    public bool isStartNode { get { return m_startNode; } set { m_startNode = value; } }
+    BSMNodeLabelType m_nodeType = BSMNodeLabelType.Label;
+
+    public BSMNodeLabelType nodeType { get { return m_nodeType; } set { m_nodeType = value; } }
 
     public override void Draw()
     {
         /* TITLE CONTAINER */
 
-        if (isStartNode)
+        if (m_nodeType != BSMNodeLabelType.Label)
         {
             Label labelName = new Label(NodeName);
             labelName.style.paddingBottom = 8;
@@ -58,7 +66,9 @@ public class BSMNodeLabel : BSMNode
 
         /* OUTPUT CONTAINER */
 
-        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, Port.Capacity.Single);
+        var capacity = m_nodeType == BSMNodeLabelType.AnyState ? Port.Capacity.Multi : Port.Capacity.Single;
+
+        Port outputPort = this.CreatePort("Out", Orientation.Horizontal, Direction.Output, capacity);
 
         outputContainer.Add(outputPort);
 
@@ -81,10 +91,15 @@ public class BSMNodeLabel : BSMNode
         {
             Color backgroundColor;
             Color borderColor;
-            if (m_startNode)
+            if (m_nodeType == BSMNodeLabelType.Start)
             {
                 backgroundColor = new Color(0.4f, 0.2f, 0);
                 borderColor = new Color(1.0f, 0.5f, 0);
+            }
+            else if(m_nodeType == BSMNodeLabelType.AnyState)
+            {
+                backgroundColor = new Color(0, 0.4f, 0);
+                borderColor = new Color(0, 1.0f, 0);
             }
             else
             {
@@ -99,7 +114,7 @@ public class BSMNodeLabel : BSMNode
             mainContainer.style.borderTopColor = borderColor;
         }
 
-        if(m_startNode)
+        if(m_nodeType != BSMNodeLabelType.Label)
         {
             float radius = 8;
 

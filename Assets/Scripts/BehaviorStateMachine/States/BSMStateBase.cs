@@ -59,10 +59,9 @@ public abstract class BSMStateBase
         return obj;
     }
 
-    public void SetControler(BSMControler controler)
-    {
-        m_controler = controler;
-    }
+    public void SetControler(BSMControler controler) { m_controler = controler; }
+
+    public BSMControler GetControler() { return m_controler; }
 
     public virtual void Init() { }
 
