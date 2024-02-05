@@ -56,17 +56,10 @@ public class BSMNodeGoto : BSMNode, BSMDropdownCallback
 
     void DrawGoto()
     {
-        VisualElement block = new VisualElement();
-        block.style.flexDirection = FlexDirection.Row;
-        block.style.justifyContent = Justify.SpaceBetween;
-        var label = new Label("Target");
-        label.style.paddingBottom = 4;
-        label.style.paddingLeft = 4;
-        label.style.paddingRight = 4;
-        label.style.paddingTop = 4;
-        block.Add(label);
+        VisualElement block = BSMEditorUtility.CreateHorizontalLayout();
+        block.Add(BSMEditorUtility.CreateLabel("Target", 4));
 
-        m_labelButton = BSMUtility.CreateButton(GetButtonText(), CreatePopup);
+        m_labelButton = BSMEditorUtility.CreateButton(GetButtonText(), CreatePopup);
 
         block.Add(m_labelButton);
 

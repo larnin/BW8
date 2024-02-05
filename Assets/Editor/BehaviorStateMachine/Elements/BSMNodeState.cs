@@ -46,7 +46,7 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
 
     void DrawSetState()
     {
-        m_button = BSMUtility.CreateButton("Set state", CreatePopup);
+        m_button = BSMEditorUtility.CreateButton("Set state", CreatePopup);
         extensionContainer.Add(m_button);
     }
 
@@ -54,16 +54,9 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
     {
         string stateName = BSMStateBase.GetName(m_state.GetType());
 
-        var header = new VisualElement();
-        header.style.flexDirection = FlexDirection.Row;
-        header.style.justifyContent = Justify.SpaceBetween;
-        Label labelName = new Label(stateName);
-        labelName.style.paddingBottom = 4;
-        labelName.style.paddingLeft = 4;
-        labelName.style.paddingRight = 4;
-        labelName.style.paddingTop = 4;
-        header.Add(labelName);
-        var removeButton = BSMUtility.CreateButton("X", RemoveState);
+        var header = BSMEditorUtility.CreateHorizontalLayout();
+        header.Add(BSMEditorUtility.CreateLabel(stateName, 4));
+        var removeButton = BSMEditorUtility.CreateButton("X", RemoveState);
         removeButton.style.maxWidth = 20;
         header.Add(removeButton);
 

@@ -49,7 +49,7 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
 
     void DrawSetCondition()
     {
-        m_button = BSMUtility.CreateButton("Set condition", CreatePopup);
+        m_button = BSMEditorUtility.CreateButton("Set condition", CreatePopup);
         extensionContainer.Add(m_button);
     }
 
@@ -57,16 +57,9 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
     {
         string conditionName = BSMConditionBase.GetName(m_condition.GetType());
 
-        var header = new VisualElement();
-        header.style.flexDirection = FlexDirection.Row;
-        header.style.justifyContent = Justify.SpaceBetween;
-        Label labelName = new Label(conditionName);
-        labelName.style.paddingBottom = 4;
-        labelName.style.paddingLeft = 4;
-        labelName.style.paddingRight = 4;
-        labelName.style.paddingTop = 4;
-        header.Add(labelName);
-        var removeButton = BSMUtility.CreateButton("X", RemoveCondition);
+        var header = BSMEditorUtility.CreateHorizontalLayout();
+        header.Add(BSMEditorUtility.CreateLabel(conditionName, 4));
+        var removeButton = BSMEditorUtility.CreateButton("X", RemoveCondition);
         removeButton.style.maxWidth = 20;
         header.Add(removeButton);
 

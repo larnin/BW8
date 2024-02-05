@@ -39,14 +39,12 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
 
     VisualElement GetOperator()
     {
-        var header = new VisualElement();
-        header.style.flexDirection = FlexDirection.Row;
-        header.style.justifyContent = Justify.SpaceBetween;
+        var header = BSMEditorUtility.CreateHorizontalLayout();
         Label labelName = new Label("Operator");
         header.Add(labelName);
 
         string op = m_condition.conditionOperator.ToString();
-        m_operatorButton = BSMUtility.CreateButton(op, CreateOperatorPopup);
+        m_operatorButton = BSMEditorUtility.CreateButton(op, CreateOperatorPopup);
         header.Add(m_operatorButton);
 
         return header;
@@ -70,7 +68,7 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
 
     VisualElement NewConditionElement()
     {
-        m_addConditionButton = BSMUtility.CreateButton("Add condition", CreatePopup);
+        m_addConditionButton = BSMEditorUtility.CreateButton("Add condition", CreatePopup);
         return m_addConditionButton;
     }
 
@@ -91,18 +89,11 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
         {
             string conditionName = BSMConditionBase.GetName(c.GetCondition().GetType());
 
-            var header = new VisualElement();
-            header.style.flexDirection = FlexDirection.Row;
-            header.style.justifyContent = Justify.SpaceBetween;
-            Label labelName = new Label(conditionName);
-            labelName.style.paddingBottom = 4;
-            labelName.style.paddingLeft = 4;
-            labelName.style.paddingRight = 4;
-            labelName.style.paddingTop = 4;
-            header.Add(labelName);
+            var header = BSMEditorUtility.CreateHorizontalLayout();
+            header.Add(BSMEditorUtility.CreateLabel(conditionName, 4));
 
             int index = m_baseContainer.childCount;
-            var removeButton = BSMUtility.CreateButton("X", () => RemoveCondition(index));
+            var removeButton = BSMEditorUtility.CreateButton("X", () => RemoveCondition(index));
             removeButton.style.maxWidth = 20;
             header.Add(removeButton);
 
@@ -110,33 +101,7 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
             conditionContainer.Add(header);
             conditionContainer.Add(c.GetElement());
 
-            float marginSize = 2;
-            conditionContainer.style.marginTop = marginSize;
-            conditionContainer.style.marginBottom = marginSize;
-            conditionContainer.style.marginLeft = marginSize;
-            conditionContainer.style.marginRight = marginSize;
-
-            Color borderColor = new Color(0.4f, 0.4f, 0.4f);
-            conditionContainer.style.borderBottomColor = borderColor;
-            conditionContainer.style.borderLeftColor = borderColor;
-            conditionContainer.style.borderRightColor = borderColor;
-            conditionContainer.style.borderTopColor = borderColor;
-
-            float borderWidth = 1;
-            conditionContainer.style.borderBottomWidth = borderWidth;
-            conditionContainer.style.borderLeftWidth = borderWidth;
-            conditionContainer.style.borderRightWidth = borderWidth;
-            conditionContainer.style.borderTopWidth = borderWidth;
-
-            float borderRadius = 3;
-            conditionContainer.style.borderBottomLeftRadius = borderRadius;
-            conditionContainer.style.borderBottomRightRadius = borderRadius;
-            conditionContainer.style.borderTopLeftRadius = borderRadius;
-            conditionContainer.style.borderTopRightRadius = borderRadius;
-
-            conditionContainer.style.backgroundColor = new Color(0.15f, 0.15f, 0.15f);
-
-            m_baseContainer.Add(conditionContainer);
+            BSMEditorUtility.SetContainerStyle(conditionContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
         }
     }
 

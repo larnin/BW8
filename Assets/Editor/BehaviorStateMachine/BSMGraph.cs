@@ -10,6 +10,7 @@ using UnityEngine.UIElements;
 public class BSMGraph : EditorWindow
 {
     BSMGraphView m_graphView;
+    BSMAttributesWindow m_attributesWindow;
     BSMErrorWindow m_errorWindow;
 
     Label m_nameLabel;
@@ -37,42 +38,61 @@ public class BSMGraph : EditorWindow
         m_graphView = new BSMGraphView(this);
 
         m_graphView.StretchToParentSize();
+
+        VisualElement horizontal = BSMEditorUtility.CreateHorizontalLayout();
+        horizontal.style.flexGrow = 2;
+
         VisualElement element = new VisualElement();
-        element.style.minHeight = new StyleLength(new Length(85, LengthUnit.Percent));
+        element.style.minHeight = new StyleLength(new Length(50, LengthUnit.Percent));
+        element.style.flexGrow = 2;
         element.Add(m_graphView);
+
 
         m_nameLabel = new Label();
         element.Add(m_nameLabel);
         UpdateLabel();
 
-        rootVisualElement.Add(element);
+        horizontal.Add(element);
+        AddSideMenus(horizontal);
+
+        rootVisualElement.Add(horizontal);
     }
     private void AddStyles()
     {
         rootVisualElement.AddStyleSheets("BehaviorStateMachine/BSMVariables.uss");
     }
 
+    void AddSideMenus(VisualElement parent)
+    {
+        VisualElement sideMenu = new VisualElement();
+        sideMenu.style.width = 200;
+
+        m_attributesWindow = new BSMAttributesWindow();
+        m_attributesWindow.SetParent(sideMenu);
+
+        parent.Add(sideMenu);
+    }
+
     void AddMenusWindows()
     {
-        VisualElement baseWindow = new VisualElement();
-        baseWindow.style.flexDirection = FlexDirection.Row;
-        baseWindow.style.justifyContent = Justify.SpaceBetween;
-        baseWindow.style.height = new StyleLength(new Length(100, LengthUnit.Pixel));
+        VisualElement baseWindow = BSMEditorUtility.CreateHorizontalLayout();
+        baseWindow.style.height = new StyleLength(new Length(90, LengthUnit.Pixel));
 
         VisualElement menuWindow = new VisualElement();
         menuWindow.style.width = 120;
         baseWindow.Add(menuWindow);
 
-        menuWindow.Add(BSMUtility.CreateButton("New", NewFile));
-        menuWindow.Add(BSMUtility.CreateButton("Load", Load));
-        menuWindow.Add(BSMUtility.CreateButton("Save", SaveChanges));
-        menuWindow.Add(BSMUtility.CreateButton("Save As", SaveAs));
+        menuWindow.Add(BSMEditorUtility.CreateButton("New", NewFile));
+        menuWindow.Add(BSMEditorUtility.CreateButton("Load", Load));
+        menuWindow.Add(BSMEditorUtility.CreateButton("Save", SaveChanges));
+        menuWindow.Add(BSMEditorUtility.CreateButton("Save As", SaveAs));
 
         if (m_errorWindow == null)
             m_errorWindow = new BSMErrorWindow();
 
         VisualElement element = new VisualElement();
         m_errorWindow.SetParent(element);
+        element.style.flexGrow = 2;
 
         baseWindow.Add(element);
         rootVisualElement.Add(baseWindow);
