@@ -111,6 +111,7 @@ public class BSMSaveNode
 public class BSMSaveData
 {
     public List<BSMSaveNode> nodes = new List<BSMSaveNode>();
+    public List<BSMAttribute> attributes = new List<BSMAttribute>();
 
     public void Load(JsonObject obj)
     {
@@ -131,6 +132,24 @@ public class BSMSaveData
                 nodes.Add(node);
             }
         }
+
+        attributes.Clear();
+        var attributesElt = obj.GetElement("Attributes");
+        if(attributesElt != null && attributesElt.IsJsonArray())
+        {
+            var attributesArray = attributesElt.JsonArray();
+
+            foreach(var attributeElt in attributesArray)
+            {
+                if (!attributeElt.IsJsonObject())
+                    continue;
+
+                BSMAttribute attribute = new BSMAttribute();
+                attribute.Load(attributeElt.JsonObject());
+
+                attributes.Add(attribute);
+            }
+        }
     }
 
     public JsonObject Save()
@@ -142,6 +161,12 @@ public class BSMSaveData
             nodesArray.Add(node.Save());
 
         obj.AddElement("Nodes", nodesArray);
+
+        JsonArray attributesArray = new JsonArray();
+        foreach (var attribute in attributes)
+            attributesArray.Add(attribute.Save());
+
+        obj.AddElement("Attributes", attributesArray);
 
         return obj;
     }

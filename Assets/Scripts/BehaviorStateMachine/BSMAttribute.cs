@@ -129,4 +129,76 @@ public class BSMAttribute
             return name.Substring(9);
         return name;
     }
+
+    public void Load(JsonObject obj)
+    {
+        var autoElt = obj.GetElement("Auto");
+        if (autoElt != null && autoElt.IsJsonNumber())
+            automatic = autoElt.Int() != 0;
+
+        var nameElt = obj.GetElement("Name");
+        if (nameElt != null && nameElt.IsJsonString())
+            name = nameElt.String();
+
+        var typeElt = obj.GetElement("Type");
+        if(typeElt != null && typeElt.IsJsonString())
+        {
+            var typeStr = typeElt.String();
+            Enum.TryParse(typeStr, true, out attributeType);
+        }
+
+        var dataElt = obj.GetElement("Data");
+        if (dataElt != null)
+        {
+            switch (attributeType)
+            {
+                case BSMAttributeType.attributeInt:
+                    if (dataElt.IsJsonNumber())
+                        SetInt(dataElt.Int());
+                    break;
+                case BSMAttributeType.attributeFloat:
+                    if (dataElt.IsJsonNumber())
+                        SetFloat(dataElt.Float());
+                    break;
+                case BSMAttributeType.attributeString:
+                    if (dataElt.IsJsonString())
+                        SetString(dataElt.String());
+                    break;
+                case BSMAttributeType.attributeGameObject:
+                    break;
+                default:
+                    Debug.LogError("Unknow attribute value type of " + name);
+                    break;
+            }
+        }
+    }
+
+    public JsonObject Save()
+    {
+        JsonObject obj = new JsonObject();
+
+        obj.AddElement("Auto", automatic ? 1 : 0);
+        obj.AddElement("Name", name);
+        obj.AddElement("Type", attributeType.ToString());
+
+        switch (attributeType)
+        {
+            case BSMAttributeType.attributeInt:
+                obj.AddElement("Data", GetInt());
+                break;
+            case BSMAttributeType.attributeFloat:
+                obj.AddElement("Data", GetFloat());
+                break;
+            case BSMAttributeType.attributeString:
+                obj.AddElement("Data", GetString());
+                break;
+            case BSMAttributeType.attributeGameObject:
+                break;
+            default:
+                Debug.LogError("Unknow attribute value type of " + name);
+                break;
+        }
+
+        return obj;
+    }
 }

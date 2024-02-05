@@ -112,7 +112,10 @@ public class BSMGraph : EditorWindow
 
     void Save(string path)
     {
-        var saveData = m_graphView.Save();
+        BSMSaveData saveData = new BSMSaveData();
+
+        m_graphView.Save(saveData);
+        m_attributesWindow.Save(saveData);
 
         var doc = new JsonDocument();
         doc.SetRoot(saveData.Save());
@@ -126,23 +129,27 @@ public class BSMGraph : EditorWindow
 
     void Load(string path)
     {
+        BSMSaveData saveData = new BSMSaveData();
+
         var data = SaveEx.LoadFile(path);
         if (data == null)
         {
-            m_graphView.Load(new BSMSaveData());
+            m_graphView.Load(saveData);
+            m_attributesWindow.Load(saveData);
             return;
         }
 
         var doc = Json.ReadFromString(data);
-        BSMSaveData saveData = new BSMSaveData();
         if (!doc.GetRoot().IsJsonObject())
         {
             m_graphView.Load(saveData);
+            m_attributesWindow.Load(saveData);
             return;
         }
         saveData.Load(doc.GetRoot().JsonObject());
 
         m_graphView.Load(saveData);
+        m_attributesWindow.Load(saveData);
 
         hasUnsavedChanges = true;
     }

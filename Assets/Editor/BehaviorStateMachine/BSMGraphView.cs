@@ -564,14 +564,10 @@ public class BSMGraphView : GraphView
         return null;
     }
 
-    public BSMSaveData Save()
+    public void  Save(BSMSaveData data)
     {
-        BSMSaveData data = new BSMSaveData();
-
         foreach (var node in m_nodes)
                 data.nodes.Add(SaveNode(node));
-
-        return data;
     }
 
     BSMSaveNode SaveNode(BSMNode node)

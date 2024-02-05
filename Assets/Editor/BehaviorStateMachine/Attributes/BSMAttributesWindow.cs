@@ -103,6 +103,20 @@ public class BSMAttributesWindow
         int nbAttribute = (names.Length < types.Length) ? names.Length : types.Length;
         for(int i = 0; i < nbAttribute; i++)
         {
+            bool found = false;
+            foreach(var v in m_attributes)
+            {
+                var a = v.GetAttribute();
+                if (a.automatic && a.name == names[i] && a.attributeType == types[i])
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+                continue;
+
             BSMAttribute attribute = new BSMAttribute();
             attribute.automatic = true;
             attribute.attributeType = types[i];
@@ -111,6 +125,28 @@ public class BSMAttributesWindow
             BSMAttributeView view = new BSMAttributeView(attribute);
             m_attributes.Add(view);
         }
+    }
+
+    public void Save(BSMSaveData saveData)
+    {
+        saveData.attributes.Clear();
+
+        foreach (var attribute in m_attributes)
+            saveData.attributes.Add(attribute.GetAttribute());
+    }
+
+    public void Load(BSMSaveData saveData)
+    {
+        m_attributes.Clear();
+
+        foreach(var attribute in saveData.attributes)
+        {
+            BSMAttributeView view = new BSMAttributeView(attribute);
+            m_attributes.Add(view);
+        }
+
+        AddAutomaticAttributes();
+        Draw();
     }
 }
 

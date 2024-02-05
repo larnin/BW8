@@ -1,0 +1,47 @@
+{
+  "Nodes": [
+    {
+      "ID": "b314ea6f-5420-409a-93aa-d4b5fe1a1e96",
+      "Name": "Start",
+      "Type": "Label",
+      "Pos": [
+        10.0,
+        10.0,
+        88.0,
+        77.0
+      ],
+      "OutNodes": []
+    },
+    {
+      "ID": "224753b4-174c-4a6e-918a-858e6f290448",
+      "Name": "Any State",
+      "Type": "Label",
+      "Pos": [
+        10.0,
+        100.0,
+        113.0,
+        77.0
+      ],
+      "OutNodes": []
+    }
+  ],
+  "Attributes": [
+    {
+      "Auto": 1.0,
+      "Name": "Aggro",
+      "Type": "attributeGameObject"
+    },
+    {
+      "Auto": 0.0,
+      "Name": "Test1",
+      "Type": "attributeInt",
+      "Data": 42.0
+    },
+    {
+      "Auto": 0.0,
+      "Name": "Test2",
+      "Type": "attributeString",
+      "Data": "toto"
+    }
+  ]
+}
