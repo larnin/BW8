@@ -67,7 +67,7 @@ public class BSMGraph : EditorWindow
         VisualElement sideMenu = new VisualElement();
         sideMenu.style.width = 200;
 
-        m_attributesWindow = new BSMAttributesWindow();
+        m_attributesWindow = new BSMAttributesWindow(this);
         m_attributesWindow.SetParent(sideMenu);
 
         parent.Add(sideMenu);
@@ -98,16 +98,16 @@ public class BSMGraph : EditorWindow
         rootVisualElement.Add(baseWindow);
     }
 
-    public void AddError(string error)
+    public void AddError(string error, string source)
     {
         if (m_errorWindow != null)
-            m_errorWindow.AddError(error);
+            m_errorWindow.AddError(error, source);
     }
 
-    public void ClearErrors()
+    public void ClearErrors(string source = null)
     {
         if (m_errorWindow != null)
-            m_errorWindow.ClearErrors();
+            m_errorWindow.ClearErrors(source);
     }
 
     void Save(string path)

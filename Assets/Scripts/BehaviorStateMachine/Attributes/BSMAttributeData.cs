@@ -13,12 +13,11 @@ public enum BSMAttributeType
     attributeGameObject,
 }
 
-public class BSMAttribute
+public class BSMAttributeData
 {
-    public bool automatic = false;
-    public string name;
     public BSMAttributeType attributeType = BSMAttributeType.attributeInt;
     public object data;
+
 
     public void SetType(BSMAttributeType type)
     {
@@ -30,7 +29,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeFloat)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return;
         }
         data = new float?(value);
@@ -40,7 +39,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeFloat)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return defaultValue;
         }
 
@@ -54,7 +53,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeInt)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return;
         }
         data = new int?(value);
@@ -64,7 +63,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeInt)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return defaultValue;
         }
 
@@ -78,7 +77,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeString)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return;
         }
         data = value;
@@ -88,7 +87,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeString)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return defaultValue;
         }
 
@@ -102,7 +101,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeGameObject)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return;
         }
         data = value;
@@ -112,7 +111,7 @@ public class BSMAttribute
     {
         if (attributeType != BSMAttributeType.attributeGameObject)
         {
-            Debug.LogError("Attribute " + name + " have a type " + AttributeName(attributeType));
+            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
             return defaultValue;
         }
 
@@ -132,16 +131,8 @@ public class BSMAttribute
 
     public void Load(JsonObject obj)
     {
-        var autoElt = obj.GetElement("Auto");
-        if (autoElt != null && autoElt.IsJsonNumber())
-            automatic = autoElt.Int() != 0;
-
-        var nameElt = obj.GetElement("Name");
-        if (nameElt != null && nameElt.IsJsonString())
-            name = nameElt.String();
-
         var typeElt = obj.GetElement("Type");
-        if(typeElt != null && typeElt.IsJsonString())
+        if (typeElt != null && typeElt.IsJsonString())
         {
             var typeStr = typeElt.String();
             Enum.TryParse(typeStr, true, out attributeType);
@@ -167,18 +158,14 @@ public class BSMAttribute
                 case BSMAttributeType.attributeGameObject:
                     break;
                 default:
-                    Debug.LogError("Unknow attribute value type of " + name);
+                    Debug.LogError("Unknow attribute value type");
                     break;
             }
         }
     }
 
-    public JsonObject Save()
+    public void Save(JsonObject obj)
     {
-        JsonObject obj = new JsonObject();
-
-        obj.AddElement("Auto", automatic ? 1 : 0);
-        obj.AddElement("Name", name);
         obj.AddElement("Type", attributeType.ToString());
 
         switch (attributeType)
@@ -195,10 +182,8 @@ public class BSMAttribute
             case BSMAttributeType.attributeGameObject:
                 break;
             default:
-                Debug.LogError("Unknow attribute value type of " + name);
+                Debug.LogError("Unknow attribute value type");
                 break;
         }
-
-        return obj;
     }
 }

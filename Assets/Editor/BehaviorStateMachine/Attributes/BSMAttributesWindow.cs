@@ -7,13 +7,19 @@ using UnityEngine.UIElements;
 
 public class BSMAttributesWindow
 {
+    BSMGraph m_editorWindow;
+
     VisualElement m_parent;
 
     List<BSMAttributeView> m_attributes = new List<BSMAttributeView>();
 
-    public BSMAttributesWindow()
+    public BSMAttributesWindow(BSMGraph editorWindow)
     {
+        m_editorWindow = editorWindow;
+
         AddAutomaticAttributes();
+
+        ProcessErrors();
     }
 
     public void SetParent(VisualElement parent)
@@ -82,6 +88,8 @@ public class BSMAttributesWindow
         m_attributes.RemoveAt(index);
 
         Draw();
+
+        ProcessErrors();
     }
 
     void AddAttribute()
@@ -89,10 +97,12 @@ public class BSMAttributesWindow
         BSMAttribute attribute = new BSMAttribute();
         attribute.name = "New attribute";
 
-        BSMAttributeView view = new BSMAttributeView(attribute);
+        BSMAttributeView view = new BSMAttributeView(attribute, this);
         m_attributes.Add(view);
 
         Draw();
+
+        ProcessErrors();
     }
 
     void AddAutomaticAttributes()
@@ -107,7 +117,7 @@ public class BSMAttributesWindow
             foreach(var v in m_attributes)
             {
                 var a = v.GetAttribute();
-                if (a.automatic && a.name == names[i] && a.attributeType == types[i])
+                if (a.automatic && a.name == names[i] && a.data.attributeType == types[i])
                 {
                     found = true;
                     break;
@@ -119,11 +129,31 @@ public class BSMAttributesWindow
 
             BSMAttribute attribute = new BSMAttribute();
             attribute.automatic = true;
-            attribute.attributeType = types[i];
+            attribute.data.attributeType = types[i];
             attribute.name = names[i];
 
-            BSMAttributeView view = new BSMAttributeView(attribute);
+            BSMAttributeView view = new BSMAttributeView(attribute, this);
             m_attributes.Add(view);
+        }
+
+        for(int i = 0; i < m_attributes.Count; i++)
+        {
+            var attribute = m_attributes[i].GetAttribute();
+            if (!attribute.automatic)
+                continue;
+
+            bool found = false;
+            for(int j = 0; j < nbAttribute; j++)
+            {
+                if(attribute.name == names[i] && attribute.data.attributeType == types[i])
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                attribute.automatic = false;
         }
     }
 
@@ -141,12 +171,56 @@ public class BSMAttributesWindow
 
         foreach(var attribute in saveData.attributes)
         {
-            BSMAttributeView view = new BSMAttributeView(attribute);
+            BSMAttributeView view = new BSMAttributeView(attribute, this);
             m_attributes.Add(view);
         }
 
         AddAutomaticAttributes();
         Draw();
+
+        ProcessErrors();
+    }
+
+    public void ProcessErrors()
+    {
+        ClearErrors();
+
+        foreach (var attribute in m_attributes)
+            attribute.UpdateStyle(false);
+
+        for (int i = 0; i < m_attributes.Count; i++)
+        {
+            int namesError = 1;
+
+            var attribute = m_attributes[i].GetAttribute();
+
+            for (int j = i + 1; j < m_attributes.Count; j++)
+            {
+                if (m_attributes[j].GetAttribute().name == attribute.name)
+                {
+                    if (namesError == 1)
+                        m_attributes[i].UpdateStyle(true);
+                    m_attributes[j].UpdateStyle(true);
+
+                    namesError++;
+                }
+            }
+
+            if (namesError > 1)
+                AddError(namesError + " Attributes are named " + attribute.name + ", names must be unique");
+        }
+    }
+
+    void AddError(string error)
+    {
+        if (m_editorWindow != null)
+            m_editorWindow.AddError(error, "Attribute");
+    }
+
+    void ClearErrors()
+    {
+        if (m_editorWindow != null)
+            m_editorWindow.ClearErrors("Attribute");
     }
 }
 

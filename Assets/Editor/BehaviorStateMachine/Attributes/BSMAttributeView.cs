@@ -11,12 +11,17 @@ public class BSMAttributeView : BSMDropdownCallback
 {
     BSMAttribute m_attribute;
 
+    BSMAttributesWindow m_window;
+
     Button m_typeButton;
     VisualElement m_valueContainer;
 
-    public BSMAttributeView(BSMAttribute attribute)
+    VisualElement m_mainContainer;
+
+    public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window)
     {
         m_attribute = attribute;
+        m_window = window;
     }
 
     public BSMAttribute GetAttribute()
@@ -26,13 +31,12 @@ public class BSMAttributeView : BSMDropdownCallback
 
     public VisualElement GetElement()
     {
-        VisualElement element = new VisualElement();
-        BSMEditorUtility.SetContainerStyle(element, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
+        m_mainContainer = new VisualElement();
 
         if (m_attribute.automatic)
         {
-            element.Add(BSMEditorUtility.CreateLabel(m_attribute.name, 4));
-            element.Add(BSMEditorUtility.CreateLabel("Type: " + GetTypeText()));
+            m_mainContainer.Add(BSMEditorUtility.CreateLabel(m_attribute.name, 4));
+            m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + GetTypeText()));
 
             m_typeButton = null;
         }
@@ -46,8 +50,10 @@ public class BSMAttributeView : BSMDropdownCallback
                 target.value = callback.newValue.RemoveSpecialCharacters();
 
                 m_attribute.name = target.value;
+
+                m_window.ProcessErrors();
             });
-            element.Add(nameField);
+            m_mainContainer.Add(nameField);
 
             VisualElement typeContainer = BSMEditorUtility.CreateHorizontalLayout();
 
@@ -57,19 +63,21 @@ public class BSMAttributeView : BSMDropdownCallback
             m_typeButton.style.flexGrow = 2;
             typeContainer.Add(m_typeButton);
 
-            element.Add(typeContainer);
+            m_mainContainer.Add(typeContainer);
         }
 
         m_valueContainer = new VisualElement();
-        element.Add(m_valueContainer);
+        m_mainContainer.Add(m_valueContainer);
         UpdateValue();
 
-        return element;
+        UpdateStyle(false);
+
+        return m_mainContainer;
     }
 
     string GetTypeText()
     {
-        return BSMAttribute.AttributeName(m_attribute.attributeType);
+        return BSMAttributeData.AttributeName(m_attribute.data.attributeType);
     }
 
     void CreateTypePopup()
@@ -84,14 +92,14 @@ public class BSMAttributeView : BSMDropdownCallback
         List<string> choices = new List<string>();
         var values = Enum.GetValues(typeof(BSMAttributeType));
         foreach (var v in values)
-            choices.Add(BSMAttribute.AttributeName((BSMAttributeType)v));
+            choices.Add(BSMAttributeData.AttributeName((BSMAttributeType)v));
 
         UnityEditor.PopupWindow.Show(rect, new BSMSimpleDropdownPopup(choices, this));
     }
 
     public void SendResult(int result)
     {
-        m_attribute.SetType((BSMAttributeType)result);
+        m_attribute.data.SetType((BSMAttributeType)result);
         m_typeButton.text = GetTypeText();
 
         UpdateValue();
@@ -102,23 +110,23 @@ public class BSMAttributeView : BSMDropdownCallback
         m_valueContainer.Clear();
 
         VisualElement layout = null;
-        if (m_attribute.attributeType != BSMAttributeType.attributeGameObject)
+        if (m_attribute.data.attributeType != BSMAttributeType.attributeGameObject)
         {
             layout = BSMEditorUtility.CreateHorizontalLayout();
             layout.Add(BSMEditorUtility.CreateLabel("Value"));
         }
 
-        switch(m_attribute.attributeType)
+        switch(m_attribute.data.attributeType)
         {
             case BSMAttributeType.attributeFloat:
                 {
-                    IntegerField valueField = BSMEditorUtility.CreateIntField(m_attribute.GetInt(0), null, callback =>
+                    FloatField valueField = BSMEditorUtility.CreateFloatField(m_attribute.data.GetFloat(0), null, callback =>
                     {
-                        IntegerField target = (IntegerField)callback.target;
+                        FloatField target = (FloatField)callback.target;
 
                         target.value = callback.newValue;
 
-                        m_attribute.SetInt(target.value);
+                        m_attribute.data.SetFloat(target.value);
                     });
 
                     valueField.style.flexGrow = 2;
@@ -127,13 +135,13 @@ public class BSMAttributeView : BSMDropdownCallback
                 }
             case BSMAttributeType.attributeInt:
                 {
-                    IntegerField valueField = BSMEditorUtility.CreateIntField(m_attribute.GetInt(0), null, callback =>
+                    IntegerField valueField = BSMEditorUtility.CreateIntField(m_attribute.data.GetInt(0), null, callback =>
                     {
                         IntegerField target = (IntegerField)callback.target;
 
                         target.value = callback.newValue;
 
-                        m_attribute.SetInt(target.value);
+                        m_attribute.data.SetInt(target.value);
                     });
 
                     valueField.style.flexGrow = 2;
@@ -142,13 +150,13 @@ public class BSMAttributeView : BSMDropdownCallback
                 }
             case BSMAttributeType.attributeString:
                 {
-                    TextField nameField = BSMEditorUtility.CreateTextField(m_attribute.GetString(""), null, callback =>
+                    TextField nameField = BSMEditorUtility.CreateTextField(m_attribute.data.GetString(""), null, callback =>
                     {
                         TextField target = (TextField)callback.target;
 
                         target.value = callback.newValue;
 
-                        m_attribute.SetString(target.value);
+                        m_attribute.data.SetString(target.value);
                     });
 
                     nameField.style.flexGrow = 2;
@@ -169,6 +177,16 @@ public class BSMAttributeView : BSMDropdownCallback
 
         if (layout != null)
             m_valueContainer.Add(layout);
+    }
+
+    public void UpdateStyle(bool error)
+    {
+        if (m_mainContainer == null)
+            return;
+
+        if(error)
+            BSMEditorUtility.SetContainerStyle(m_mainContainer, 2, BSMNode.errorBorderColor, 1, 3, BSMNode.errorBackgroundColor);
+        else BSMEditorUtility.SetContainerStyle(m_mainContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
     }
 
 }

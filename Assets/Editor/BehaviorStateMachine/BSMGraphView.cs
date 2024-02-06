@@ -426,13 +426,13 @@ public class BSMGraphView : GraphView
     void AddError(string error)
     {
         if (m_editorWindow != null)
-            m_editorWindow.AddError(error);
+            m_editorWindow.AddError(error, "Graph");
     }
 
     void ClearErrors()
     {
         if (m_editorWindow != null)
-            m_editorWindow.ClearErrors();
+            m_editorWindow.ClearErrors("Graph");
     }
 
     void Clean()

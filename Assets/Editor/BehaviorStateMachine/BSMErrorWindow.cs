@@ -7,8 +7,14 @@ using UnityEngine.UIElements;
 
 public class BSMErrorWindow
 {
+    class BSMErrorData
+    {
+        public string line;
+        public string source;
+    }
+
     VisualElement m_parent;
-    List<string> m_lines = new List<string>();
+    List<BSMErrorData> m_lines = new List<BSMErrorData>();
 
     public void SetParent(VisualElement parent)
     {
@@ -16,15 +22,31 @@ public class BSMErrorWindow
         Draw();
     }
 
-    public void AddError(string value)
+    public void AddError(string value, string source)
     {
-        m_lines.Add(value);
+        BSMErrorData data = new BSMErrorData();
+        data.line = value;
+        data.source = source;
+
+        m_lines.Add(data);
         Draw();
     }
 
-    public void ClearErrors()
+    public void ClearErrors(string source = null)
     {
-        m_lines.Clear();
+        if(source == null)
+            m_lines.Clear();
+        else
+        {
+            for(int i = 0; i < m_lines.Count; i++)
+            {
+                if(m_lines[i].source == source)
+                {
+                    m_lines.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
         Draw();
     }
 
@@ -43,7 +65,7 @@ public class BSMErrorWindow
 
         foreach(var l in m_lines)
         {
-            var line = new Label(l);
+            var line = new Label(l.line);
             scrollView.Add(line);
         }
     }
