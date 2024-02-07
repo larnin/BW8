@@ -163,6 +163,9 @@ public class JsonArray : JsonElement, IEnumerable<JsonElement>
             return;
         do
         {
+            if (reader.TokenType == JsonToken.EndArray)
+                break;
+
             var element = JsonTools.ReadNextElement(reader, false);
             if (element == null)
                 return;

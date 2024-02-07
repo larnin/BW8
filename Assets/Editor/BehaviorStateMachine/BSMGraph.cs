@@ -33,7 +33,6 @@ public class BSMGraph : EditorWindow
         return m_graphView;
     }
 
-
     private void OnEnable()
     {
         AddGraphView();
@@ -41,7 +40,7 @@ public class BSMGraph : EditorWindow
 
         AddStyles();
 
-        hasUnsavedChanges = true;
+        //hasUnsavedChanges = true; todo a better check to unsaved changes
     }
 
     private void AddGraphView()
@@ -134,8 +133,6 @@ public class BSMGraph : EditorWindow
         string data = Json.WriteToString(doc);
 
         SaveEx.SaveAsset(path, data);
-
-        hasUnsavedChanges = true;
     }
 
     void Load(string path)
@@ -145,24 +142,22 @@ public class BSMGraph : EditorWindow
         var data = SaveEx.LoadFile(path);
         if (data == null)
         {
-            m_graphView.Load(saveData);
             m_attributesWindow.Load(saveData);
+            m_graphView.Load(saveData);
             return;
         }
 
         var doc = Json.ReadFromString(data);
         if (!doc.GetRoot().IsJsonObject())
         {
-            m_graphView.Load(saveData);
             m_attributesWindow.Load(saveData);
+            m_graphView.Load(saveData);
             return;
         }
         saveData.Load(doc.GetRoot().JsonObject());
 
-        m_graphView.Load(saveData);
         m_attributesWindow.Load(saveData);
-
-        hasUnsavedChanges = true;
+        m_graphView.Load(saveData);
     }
 
     public override void SaveChanges()
@@ -209,7 +204,11 @@ public class BSMGraph : EditorWindow
 
     public void NewFile()
     {
-        m_graphView.Load(new BSMSaveData());
+        var saveData = new BSMSaveData();
+
+        m_attributesWindow.Load(saveData);
+        m_graphView.Load(saveData);
+
         m_savePath = "";
 
         UpdateLabel();

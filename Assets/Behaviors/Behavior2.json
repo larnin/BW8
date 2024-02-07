@@ -1,7 +1,7 @@
 {
   "Nodes": [
     {
-      "ID": "b314ea6f-5420-409a-93aa-d4b5fe1a1e96",
+      "ID": "e11eb7de-7e16-4aba-a1f4-ef05a9205f96",
       "Name": "Start",
       "Type": "Label",
       "Pos": [
@@ -10,10 +10,12 @@
         88.0,
         77.0
       ],
-      "OutNodes": []
+      "OutNodes": [
+        "0a5a3af2-9e5f-4b80-b8e4-92fc9fc58573"
+      ]
     },
     {
-      "ID": "224753b4-174c-4a6e-918a-858e6f290448",
+      "ID": "95e0a4be-c0c5-4eec-866f-ddb74bb78218",
       "Name": "Any State",
       "Type": "Label",
       "Pos": [
@@ -23,25 +25,102 @@
         77.0
       ],
       "OutNodes": []
+    },
+    {
+      "ID": "8a648826-d3a1-406e-8354-31112aac59e2",
+      "Name": "LABEL_Lbl",
+      "Type": "Label",
+      "Pos": [
+        10.0,
+        189.0,
+        149.0,
+        77.0
+      ],
+      "OutNodes": [
+        "0a5a3af2-9e5f-4b80-b8e4-92fc9fc58573"
+      ]
+    },
+    {
+      "ID": "0a5a3af2-9e5f-4b80-b8e4-92fc9fc58573",
+      "Name": "State",
+      "Type": "State",
+      "Pos": [
+        257.0,
+        67.0,
+        241.0,
+        156.0
+      ],
+      "Data": {
+        "Type": "BSMStateIdle",
+        "Anim": "Idle",
+        "Orientable": 1.0
+      },
+      "OutNodes": [
+        "33e9cb37-7bc3-4134-b5a5-3470bb92a658"
+      ]
+    },
+    {
+      "ID": "33e9cb37-7bc3-4134-b5a5-3470bb92a658",
+      "Name": "New Condition",
+      "Type": "Condition",
+      "Pos": [
+        555.0,
+        67.0,
+        152.0,
+        144.0
+      ],
+      "Data": {
+        "Type": "BSMConditionAfterTimer",
+        "Attributes": [
+          {
+            "Use": 1.0,
+            "ID": "ed2ebdd1-c057-41b1-b0e9-33dede6a4ab6",
+            "Type": "attributeFloat",
+            "Data": 0.0,
+            "Name": "Timer"
+          }
+        ]
+      },
+      "OutNodes": [
+        "9393a006-a368-4ce7-a250-1517fab25862"
+      ]
+    },
+    {
+      "ID": "9393a006-a368-4ce7-a250-1517fab25862",
+      "Name": "GOTO_Goto",
+      "Type": "Goto",
+      "Pos": [
+        764.0,
+        67.0,
+        149.0,
+        101.0
+      ],
+      "Data": {
+        "LabelID": "8a648826-d3a1-406e-8354-31112aac59e2"
+      },
+      "OutNodes": []
     }
   ],
   "Attributes": [
     {
+      "ID": "a6fd6ca5-73e0-4c22-9649-94927f91fe17",
       "Auto": 1.0,
       "Name": "Aggro",
       "Type": "attributeGameObject"
     },
     {
+      "ID": "ed2ebdd1-c057-41b1-b0e9-33dede6a4ab6",
       "Auto": 0.0,
       "Name": "Test1",
-      "Type": "attributeInt",
+      "Type": "attributeFloat",
       "Data": 42.0
     },
     {
+      "ID": "dcc6eed5-b3b6-4b4a-8e59-6adf0dc5fa91",
       "Auto": 0.0,
       "Name": "Test2",
       "Type": "attributeString",
-      "Data": "toto"
+      "Data": "Toto"
     }
   ]
 }

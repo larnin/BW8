@@ -67,6 +67,7 @@ public class BSMControler : MonoBehaviour
         LoadStart(saveData);
         LoadAnyState(saveData);
         LoadTransitions(saveData);
+        LoadAttributes(saveData);
         AfterLoad();
     }
 
@@ -198,6 +199,11 @@ public class BSMControler : MonoBehaviour
         newTransition.nextStateID = nextNode.ID;
 
         return newTransition;
+    }
+
+    void LoadAttributes(BSMSaveData data)
+    {
+        m_attributes = data.attributes;
     }
 
     void AfterLoad()

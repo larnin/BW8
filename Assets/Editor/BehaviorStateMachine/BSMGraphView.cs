@@ -494,6 +494,7 @@ public class BSMGraphView : GraphView
         if (data.nodeType == BSMNodeType.Label)
         {
             var nodeLabel = new BSMNodeLabel();
+            InitializeNode(nodeLabel, data);
             node = nodeLabel;
             if (data.name == "Start")
             {
@@ -509,28 +510,34 @@ public class BSMGraphView : GraphView
         else if (data.nodeType == BSMNodeType.Goto)
         {
             var nodeGoto = new BSMNodeGoto();
+            InitializeNode(nodeGoto, data);
             nodeGoto.SetLabelID(data.data as string);
             node = nodeGoto;
         }
         else if (data.nodeType == BSMNodeType.Condition)
         {
             var nodeConditon = new BSMNodeCondition();
+            InitializeNode(nodeConditon, data);
             nodeConditon.SetCondition(data.data as BSMConditionBase);
             node = nodeConditon;
         }
         else if (data.nodeType == BSMNodeType.State)
         {
             var nodeState = new BSMNodeState();
+            InitializeNode(nodeState, data);
             nodeState.SetState(data.data as BSMStateBase);
             node = nodeState;
         }
         
+        return node;
+    }
+
+    void InitializeNode(BSMNode node, BSMSaveNode data)
+    {
         node.ID = data.ID;
         node.NodeName = data.name;
         node.SetPosition(data.position);
         node.Initialize(data.name, this, data.position.position, false);
-
-        return node;
     }
 
     void CreateConnexions(List<BSMNode> nodes, List<BSMSaveNode> datas)
@@ -572,7 +579,7 @@ public class BSMGraphView : GraphView
     public void  Save(BSMSaveData data)
     {
         foreach (var node in m_nodes)
-                data.nodes.Add(SaveNode(node));
+            data.nodes.Add(SaveNode(node));
     }
 
     BSMSaveNode SaveNode(BSMNode node)
