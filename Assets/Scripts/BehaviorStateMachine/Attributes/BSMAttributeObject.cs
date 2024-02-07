@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class BSMAttributeObject
 {
@@ -12,9 +13,30 @@ public class BSMAttributeObject
 
     public string attributeID;
 
-    public BSMAttributeObject(BSMAttributeType type)
+    public BSMAttributeObject() { }
+
+    public BSMAttributeObject(float defaultValue)
     {
-        data.SetType(type);
+        data.SetType(BSMAttributeType.attributeFloat);
+        data.SetFloat(defaultValue);
+    }
+
+    public BSMAttributeObject(int defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeInt);
+        data.SetInt(defaultValue);
+    }
+
+    public BSMAttributeObject(string defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeString);
+        data.SetString(defaultValue);
+    }
+
+    public BSMAttributeObject(GameObject defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeGameObject);
+        data.SetGameObject(defaultValue);
     }
 
     public void Load(JsonObject obj)

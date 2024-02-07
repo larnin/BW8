@@ -21,7 +21,7 @@ public class BSMStateViewIdle : BSMStateViewBase
         TextField animField = BSMEditorUtility.CreateTextField("Animation", m_state.animation, x=> { OnAnimationChange(x.newValue); });
         element.Add(animField);
 
-        Toggle oriented = BSMEditorUtility.CreateCheckbox("Is Oriented", m_state.isOrientable, OnOrientableChange);
+        Toggle oriented = BSMEditorUtility.CreateCheckbox("Is Oriented", m_state.isOrientable, x => { OnOrientableChange(x.newValue); });
         element.Add(oriented);
 
         return element;

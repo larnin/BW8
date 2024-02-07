@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class BSMConditionBase
+public abstract class BSMConditionBase : BSMAttributeHolder
 {
     protected BSMStateBase m_state;
 
@@ -70,6 +71,7 @@ public abstract class BSMConditionBase
                 return null;
 
             instance.Load(obj);
+            instance.LoadAttributes(obj);
             return instance;
         }
         catch(Exception)
@@ -87,7 +89,80 @@ public abstract class BSMConditionBase
         obj.AddElement("Type", typeName);
 
         condition.Save(obj);
+        condition.SaveAttributes(obj);
 
         return obj;
+    }
+
+    public override int GetIntAttribute(string name, int defaultValue = 0)
+    {
+        var attribute = GetAttribute(name);
+        if (attribute == null)
+            return defaultValue;
+
+        if (attribute.useAttribute)
+        {
+            if (m_state == null || m_state.GetControler() == null)
+                return defaultValue;
+            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
+            if (realAttribute == null)
+                return default;
+            return realAttribute.data.GetInt(defaultValue);
+        }
+        else return attribute.data.GetInt(defaultValue);
+    }
+
+    public override float GetFloatAttribute(string name, float defaultValue = 0)
+    {
+        var attribute = GetAttribute(name);
+        if (attribute == null)
+            return defaultValue;
+
+        if (attribute.useAttribute)
+        {
+            if (m_state == null || m_state.GetControler() == null)
+                return defaultValue;
+            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
+            if (realAttribute == null)
+                return default;
+            return realAttribute.data.GetFloat(defaultValue);
+        }
+        else return attribute.data.GetFloat(defaultValue);
+    }
+
+    public override string GetStringAttribute(string name, string defaultValue = "")
+    {
+        var attribute = GetAttribute(name);
+        if (attribute == null)
+            return defaultValue;
+
+        if (attribute.useAttribute)
+        {
+            if (m_state == null || m_state.GetControler() == null)
+                return defaultValue;
+            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
+            if (realAttribute == null)
+                return default;
+            return realAttribute.data.GetString(defaultValue);
+        }
+        else return attribute.data.GetString(defaultValue);
+    }
+
+    public override GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
+    {
+        var attribute = GetAttribute(name);
+        if (attribute == null)
+            return defaultValue;
+
+        if (attribute.useAttribute)
+        {
+            if (m_state == null || m_state.GetControler() == null)
+                return defaultValue;
+            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
+            if (realAttribute == null)
+                return default;
+            return realAttribute.data.GetGameObject(defaultValue);
+        }
+        else return attribute.data.GetGameObject(defaultValue);
     }
 }

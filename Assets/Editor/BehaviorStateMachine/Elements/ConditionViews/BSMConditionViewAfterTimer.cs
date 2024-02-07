@@ -22,17 +22,6 @@ public class BSMConditionViewAfterTimer : BSMConditionViewBase
 
     public override VisualElement GetElement()
     {
-        var prop = new FloatField("Duration");
-        prop.value = m_condition.timer;
-        prop.RegisterValueChangedCallback(ValueChanged);
-
-        return prop;
-    }
-
-    void ValueChanged(ChangeEvent<float> value)
-    {
-        m_condition.timer = value.newValue;
-        if (m_condition.timer < 0)
-            m_condition.timer = 0;
+        return null;
     }
 }

@@ -9,14 +9,20 @@ using UnityEngine.UIElements;
 
 public class BSMConditionAfterTimer : BSMConditionBase
 {
-    [SerializeField] float m_fTimer;
-    public float timer { get { return m_fTimer; } set { m_fTimer = value; } }
+    static string timerName = "Timer";
 
     float m_time = 0;
 
+    public BSMConditionAfterTimer()
+    {
+        AddAttribute(timerName, new BSMAttributeObject(0.0f));
+    }
+
     public override bool IsValid()
     {
-        return m_time >= m_fTimer;
+        float timer = GetFloatAttribute(timerName);
+
+        return m_time >= timer;
     }
 
     public override void BeginUpdate()
@@ -30,15 +36,7 @@ public class BSMConditionAfterTimer : BSMConditionBase
             m_time += Time.deltaTime;
     }
 
-    public override void Load(JsonObject obj)
-    {
-        var timerElement = obj.GetElement("Timer");
-        if (timerElement != null && timerElement.IsJsonNumber())
-            m_fTimer = timerElement.Float();
-    }
+    public override void Load(JsonObject obj)  { }
 
-    public override void Save(JsonObject obj)
-    {
-        obj.AddElement("Timer", m_fTimer);
-    }
+    public override void Save(JsonObject obj) { }
 }

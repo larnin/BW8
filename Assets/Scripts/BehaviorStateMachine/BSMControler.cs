@@ -12,6 +12,7 @@ public class BSMControler : MonoBehaviour
     int m_startStateIndex;
     List<BSMControlerState> m_states = new List<BSMControlerState>();
     BSMControlerAnyState m_anyState = new BSMControlerAnyState();
+    List<BSMAttribute> m_attributes = new List<BSMAttribute>();
 
     int m_currentStateIndex = -1;
 
@@ -394,5 +395,16 @@ public class BSMControler : MonoBehaviour
 
         foreach (var transition in m_anyState.transitions)
             transition.condition.EndUpdate();
+    }
+
+    public BSMAttribute GetAttribute(string ID)
+    {
+        foreach(var attribute in m_attributes)
+        {
+            if (attribute.ID == ID)
+                return attribute;
+        }
+
+        return null;
     }
 }

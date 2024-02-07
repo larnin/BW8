@@ -222,5 +222,15 @@ public class BSMAttributesWindow
         if (m_editorWindow != null)
             m_editorWindow.ClearErrors("Attribute");
     }
+
+    public List<BSMAttribute> GetAttributes()
+    {
+        List<BSMAttribute> list = new List<BSMAttribute>();
+
+        foreach (var a in m_attributes)
+            list.Add(a.GetAttribute());
+
+        return list;
+    }
 }
 

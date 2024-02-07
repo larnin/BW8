@@ -19,6 +19,11 @@ public class BSMNode : Node
 
     protected bool m_error = false;
 
+    public BSMGraphView GetGraph()
+    {
+        return m_graphView;
+    }
+
     public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
     {
         evt.menu.AppendAction("Disconnect Input Ports", actionEvent => DisconnectInputPorts());

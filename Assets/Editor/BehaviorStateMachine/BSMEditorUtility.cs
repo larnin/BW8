@@ -152,15 +152,15 @@ public static class BSMEditorUtility
         return field;
     }
 
-    public static Toggle CreateCheckbox(string title, bool toggled, Action<bool> callback = null)
+    public static Toggle CreateCheckbox(string title, bool toggled, EventCallback<ChangeEvent<bool>> onValueChanged = null)
     {
         Toggle checkbox = new Toggle(title)
         {
             value = toggled,
         };
 
-        if (callback != null)
-            checkbox.RegisterValueChangedCallback(x => { callback(x.newValue); });
+        if (onValueChanged != null)
+            checkbox.RegisterValueChangedCallback(onValueChanged);
 
         return checkbox;
     }

@@ -31,6 +31,11 @@ public class BSMGraphView : GraphView
         AddAnyStateNode();
     }
 
+    public BSMGraph GetWindow()
+    {
+        return m_editorWindow;
+    }
+
     private void AddGridBackground()
     {
         GridBackground gridBackground = new GridBackground();

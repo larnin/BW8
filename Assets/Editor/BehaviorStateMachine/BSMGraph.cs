@@ -23,6 +23,17 @@ public class BSMGraph : EditorWindow
         return GetWindow<BSMGraph>("Behavior State Machine");
     }
 
+    public BSMAttributesWindow GetAttributesWindow()
+    {
+        return m_attributesWindow;
+    }
+
+    public BSMGraphView GetGraphView()
+    {
+        return m_graphView;
+    }
+
+
     private void OnEnable()
     {
         AddGraphView();
