@@ -71,7 +71,7 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
         m_state = state;
         if (m_state == null)
             m_stateView = null;
-        else m_stateView = BSMStateViewBase.Create(m_state);
+        else m_stateView = BSMStateViewBase.Create(this, m_state);
         LocalDraw();
     }
 

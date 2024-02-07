@@ -72,7 +72,7 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
         m_condition = condition;
         if (m_condition == null)
             m_conditionView = null;
-        else m_conditionView = BSMConditionViewBase.Create(m_condition);
+        else m_conditionView = BSMConditionViewBase.Create(this, m_condition);
         LocalDraw();
     }
 

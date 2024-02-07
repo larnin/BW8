@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+public class BSMAttributeNamedObject
+{
+    public string name;
+    public BSMAttributeObject attribute;
+}
 
 public abstract class BSMAttributeHolder
 {
-    protected class BSMAttributeNamedObject
-    {
-        public string name;
-        public BSMAttributeObject attribute;
-    }
-
     protected List<BSMAttributeNamedObject> m_attributes = new List<BSMAttributeNamedObject>();
 
     protected void AddAttribute(string name, BSMAttributeObject attribute)
@@ -22,6 +21,11 @@ public abstract class BSMAttributeHolder
         namedAttribute.attribute = attribute;
 
         m_attributes.Add(namedAttribute);
+    }
+
+    public List<BSMAttributeNamedObject> GetAttributes()
+    {
+        return m_attributes;
     }
 
     protected BSMAttributeObject GetAttribute(string name)

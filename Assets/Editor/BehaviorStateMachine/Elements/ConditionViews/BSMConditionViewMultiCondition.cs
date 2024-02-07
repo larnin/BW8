@@ -17,12 +17,13 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
     Button m_addConditionButton;
     Button m_operatorButton;
 
-    public BSMConditionViewMultiCondition(BSMConditionMultiCondition condition)
+    public BSMConditionViewMultiCondition(BSMNode node, BSMConditionMultiCondition condition) : base(node)
     {
         m_condition = condition;
+        SetAttributeHolder(m_condition);
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetObjectElement()
     {
         VisualElement bloc = new VisualElement();
 
@@ -82,7 +83,7 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
         {
             var condition = m_condition.GetCondition(i);
 
-            m_conditionsView.Add(BSMConditionViewBase.Create(condition));
+            m_conditionsView.Add(BSMConditionViewBase.Create(m_node, condition));
         }
 
         foreach(var c in m_conditionsView)
@@ -102,6 +103,8 @@ public class BSMConditionViewMultiCondition : BSMConditionViewBase, BSMCondition
             conditionContainer.Add(c.GetElement());
 
             BSMEditorUtility.SetContainerStyle(conditionContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
+
+            m_baseContainer.Add(conditionContainer);
         }
     }
 

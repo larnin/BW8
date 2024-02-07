@@ -9,9 +9,10 @@ public class BSMConditionViewStateEnded : BSMConditionViewBase
 {
     BSMConditionStateEnded m_condition;
 
-    public BSMConditionViewStateEnded(BSMConditionStateEnded condition)
+    public BSMConditionViewStateEnded(BSMNode node, BSMConditionStateEnded condition) : base(node)
     {
         m_condition = condition;
+        SetAttributeHolder(m_condition);
     }
 
     public override BSMConditionBase GetCondition()
@@ -19,7 +20,7 @@ public class BSMConditionViewStateEnded : BSMConditionViewBase
         return m_condition;
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetObjectElement()
     {
         return new HelpBox("Transition when the previous state is ended", HelpBoxMessageType.Info);
     }

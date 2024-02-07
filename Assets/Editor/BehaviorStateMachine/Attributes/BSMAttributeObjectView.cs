@@ -39,6 +39,7 @@ public class BSMAttributeObjectView : BSMDropdownCallback
     {
         var attributes = m_node.GetGraph().GetWindow().GetAttributesWindow().GetAttributes();
 
+        bool found = false;
         int index = 0;
         foreach (var a in attributes)
         {
@@ -48,11 +49,15 @@ public class BSMAttributeObjectView : BSMDropdownCallback
             if(index == result)
             {
                 m_object.attributeID = a.ID;
+                found = true;
                 break;
             }
 
             index++;
         }
+
+        if (!found)
+            m_object.attributeID = "";
 
         Draw();
     }

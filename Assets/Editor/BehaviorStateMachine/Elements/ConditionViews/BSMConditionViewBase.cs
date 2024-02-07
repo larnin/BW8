@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public abstract class BSMConditionViewBase
+public abstract class BSMConditionViewBase : BSMAttributeHolderView
 {
-    public abstract VisualElement GetElement();
+    public BSMConditionViewBase(BSMNode node) : base(node) { }
+
     public abstract BSMConditionBase GetCondition();
 
-    public static BSMConditionViewBase Create(BSMConditionBase condition)
+    public static BSMConditionViewBase Create(BSMNode node, BSMConditionBase condition)
     {
         if (condition is BSMConditionMultiCondition)
-            return new BSMConditionViewMultiCondition(condition as BSMConditionMultiCondition);
+            return new BSMConditionViewMultiCondition(node, condition as BSMConditionMultiCondition);
 
         if (condition is BSMConditionAfterTimer)
-            return new BSMConditionViewAfterTimer(condition as BSMConditionAfterTimer);
+            return new BSMConditionViewAfterTimer(node, condition as BSMConditionAfterTimer);
 
         if (condition is BSMConditionStateEnded)
-            return new BSMConditionViewStateEnded(condition as BSMConditionStateEnded);
+            return new BSMConditionViewStateEnded(node, condition as BSMConditionStateEnded);
 
         Debug.LogError("No condition view for type " + condition.GetType().ToString());
         return null;

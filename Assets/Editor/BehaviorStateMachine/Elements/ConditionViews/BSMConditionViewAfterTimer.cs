@@ -10,9 +10,10 @@ public class BSMConditionViewAfterTimer : BSMConditionViewBase
 {
     BSMConditionAfterTimer m_condition;
 
-    public BSMConditionViewAfterTimer(BSMConditionAfterTimer condition)
+    public BSMConditionViewAfterTimer(BSMNode node, BSMConditionAfterTimer condition) : base(node)
     {
         m_condition = condition;
+        SetAttributeHolder(m_condition);
     }
 
     public override BSMConditionBase GetCondition()
@@ -20,7 +21,7 @@ public class BSMConditionViewAfterTimer : BSMConditionViewBase
         return m_condition;
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetObjectElement()
     {
         return null;
     }

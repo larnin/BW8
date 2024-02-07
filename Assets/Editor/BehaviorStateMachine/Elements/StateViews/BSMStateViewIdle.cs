@@ -9,12 +9,13 @@ public class BSMStateViewIdle : BSMStateViewBase
 {
     BSMStateIdle m_state;
 
-    public BSMStateViewIdle(BSMStateIdle state)
+    public BSMStateViewIdle(BSMNode node, BSMStateIdle state) : base(node)
     {
         m_state = state;
+        SetAttributeHolder(m_state);
     }
 
-    public override VisualElement GetElement()
+    protected override VisualElement GetObjectElement()
     {
         VisualElement element = new VisualElement();
 
