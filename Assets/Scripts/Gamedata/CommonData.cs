@@ -8,5 +8,6 @@ using UnityEngine;
 public  class CommonData : ScriptableObject
 {
     public LayerMask playerLayer;
+    public LayerMask ennemyLayer;
     public LayerMask groundLayer;
 }

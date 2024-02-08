@@ -17,29 +17,11 @@ public class BSMStateViewIdle : BSMStateViewBase
 
     protected override VisualElement GetObjectElement()
     {
-        VisualElement element = new VisualElement();
-
-        TextField animField = BSMEditorUtility.CreateTextField("Animation", m_state.animation, x=> { OnAnimationChange(x.newValue); });
-        element.Add(animField);
-
-        Toggle oriented = BSMEditorUtility.CreateCheckbox("Is Oriented", m_state.isOrientable, x => { OnOrientableChange(x.newValue); });
-        element.Add(oriented);
-
-        return element;
+        return null;
     }
 
     public override BSMStateBase GetState()
     {
         return m_state;
-    }
-
-    void OnAnimationChange(string newValue)
-    {
-        m_state.animation = newValue;
-    }
-
-    void OnOrientableChange(bool newValue)
-    {
-        m_state.isOrientable = newValue;
     }
 }

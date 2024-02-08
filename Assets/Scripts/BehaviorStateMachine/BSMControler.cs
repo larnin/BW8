@@ -16,6 +16,8 @@ public class BSMControler : MonoBehaviour
 
     int m_currentStateIndex = -1;
 
+    SubscriberList m_subscriberList = new SubscriberList();
+
     class BSMControlerTransition
     {
         public BSMConditionBase condition;
@@ -39,10 +41,15 @@ public class BSMControler : MonoBehaviour
     private void Awake()
     {
         Load();
+
+        m_subscriberList.Add(new Event<UpdateAggroTargetEvent>.LocalSubscriber(SetAggroTarget, gameObject));
+        m_subscriberList.Subscribe();
     }
 
     private void OnDestroy()
     {
+        m_subscriberList.Unsubscribe();
+
         foreach (var state in m_states)
             state.state.OnDestroy();
     }
@@ -412,5 +419,93 @@ public class BSMControler : MonoBehaviour
         }
 
         return null;
+    }
+
+    public BSMAttribute GetAttributeFromName(string name)
+    {
+        foreach (var attribute in m_attributes)
+        {
+            if (attribute.name == name)
+                return attribute;
+        }
+
+        return null;
+    }
+
+    public void SetIntAttribute(string name, int value)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetInt(value);
+    }
+
+    public int GetIntAttribute(string name, int defaultValue = 0)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetInt(defaultValue);
+    }
+
+    public void SetFloatAttribute(string name, float value)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetFloat(value);
+    }
+
+    public float GetFloatAttribute(string name, float defaultValue = 0)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetFloat(defaultValue);
+    }
+
+    public void SetStringAttribute(string name, string value)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetString(value);
+    }
+
+    public string GetStringAttribute(string name, string defaultValue = "")
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetString(defaultValue);
+    }
+
+    public void SetGameObjectAttribute(string name, GameObject value)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetGameObject(value);
+    }
+
+    public GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetGameObject(defaultValue);
+    }
+
+    void SetAggroTarget(UpdateAggroTargetEvent e)
+    {
+        SetGameObjectAttribute("Aggro", e.target);
     }
 }
