@@ -10,18 +10,24 @@ using UnityEngine.UIElements;
 public class BSMAttributeView : BSMDropdownCallback
 {
     BSMAttribute m_attribute;
-
     BSMAttributesWindow m_window;
+
+    bool m_singleLine;
+    bool m_displayComplexeType;
+    Action<object> m_onValueChange;
 
     Button m_typeButton;
     VisualElement m_valueContainer;
 
     VisualElement m_mainContainer;
 
-    public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window)
+    public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window, bool singleLine = false, bool displayComplexeType = false, Action<object> onValueChange = null)
     {
         m_attribute = attribute;
         m_window = window;
+        m_singleLine = singleLine;
+        m_displayComplexeType = displayComplexeType;
+        m_onValueChange = onValueChange;
     }
 
     public BSMAttribute GetAttribute()
@@ -31,12 +37,15 @@ public class BSMAttributeView : BSMDropdownCallback
 
     public VisualElement GetElement()
     {
-        m_mainContainer = new VisualElement();
+        if (m_singleLine)
+            m_mainContainer = BSMEditorUtility.CreateHorizontalLayout();
+        else m_mainContainer = new VisualElement();
 
         if (m_attribute.automatic)
         {
             m_mainContainer.Add(BSMEditorUtility.CreateLabel(m_attribute.name, 4));
-            m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + GetTypeText()));
+            if(!m_singleLine)
+                m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + GetTypeText(), 4));
 
             m_typeButton = null;
         }
@@ -51,7 +60,8 @@ public class BSMAttributeView : BSMDropdownCallback
 
                 m_attribute.name = target.value;
 
-                m_window.ProcessErrors();
+                if(m_window != null)
+                    m_window.ProcessErrors();
             });
             m_mainContainer.Add(nameField);
 
@@ -110,10 +120,11 @@ public class BSMAttributeView : BSMDropdownCallback
         m_valueContainer.Clear();
 
         VisualElement layout = null;
-        if (m_attribute.data.attributeType != BSMAttributeType.attributeGameObject)
+        if (m_attribute.data.attributeType != BSMAttributeType.attributeGameObject || m_displayComplexeType)
         {
             layout = BSMEditorUtility.CreateHorizontalLayout();
-            layout.Add(BSMEditorUtility.CreateLabel("Value"));
+            if(!m_singleLine)
+                layout.Add(BSMEditorUtility.CreateLabel("Value", 4));
         }
 
         switch(m_attribute.data.attributeType)
@@ -127,6 +138,9 @@ public class BSMAttributeView : BSMDropdownCallback
                         target.value = callback.newValue;
 
                         m_attribute.data.SetFloat(target.value);
+
+                        if (m_onValueChange != null)
+                            m_onValueChange(m_attribute.data.data);
                     });
 
                     valueField.style.flexGrow = 2;
@@ -142,6 +156,9 @@ public class BSMAttributeView : BSMDropdownCallback
                         target.value = callback.newValue;
 
                         m_attribute.data.SetInt(target.value);
+
+                        if (m_onValueChange != null)
+                            m_onValueChange(m_attribute.data.data);
                     });
 
                     valueField.style.flexGrow = 2;
@@ -157,6 +174,9 @@ public class BSMAttributeView : BSMDropdownCallback
                         target.value = callback.newValue;
 
                         m_attribute.data.SetString(target.value);
+
+                        if (m_onValueChange != null)
+                            m_onValueChange(m_attribute.data.data);
                     });
 
                     nameField.style.flexGrow = 2;
@@ -165,6 +185,25 @@ public class BSMAttributeView : BSMDropdownCallback
                 }
             case BSMAttributeType.attributeGameObject:
                 {
+                    if(m_displayComplexeType)
+                    {
+                        ObjectField field = BSMEditorUtility.CreateObjectField("", typeof(GameObject), true, m_attribute.data.GetGameObject(), callback =>
+                        {
+                            ObjectField target = (ObjectField)callback.target;
+
+                            var gameObject = callback.newValue as GameObject;
+
+                            target.value = gameObject;
+
+                            m_attribute.data.SetGameObject(gameObject);
+
+                            if (m_onValueChange != null)
+                                m_onValueChange(m_attribute.data.data);
+                        });
+
+                        field.style.flexGrow = 2;
+                        layout.Add(field);
+                    }
 
                     break;
                 }

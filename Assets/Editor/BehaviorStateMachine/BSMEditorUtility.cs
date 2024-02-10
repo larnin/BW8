@@ -69,6 +69,7 @@ public static class BSMEditorUtility
 
         return outPort.ConnectTo(inPort);
     }
+
     public static Label CreateLabel(string text, float margin = 0)
     {
         var label = new Label(text);
@@ -163,6 +164,31 @@ public static class BSMEditorUtility
             checkbox.RegisterValueChangedCallback(onValueChanged);
 
         return checkbox;
+    }
+
+    public static ObjectField CreateObjectField(string title, Type objectType, bool allowSceneItems, UnityEngine.Object obj, EventCallback<ChangeEvent<UnityEngine.Object>> onValueChanged = null)
+    {
+        ObjectField field = new ObjectField(title)
+        {
+            value = obj,
+            objectType = objectType,
+            allowSceneObjects = allowSceneItems,
+        };
+
+        if (onValueChanged != null)
+            field.RegisterValueChangedCallback(onValueChanged);
+
+        return field;
+    }
+
+    public static PropertyField CreatePropertyField(string title, SerializedProperty property, EventCallback<SerializedPropertyChangeEvent> onValueChanged = null)
+    {
+        PropertyField field = new PropertyField(property, title);
+
+        if (onValueChanged != null)
+            field.RegisterValueChangeCallback(onValueChanged);
+
+        return field;
     }
 
     public static VisualElement CreateHorizontalLayout()

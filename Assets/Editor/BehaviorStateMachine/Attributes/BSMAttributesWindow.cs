@@ -45,7 +45,7 @@ public class BSMAttributesWindow
         DrawAttributes(foldout.contentContainer, true);
         scrollView.contentContainer.Add(foldout);
 
-        scrollView.contentContainer.Add(BSMEditorUtility.CreateLabel("User Attributes"));
+        scrollView.contentContainer.Add(BSMEditorUtility.CreateLabel("User Attributes", 4));
 
         DrawAttributes(scrollView.contentContainer, false);
 

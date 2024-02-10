@@ -52,7 +52,7 @@ public abstract class BSMAttributeHolderView
         foreach(var attribute in m_objects)
         {
             VisualElement layout = BSMEditorUtility.CreateHorizontalLayout();
-            layout.Add(BSMEditorUtility.CreateLabel(attribute.name));
+            layout.Add(BSMEditorUtility.CreateLabel(attribute.name, 4));
 
             VisualElement objElement = attribute.attribute.GetElement();
             objElement.style.flexGrow = 2;

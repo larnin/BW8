@@ -18,6 +18,14 @@ public class BSMAttributeData
     public BSMAttributeType attributeType = BSMAttributeType.attributeInt;
     public object data;
 
+    public BSMAttributeData Clone()
+    {
+        var newData = new BSMAttributeData();
+        newData.attributeType = attributeType;
+        newData.data = data;
+
+        return newData;
+    }
 
     public void SetType(BSMAttributeType type)
     {

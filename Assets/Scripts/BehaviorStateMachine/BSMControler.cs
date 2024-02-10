@@ -8,6 +8,7 @@ using UnityEngine;
 public class BSMControler : MonoBehaviour
 {
     [SerializeField] TextAsset m_behaviour;
+    [SerializeField] List<BSMControlerAttribute> m_controllerAttributes = new List<BSMControlerAttribute>();
 
     int m_startStateIndex;
     List<BSMControlerState> m_states = new List<BSMControlerState>();
@@ -17,6 +18,8 @@ public class BSMControler : MonoBehaviour
     int m_currentStateIndex = -1;
 
     SubscriberList m_subscriberList = new SubscriberList();
+
+    public TextAsset behaviour { get { return m_behaviour; } set { m_behaviour = value; } }
 
     class BSMControlerTransition
     {
@@ -30,12 +33,19 @@ public class BSMControler : MonoBehaviour
         public string name;
         public string ID;
 
-        public List<BSMControlerTransition> transitions;
+        public List<BSMControlerTransition> transitions = new List<BSMControlerTransition>();
     }
 
     class BSMControlerAnyState
     {
-        public List<BSMControlerTransition> transitions;
+        public List<BSMControlerTransition> transitions = new List<BSMControlerTransition>();
+    }
+
+    [Serializable]
+    class BSMControlerAttribute
+    {
+        public string ID; 
+        public object value;
     }
 
     private void Awake()
@@ -52,6 +62,11 @@ public class BSMControler : MonoBehaviour
 
         foreach (var state in m_states)
             state.state.OnDestroy();
+    }
+
+    public void LoadFromEditor()
+    {
+        Load();
     }
 
     void Load()
@@ -278,6 +293,8 @@ public class BSMControler : MonoBehaviour
 
         m_currentStateIndex = -1;
         m_startStateIndex = -1;
+
+        m_attributes.Clear();
     }
 
     int GetStateIndex(string ID)
@@ -408,6 +425,59 @@ public class BSMControler : MonoBehaviour
 
         foreach (var transition in m_anyState.transitions)
             transition.condition.EndUpdate();
+    }
+
+    public bool HaveControlerAttribute(string ID)
+    {
+        foreach (var a in m_controllerAttributes)
+        {
+            if (a.ID == ID)
+                return true;
+        }
+        return false;
+    }
+
+    public object GetControlerAttribute(string ID)
+    {
+        foreach (var a in m_controllerAttributes)
+        {
+            if (a.ID == ID)
+                return a.value;
+        }
+        return null;
+    }
+
+    public void SetControlerAttribute(string ID, object value)
+    {
+        bool found = false;
+        foreach(var a in m_controllerAttributes)
+        {
+            if(a.ID == ID)
+            {
+                a.value = value;
+                found = true;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            var attribute = new BSMControlerAttribute();
+            attribute.ID = ID;
+            attribute.value = value;
+        }
+    }
+
+    public int GetAttributeNB()
+    {
+        return m_attributes.Count;
+    }
+
+    public BSMAttribute GetAttributeFromIndex(int index)
+    {
+        if (index < 0 || index >= m_attributes.Count)
+            return null;
+        return m_attributes[index];
     }
 
     public BSMAttribute GetAttribute(string ID)

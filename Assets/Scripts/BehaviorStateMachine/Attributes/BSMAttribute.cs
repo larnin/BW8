@@ -18,6 +18,17 @@ public class BSMAttribute
         ID = Guid.NewGuid().ToString();
     }
 
+    public BSMAttribute Clone()
+    {
+        var attribute = new BSMAttribute();
+        attribute.ID = ID;
+        attribute.automatic = automatic;
+        attribute.name = name;
+        attribute.data = data.Clone();
+
+        return attribute;
+    }
+
     public void Load(JsonObject obj)
     {
         var idElt = obj.GetElement("ID");
