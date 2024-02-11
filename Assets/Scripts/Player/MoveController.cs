@@ -26,6 +26,7 @@ public class MoveController : MonoBehaviour
     [SerializeField] float m_targetStopMoveDistance = 1;
     [SerializeField] float m_targetStartMoveDistance = 2;
     [SerializeField] float m_acceleration = 5;
+    [SerializeField] bool m_freezeRigidbodyOnIdle = true;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
@@ -42,6 +43,8 @@ public class MoveController : MonoBehaviour
     float m_idleTimer = 0;
     bool m_oldMovingAnimation;
     AnimationDirection m_oldDirAnimation = AnimationDirection.none;
+
+    Vector3 m_oldPosition;
 
     private void Awake()
     {
@@ -80,6 +83,8 @@ public class MoveController : MonoBehaviour
         else ProcessStop();
 
         UpdateAnimations();
+
+        m_oldPosition = transform.position;
     }
 
     void ProcessMove(Vector3 target)
@@ -115,7 +120,7 @@ public class MoveController : MonoBehaviour
 
     void ProcessStop()
     {
-        if(m_movingSpeed < 0.01f)
+        if(m_movingSpeed < 0.01f && !m_freezeRigidbodyOnIdle)
         {
             m_movingSpeed = 0;
             return;

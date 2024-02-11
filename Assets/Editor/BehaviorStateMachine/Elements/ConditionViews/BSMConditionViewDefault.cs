@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
-public class BSMConditionViewHaveTarget : BSMConditionViewBase
+class BSMConditionViewDefault : BSMConditionViewBase
 {
-    BSMConditionHaveTarget m_condition;
+    BSMConditionBase m_condition;
 
-    public BSMConditionViewHaveTarget(BSMNode node, BSMConditionHaveTarget condition) : base(node)
+    public BSMConditionViewDefault(BSMNode node, BSMConditionBase condition) : base(node)
     {
         m_condition = condition;
         SetAttributeHolder(m_condition);

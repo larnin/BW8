@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UIElements;
 
-public class BSMStateViewFollowEntity : BSMStateViewBase
+public class BSMStateViewDefault : BSMStateViewBase
 {
-    BSMStateFollowEntity m_state;
+    BSMStateBase m_state;
 
-    public BSMStateViewFollowEntity(BSMNode node, BSMStateFollowEntity state) : base(node)
+    public BSMStateViewDefault(BSMNode node, BSMStateBase state) : base(node)
     {
         m_state = state;
         SetAttributeHolder(m_state);
