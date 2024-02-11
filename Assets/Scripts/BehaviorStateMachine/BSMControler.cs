@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BSMControler : MonoBehaviour
+public class BSMControler : SerializedMonoBehaviour
 {
     [SerializeField] TextAsset m_behaviour;
     [SerializeField] List<BSMControlerAttribute> m_controllerAttributes = new List<BSMControlerAttribute>();
@@ -41,7 +42,6 @@ public class BSMControler : MonoBehaviour
         public List<BSMControlerTransition> transitions = new List<BSMControlerTransition>();
     }
 
-    [Serializable]
     class BSMControlerAttribute
     {
         public string ID; 
@@ -66,10 +66,10 @@ public class BSMControler : MonoBehaviour
 
     public void LoadFromEditor()
     {
-        Load();
+        Load(false);
     }
 
-    void Load()
+    void Load(bool linkAttributes = true)
     {
         ResetDatas();
 
@@ -89,7 +89,7 @@ public class BSMControler : MonoBehaviour
         LoadStart(saveData);
         LoadAnyState(saveData);
         LoadTransitions(saveData);
-        LoadAttributes(saveData);
+        LoadAttributes(saveData, linkAttributes);
         AfterLoad();
     }
 
@@ -223,9 +223,21 @@ public class BSMControler : MonoBehaviour
         return newTransition;
     }
 
-    void LoadAttributes(BSMSaveData data)
+    void LoadAttributes(BSMSaveData data, bool linkAttributes)
     {
         m_attributes = data.attributes;
+
+        if(linkAttributes)
+        {
+            foreach(var a in m_controllerAttributes)
+            {
+                var attribute = GetAttribute(a.ID);
+                if(attribute == null || attribute.automatic)
+                    continue;
+
+                attribute.data.data = a.value;
+            }
+        }
     }
 
     void AfterLoad()
@@ -465,6 +477,7 @@ public class BSMControler : MonoBehaviour
             var attribute = new BSMControlerAttribute();
             attribute.ID = ID;
             attribute.value = value;
+            m_controllerAttributes.Add(attribute);
         }
     }
 

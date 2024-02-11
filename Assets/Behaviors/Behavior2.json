@@ -47,13 +47,11 @@
       "Pos": [
         257.0,
         67.0,
-        241.0,
-        156.0
+        137.0,
+        118.0
       ],
       "Data": {
-        "Type": "BSMStateIdle",
-        "Anim": "Idle",
-        "Orientable": 1.0
+        "Type": "BSMStateIdle"
       },
       "OutNodes": [
         "33e9cb37-7bc3-4134-b5a5-3470bb92a658"
@@ -121,6 +119,12 @@
       "Name": "Test2",
       "Type": "attributeString",
       "Data": "Toto"
+    },
+    {
+      "ID": "2a6b0f61-54a0-4ad6-a1dd-d4f05502fbfb",
+      "Auto": 0.0,
+      "Name": "Test3",
+      "Type": "attributeGameObject"
     }
   ]
 }
