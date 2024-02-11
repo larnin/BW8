@@ -23,6 +23,12 @@ public abstract class BSMConditionViewBase : BSMAttributeHolderView
         if (condition is BSMConditionStateEnded)
             return new BSMConditionViewStateEnded(node, condition as BSMConditionStateEnded);
 
+        if (condition is BSMConditionInverseCondition)
+            return new BSMConditionViewInverseCondition(node, condition as BSMConditionInverseCondition);
+
+        if (condition is BSMConditionHaveTarget)
+            return new BSMConditionViewHaveTarget(node, condition as BSMConditionHaveTarget);
+
         Debug.LogError("No condition view for type " + condition.GetType().ToString());
         return null;
     }

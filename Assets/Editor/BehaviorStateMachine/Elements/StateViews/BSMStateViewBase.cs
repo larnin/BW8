@@ -17,6 +17,9 @@ public abstract class BSMStateViewBase : BSMAttributeHolderView
         if (state is BSMStateIdle)
             return new BSMStateViewIdle(node, state as BSMStateIdle);
 
+        if (state is BSMStateFollowEntity)
+            return new BSMStateViewFollowEntity(node, state as BSMStateFollowEntity);
+
         Debug.LogError("No state view for type " + state.GetType().ToString());
         return null;
     }

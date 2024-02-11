@@ -133,7 +133,7 @@ public class BSMControler : SerializedMonoBehaviour
         if (startNode.outNodes.Count == 0)
             return;
 
-        int startIndex = GetStateIndex(startNode.outNodes[0]);
+        m_startStateIndex = GetStateIndex(startNode.outNodes[0]);
     }
 
     void LoadAnyState(BSMSaveData data)
