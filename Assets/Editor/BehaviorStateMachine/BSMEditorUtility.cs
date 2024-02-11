@@ -153,6 +153,54 @@ public static class BSMEditorUtility
         return field;
     }
 
+    public static Vector2Field CreateVector2Field(Vector2 value, string title, EventCallback<ChangeEvent<Vector2>> onValueChanged = null)
+    {
+        Vector2Field field = new Vector2Field()
+        {
+            value = value,
+            label = title,
+        };
+        if (onValueChanged != null)
+            field.RegisterValueChangedCallback(onValueChanged);
+        return field;
+    }
+
+    public static Vector3Field CreateVector3Field(Vector3 value, string title, EventCallback<ChangeEvent<Vector3>> onValueChanged = null)
+    {
+        Vector3Field field = new Vector3Field()
+        {
+            value = value,
+            label = title,
+        };
+        if (onValueChanged != null)
+            field.RegisterValueChangedCallback(onValueChanged);
+        return field;
+    }
+
+    public static Vector2IntField CreateVector2IntField(Vector2Int value, string title, EventCallback<ChangeEvent<Vector2Int>> onValueChanged = null)
+    {
+        Vector2IntField field = new Vector2IntField()
+        {
+            value = value,
+            label = title,
+        };
+        if (onValueChanged != null)
+            field.RegisterValueChangedCallback(onValueChanged);
+        return field;
+    }
+
+    public static Vector3IntField CreateVector3IntField(Vector3Int value, string title, EventCallback<ChangeEvent<Vector3Int>> onValueChanged = null)
+    {
+        Vector3IntField field = new Vector3IntField()
+        {
+            value = value,
+            label = title,
+        };
+        if (onValueChanged != null)
+            field.RegisterValueChangedCallback(onValueChanged);
+        return field;
+    }
+
     public static Toggle CreateCheckbox(string title, bool toggled, EventCallback<ChangeEvent<bool>> onValueChanged = null)
     {
         Toggle checkbox = new Toggle(title)

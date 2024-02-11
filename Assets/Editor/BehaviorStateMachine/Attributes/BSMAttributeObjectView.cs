@@ -139,63 +139,11 @@ public class BSMAttributeObjectView : BSMDropdownCallback
 
     void DrawAttribute(VisualElement layout)
     {
-        switch (m_object.data.attributeType)
+        var element = BSMAttributeView.CreateElement(m_object.data, false, null);
+        if(element != null)
         {
-            case BSMAttributeType.attributeFloat:
-                {
-                    FloatField valueField = BSMEditorUtility.CreateFloatField(m_object.data.GetFloat(0), null, callback =>
-                    {
-                        FloatField target = (FloatField)callback.target;
-
-                        target.value = callback.newValue;
-
-                        m_object.data.SetFloat(target.value);
-                    });
-
-                    valueField.style.flexGrow = 2;
-                    layout.Add(valueField);
-                    break;
-                }
-            case BSMAttributeType.attributeInt:
-                {
-                    IntegerField valueField = BSMEditorUtility.CreateIntField(m_object.data.GetInt(0), null, callback =>
-                    {
-                        IntegerField target = (IntegerField)callback.target;
-
-                        target.value = callback.newValue;
-
-                        m_object.data.SetInt(target.value);
-                    });
-
-                    valueField.style.flexGrow = 2;
-                    layout.Add(valueField);
-                    break;
-                }
-            case BSMAttributeType.attributeString:
-                {
-                    TextField nameField = BSMEditorUtility.CreateTextField(m_object.data.GetString(""), null, callback =>
-                    {
-                        TextField target = (TextField)callback.target;
-
-                        target.value = callback.newValue;
-
-                        m_object.data.SetString(target.value);
-                    });
-
-                    nameField.style.flexGrow = 2;
-                    layout.Add(nameField);
-                    break;
-                }
-            case BSMAttributeType.attributeGameObject:
-                {
-
-                    break;
-                }
-            default:
-                {
-                    Debug.LogError("Unknow BSM Attribute type");
-                    break;
-                }
+            element.style.flexGrow = 2;
+            layout.Add(element);
         }
     }
 }

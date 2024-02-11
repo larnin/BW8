@@ -125,6 +125,17 @@
       "Auto": 0.0,
       "Name": "Test3",
       "Type": "attributeGameObject"
+    },
+    {
+      "ID": "b60f3dab-ac0d-4a2d-9d83-1005d27eaedd",
+      "Auto": 0.0,
+      "Name": "New attribute",
+      "Type": "attributeVector3Int",
+      "Data": [
+        0.0,
+        0.0,
+        0.0
+      ]
     }
   ]
 }

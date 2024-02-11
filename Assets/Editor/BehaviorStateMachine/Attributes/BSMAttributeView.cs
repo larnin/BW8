@@ -119,103 +119,19 @@ public class BSMAttributeView : BSMDropdownCallback
     {
         m_valueContainer.Clear();
 
-        VisualElement layout = null;
-        if (m_attribute.data.attributeType != BSMAttributeType.attributeGameObject || m_displayComplexeType)
+        var element = CreateElement(m_attribute.data, m_displayComplexeType, m_onValueChange);
+
+        if(element != null)
         {
-            layout = BSMEditorUtility.CreateHorizontalLayout();
-            if(!m_singleLine)
+            VisualElement layout = BSMEditorUtility.CreateHorizontalLayout();
+            if (!m_singleLine)
                 layout.Add(BSMEditorUtility.CreateLabel("Value", 4));
-        }
 
-        switch(m_attribute.data.attributeType)
-        {
-            case BSMAttributeType.attributeFloat:
-                {
-                    FloatField valueField = BSMEditorUtility.CreateFloatField(m_attribute.data.GetFloat(0), null, callback =>
-                    {
-                        FloatField target = (FloatField)callback.target;
+            element.style.flexGrow = 2;
+            layout.Add(element);
 
-                        target.value = callback.newValue;
-
-                        m_attribute.data.SetFloat(target.value);
-
-                        if (m_onValueChange != null)
-                            m_onValueChange(m_attribute.data.data);
-                    });
-
-                    valueField.style.flexGrow = 2;
-                    layout.Add(valueField);
-                    break;
-                }
-            case BSMAttributeType.attributeInt:
-                {
-                    IntegerField valueField = BSMEditorUtility.CreateIntField(m_attribute.data.GetInt(0), null, callback =>
-                    {
-                        IntegerField target = (IntegerField)callback.target;
-
-                        target.value = callback.newValue;
-
-                        m_attribute.data.SetInt(target.value);
-
-                        if (m_onValueChange != null)
-                            m_onValueChange(m_attribute.data.data);
-                    });
-
-                    valueField.style.flexGrow = 2;
-                    layout.Add(valueField);
-                    break;
-                }
-            case BSMAttributeType.attributeString:
-                {
-                    TextField nameField = BSMEditorUtility.CreateTextField(m_attribute.data.GetString(""), null, callback =>
-                    {
-                        TextField target = (TextField)callback.target;
-
-                        target.value = callback.newValue;
-
-                        m_attribute.data.SetString(target.value);
-
-                        if (m_onValueChange != null)
-                            m_onValueChange(m_attribute.data.data);
-                    });
-
-                    nameField.style.flexGrow = 2;
-                    layout.Add(nameField);
-                    break;
-                }
-            case BSMAttributeType.attributeGameObject:
-                {
-                    if(m_displayComplexeType)
-                    {
-                        ObjectField field = BSMEditorUtility.CreateObjectField("", typeof(GameObject), true, m_attribute.data.GetGameObject(), callback =>
-                        {
-                            ObjectField target = (ObjectField)callback.target;
-
-                            var gameObject = callback.newValue as GameObject;
-
-                            target.value = gameObject;
-
-                            m_attribute.data.SetGameObject(gameObject);
-
-                            if (m_onValueChange != null)
-                                m_onValueChange(m_attribute.data.data);
-                        });
-
-                        field.style.flexGrow = 2;
-                        layout.Add(field);
-                    }
-
-                    break;
-                }
-            default:
-                {
-                    Debug.LogError("Unknow BSM Attribute type");
-                    break;
-                }
-        }
-
-        if (layout != null)
             m_valueContainer.Add(layout);
+        }
     }
 
     public void UpdateStyle(bool error)
@@ -228,4 +144,153 @@ public class BSMAttributeView : BSMDropdownCallback
         else BSMEditorUtility.SetContainerStyle(m_mainContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
     }
 
+    public static VisualElement CreateElement(BSMAttributeData data, bool displayComplexeType, Action<object> onValueChangeCallback)
+    {
+        switch (data.attributeType)
+        {
+            case BSMAttributeType.attributeFloat:
+                {
+                    FloatField valueField = BSMEditorUtility.CreateFloatField(data.GetFloat(0), null, callback =>
+                    {
+                        FloatField target = (FloatField)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetFloat(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return valueField;
+                }
+            case BSMAttributeType.attributeInt:
+                {
+                    IntegerField valueField = BSMEditorUtility.CreateIntField(data.GetInt(0), null, callback =>
+                    {
+                        IntegerField target = (IntegerField)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetInt(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return valueField;
+                }
+            case BSMAttributeType.attributeString:
+                {
+                    TextField nameField = BSMEditorUtility.CreateTextField(data.GetString(""), null, callback =>
+                    {
+                        TextField target = (TextField)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetString(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return nameField;
+                }
+            case BSMAttributeType.attributeGameObject:
+                {
+                    if (displayComplexeType)
+                    {
+                        ObjectField field = BSMEditorUtility.CreateObjectField("", typeof(GameObject), true, data.GetGameObject(), callback =>
+                        {
+                            ObjectField target = (ObjectField)callback.target;
+
+                            var gameObject = callback.newValue as GameObject;
+
+                            target.value = gameObject;
+
+                            data.SetGameObject(gameObject);
+
+                            if (onValueChangeCallback != null)
+                                onValueChangeCallback(data.data);
+                        });
+
+                        return field;
+                    }
+
+                    break;
+                }
+            case BSMAttributeType.attributeVector2:
+                {
+                    Vector2Field field = BSMEditorUtility.CreateVector2Field(data.GetVector2(), null, callback =>
+                    {
+                        Vector2Field target = (Vector2Field)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetVector2(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return field;
+                }
+            case BSMAttributeType.attributeVector3:
+                {
+                    Vector3Field field = BSMEditorUtility.CreateVector3Field(data.GetVector3(), null, callback =>
+                    {
+                        Vector3Field target = (Vector3Field)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetVector3(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return field;
+                }
+            case BSMAttributeType.attributeVector2Int:
+                {
+                    Vector2IntField field = BSMEditorUtility.CreateVector2IntField(data.GetVector2Int(), null, callback =>
+                    {
+                        Vector2IntField target = (Vector2IntField)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetVector2Int(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return field;
+                }
+            case BSMAttributeType.attributeVector3Int:
+                {
+                    Vector3IntField field = BSMEditorUtility.CreateVector3IntField(data.GetVector3Int(), null, callback =>
+                    {
+                        Vector3IntField target = (Vector3IntField)callback.target;
+
+                        target.value = callback.newValue;
+
+                        data.SetVector3Int(target.value);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
+
+                    return field;
+                }
+
+            default:
+                {
+                    Debug.LogError("Unknow BSM Attribute type");
+                    break;
+                }
+        }
+
+        return null;
+    }
 }

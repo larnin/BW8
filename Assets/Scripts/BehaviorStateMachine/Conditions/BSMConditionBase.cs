@@ -37,7 +37,7 @@ public abstract class BSMConditionBase : BSMAttributeHolder
 
     public BSMStateBase GetState() { return m_state; }
 
-    public BSMControler GetControler()
+    public override BSMControler GetControler()
     {
         if (m_state == null)
             return null;
@@ -92,77 +92,5 @@ public abstract class BSMConditionBase : BSMAttributeHolder
         condition.SaveAttributes(obj);
 
         return obj;
-    }
-
-    public override int GetIntAttribute(string name, int defaultValue = 0)
-    {
-        var attribute = GetAttribute(name);
-        if (attribute == null)
-            return defaultValue;
-
-        if (attribute.useAttribute)
-        {
-            if (m_state == null || m_state.GetControler() == null)
-                return defaultValue;
-            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
-            if (realAttribute == null)
-                return default;
-            return realAttribute.data.GetInt(defaultValue);
-        }
-        else return attribute.data.GetInt(defaultValue);
-    }
-
-    public override float GetFloatAttribute(string name, float defaultValue = 0)
-    {
-        var attribute = GetAttribute(name);
-        if (attribute == null)
-            return defaultValue;
-
-        if (attribute.useAttribute)
-        {
-            if (m_state == null || m_state.GetControler() == null)
-                return defaultValue;
-            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
-            if (realAttribute == null)
-                return default;
-            return realAttribute.data.GetFloat(defaultValue);
-        }
-        else return attribute.data.GetFloat(defaultValue);
-    }
-
-    public override string GetStringAttribute(string name, string defaultValue = "")
-    {
-        var attribute = GetAttribute(name);
-        if (attribute == null)
-            return defaultValue;
-
-        if (attribute.useAttribute)
-        {
-            if (m_state == null || m_state.GetControler() == null)
-                return defaultValue;
-            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
-            if (realAttribute == null)
-                return default;
-            return realAttribute.data.GetString(defaultValue);
-        }
-        else return attribute.data.GetString(defaultValue);
-    }
-
-    public override GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
-    {
-        var attribute = GetAttribute(name);
-        if (attribute == null)
-            return defaultValue;
-
-        if (attribute.useAttribute)
-        {
-            if (m_state == null || m_state.GetControler() == null)
-                return defaultValue;
-            var realAttribute = m_state.GetControler().GetAttribute(attribute.attributeID);
-            if (realAttribute == null)
-                return default;
-            return realAttribute.data.GetGameObject(defaultValue);
-        }
-        else return attribute.data.GetGameObject(defaultValue);
     }
 }

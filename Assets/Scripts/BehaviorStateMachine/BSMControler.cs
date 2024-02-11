@@ -515,76 +515,124 @@ public class BSMControler : SerializedMonoBehaviour
         return null;
     }
 
-    public void SetIntAttribute(string name, int value)
+    void SetStructAttribute<T>(string name, T value, BSMAttributeType attributeType) where T : struct
     {
         var attribute = GetAttributeFromName(name);
         if (attribute == null)
             return;
 
-        attribute.data.SetInt(value);
+        attribute.data.SetStruct(value, attributeType);
+    }
+
+    T GetStructAttribute<T>(string name, T defaultValue, BSMAttributeType attributeType) where T : struct
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetStruct(defaultValue, attributeType);
+    }
+
+    void SetClassAttribute<T>(string name, T value, BSMAttributeType attributeType) where T : class
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetClass(value, attributeType);
+    }
+
+    T GetClassAttribute<T>(string name, T defaultValue, BSMAttributeType attributeType) where T : class
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetClass(defaultValue, attributeType);
+    }
+
+    public void SetIntAttribute(string name, int value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeInt);
     }
 
     public int GetIntAttribute(string name, int defaultValue = 0)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return defaultValue;
-
-        return attribute.data.GetInt(defaultValue);
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeInt);
     }
 
     public void SetFloatAttribute(string name, float value)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return;
-
-        attribute.data.SetFloat(value);
+        SetStructAttribute(name, value, BSMAttributeType.attributeFloat);
     }
 
     public float GetFloatAttribute(string name, float defaultValue = 0)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return defaultValue;
-
-        return attribute.data.GetFloat(defaultValue);
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeFloat);
     }
 
     public void SetStringAttribute(string name, string value)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return;
-
-        attribute.data.SetString(value);
+        SetClassAttribute(name, value, BSMAttributeType.attributeString);
     }
 
     public string GetStringAttribute(string name, string defaultValue = "")
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return defaultValue;
-
-        return attribute.data.GetString(defaultValue);
+        return GetClassAttribute(name, defaultValue, BSMAttributeType.attributeString);
     }
 
     public void SetGameObjectAttribute(string name, GameObject value)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return;
-
-        attribute.data.SetGameObject(value);
+        SetClassAttribute(name, value, BSMAttributeType.attributeGameObject);
     }
 
     public GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
     {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return defaultValue;
+        return GetClassAttribute(name, defaultValue, BSMAttributeType.attributeGameObject);
+    }
 
-        return attribute.data.GetGameObject(defaultValue);
+    public void SetVector2Attribute(string name, Vector2 value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeVector2);
+    }
+
+    public Vector2 GetVector2Attribute(string name) { return GetVector2Attribute(name, Vector2.zero); }
+    public Vector2 GetVector2Attribute(string name, Vector2 defaultValue)
+    {
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector2);
+    }
+
+    public void SetVector3Attribute(string name, Vector3 value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeVector3);
+    }
+
+    public Vector3 GetVector3Attribute(string name) { return GetVector3Attribute(name, Vector3.zero); }
+    public Vector3 GetVector3Attribute(string name, Vector3 defaultValue)
+    {
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector3);
+    }
+
+    public void SetVector2IntAttribute(string name, Vector2Int value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeVector2Int);
+    }
+
+    public Vector2Int GetVector2IntAttribute(string name) { return GetVector2IntAttribute(name, Vector2Int.zero); }
+    public Vector2Int GetVector2IntAttribute(string name, Vector2Int defaultValue)
+    {
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector2Int);
+    }
+
+    public void SetVector3IntAttribute(string name, Vector3Int value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeVector3Int);
+    }
+
+    public Vector3Int GetVector3IntAttribute(string name) { return GetVector3IntAttribute(name, Vector3Int.zero); }
+    public Vector3Int GetVector3IntAttribute(string name, Vector3Int defaultValue)
+    {
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector3Int);
     }
 
     void SetAggroTarget(UpdateAggroTargetEvent e)

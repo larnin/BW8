@@ -39,6 +39,30 @@ public class BSMAttributeObject
         data.SetGameObject(defaultValue);
     }
 
+    public BSMAttributeObject(Vector2 defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeVector2);
+        data.SetVector2(defaultValue);
+    }
+
+    public BSMAttributeObject(Vector3 defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeVector3);
+        data.SetVector3(defaultValue);
+    }
+
+    public BSMAttributeObject(Vector2Int defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeVector2Int);
+        data.SetVector2Int(defaultValue);
+    }
+
+    public BSMAttributeObject(Vector3Int defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeVector3Int);
+        data.SetVector3Int(defaultValue);
+    }
+
     public void Load(JsonObject obj)
     {
         var useElt = obj.GetElement("Use");
