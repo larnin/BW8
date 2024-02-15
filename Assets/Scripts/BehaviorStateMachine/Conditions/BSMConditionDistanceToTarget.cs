@@ -31,8 +31,4 @@ public class BSMConditionDistanceToTarget : BSMConditionBase
 
         return sqrLen < distance * distance;
     }
-
-    public override void Load(JsonObject obj) { }
-
-    public override void Save(JsonObject obj) { }
 }

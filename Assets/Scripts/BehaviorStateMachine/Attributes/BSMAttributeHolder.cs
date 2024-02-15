@@ -39,56 +39,6 @@ public abstract class BSMAttributeHolder
         return null;
     }
 
-    protected void LoadAttributes(JsonObject obj)
-    {
-        var attElt = obj.GetElement("Attributes");
-        if(attElt != null && attElt.IsJsonArray())
-        {
-            var attArray = attElt.JsonArray();
-
-            foreach(var aElt in attArray)
-            {
-                if (!aElt.IsJsonObject())
-                    continue;
-
-                var aObj = aElt.JsonObject();
-
-                var nameElt = aObj.GetElement("Name");
-                if (nameElt == null || !nameElt.IsJsonString())
-                    continue;
-
-                string name = nameElt.String();
-
-                BSMAttributeObject attribute = new BSMAttributeObject();
-                attribute.Load(aObj);
-
-                foreach(var a in m_attributes)
-                {
-                    if(a.name == name && a.attribute.data.attributeType == attribute.data.attributeType)
-                    {
-                        a.attribute = attribute;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    protected void SaveAttributes(JsonObject obj)
-    {
-        if (m_attributes.Count == 0)
-            return;
-
-        JsonArray array = new JsonArray();
-        foreach(var attribute in m_attributes)
-        {
-            JsonObject attObj = attribute.attribute.Save();
-            attObj.AddElement("Name", attribute.name);
-            array.Add(attObj);
-        }
-
-        obj.AddElement("Attributes", array);
-    }
 
     public abstract BSMControler GetControler();
 

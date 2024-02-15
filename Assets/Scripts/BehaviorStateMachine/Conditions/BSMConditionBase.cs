@@ -10,9 +10,6 @@ public abstract class BSMConditionBase : BSMAttributeHolder
 {
     protected BSMStateBase m_state;
 
-    public abstract void Load(JsonObject obj);
-    public abstract void Save(JsonObject obj);
-
     public abstract bool IsValid();
 
     public virtual void Init() { }
@@ -53,44 +50,5 @@ public abstract class BSMConditionBase : BSMAttributeHolder
             name = name.Substring(startString.Length);
 
         return name;
-    }
-
-    public static BSMConditionBase LoadCondition(JsonObject obj)
-    {
-        var typeObj = obj.GetElement("Type");
-        if (typeObj == null || !typeObj.IsJsonString())
-            return null;
-
-        string typeName = typeObj.String();
-        try
-        {
-            Type t = Type.GetType(typeName);
-
-            var instance = Activator.CreateInstance(t) as BSMConditionBase;
-            if (instance == null)
-                return null;
-
-            instance.Load(obj);
-            instance.LoadAttributes(obj);
-            return instance;
-        }
-        catch(Exception)
-        {
-            return null;
-        }
-    }
-
-    public static JsonObject SaveCondition(BSMConditionBase condition)
-    {
-        var type = condition.GetType();
-        string typeName = type.FullName;
-
-        JsonObject obj = new JsonObject();
-        obj.AddElement("Type", typeName);
-
-        condition.Save(obj);
-        condition.SaveAttributes(obj);
-
-        return obj;
     }
 }

@@ -19,8 +19,4 @@ public class BSMConditionHaveTarget : BSMConditionBase
         var target = GetGameObjectAttribute(targetName);
         return target != null;
     }
-
-    public override void Load(JsonObject obj) { }
-
-    public override void Save(JsonObject obj) { }
 }

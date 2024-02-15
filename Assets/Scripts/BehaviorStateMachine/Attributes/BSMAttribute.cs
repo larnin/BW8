@@ -28,33 +28,4 @@ public class BSMAttribute
 
         return attribute;
     }
-
-    public void Load(JsonObject obj)
-    {
-        var idElt = obj.GetElement("ID");
-        if (idElt != null && idElt.IsJsonString())
-            ID = idElt.String();
-
-        var autoElt = obj.GetElement("Auto");
-        if (autoElt != null && autoElt.IsJsonNumber())
-            automatic = autoElt.Int() != 0;
-
-        var nameElt = obj.GetElement("Name");
-        if (nameElt != null && nameElt.IsJsonString())
-            name = nameElt.String();
-
-        data.Load(obj);
-    }
-
-    public JsonObject Save()
-    {
-        JsonObject obj = new JsonObject();
-
-        obj.AddElement("ID", ID);
-        obj.AddElement("Auto", automatic ? 1 : 0);
-        obj.AddElement("Name", name);
-        data.Save(obj);
-
-        return obj;
-    }
 }

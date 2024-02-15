@@ -62,32 +62,4 @@ public class BSMAttributeObject
         data.SetType(BSMAttributeType.attributeVector3Int);
         data.SetVector3Int(defaultValue);
     }
-
-    public void Load(JsonObject obj)
-    {
-        var useElt = obj.GetElement("Use");
-        if (useElt != null && useElt.IsJsonNumber())
-            useAttribute = useElt.Int() != 0;
-
-        if(useAttribute)
-        {
-            var attElt = obj.GetElement("ID");
-            if (attElt != null && attElt.IsJsonString())
-                attributeID = attElt.String();
-        }
-        data.Load(obj);
-    }
-
-    public JsonObject Save()
-    {
-        JsonObject obj = new JsonObject();
-
-        obj.AddElement("Use", useAttribute ? 1 : 0);
-
-        if (useAttribute)
-            obj.AddElement("ID", attributeID);
-        data.Save(obj);
-
-        return obj;
-    }
 }

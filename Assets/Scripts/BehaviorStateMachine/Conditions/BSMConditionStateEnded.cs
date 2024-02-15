@@ -16,10 +16,6 @@ public class BSMConditionStateEnded : BSMConditionBase
         return m_ended;
     }
 
-    public override void Load(JsonObject obj) { }
-
-    public override void Save(JsonObject obj) { }
-
     public override void Init() 
     {
         m_subscriberList.Add(new Event<BSMStateEndedEvent>.LocalSubscriber(OnStateEnd, GetControler().gameObject));

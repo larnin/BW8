@@ -35,8 +35,4 @@ public class BSMConditionAfterTimer : BSMConditionBase
         if (!Gamestate.instance.paused)
             m_time += Time.deltaTime;
     }
-
-    public override void Load(JsonObject obj)  { }
-
-    public override void Save(JsonObject obj) { }
 }

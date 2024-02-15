@@ -19,10 +19,6 @@ public class BSMStateFollowEntity : BSMStateBase
         AddAttribute(idleTimeName, new BSMAttributeObject(-1.0f));
     }
 
-    public override void Load(JsonObject obj) { }
-
-    public override void Save(JsonObject obj) { }
-
     public override void BeginUpdate()
     {
         m_idleTime = 0;

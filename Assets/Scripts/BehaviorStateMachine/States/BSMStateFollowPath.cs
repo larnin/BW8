@@ -23,10 +23,6 @@ public class BSMStateFollowPath : BSMStateBase
         AddAttribute(nextDistanceName, new BSMAttributeObject(1.0f));
     }
 
-    public override void Load(JsonObject obj) { }
-
-    public override void Save(JsonObject obj) { }
-
     public override void BeginUpdate()
     {
         m_nextPoint = new Vector2(float.MaxValue, float.MaxValue);
