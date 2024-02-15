@@ -32,15 +32,19 @@ public abstract class BSMAttributeHolderView
 
         m_objects.Clear();
 
-        foreach (var attribute in attributes)
+        if(attributes != null)
         {
-            BSMAttributeObjectView view = new BSMAttributeObjectView(attribute.attribute, m_node);
-            BSMAttributeNamedObjectView namedView = new BSMAttributeNamedObjectView();
-            namedView.attribute = view;
-            namedView.name = attribute.name;
+            foreach (var attribute in attributes)
+            {
+                BSMAttributeObjectView view = new BSMAttributeObjectView(attribute.attribute, m_node);
+                BSMAttributeNamedObjectView namedView = new BSMAttributeNamedObjectView();
+                namedView.attribute = view;
+                namedView.name = attribute.name;
 
-            m_objects.Add(namedView);
+                m_objects.Add(namedView);
+            }
         }
+        
     }
 
     public VisualElement GetElement()

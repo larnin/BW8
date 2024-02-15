@@ -127,34 +127,54 @@ public class BSMGraph : EditorWindow
         m_graphView.Save(saveData);
         m_attributesWindow.Save(saveData);
 
-        var doc = new JsonDocument();
-        doc.SetRoot(saveData.Save());
+        var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
+        if(obj == null)
+        {
+            obj = new BSMScriptableObject();
+            obj.data = saveData;
+            AssetDatabase.CreateAsset(obj, path);
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+        }
+        else
+        {
+            obj.data = saveData;
+            EditorUtility.SetDirty(obj);
+            AssetDatabase.SaveAssets();
+        }
 
-        string data = Json.WriteToString(doc);
+        //var doc = new JsonDocument();
+        //doc.SetRoot(saveData.Save());
 
-        SaveEx.SaveAsset(path, data);
+        //string data = Json.WriteToString(doc);
+
+        //SaveEx.SaveAsset(path, data);
     }
 
     void Load(string path)
     {
         BSMSaveData saveData = new BSMSaveData();
 
-        var data = SaveEx.LoadFile(path);
-        if (data == null)
-        {
-            m_attributesWindow.Load(saveData);
-            m_graphView.Load(saveData);
-            return;
-        }
+        var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
+        if (obj != null)
+            saveData = obj.data;
 
-        var doc = Json.ReadFromString(data);
-        if (!doc.GetRoot().IsJsonObject())
-        {
-            m_attributesWindow.Load(saveData);
-            m_graphView.Load(saveData);
-            return;
-        }
-        saveData.Load(doc.GetRoot().JsonObject());
+        //var data = SaveEx.LoadFile(path);
+        //if (data == null)
+        //{
+        //    m_attributesWindow.Load(saveData);
+        //    m_graphView.Load(saveData);
+        //    return;
+        //}
+
+        //var doc = Json.ReadFromString(data);
+        //if (!doc.GetRoot().IsJsonObject())
+        //{
+        //    m_attributesWindow.Load(saveData);
+        //    m_graphView.Load(saveData);
+        //    return;
+        //}
+        //saveData.Load(doc.GetRoot().JsonObject());
 
         m_attributesWindow.Load(saveData);
         m_graphView.Load(saveData);
@@ -175,11 +195,11 @@ public class BSMGraph : EditorWindow
 
     void GetSavePath()
     {
-        string savePath = SaveEx.GetSaveFilePath("Save Behavior", Application.dataPath, "json");
+        string savePath = SaveEx.GetSaveFilePath("Save Behavior", Application.dataPath, "asset");
         if (savePath == null || savePath.Length == 0)
             return;
 
-        m_savePath = savePath;
+        m_savePath = SaveEx.GetRelativeAssetsPath(savePath);
         UpdateLabel();
     }
 
@@ -194,12 +214,14 @@ public class BSMGraph : EditorWindow
 
     public void Load()
     {
-        string loadPath = SaveEx.GetLoadFiltPath("Load Behavior", Application.dataPath, "json");
+        string loadPath = SaveEx.GetLoadFiltPath("Load Behavior", Application.dataPath, "asset");
         if (loadPath == null || loadPath.Length == 0)
             return;
 
-        m_savePath = loadPath;
+        m_savePath = SaveEx.GetRelativeAssetsPath(loadPath);
         Load(m_savePath);
+
+        UpdateLabel();
     }
 
     public void NewFile()

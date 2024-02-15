@@ -12,7 +12,7 @@ public class BSMAttributeNamedObject
 
 public abstract class BSMAttributeHolder
 {
-    protected List<BSMAttributeNamedObject> m_attributes = new List<BSMAttributeNamedObject>();
+    [SerializeField] protected List<BSMAttributeNamedObject> m_attributes = new List<BSMAttributeNamedObject>();
 
     protected void AddAttribute(string name, BSMAttributeObject attribute)
     {

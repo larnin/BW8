@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class BSMControler : SerializedMonoBehaviour
 {
-    [SerializeField] TextAsset m_behaviour;
+    [SerializeField] BSMScriptableObject m_behaviour;
     [SerializeField] List<BSMControlerAttribute> m_controllerAttributes = new List<BSMControlerAttribute>();
 
     int m_startStateIndex;
@@ -20,7 +20,7 @@ public class BSMControler : SerializedMonoBehaviour
 
     SubscriberList m_subscriberList = new SubscriberList();
 
-    public TextAsset behaviour { get { return m_behaviour; } set { m_behaviour = value; } }
+    public BSMScriptableObject behaviour { get { return m_behaviour; } set { m_behaviour = value; } }
 
     class BSMControlerTransition
     {
@@ -76,14 +76,7 @@ public class BSMControler : SerializedMonoBehaviour
         if (m_behaviour == null)
             return;
 
-        string datas = SaveEx.LoadAsset(m_behaviour);
-
-        var doc = Json.ReadFromString(datas);
-
-        BSMSaveData saveData = new BSMSaveData();
-        if (!doc.GetRoot().IsJsonObject())
-            return;
-        saveData.Load(doc.GetRoot().JsonObject());
+        BSMSaveData saveData = m_behaviour.data;
 
         LoadStates(saveData);
         LoadStart(saveData);

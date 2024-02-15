@@ -5,12 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public interface BSMSerializable
-{ 
-    public void Load(JsonObject obj);
-    public void Save(JsonObject obj);
-}
-
 public class BSMSaveNode
 {
     public string ID;

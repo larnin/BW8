@@ -75,5 +75,35 @@ public static class SaveEx
         File.WriteAllText(assetName, text);
         AssetDatabase.Refresh();
     }
+
+    public static string GetRelativeAssetsPath(string path)
+    {
+        string originFolder = "Assets";
+
+        int startIndex = 0;
+
+        do
+        {
+            int index = path.IndexOf(originFolder, startIndex);
+            if (index < 0)
+                return path;
+
+            char lastChar = '\\';
+            char nextChar = '\\';
+
+            if (index > 0)
+                lastChar = path[index - 1];
+            if (index < path.Length - originFolder.Length - 1)
+                nextChar = path[index + originFolder.Length];
+
+            if((lastChar == '\\' || lastChar == '/') && (nextChar == '/' || nextChar == '\\'))
+                return path.Substring(index);
+
+            startIndex = index + 1;
+
+        } while (startIndex >= 0);
+
+        return path;
+    }
 }
 

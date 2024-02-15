@@ -27,7 +27,7 @@ public class BSMControlerView : Editor
 
         VisualElement layout = new VisualElement();
 
-        var behaviourElement = BSMEditorUtility.CreateObjectField("Behaviour", typeof(TextAsset), false, obj.behaviour, OnBehaviourSet);
+        var behaviourElement = BSMEditorUtility.CreateObjectField("Behaviour", typeof(BSMScriptableObject), false, obj.behaviour, OnBehaviourSet);
         layout.Add(behaviourElement);
 
         layout.Add(BSMEditorUtility.CreateLabel("Attributes", 4));
@@ -46,7 +46,7 @@ public class BSMControlerView : Editor
         if (obj == null)
             return;
 
-        obj.behaviour = change.newValue as TextAsset;
+        obj.behaviour = change.newValue as BSMScriptableObject;
 
         var element = change.target as ObjectField;
         if (element != null)
