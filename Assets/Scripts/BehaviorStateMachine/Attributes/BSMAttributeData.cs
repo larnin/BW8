@@ -10,7 +10,7 @@ public enum BSMAttributeType
     attributeFloat,
     attributeInt,
     attributeString,
-    attributeGameObject,
+    attributeUnityObject,
     attributeVector2,
     attributeVector3,
     attributeVector2Int,
@@ -21,6 +21,7 @@ public class BSMAttributeData
 {
     public BSMAttributeType attributeType = BSMAttributeType.attributeInt;
     public object data;
+    public Type customType;
 
     public BSMAttributeData Clone()
     {
@@ -34,6 +35,8 @@ public class BSMAttributeData
     public void SetType(BSMAttributeType type)
     {
         attributeType = type;
+        if (type == BSMAttributeType.attributeUnityObject)
+            customType = typeof(GameObject);
         data = null;
     }
 
@@ -115,14 +118,32 @@ public class BSMAttributeData
         return GetClass(defaultValue, BSMAttributeType.attributeString);
     }
 
-    public void SetGameObject(GameObject value)
+    public void SetUnityObject<T>(T value) where T : UnityEngine.Object
     {
-        SetClass(value, BSMAttributeType.attributeGameObject);
+        if(typeof(T) != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        SetClass(value, BSMAttributeType.attributeUnityObject);
     }
 
-    public GameObject GetGameObject(GameObject defaultValue = null)
+    public void SetUnityObject(Type type, UnityEngine.Object value)
     {
-        return GetClass(defaultValue, BSMAttributeType.attributeGameObject);
+        if (type != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        SetClass(value, BSMAttributeType.attributeUnityObject);
+    }
+
+    public T GetUnityObject<T>(T defaultValue = null) where T : UnityEngine.Object
+    {
+        if (typeof(T) != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        return GetClass(defaultValue, BSMAttributeType.attributeUnityObject);
+    }
+
+    public UnityEngine.Object GetUnityObject(Type type, UnityEngine.Object defaultValue = null)
+    {
+        if (type != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        return GetClass(defaultValue, BSMAttributeType.attributeUnityObject);
     }
 
     public void SetVector2(Vector2 value)

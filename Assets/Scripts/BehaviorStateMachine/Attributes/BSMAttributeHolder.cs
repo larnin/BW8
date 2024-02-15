@@ -95,9 +95,23 @@ public abstract class BSMAttributeHolder
         return GetClassAttribute(name, BSMAttributeType.attributeString, defaultValue);
     }
 
-    public GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
+    public T GetUnityObjectAttribute<T>(string name, T defaultValue = null) where T : UnityEngine.Object
     {
-        return GetClassAttribute(name, BSMAttributeType.attributeGameObject, defaultValue);
+        var attribute = GetAttribute(name);
+        if (attribute == null)
+            return defaultValue;
+
+        if (attribute.useAttribute)
+        {
+            var controler = GetControler();
+            if (controler == null)
+                return defaultValue;
+            var realAttribute = controler.GetAttribute(attribute.attributeID);
+            if (realAttribute == null)
+                return default;
+            return realAttribute.data.GetUnityObject(defaultValue);
+        }
+        else return attribute.data.GetUnityObject(defaultValue);
     }
 
     public Vector2 GetVector2Attribute(string name) { return GetVector2Attribute(name, Vector2.zero); }

@@ -33,12 +33,6 @@ public class BSMAttributeObject
         data.SetString(defaultValue);
     }
 
-    public BSMAttributeObject(GameObject defaultValue)
-    {
-        data.SetType(BSMAttributeType.attributeGameObject);
-        data.SetGameObject(defaultValue);
-    }
-
     public BSMAttributeObject(Vector2 defaultValue)
     {
         data.SetType(BSMAttributeType.attributeVector2);
@@ -61,5 +55,15 @@ public class BSMAttributeObject
     {
         data.SetType(BSMAttributeType.attributeVector3Int);
         data.SetVector3Int(defaultValue);
+    }
+
+    public static BSMAttributeObject Create<T>(T defaultValue) where T : UnityEngine.Object
+    {
+        var attribute = new BSMAttributeObject();
+        attribute.data.SetType(BSMAttributeType.attributeUnityObject);
+        attribute.data.customType = typeof(T);
+        attribute.data.SetUnityObject(defaultValue);
+
+        return attribute;
     }
 }

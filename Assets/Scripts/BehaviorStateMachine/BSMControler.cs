@@ -574,14 +574,22 @@ public class BSMControler : SerializedMonoBehaviour
         return GetClassAttribute(name, defaultValue, BSMAttributeType.attributeString);
     }
 
-    public void SetGameObjectAttribute(string name, GameObject value)
+    public void SetUnityObjectAttribute<T>(string name, T value) where T : UnityEngine.Object
     {
-        SetClassAttribute(name, value, BSMAttributeType.attributeGameObject);
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetUnityObject(value);
     }
 
-    public GameObject GetGameObjectAttribute(string name, GameObject defaultValue = null)
+    public T GetUnityObjectAttribute<T>(string name, T defaultValue = null) where T : UnityEngine.Object
     {
-        return GetClassAttribute(name, defaultValue, BSMAttributeType.attributeGameObject);
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetUnityObject(defaultValue);
     }
 
     public void SetVector2Attribute(string name, Vector2 value)
@@ -630,6 +638,6 @@ public class BSMControler : SerializedMonoBehaviour
 
     void SetAggroTarget(UpdateAggroTargetEvent e)
     {
-        SetGameObjectAttribute("Aggro", e.target);
+        SetUnityObjectAttribute("Aggro", e.target);
     }
 }

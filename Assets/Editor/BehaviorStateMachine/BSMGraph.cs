@@ -75,7 +75,7 @@ public class BSMGraph : EditorWindow
     void AddSideMenus(VisualElement parent)
     {
         VisualElement sideMenu = new VisualElement();
-        sideMenu.style.width = 200;
+        sideMenu.style.width = 250;
 
         m_attributesWindow = new BSMAttributesWindow(this);
         m_attributesWindow.SetParent(sideMenu);
@@ -142,13 +142,6 @@ public class BSMGraph : EditorWindow
             EditorUtility.SetDirty(obj);
             AssetDatabase.SaveAssets();
         }
-
-        //var doc = new JsonDocument();
-        //doc.SetRoot(saveData.Save());
-
-        //string data = Json.WriteToString(doc);
-
-        //SaveEx.SaveAsset(path, data);
     }
 
     void Load(string path)
@@ -158,23 +151,6 @@ public class BSMGraph : EditorWindow
         var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
         if (obj != null)
             saveData = obj.data;
-
-        //var data = SaveEx.LoadFile(path);
-        //if (data == null)
-        //{
-        //    m_attributesWindow.Load(saveData);
-        //    m_graphView.Load(saveData);
-        //    return;
-        //}
-
-        //var doc = Json.ReadFromString(data);
-        //if (!doc.GetRoot().IsJsonObject())
-        //{
-        //    m_attributesWindow.Load(saveData);
-        //    m_graphView.Load(saveData);
-        //    return;
-        //}
-        //saveData.Load(doc.GetRoot().JsonObject());
 
         m_attributesWindow.Load(saveData);
         m_graphView.Load(saveData);

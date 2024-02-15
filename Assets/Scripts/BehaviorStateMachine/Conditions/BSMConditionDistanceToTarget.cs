@@ -12,13 +12,13 @@ public class BSMConditionDistanceToTarget : BSMConditionBase
 
     public BSMConditionDistanceToTarget()
     {
-        AddAttribute(targetName, new BSMAttributeObject((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
         AddAttribute(distanceName, new BSMAttributeObject(1.0f));
     }
 
     public override bool IsValid()
     {
-        var target = GetGameObjectAttribute(targetName);
+        var target = GetUnityObjectAttribute<GameObject>(targetName);
         if (target == null)
             return false;
 

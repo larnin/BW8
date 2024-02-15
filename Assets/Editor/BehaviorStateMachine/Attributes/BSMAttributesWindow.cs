@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 public class BSMAttributesWindow
@@ -107,8 +108,9 @@ public class BSMAttributesWindow
 
     void AddAutomaticAttributes()
     {
-        var names = new string[] {"Aggro"};
-        var types = new BSMAttributeType[] { BSMAttributeType.attributeGameObject };
+        var names = new string[] { "Aggro" };
+        var types = new BSMAttributeType[] { BSMAttributeType.attributeUnityObject };
+        var customTypes = new Type[] { typeof(GameObject) };
 
         int nbAttribute = (names.Length < types.Length) ? names.Length : types.Length;
         for(int i = 0; i < nbAttribute; i++)
@@ -119,6 +121,9 @@ public class BSMAttributesWindow
                 var a = v.GetAttribute();
                 if (a.automatic && a.name == names[i] && a.data.attributeType == types[i])
                 {
+                    if (types[i] == BSMAttributeType.attributeUnityObject && a.data.customType != customTypes[i])
+                        continue;
+
                     found = true;
                     break;
                 }
@@ -130,6 +135,8 @@ public class BSMAttributesWindow
             BSMAttribute attribute = new BSMAttribute();
             attribute.automatic = true;
             attribute.data.attributeType = types[i];
+            if (customTypes[i] != null)
+                attribute.data.customType = customTypes[i];
             attribute.name = names[i];
 
             BSMAttributeView view = new BSMAttributeView(attribute, this);
@@ -145,7 +152,7 @@ public class BSMAttributesWindow
             bool found = false;
             for(int j = 0; j < nbAttribute; j++)
             {
-                if(attribute.name == names[i] && attribute.data.attributeType == types[i])
+                if(attribute.name == names[j] && attribute.data.attributeType == types[j])
                 {
                     found = true;
                     break;

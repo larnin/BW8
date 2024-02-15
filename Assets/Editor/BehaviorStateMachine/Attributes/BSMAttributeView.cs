@@ -13,20 +13,23 @@ public class BSMAttributeView : BSMDropdownCallback
     BSMAttributesWindow m_window;
 
     bool m_singleLine;
-    bool m_displayComplexeType;
+    bool m_allowSceneItems;
     Action<object> m_onValueChange;
 
     Button m_typeButton;
+    Button m_subtypeButton;
     VisualElement m_valueContainer;
 
     VisualElement m_mainContainer;
 
-    public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window, bool singleLine = false, bool displayComplexeType = false, Action<object> onValueChange = null)
+    bool m_selectSubtype = false;
+
+    public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window, bool singleLine = false, bool allowSceneItems = false, Action<object> onValueChange = null)
     {
         m_attribute = attribute;
         m_window = window;
         m_singleLine = singleLine;
-        m_displayComplexeType = displayComplexeType;
+        m_allowSceneItems = allowSceneItems;
         m_onValueChange = onValueChange;
     }
 
@@ -41,11 +44,25 @@ public class BSMAttributeView : BSMDropdownCallback
             m_mainContainer = BSMEditorUtility.CreateHorizontalLayout();
         else m_mainContainer = new VisualElement();
 
+        FillMainContainer();
+
+        return m_mainContainer;
+    }
+
+    void FillMainContainer()
+    {
+        m_mainContainer.Clear();
+
         if (m_attribute.automatic)
         {
             m_mainContainer.Add(BSMEditorUtility.CreateLabel(m_attribute.name, 4));
-            if(!m_singleLine)
-                m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + GetTypeText(), 4));
+            if (!m_singleLine)
+            {
+                string type = GetTypeText();
+                if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
+                    type = m_attribute.data.customType.Name;
+                m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + type, 4));
+            }
 
             m_typeButton = null;
         }
@@ -60,7 +77,7 @@ public class BSMAttributeView : BSMDropdownCallback
 
                 m_attribute.name = target.value;
 
-                if(m_window != null)
+                if (m_window != null)
                     m_window.ProcessErrors();
             });
             m_mainContainer.Add(nameField);
@@ -74,6 +91,19 @@ public class BSMAttributeView : BSMDropdownCallback
             typeContainer.Add(m_typeButton);
 
             m_mainContainer.Add(typeContainer);
+
+            if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
+            {
+                VisualElement subtypeContainer = BSMEditorUtility.CreateHorizontalLayout();
+
+                subtypeContainer.Add(BSMEditorUtility.CreateLabel("Subtype", 4));
+
+                m_subtypeButton = BSMEditorUtility.CreateButton(m_attribute.data.customType.Name, CreateSubTypePopup);
+                m_subtypeButton.style.flexGrow = 2;
+                subtypeContainer.Add(m_subtypeButton);
+
+                m_mainContainer.Add(subtypeContainer);
+            }
         }
 
         m_valueContainer = new VisualElement();
@@ -81,8 +111,6 @@ public class BSMAttributeView : BSMDropdownCallback
         UpdateValue();
 
         UpdateStyle(false);
-
-        return m_mainContainer;
     }
 
     string GetTypeText()
@@ -104,22 +132,85 @@ public class BSMAttributeView : BSMDropdownCallback
         foreach (var v in values)
             choices.Add(BSMAttributeData.AttributeName((BSMAttributeType)v));
 
+        m_selectSubtype = false;
+
         UnityEditor.PopupWindow.Show(rect, new BSMSimpleDropdownPopup(choices, this));
+    }
+
+    List<Type> GetAllValidSubTypes()
+    {
+        List<Type> types = new List<Type>();
+
+        var unityTypes = typeof(UnityEngine.Object).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
+        foreach (var type in unityTypes)
+        {
+            if (type.IsAbstract)
+                continue;
+            types.Add(type);
+        }
+
+        var localTypes = typeof(BSMAttribute).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
+        foreach (var type in localTypes)
+        {
+            if (type.IsAbstract)
+                continue;
+            types.Add(type);
+        }
+
+        return types;
+    }
+
+    void CreateSubTypePopup()
+    {
+        if (m_subtypeButton == null)
+            return;
+
+        var pos = m_subtypeButton.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        List<string> choices = new List<string>();
+        var types = GetAllValidSubTypes();
+        foreach (var type in types)
+            choices.Add(type.Name);
+
+        m_selectSubtype = true;
+
+        UnityEditor.PopupWindow.Show(rect, new BSMSearchDropdownPopup(choices, this));
     }
 
     public void SendResult(int result)
     {
-        m_attribute.data.SetType((BSMAttributeType)result);
-        m_typeButton.text = GetTypeText();
+        bool updateContainer = false;
+        if (m_selectSubtype)
+        {
+            var types = GetAllValidSubTypes();
+            if(result >= 0 && result < types.Count)
+            {
+                m_attribute.data.customType = types[result];
+                m_attribute.data.data = null;
+            }
+        }
+        else
+        {
+            var newType = (BSMAttributeType)result;
+            if (newType == BSMAttributeType.attributeUnityObject || m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
+                updateContainer = true;
 
-        UpdateValue();
+            m_attribute.data.SetType(newType);
+            m_typeButton.text = GetTypeText();
+        }
+
+        if (updateContainer)
+            FillMainContainer();
+        else UpdateValue();
     }
 
     void UpdateValue()
     {
         m_valueContainer.Clear();
 
-        var element = CreateElement(m_attribute.data, m_displayComplexeType, m_onValueChange);
+        var element = CreateElement(m_attribute.data, m_allowSceneItems, m_onValueChange);
 
         if(element != null)
         {
@@ -144,7 +235,7 @@ public class BSMAttributeView : BSMDropdownCallback
         else BSMEditorUtility.SetContainerStyle(m_mainContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
     }
 
-    public static VisualElement CreateElement(BSMAttributeData data, bool displayComplexeType, Action<object> onValueChangeCallback)
+    public static VisualElement CreateElement(BSMAttributeData data, bool allowSceneItems, Action<object> onValueChangeCallback)
     {
         switch (data.attributeType)
         {
@@ -196,28 +287,23 @@ public class BSMAttributeView : BSMDropdownCallback
 
                     return nameField;
                 }
-            case BSMAttributeType.attributeGameObject:
+            case BSMAttributeType.attributeUnityObject:
                 {
-                    if (displayComplexeType)
+                    ObjectField field = BSMEditorUtility.CreateObjectField("", data.customType, allowSceneItems, data.GetUnityObject(data.customType), callback =>
                     {
-                        ObjectField field = BSMEditorUtility.CreateObjectField("", typeof(GameObject), true, data.GetGameObject(), callback =>
-                        {
-                            ObjectField target = (ObjectField)callback.target;
+                        ObjectField target = (ObjectField)callback.target;
 
-                            var gameObject = callback.newValue as GameObject;
+                        var gameObject = callback.newValue;
 
-                            target.value = gameObject;
+                        target.value = gameObject;
 
-                            data.SetGameObject(gameObject);
+                        data.SetUnityObject(data.customType, gameObject);
 
-                            if (onValueChangeCallback != null)
-                                onValueChangeCallback(data.data);
-                        });
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    });
 
-                        return field;
-                    }
-
-                    break;
+                    return field;
                 }
             case BSMAttributeType.attributeVector2:
                 {

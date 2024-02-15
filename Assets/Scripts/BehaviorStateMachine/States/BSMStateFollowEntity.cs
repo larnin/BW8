@@ -15,7 +15,7 @@ public class BSMStateFollowEntity : BSMStateBase
 
     public BSMStateFollowEntity()
     {
-        AddAttribute(targetName, new BSMAttributeObject((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
         AddAttribute(idleTimeName, new BSMAttributeObject(-1.0f));
     }
 
@@ -23,7 +23,7 @@ public class BSMStateFollowEntity : BSMStateBase
     {
         m_idleTime = 0;
 
-        var target = GetGameObjectAttribute(targetName);
+        var target = GetUnityObjectAttribute<GameObject>(targetName);
         if (target != null)
         {
             m_moving = true;
@@ -46,7 +46,7 @@ public class BSMStateFollowEntity : BSMStateBase
     {
         if(m_moving)
         {
-            var target = GetGameObjectAttribute(targetName);
+            var target = GetUnityObjectAttribute<GameObject>(targetName);
             if(target == null)
             {
                 Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
@@ -75,7 +75,7 @@ public class BSMStateFollowEntity : BSMStateBase
 
             if(idleMaxTime >= 0 && m_idleTime > idleMaxTime)
             {
-                var target = GetGameObjectAttribute(targetName);
+                var target = GetUnityObjectAttribute<GameObject>(targetName);
                 
                 if(target != null)
                 {

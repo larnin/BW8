@@ -11,12 +11,12 @@ public class BSMConditionHaveTarget : BSMConditionBase
 
     public BSMConditionHaveTarget()
     {
-        AddAttribute(targetName, new BSMAttributeObject((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
     }
 
     public override bool IsValid()
     {
-        var target = GetGameObjectAttribute(targetName);
+        var target = GetUnityObjectAttribute<GameObject>(targetName);
         return target != null;
     }
 }
