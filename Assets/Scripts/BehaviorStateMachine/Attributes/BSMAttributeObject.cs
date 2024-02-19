@@ -27,6 +27,12 @@ public class BSMAttributeObject
         data.SetInt(defaultValue);
     }
 
+    public BSMAttributeObject(bool defaultValue)
+    {
+        data.SetType(BSMAttributeType.attributeBool);
+        data.SetBool(defaultValue);
+    }
+
     public BSMAttributeObject(string defaultValue)
     {
         data.SetType(BSMAttributeType.attributeString);

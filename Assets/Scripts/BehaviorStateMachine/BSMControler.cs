@@ -554,6 +554,16 @@ public class BSMControler : SerializedMonoBehaviour
         return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeInt);
     }
 
+    public void SetBoolAttribute(string name, bool value)
+    {
+        SetStructAttribute(name, value, BSMAttributeType.attributeBool);
+    }
+
+    public bool GetBoolAttribute(string name, bool defaultValue = false)
+    {
+        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeBool);
+    }
+
     public void SetFloatAttribute(string name, float value)
     {
         SetStructAttribute(name, value, BSMAttributeType.attributeFloat);

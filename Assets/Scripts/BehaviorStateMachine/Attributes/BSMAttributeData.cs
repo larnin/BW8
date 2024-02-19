@@ -9,6 +9,7 @@ public enum BSMAttributeType
 {
     attributeFloat,
     attributeInt,
+    attributeBool,
     attributeString,
     attributeUnityObject,
     attributeVector2,
@@ -106,6 +107,16 @@ public class BSMAttributeData
     public int GetInt(int defaultValue = 0)
     {
         return GetStruct(defaultValue, BSMAttributeType.attributeInt);
+    }
+
+    public void SetBool(bool value)
+    {
+        SetStruct(value, BSMAttributeType.attributeBool);
+    }
+
+    public bool GetBool(bool defaultValue = false)
+    {
+        return GetStruct(defaultValue, BSMAttributeType.attributeBool);
     }
 
     public void SetString(string value)

@@ -85,6 +85,11 @@ public abstract class BSMAttributeHolder
         return GetStructAttribute(name, BSMAttributeType.attributeInt, defaultValue);
     }
 
+    public bool GetBoolAttribute(string name, bool defaultValue = false)
+    {
+        return GetStructAttribute(name, BSMAttributeType.attributeBool, defaultValue);
+    }
+
     public float GetFloatAttribute(string name, float defaultValue = 0)
     {
         return GetStructAttribute(name, BSMAttributeType.attributeFloat, defaultValue);

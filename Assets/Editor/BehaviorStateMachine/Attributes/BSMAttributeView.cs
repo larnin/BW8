@@ -271,6 +271,25 @@ public class BSMAttributeView : BSMDropdownCallback
 
                     return valueField;
                 }
+            case BSMAttributeType.attributeBool:
+                {
+                    string value = data.GetBool(false) ? "True" : "False";
+                    Button valueButton = BSMEditorUtility.CreateButton(value);
+                    valueButton.clicked += () =>
+                    {
+                        bool oldValue = data.GetBool(false);
+                        bool newValue = !oldValue;
+
+                        valueButton.text = newValue ? "True" : "False";
+
+                        data.SetBool(newValue);
+
+                        if (onValueChangeCallback != null)
+                            onValueChangeCallback(data.data);
+                    };
+
+                    return valueButton;
+                }
             case BSMAttributeType.attributeString:
                 {
                     TextField nameField = BSMEditorUtility.CreateTextField(data.GetString(""), null, callback =>
