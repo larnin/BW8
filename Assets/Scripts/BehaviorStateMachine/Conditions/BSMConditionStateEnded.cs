@@ -18,6 +18,9 @@ public class BSMConditionStateEnded : BSMConditionBase
 
     public override void Init() 
     {
+        if (m_subscriberList == null)
+            m_subscriberList = new SubscriberList();
+
         m_subscriberList.Add(new Event<BSMStateEndedEvent>.LocalSubscriber(OnStateEnd, GetControler().gameObject));
     }
 

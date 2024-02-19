@@ -130,7 +130,7 @@ public class BSMGraph : EditorWindow
         var obj = AssetDatabase.LoadAssetAtPath<BSMScriptableObject>(path);
         if(obj == null)
         {
-            obj = new BSMScriptableObject();
+            obj = ScriptableObject.CreateInstance<BSMScriptableObject>();
             obj.data = saveData;
             AssetDatabase.CreateAsset(obj, path);
             EditorUtility.SetDirty(obj);

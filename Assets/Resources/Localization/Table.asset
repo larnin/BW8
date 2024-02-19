@@ -27,7 +27,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 6
+      Data: 9
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocTable+LocElement, Assembly-CSharp
@@ -137,6 +137,60 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 7|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 30
+    - Name: category
+      Entry: 3
+      Data: 10
+    - Name: textID
+      Entry: 1
+      Data: Bubble1
+    - Name: remark
+      Entry: 1
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 31
+    - Name: category
+      Entry: 3
+      Data: 10
+    - Name: textID
+      Entry: 1
+      Data: Bubble2
+    - Name: remark
+      Entry: 1
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|NLocalization.LocTable+LocElement, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 32
+    - Name: category
+      Entry: 3
+      Data: 10
+    - Name: textID
+      Entry: 1
+      Data: Bubble3
+    - Name: remark
+      Entry: 1
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -144,14 +198,14 @@ MonoBehaviour:
       Data: 
     - Name: m_categories
       Entry: 7
-      Data: 7|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
+      Data: 10|System.Collections.Generic.List`1[[NLocalization.LocTable+LocCategory,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 8|NLocalization.LocTable+LocCategory, Assembly-CSharp
+      Data: 11|NLocalization.LocTable+LocCategory, Assembly-CSharp
     - Name: id
       Entry: 3
       Data: 8
@@ -163,7 +217,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 9|NLocalization.LocTable+LocCategory, Assembly-CSharp
+      Data: 12|NLocalization.LocTable+LocCategory, Assembly-CSharp
     - Name: id
       Entry: 3
       Data: 9
@@ -174,11 +228,23 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 13|NLocalization.LocTable+LocCategory, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 10
+    - Name: name
+      Entry: 1
+      Data: TestBubble
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  m_nextID: 30
-  m_nextCategory: 10
+  m_nextID: 33
+  m_nextCategory: 11
   m_defaultLanguageID: fr-FR

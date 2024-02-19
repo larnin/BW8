@@ -27,7 +27,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 6
+      Data: 9
     - Name: 
       Entry: 7
       Data: 1|NLocalization.LocLanguage+LocText, Assembly-CSharp
@@ -114,6 +114,51 @@ MonoBehaviour:
     - Name: text
       Entry: 1
       Data: That's all.
+    - Name: dirty
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|NLocalization.LocLanguage+LocText, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 30
+    - Name: text
+      Entry: 1
+      Data: Hello my friend
+    - Name: dirty
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 8|NLocalization.LocLanguage+LocText, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 31
+    - Name: text
+      Entry: 1
+      Data: How are you ?
+    - Name: dirty
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 9|NLocalization.LocLanguage+LocText, Assembly-CSharp
+    - Name: id
+      Entry: 3
+      Data: 32
+    - Name: text
+      Entry: 1
+      Data: It's sunny today
     - Name: dirty
       Entry: 5
       Data: false

@@ -189,6 +189,8 @@ public class BSMAttributeView : BSMDropdownCallback
             {
                 m_attribute.data.customType = types[result];
                 m_attribute.data.data = null;
+
+                m_subtypeButton.text = types[result].Name;
             }
         }
         else
