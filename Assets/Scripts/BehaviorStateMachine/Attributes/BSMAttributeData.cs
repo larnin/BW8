@@ -22,7 +22,22 @@ public class BSMAttributeData
 {
     public BSMAttributeType attributeType = BSMAttributeType.attributeInt;
     public object data;
-    public Type customType;
+
+    public string customTypeName;
+
+    public Type customType 
+    { 
+        get
+        {
+            if (customTypeName == null)
+                return null;
+            return Type.GetType(customTypeName);
+        }
+        set
+        {
+            customTypeName = value.AssemblyQualifiedName;
+        }
+    }
 
     public BSMAttributeData Clone()
     {

@@ -218,7 +218,7 @@ public class BSMControler : SerializedMonoBehaviour
 
     void LoadAttributes(BSMSaveData data, bool linkAttributes)
     {
-        m_attributes = data.attributes;
+        m_attributes = data.attributes.ToList();
 
         if(linkAttributes)
         {

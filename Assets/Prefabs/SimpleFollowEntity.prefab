@@ -99,6 +99,7 @@ MonoBehaviour:
   m_targetStopMoveDistance: 1
   m_targetStartMoveDistance: 2
   m_acceleration: 5
+  m_freezeRigidbodyOnIdle: 1
 --- !u!95 &4020330702253547255
 Animator:
   serializedVersion: 4
@@ -183,7 +184,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  m_behaviour: {fileID: 4900000, guid: bac0daa8fff3061448c19a6f5c6a6d19, type: 3}
+  m_behaviour: {fileID: 11400000, guid: 4ba47aa89f8414f4aba90dcf95c6c603, type: 2}
 --- !u!1 &5789620714501752979
 GameObject:
   m_ObjectHideFlags: 0

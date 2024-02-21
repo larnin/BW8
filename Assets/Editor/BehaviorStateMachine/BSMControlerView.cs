@@ -35,7 +35,7 @@ public class BSMControlerView : Editor
         m_attributeContainer = new VisualElement();
         layout.Add(m_attributeContainer);
 
-        LoadAttributes();
+        LoadControler();
 
         return layout;
     }
@@ -53,6 +53,8 @@ public class BSMControlerView : Editor
             element.value = obj.behaviour;
 
         LoadControler();
+
+        EditorUtility.SetDirty(obj);
     }
 
     void LoadControler()

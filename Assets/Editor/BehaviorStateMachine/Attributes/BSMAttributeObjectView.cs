@@ -46,7 +46,10 @@ public class BSMAttributeObjectView : BSMDropdownCallback
             if (a.data.attributeType != m_object.data.attributeType)
                 continue;
 
-            if(index == result)
+            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject && m_object.data.customType != a.data.customType)
+                continue;
+
+            if (index == result)
             {
                 m_object.attributeID = a.ID;
                 found = true;
@@ -102,9 +105,12 @@ public class BSMAttributeObjectView : BSMDropdownCallback
 
         List<string> attributesNames = new List<string>();
 
-        foreach(var a in attributes)
+        foreach (var a in attributes)
         {
             if (a.data.attributeType != m_object.data.attributeType)
+                continue;
+
+            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject && m_object.data.customType != a.data.customType)
                 continue;
 
             attributesNames.Add(a.name);

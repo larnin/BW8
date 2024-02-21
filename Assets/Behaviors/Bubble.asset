@@ -265,7 +265,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: customType
+    - Name: customTypeName
       Entry: 6
       Data: 
     - Name: 
@@ -368,21 +368,15 @@ MonoBehaviour:
     - Name: data
       Entry: 6
       Data: 
-    - Name: customType
-      Entry: 7
-      Data: 24|System.RuntimeType, mscorlib
-    - Name: 
+    - Name: customTypeName
       Entry: 1
-      Data: DialogObject, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: DialogObject, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - Name: 
       Entry: 8
       Data: 
     - Name: attributeID
       Entry: 1
-      Data: f9c39d81-5e4a-4cbf-ba2f-efd4114e3a9a
+      Data: b30ddcd8-210f-4e1e-8bcd-0a5817ed3ede
     - Name: 
       Entry: 8
       Data: 
@@ -391,32 +385,32 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 25|BSMAttributeNamedObject, Assembly-CSharp
+      Data: 24|BSMAttributeNamedObject, Assembly-CSharp
     - Name: name
       Entry: 1
       Data: Wait Bubble
     - Name: attribute
       Entry: 7
-      Data: 26|BSMAttributeObject, Assembly-CSharp
+      Data: 25|BSMAttributeObject, Assembly-CSharp
     - Name: useAttribute
       Entry: 5
       Data: false
     - Name: data
       Entry: 7
-      Data: 27|BSMAttributeData, Assembly-CSharp
+      Data: 26|BSMAttributeData, Assembly-CSharp
     - Name: attributeType
       Entry: 3
       Data: 2
     - Name: data
       Entry: 7
-      Data: 28|System.Boolean, mscorlib
+      Data: 27|System.Boolean, mscorlib
     - Name: 
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
-    - Name: customType
+    - Name: customTypeName
       Entry: 6
       Data: 
     - Name: 
@@ -442,7 +436,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 29|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 28|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -460,7 +454,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 30|BSMSaveNode, Assembly-CSharp
+      Data: 29|BSMSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: 03dc9768-77cf-4b7e-bed1-e760a98b2912
@@ -490,10 +484,10 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 31|BSMConditionStateEnded, Assembly-CSharp
+      Data: 30|BSMConditionStateEnded, Assembly-CSharp
     - Name: m_attributes
       Entry: 7
-      Data: 32|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
+      Data: 31|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -509,7 +503,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 33|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 32|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -527,7 +521,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 34|BSMSaveNode, Assembly-CSharp
+      Data: 33|BSMSaveNode, Assembly-CSharp
     - Name: ID
       Entry: 1
       Data: e9d198c9-25d5-4025-a597-194ca88e79ae
@@ -557,7 +551,7 @@ MonoBehaviour:
       Data: 
     - Name: data
       Entry: 7
-      Data: 35|System.String, mscorlib
+      Data: 34|System.String, mscorlib
     - Name: 
       Entry: 1
       Data: 5678cbdb-ea94-4813-afed-4002228e5425
@@ -566,7 +560,7 @@ MonoBehaviour:
       Data: 
     - Name: outNodes
       Entry: 7
-      Data: 36|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+      Data: 35|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -587,17 +581,17 @@ MonoBehaviour:
       Data: 
     - Name: attributes
       Entry: 7
-      Data: 37|System.Collections.Generic.List`1[[BSMAttribute, Assembly-CSharp]],
+      Data: 36|System.Collections.Generic.List`1[[BSMAttribute, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 38|BSMAttribute, Assembly-CSharp
+      Data: 37|BSMAttribute, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: 2e22504d-6f4e-4ee9-8123-f743ce9639ef
+      Data: 3ceb0f6c-aca1-49e7-868c-4a8968fbb038
     - Name: automatic
       Entry: 5
       Data: true
@@ -606,22 +600,17 @@ MonoBehaviour:
       Data: Aggro
     - Name: data
       Entry: 7
-      Data: 39|BSMAttributeData, Assembly-CSharp
+      Data: 38|BSMAttributeData, Assembly-CSharp
     - Name: attributeType
       Entry: 3
       Data: 4
     - Name: data
       Entry: 6
       Data: 
-    - Name: customType
-      Entry: 7
-      Data: 40|System.RuntimeType, mscorlib
-    - Name: 
+    - Name: customTypeName
       Entry: 1
-      Data: UnityEngine.GameObject, UnityEngine.CoreModule
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
     - Name: 
       Entry: 8
       Data: 
@@ -630,10 +619,10 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 41|BSMAttribute, Assembly-CSharp
+      Data: 39|BSMAttribute, Assembly-CSharp
     - Name: ID
       Entry: 1
-      Data: f9c39d81-5e4a-4cbf-ba2f-efd4114e3a9a
+      Data: b30ddcd8-210f-4e1e-8bcd-0a5817ed3ede
     - Name: automatic
       Entry: 5
       Data: false
@@ -642,16 +631,16 @@ MonoBehaviour:
       Data: New attribute
     - Name: data
       Entry: 7
-      Data: 42|BSMAttributeData, Assembly-CSharp
+      Data: 40|BSMAttributeData, Assembly-CSharp
     - Name: attributeType
       Entry: 3
       Data: 4
     - Name: data
       Entry: 10
       Data: 0
-    - Name: customType
-      Entry: 9
-      Data: 24
+    - Name: customTypeName
+      Entry: 1
+      Data: DialogObject, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     - Name: 
       Entry: 8
       Data: 

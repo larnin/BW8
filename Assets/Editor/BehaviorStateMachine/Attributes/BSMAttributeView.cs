@@ -58,10 +58,11 @@ public class BSMAttributeView : BSMDropdownCallback
             m_mainContainer.Add(BSMEditorUtility.CreateLabel(m_attribute.name, 4));
             if (!m_singleLine)
             {
-                string type = GetTypeText();
-                if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
-                    type = m_attribute.data.customType.Name;
-                m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + type, 4));
+                string typeName = GetTypeText();
+                var type = m_attribute.data.customType;
+                if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject && type != null)
+                    typeName = type.Name;
+                m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + typeName, 4));
             }
 
             m_typeButton = null;
@@ -98,7 +99,8 @@ public class BSMAttributeView : BSMDropdownCallback
 
                 subtypeContainer.Add(BSMEditorUtility.CreateLabel("Subtype", 4));
 
-                m_subtypeButton = BSMEditorUtility.CreateButton(m_attribute.data.customType.Name, CreateSubTypePopup);
+                var type = m_attribute.data.customType;
+                m_subtypeButton = BSMEditorUtility.CreateButton(type == null ? "Null" : type.Name, CreateSubTypePopup);
                 m_subtypeButton.style.flexGrow = 2;
                 subtypeContainer.Add(m_subtypeButton);
 
