@@ -13,7 +13,7 @@ public class BSMConditionOnTriggerEntity : BSMConditionBase
     public BSMConditionOnTriggerEntity()
     {
         AddAttribute(triggerName, new BSMAttributeObject(""));
-        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
     public override bool IsValid()

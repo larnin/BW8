@@ -113,16 +113,19 @@ public class BSMAttributesWindow
         var customTypes = new Type[] { typeof(GameObject) };
 
         int nbAttribute = (names.Length < types.Length) ? names.Length : types.Length;
-        for(int i = 0; i < nbAttribute; i++)
+        for (int i = 0; i < nbAttribute; i++)
         {
             bool found = false;
-            foreach(var v in m_attributes)
+            foreach (var v in m_attributes)
             {
                 var a = v.GetAttribute();
                 if (a.automatic && a.name == names[i] && a.data.attributeType == types[i])
                 {
-                    if (types[i] == BSMAttributeType.attributeUnityObject && a.data.customType != customTypes[i])
+                    if (types[i] == BSMAttributeType.attributeUnityObject || types[i] == BSMAttributeType.attributeEnum)
+                    {
+                        if(a.data.customType != customTypes[i])
                         continue;
+                    }
 
                     found = true;
                     break;

@@ -7,13 +7,16 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BSMAttributeObjectView : BSMDropdownCallback
+public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallback
 {
     BSMAttributeObject m_object;
     BSMNode m_node;
 
     VisualElement m_parentElement;
     Button m_attributeButton;
+    Button m_enumButton;
+
+    public Button enumButton { get { return m_enumButton; } set { m_enumButton = value; } }
 
     public BSMAttributeObjectView(BSMAttributeObject obj, BSMNode node)
     {
@@ -46,8 +49,11 @@ public class BSMAttributeObjectView : BSMDropdownCallback
             if (a.data.attributeType != m_object.data.attributeType)
                 continue;
 
-            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject && m_object.data.customType != a.data.customType)
-                continue;
+            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject || m_object.data.attributeType == BSMAttributeType.attributeEnum)
+            {
+                if (m_object.data.customType != a.data.customType)
+                    continue;
+            }
 
             if (index == result)
             {
@@ -110,8 +116,11 @@ public class BSMAttributeObjectView : BSMDropdownCallback
             if (a.data.attributeType != m_object.data.attributeType)
                 continue;
 
-            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject && m_object.data.customType != a.data.customType)
-                continue;
+            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject || m_object.data.attributeType == BSMAttributeType.attributeEnum)
+            {
+                if (m_object.data.customType != a.data.customType)
+                    continue;
+            }
 
             attributesNames.Add(a.name);
         }
@@ -145,11 +154,16 @@ public class BSMAttributeObjectView : BSMDropdownCallback
 
     void DrawAttribute(VisualElement layout)
     {
-        var element = BSMAttributeView.CreateElement(m_object.data, false, null);
+        var element = BSMAttributeView.CreateElement(m_object.data, false, null, this);
         if(element != null)
         {
             element.style.flexGrow = 2;
             layout.Add(element);
         }
+    }
+
+    public void CreateEnumPopup()
+    {
+        throw new NotImplementedException();
     }
 }

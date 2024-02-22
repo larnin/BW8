@@ -14,7 +14,7 @@ public class BSMStateDisplayBubble : BSMStateBase
 
     public BSMStateDisplayBubble()
     {
-        AddAttribute(textName, BSMAttributeObject.Create((DialogObject)null));
+        AddAttribute(textName, BSMAttributeObject.CreateUnityObject((DialogObject)null));
         AddAttribute(waitBubbleText, new BSMAttributeObject(false));
     }
 

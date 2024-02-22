@@ -63,12 +63,22 @@ public class BSMAttributeObject
         data.SetVector3Int(defaultValue);
     }
 
-    public static BSMAttributeObject Create<T>(T defaultValue) where T : UnityEngine.Object
+    public static BSMAttributeObject CreateUnityObject<T>(T defaultValue) where T : UnityEngine.Object
     {
         var attribute = new BSMAttributeObject();
         attribute.data.SetType(BSMAttributeType.attributeUnityObject);
         attribute.data.customType = typeof(T);
         attribute.data.SetUnityObject(defaultValue);
+
+        return attribute;
+    }
+
+    public static BSMAttributeObject CreateEnum<T>(T defaultValue) where T : struct, System.Enum
+    {
+        var attribute = new BSMAttributeObject();
+        attribute.data.SetType(BSMAttributeType.attributeEnum);
+        attribute.data.customType = typeof(T);
+        attribute.data.SetEnum(defaultValue);
 
         return attribute;
     }

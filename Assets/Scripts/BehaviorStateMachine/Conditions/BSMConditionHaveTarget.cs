@@ -11,7 +11,7 @@ public class BSMConditionHaveTarget : BSMConditionBase
 
     public BSMConditionHaveTarget()
     {
-        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
     public override bool IsValid()

@@ -16,6 +16,7 @@ public enum BSMAttributeType
     attributeVector3,
     attributeVector2Int,
     attributeVector3Int,
+    attributeEnum,
 }
 
 public class BSMAttributeData
@@ -35,7 +36,9 @@ public class BSMAttributeData
         }
         set
         {
-            customTypeName = value.AssemblyQualifiedName;
+            if (value == null)
+                customTypeName = null;
+            else customTypeName = value.AssemblyQualifiedName;
         }
     }
 
@@ -53,34 +56,12 @@ public class BSMAttributeData
         attributeType = type;
         if (type == BSMAttributeType.attributeUnityObject)
             customType = typeof(GameObject);
+        if (type == BSMAttributeType.attributeEnum)
+            customType = null;
         data = null;
     }
 
-    public void SetStruct<T>(T value, BSMAttributeType type) where T : struct
-    {
-        if (attributeType != type)
-        {
-            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
-            return;
-        }
-        data = new T?(value);
-    }
-
-    public T GetStruct<T>(T defaultValue, BSMAttributeType type) where T : struct
-    {
-        if (attributeType != type)
-        {
-            Debug.LogError("Attribute have a type " + AttributeName(attributeType));
-            return defaultValue;
-        }
-
-        if (data == null || !(data is T?))
-            return defaultValue;
-
-        return (data as T?) ?? defaultValue;
-    }
-
-    public void SetClass<T>(T value, BSMAttributeType type) where T : class
+    public void Set<T>(T value, BSMAttributeType type)
     {
         if (attributeType != type)
         {
@@ -90,7 +71,7 @@ public class BSMAttributeData
         data = value;
     }
 
-    public T GetClass<T>(T defaultValue, BSMAttributeType type) where T : class
+    public T Get<T>(T defaultValue, BSMAttributeType type)
     {
         if (attributeType != type)
         {
@@ -101,80 +82,108 @@ public class BSMAttributeData
         if (data == null || !(data is T))
             return defaultValue;
 
-        return (data as T) ?? defaultValue;
+        return (T)data;
     }
 
     public void SetFloat(float value)
     {
-        SetStruct(value, BSMAttributeType.attributeFloat);
+        Set(value, BSMAttributeType.attributeFloat);
     }
 
     public float GetFloat(float defaultValue = 0)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeFloat);
+        return Get(defaultValue, BSMAttributeType.attributeFloat);
     }
 
     public void SetInt(int value)
     {
-        SetStruct(value, BSMAttributeType.attributeInt);
+        Set(value, BSMAttributeType.attributeInt);
     }
 
     public int GetInt(int defaultValue = 0)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeInt);
+        return Get(defaultValue, BSMAttributeType.attributeInt);
     }
 
     public void SetBool(bool value)
     {
-        SetStruct(value, BSMAttributeType.attributeBool);
+        Set(value, BSMAttributeType.attributeBool);
     }
 
     public bool GetBool(bool defaultValue = false)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeBool);
+        return Get(defaultValue, BSMAttributeType.attributeBool);
     }
 
     public void SetString(string value)
     {
-        SetClass(value, BSMAttributeType.attributeString);
+        Set(value, BSMAttributeType.attributeString);
     }
 
     public string GetString(string defaultValue = null)
     {
-        return GetClass(defaultValue, BSMAttributeType.attributeString);
+        return Get(defaultValue, BSMAttributeType.attributeString);
     }
 
     public void SetUnityObject<T>(T value) where T : UnityEngine.Object
     {
         if(typeof(T) != customType)
             Debug.LogError("Attribute have a type " + customType.Name);
-        SetClass(value, BSMAttributeType.attributeUnityObject);
+        Set(value, BSMAttributeType.attributeUnityObject);
     }
 
     public void SetUnityObject(Type type, UnityEngine.Object value)
     {
         if (type != customType)
             Debug.LogError("Attribute have a type " + customType.Name);
-        SetClass(value, BSMAttributeType.attributeUnityObject);
+        Set(value, BSMAttributeType.attributeUnityObject);
     }
 
     public T GetUnityObject<T>(T defaultValue = null) where T : UnityEngine.Object
     {
         if (typeof(T) != customType)
             Debug.LogError("Attribute have a type " + customType.Name);
-        return GetClass(defaultValue, BSMAttributeType.attributeUnityObject);
+        return Get(defaultValue, BSMAttributeType.attributeUnityObject);
     }
 
     public UnityEngine.Object GetUnityObject(Type type, UnityEngine.Object defaultValue = null)
     {
         if (type != customType)
             Debug.LogError("Attribute have a type " + customType.Name);
-        return GetClass(defaultValue, BSMAttributeType.attributeUnityObject);
+        return Get(defaultValue, BSMAttributeType.attributeUnityObject);
+    }
+
+    public void SetEnum<T>(T value) where T : struct, System.Enum
+    {
+        if (typeof(T) != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        Set(value, BSMAttributeType.attributeEnum);
+    }
+
+    public void SetEnum(Type type, object value)
+    {
+        if (type != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        Set(value, BSMAttributeType.attributeEnum);
+    }
+
+    public T GetEnum<T>(T defaultValue = default(T)) where T : struct, System.Enum
+    {
+        if (typeof(T) != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        return Get(defaultValue, BSMAttributeType.attributeEnum);
+    }
+
+    public object GetEnum(Type type, object defaultValue = null)
+    {
+        if (type != customType)
+            Debug.LogError("Attribute have a type " + customType.Name);
+        return Get(defaultValue, BSMAttributeType.attributeEnum);
     }
 
     public void SetVector2(Vector2 value)
     {
-        SetStruct(value, BSMAttributeType.attributeVector2);
+        Set(value, BSMAttributeType.attributeVector2);
     }
 
     public Vector2 GetVector2()
@@ -184,12 +193,12 @@ public class BSMAttributeData
 
     public Vector2 GetVector2(Vector2 defaultValue)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeVector2);
+        return Get(defaultValue, BSMAttributeType.attributeVector2);
     }
 
     public void SetVector3(Vector3 value)
     {
-        SetStruct(value, BSMAttributeType.attributeVector3);
+        Set(value, BSMAttributeType.attributeVector3);
     }
 
     public Vector3 GetVector3()
@@ -199,12 +208,12 @@ public class BSMAttributeData
 
     public Vector3 GetVector3(Vector3 defaultValue)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeVector3);
+        return Get(defaultValue, BSMAttributeType.attributeVector3);
     }
 
     public void SetVector2Int(Vector2Int value)
     {
-        SetStruct(value, BSMAttributeType.attributeVector2Int);
+        Set(value, BSMAttributeType.attributeVector2Int);
     }
 
     public Vector2Int GetVector2Int()
@@ -214,12 +223,12 @@ public class BSMAttributeData
 
     public Vector2Int GetVector2Int(Vector2Int defaultValue)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeVector2Int);
+        return Get(defaultValue, BSMAttributeType.attributeVector2Int);
     }
 
     public void SetVector3Int(Vector3Int value)
     {
-        SetStruct(value, BSMAttributeType.attributeVector3Int);
+        Set(value, BSMAttributeType.attributeVector3Int);
     }
 
     public Vector3Int GetVector3Int()
@@ -229,7 +238,7 @@ public class BSMAttributeData
 
     public Vector3Int GetVector3Int(Vector3Int defaultValue)
     {
-        return GetStruct(defaultValue, BSMAttributeType.attributeVector3Int);
+        return Get(defaultValue, BSMAttributeType.attributeVector3Int);
     }
 
     public static string AttributeName(BSMAttributeType type)

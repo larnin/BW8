@@ -7,7 +7,13 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BSMAttributeView : BSMDropdownCallback
+public interface BSMSpecialEnumCallback
+{
+    public Button enumButton { get; set; }
+    public void CreateEnumPopup();
+}
+
+public class BSMAttributeView : BSMDropdownCallback, BSMSpecialEnumCallback
 {
     BSMAttribute m_attribute;
     BSMAttributesWindow m_window;
@@ -18,11 +24,15 @@ public class BSMAttributeView : BSMDropdownCallback
 
     Button m_typeButton;
     Button m_subtypeButton;
+    Button m_enumButton;
     VisualElement m_valueContainer;
 
     VisualElement m_mainContainer;
 
     bool m_selectSubtype = false;
+    bool m_selectEnum = false;
+
+    public Button enumButton { get { return m_enumButton; } set { m_enumButton = value; } }
 
     public BSMAttributeView(BSMAttribute attribute, BSMAttributesWindow window, bool singleLine = false, bool allowSceneItems = false, Action<object> onValueChange = null)
     {
@@ -60,8 +70,11 @@ public class BSMAttributeView : BSMDropdownCallback
             {
                 string typeName = GetTypeText();
                 var type = m_attribute.data.customType;
-                if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject && type != null)
-                    typeName = type.Name;
+                if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject || m_attribute.data.attributeType == BSMAttributeType.attributeEnum)
+                {
+                    if (type != null)
+                        typeName = type.Name;
+                }
                 m_mainContainer.Add(BSMEditorUtility.CreateLabel("Type: " + typeName, 4));
             }
 
@@ -93,7 +106,7 @@ public class BSMAttributeView : BSMDropdownCallback
 
             m_mainContainer.Add(typeContainer);
 
-            if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
+            if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject || m_attribute.data.attributeType == BSMAttributeType.attributeEnum)
             {
                 VisualElement subtypeContainer = BSMEditorUtility.CreateHorizontalLayout();
 
@@ -135,6 +148,7 @@ public class BSMAttributeView : BSMDropdownCallback
             choices.Add(BSMAttributeData.AttributeName((BSMAttributeType)v));
 
         m_selectSubtype = false;
+        m_selectEnum = false;
 
         UnityEditor.PopupWindow.Show(rect, new BSMSimpleDropdownPopup(choices, this));
     }
@@ -143,20 +157,33 @@ public class BSMAttributeView : BSMDropdownCallback
     {
         List<Type> types = new List<Type>();
 
-        var unityTypes = typeof(UnityEngine.Object).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
-        foreach (var type in unityTypes)
+        if (m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
         {
-            if (type.IsAbstract)
-                continue;
-            types.Add(type);
-        }
+            var unityTypes = typeof(UnityEngine.Object).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
+            foreach (var type in unityTypes)
+            {
+                if (type.IsAbstract)
+                    continue;
+                types.Add(type);
+            }
 
-        var localTypes = typeof(BSMAttribute).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
-        foreach (var type in localTypes)
+            var localTypes = typeof(BSMAttribute).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(UnityEngine.Object)));
+            foreach (var type in localTypes)
+            {
+                if (type.IsAbstract)
+                    continue;
+                types.Add(type);
+            }
+        }
+        else if(m_attribute.data.attributeType == BSMAttributeType.attributeEnum)
         {
-            if (type.IsAbstract)
-                continue;
-            types.Add(type);
+            var unityTypes = typeof(UnityEngine.Object).Assembly.GetTypes().Where(t => t.IsEnum && t.IsPublic);
+            foreach (var type in unityTypes)
+                types.Add(type);
+
+            var localTypes = typeof(BSMAttribute).Assembly.GetTypes().Where(t => t.IsEnum && t.IsPublic);
+            foreach (var type in localTypes)
+                types.Add(type);
         }
 
         return types;
@@ -177,6 +204,27 @@ public class BSMAttributeView : BSMDropdownCallback
             choices.Add(type.Name);
 
         m_selectSubtype = true;
+        m_selectEnum = false;
+
+        UnityEditor.PopupWindow.Show(rect, new BSMSearchDropdownPopup(choices, this));
+    }
+
+    public void CreateEnumPopup()
+    {
+        if (m_enumButton == null)
+            return;
+
+        if (m_attribute.data.customType == null)
+            return;
+
+        var pos = m_enumButton.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        List<string> choices = Enum.GetNames(m_attribute.data.customType).ToList();
+
+        m_selectSubtype = false;
+        m_selectEnum = true;
 
         UnityEditor.PopupWindow.Show(rect, new BSMSearchDropdownPopup(choices, this));
     }
@@ -195,10 +243,22 @@ public class BSMAttributeView : BSMDropdownCallback
                 m_subtypeButton.text = types[result].Name;
             }
         }
+        else if(m_selectEnum)
+        {
+            List<string> choices = Enum.GetNames(m_attribute.data.customType).ToList();
+            if (result >= 0 && result < choices.Count)
+            {
+                var obj = Enum.Parse(m_attribute.data.customType, choices[result]);
+
+                m_attribute.data.SetEnum(m_attribute.data.customType, obj);
+            }
+        }
         else
         {
             var newType = (BSMAttributeType)result;
             if (newType == BSMAttributeType.attributeUnityObject || m_attribute.data.attributeType == BSMAttributeType.attributeUnityObject)
+                updateContainer = true;
+            if (newType == BSMAttributeType.attributeEnum || m_attribute.data.attributeType == BSMAttributeType.attributeEnum)
                 updateContainer = true;
 
             m_attribute.data.SetType(newType);
@@ -214,7 +274,7 @@ public class BSMAttributeView : BSMDropdownCallback
     {
         m_valueContainer.Clear();
 
-        var element = CreateElement(m_attribute.data, m_allowSceneItems, m_onValueChange);
+        var element = CreateElement(m_attribute.data, m_allowSceneItems, m_onValueChange, this);
 
         if(element != null)
         {
@@ -239,7 +299,7 @@ public class BSMAttributeView : BSMDropdownCallback
         else BSMEditorUtility.SetContainerStyle(m_mainContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
     }
 
-    public static VisualElement CreateElement(BSMAttributeData data, bool allowSceneItems, Action<object> onValueChangeCallback)
+    public static VisualElement CreateElement(BSMAttributeData data, bool allowSceneItems, Action<object> onValueChangeCallback, BSMSpecialEnumCallback element)
     {
         switch (data.attributeType)
         {
@@ -291,6 +351,17 @@ public class BSMAttributeView : BSMDropdownCallback
                         if (onValueChangeCallback != null)
                             onValueChangeCallback(data.data);
                     };
+
+                    return valueButton;
+                }
+            case BSMAttributeType.attributeEnum:
+                {
+                    string value = "Not set";
+                    var obj = data.GetEnum(data.customType);
+                    if (obj != null)
+                        value = obj.ToString();
+                    Button valueButton = BSMEditorUtility.CreateButton(value, element.CreateEnumPopup);
+                    element.enumButton = valueButton;
 
                     return valueButton;
                 }

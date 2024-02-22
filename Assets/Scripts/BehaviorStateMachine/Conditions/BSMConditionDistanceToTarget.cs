@@ -12,7 +12,7 @@ public class BSMConditionDistanceToTarget : BSMConditionBase
 
     public BSMConditionDistanceToTarget()
     {
-        AddAttribute(targetName, BSMAttributeObject.Create((GameObject)null));
+        AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
         AddAttribute(distanceName, new BSMAttributeObject(1.0f));
     }
 

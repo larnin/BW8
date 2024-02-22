@@ -508,80 +508,62 @@ public class BSMControler : SerializedMonoBehaviour
         return null;
     }
 
-    void SetStructAttribute<T>(string name, T value, BSMAttributeType attributeType) where T : struct
+    void SetAttribute<T>(string name, T value, BSMAttributeType attributeType)
     {
         var attribute = GetAttributeFromName(name);
         if (attribute == null)
             return;
 
-        attribute.data.SetStruct(value, attributeType);
+        attribute.data.Set(value, attributeType);
     }
 
-    T GetStructAttribute<T>(string name, T defaultValue, BSMAttributeType attributeType) where T : struct
+    T GetAttribute<T>(string name, T defaultValue, BSMAttributeType attributeType)
     {
         var attribute = GetAttributeFromName(name);
         if (attribute == null)
             return defaultValue;
 
-        return attribute.data.GetStruct(defaultValue, attributeType);
-    }
-
-    void SetClassAttribute<T>(string name, T value, BSMAttributeType attributeType) where T : class
-    {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return;
-
-        attribute.data.SetClass(value, attributeType);
-    }
-
-    T GetClassAttribute<T>(string name, T defaultValue, BSMAttributeType attributeType) where T : class
-    {
-        var attribute = GetAttributeFromName(name);
-        if (attribute == null)
-            return defaultValue;
-
-        return attribute.data.GetClass(defaultValue, attributeType);
+        return attribute.data.Get(defaultValue, attributeType);
     }
 
     public void SetIntAttribute(string name, int value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeInt);
+        SetAttribute(name, value, BSMAttributeType.attributeInt);
     }
 
     public int GetIntAttribute(string name, int defaultValue = 0)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeInt);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeInt);
     }
 
     public void SetBoolAttribute(string name, bool value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeBool);
+        SetAttribute(name, value, BSMAttributeType.attributeBool);
     }
 
     public bool GetBoolAttribute(string name, bool defaultValue = false)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeBool);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeBool);
     }
 
     public void SetFloatAttribute(string name, float value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeFloat);
+        SetAttribute(name, value, BSMAttributeType.attributeFloat);
     }
 
     public float GetFloatAttribute(string name, float defaultValue = 0)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeFloat);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeFloat);
     }
 
     public void SetStringAttribute(string name, string value)
     {
-        SetClassAttribute(name, value, BSMAttributeType.attributeString);
+        SetAttribute(name, value, BSMAttributeType.attributeString);
     }
 
     public string GetStringAttribute(string name, string defaultValue = "")
     {
-        return GetClassAttribute(name, defaultValue, BSMAttributeType.attributeString);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeString);
     }
 
     public void SetUnityObjectAttribute<T>(string name, T value) where T : UnityEngine.Object
@@ -602,48 +584,66 @@ public class BSMControler : SerializedMonoBehaviour
         return attribute.data.GetUnityObject(defaultValue);
     }
 
+    public void SetEnumAttribute<T>(string name, T value) where T : struct, System.Enum
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return;
+
+        attribute.data.SetEnum(value);
+    }
+
+    public T GetEnumAttribute<T>(string name, T defaultValue = default(T)) where T : struct, System.Enum
+    {
+        var attribute = GetAttributeFromName(name);
+        if (attribute == null)
+            return defaultValue;
+
+        return attribute.data.GetEnum(defaultValue);
+    }
+
     public void SetVector2Attribute(string name, Vector2 value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeVector2);
+        SetAttribute(name, value, BSMAttributeType.attributeVector2);
     }
 
     public Vector2 GetVector2Attribute(string name) { return GetVector2Attribute(name, Vector2.zero); }
     public Vector2 GetVector2Attribute(string name, Vector2 defaultValue)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector2);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeVector2);
     }
 
     public void SetVector3Attribute(string name, Vector3 value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeVector3);
+        SetAttribute(name, value, BSMAttributeType.attributeVector3);
     }
 
     public Vector3 GetVector3Attribute(string name) { return GetVector3Attribute(name, Vector3.zero); }
     public Vector3 GetVector3Attribute(string name, Vector3 defaultValue)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector3);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeVector3);
     }
 
     public void SetVector2IntAttribute(string name, Vector2Int value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeVector2Int);
+        SetAttribute(name, value, BSMAttributeType.attributeVector2Int);
     }
 
     public Vector2Int GetVector2IntAttribute(string name) { return GetVector2IntAttribute(name, Vector2Int.zero); }
     public Vector2Int GetVector2IntAttribute(string name, Vector2Int defaultValue)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector2Int);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeVector2Int);
     }
 
     public void SetVector3IntAttribute(string name, Vector3Int value)
     {
-        SetStructAttribute(name, value, BSMAttributeType.attributeVector3Int);
+        SetAttribute(name, value, BSMAttributeType.attributeVector3Int);
     }
 
     public Vector3Int GetVector3IntAttribute(string name) { return GetVector3IntAttribute(name, Vector3Int.zero); }
     public Vector3Int GetVector3IntAttribute(string name, Vector3Int defaultValue)
     {
-        return GetStructAttribute(name, defaultValue, BSMAttributeType.attributeVector3Int);
+        return GetAttribute(name, defaultValue, BSMAttributeType.attributeVector3Int);
     }
 
     void SetAggroTarget(UpdateAggroTargetEvent e)
