@@ -15,6 +15,10 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  ennemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  dialogBubble: {fileID: 9033110314997584078, guid: 02465e5e1b5d45e4092def6df2f1f8b5, type: 3}

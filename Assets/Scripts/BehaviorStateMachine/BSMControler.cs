@@ -403,9 +403,9 @@ public class BSMControler : SerializedMonoBehaviour
 
         if(nextState >= 0)
         {
-            EndUpdate(m_startStateIndex);
+            EndUpdate(m_currentStateIndex);
             m_currentStateIndex = nextState;
-            StartUpdate(m_startStateIndex);
+            StartUpdate(m_currentStateIndex);
         }
     }
 

@@ -20,6 +20,9 @@ public class BSMStateDisplayBubble : BSMStateBase
 
     public override void BeginUpdate()
     {
+        if (m_bubble != null)
+            GameObject.Destroy(m_bubble);
+
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
 
         var bubblePrefab = World.common.dialogBubble;

@@ -27,11 +27,15 @@ public class BSMConditionStateEnded : BSMConditionBase
     public override void BeginUpdate() 
     {
         m_subscriberList.Subscribe();
+
+        m_ended = false;
     }
 
     public override void EndUpdate() 
     {
         m_subscriberList.Unsubscribe();
+
+        m_ended = false;
     }
 
     public override void OnDestroy() 

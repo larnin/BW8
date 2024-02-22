@@ -26,6 +26,7 @@ public class DialogBubble : MonoBehaviour
     int m_nextText = 0;
     bool m_writing = false;
     float m_timer = 0;
+    float m_initialWidth = 0;
 
     string m_text;
     List<string> m_lines = new List<string>();
@@ -104,6 +105,7 @@ public class DialogBubble : MonoBehaviour
         var transform = m_textWidget.rectTransform;
         var rect = transform.sizeDelta;
         rect.x = m_maxWidth;
+        m_initialWidth = m_maxWidth;
         transform.sizeDelta = rect;
 
         m_textWidget.text = m_text;
@@ -112,6 +114,7 @@ public class DialogBubble : MonoBehaviour
         if(lines.Length > m_maxLines)
         {
             rect.x = m_extraWide;
+            m_initialWidth = m_extraWide;
             transform.sizeDelta = rect;
             Canvas.ForceUpdateCanvases();
             lines = m_textWidget.textInfo.lineInfo;
@@ -131,6 +134,8 @@ public class DialogBubble : MonoBehaviour
         m_writing = true;
 
         UpdateDisplayText();
+
+        UpdatePosition();
     }
 
     void UpdateDisplayText()
@@ -173,9 +178,15 @@ public class DialogBubble : MonoBehaviour
     void UpdatePosition()
     {
         var bounds = m_textWidget.textBounds;
-        m_background.size = new Vector2(bounds.size.x + 0.5f, bounds.size.y + 0.5f);
+        
+        float offsetX = m_initialWidth - bounds.size.x;
+        var textPos = m_textWidget.transform.localPosition;
+        textPos.x = offsetX / 2;
+        m_textWidget.transform.localPosition = textPos;
 
-        m_tail.transform.localPosition = new Vector3(0, -bounds.size.y / 2, 0);
+        m_background.size = new Vector2(bounds.size.x + 0.7f, bounds.size.y + 0.7f);
+
+        m_tail.transform.localPosition = new Vector3(0, -bounds.size.y / 2 - 0.6f, 0);
 
         var pos = m_target.transform.position;
         pos.y += bounds.size.y / 2 + 2;

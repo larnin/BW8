@@ -16,6 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 0}
     - {fileID: 11400000, guid: 6ee62cec784111341b1837831aaa6a84, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -406,7 +407,7 @@ MonoBehaviour:
       Data: 27|System.Boolean, mscorlib
     - Name: 
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -605,8 +606,8 @@ MonoBehaviour:
       Entry: 3
       Data: 4
     - Name: data
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
     - Name: customTypeName
       Entry: 1
       Data: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
@@ -637,7 +638,7 @@ MonoBehaviour:
       Data: 4
     - Name: data
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: customTypeName
       Entry: 1
       Data: DialogObject, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
