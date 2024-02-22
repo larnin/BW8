@@ -29,7 +29,7 @@ namespace NLocalization
 
         public LocList locList { get { return LocList.GetEditorList(); } }
 
-        protected override void OnGUI()
+        protected override void OnImGUI()
         {
             int newTab = GUILayout.Toolbar(m_currentTab, Enum.GetNames(typeof(Tabs)));
             if (newTab != m_currentTab)
@@ -38,7 +38,7 @@ namespace NLocalization
                 ChangeTab();
             }
 
-            base.OnGUI();
+            base.OnImGUI();
         }
 
         public void ChangeTab()
