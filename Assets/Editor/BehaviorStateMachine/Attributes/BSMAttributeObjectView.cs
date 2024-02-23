@@ -16,6 +16,8 @@ public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallbac
     Button m_attributeButton;
     Button m_enumButton;
 
+    bool m_selectEnum = false;
+
     public Button enumButton { get { return m_enumButton; } set { m_enumButton = value; } }
 
     public BSMAttributeObjectView(BSMAttributeObject obj, BSMNode node)
@@ -40,33 +42,46 @@ public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallbac
 
     public void SendResult(int result)
     {
-        var attributes = m_node.GetGraph().GetWindow().GetAttributesWindow().GetAttributes();
-
-        bool found = false;
-        int index = 0;
-        foreach (var a in attributes)
+        if (m_selectEnum)
         {
-            if (a.data.attributeType != m_object.data.attributeType)
-                continue;
-
-            if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject || m_object.data.attributeType == BSMAttributeType.attributeEnum)
+            List<string> choices = Enum.GetNames(m_object.data.customType).ToList();
+            if (result >= 0 && result < choices.Count)
             {
-                if (m_object.data.customType != a.data.customType)
-                    continue;
-            }
+                var obj = Enum.Parse(m_object.data.customType, choices[result]);
 
-            if (index == result)
-            {
-                m_object.attributeID = a.ID;
-                found = true;
-                break;
+                m_object.data.SetEnum(m_object.data.customType, obj);
             }
-
-            index++;
         }
+        else
+        {
+            var attributes = m_node.GetGraph().GetWindow().GetAttributesWindow().GetAttributes();
 
-        if (!found)
-            m_object.attributeID = "";
+            bool found = false;
+            int index = 0;
+            foreach (var a in attributes)
+            {
+                if (a.data.attributeType != m_object.data.attributeType)
+                    continue;
+
+                if (m_object.data.attributeType == BSMAttributeType.attributeUnityObject || m_object.data.attributeType == BSMAttributeType.attributeEnum)
+                {
+                    if (m_object.data.customType != a.data.customType)
+                        continue;
+                }
+
+                if (index == result)
+                {
+                    m_object.attributeID = a.ID;
+                    found = true;
+                    break;
+                }
+
+                index++;
+            }
+
+            if (!found)
+                m_object.attributeID = "";
+        }
 
         Draw();
     }
@@ -129,6 +144,8 @@ public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallbac
         pos.y -= 100;
         var rect = new Rect(pos, new Vector2(200, 100));
 
+        m_selectEnum = false;
+
         UnityEditor.PopupWindow.Show(rect, new BSMSearchDropdownPopup(attributesNames, this));
     }
 
@@ -164,6 +181,20 @@ public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallbac
 
     public void CreateEnumPopup()
     {
-        throw new NotImplementedException();
+        if (m_enumButton == null)
+            return;
+
+        if (m_object.data.customType == null)
+            return;
+
+        var pos = m_enumButton.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        List<string> choices = Enum.GetNames(m_object.data.customType).ToList();
+
+        m_selectEnum = true;
+
+        UnityEditor.PopupWindow.Show(rect, new BSMSearchDropdownPopup(choices, this));
     }
 }

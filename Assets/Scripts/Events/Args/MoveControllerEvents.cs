@@ -31,3 +31,13 @@ public class IsMovingEvent
 {
     public bool isMoving = false;
 }
+
+public class SetLookDirectionEvent
+{
+    public AnimationDirection lookDirection;
+
+    public SetLookDirectionEvent(AnimationDirection dir)
+    {
+        lookDirection = dir;
+    }
+}

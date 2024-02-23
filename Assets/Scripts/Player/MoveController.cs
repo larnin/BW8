@@ -52,6 +52,7 @@ public class MoveController : MonoBehaviour
         m_subscriberList.Add(new Event<StartFollowEvent>.LocalSubscriber(StartFollow, gameObject));
         m_subscriberList.Add(new Event<StopMoveEvent>.LocalSubscriber(StopMove, gameObject));
         m_subscriberList.Add(new Event<IsMovingEvent>.LocalSubscriber(IsMoving, gameObject));
+        m_subscriberList.Add(new Event<SetLookDirectionEvent>.LocalSubscriber(SetLookDirection, gameObject));
 
         m_subscriberList.Subscribe();
 
@@ -216,6 +217,23 @@ public class MoveController : MonoBehaviour
     void IsMoving(IsMovingEvent e)
     {
         e.isMoving = m_moving;
+    }
+
+    void SetLookDirection(SetLookDirectionEvent e)
+    {
+        if(m_moving)
+        {
+            StopMove(null);
+            m_movingSpeed = 0;
+        }
+
+        Vector2 seeDir = AnimationDirectionEx.GetDirection(e.lookDirection);
+        m_movingDir = Mathf.Atan2(seeDir.y, seeDir.x);
+
+        //force update animation
+        m_oldMovingAnimation = true;
+        m_oldDirAnimation = AnimationDirection.none;
+
     }
 
     Vector3 GetTargetPos()
