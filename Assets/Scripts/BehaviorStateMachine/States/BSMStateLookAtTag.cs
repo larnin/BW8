@@ -5,21 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BSMStateLookAtEntity : BSMStateBase
+public class BSMStateLookAtTag : BSMStateBase
 {
     static string targetName = "Target";
 
-    public BSMStateLookAtEntity()
+    public BSMStateLookAtTag()
     {
-        AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
+        AddAttribute(targetName, new BSMAttributeObject(""));
     }
 
     public override void BeginUpdate()
     {
-        var target = GetUnityObjectAttribute(targetName, (GameObject)null);
-        if(target != null)
+        var targetTag = GetStringAttribute(targetName, "");
+        GetFirstQuestEntityEvent getEntity = new GetFirstQuestEntityEvent(targetTag);
+        Event<GetFirstQuestEntityEvent>.Broadcast(getEntity);
+
+        if (getEntity.entity != null)
         {
-            var direction = target.transform.position - GetControler().transform.position;
+            var direction = getEntity.entity.transform.position - GetControler().transform.position;
             var dir = AnimationDirectionEx.GetDirection(direction);
             Event<SetLookDirectionEvent>.Broadcast(new SetLookDirectionEvent(dir), m_controler.gameObject);
         }

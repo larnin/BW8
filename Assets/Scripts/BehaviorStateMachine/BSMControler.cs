@@ -60,8 +60,18 @@ public class BSMControler : SerializedMonoBehaviour
     {
         m_subscriberList.Unsubscribe();
 
+        if (m_currentStateIndex >= 0)
+            EndUpdate(m_currentStateIndex);
+
         foreach (var state in m_states)
+        {
             state.state.OnDestroy();
+            foreach (var t in state.transitions)
+                t.condition.OnDestroy();
+        }
+
+        foreach (var transition in m_anyState.transitions)
+            transition.condition.OnDestroy();
     }
 
     public void LoadFromEditor()

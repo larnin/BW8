@@ -5,24 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BSMStateLookAtEntity : BSMStateBase
+public class BSMStateSendMessageToEntity : BSMStateBase
 {
+    static string messageName = "Message";
     static string targetName = "Target";
 
-    public BSMStateLookAtEntity()
+    public BSMStateSendMessageToEntity()
     {
+        AddAttribute(messageName, new BSMAttributeObject(""));
         AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
     public override void BeginUpdate()
     {
         var target = GetUnityObjectAttribute(targetName, (GameObject)null);
-        if(target != null)
-        {
-            var direction = target.transform.position - GetControler().transform.position;
-            var dir = AnimationDirectionEx.GetDirection(direction);
-            Event<SetLookDirectionEvent>.Broadcast(new SetLookDirectionEvent(dir), m_controler.gameObject);
-        }
+        var message = GetStringAttribute(messageName, "");
+
+        if (target != null)
+            Event<BSMSendMessageEvent>.Broadcast(new BSMSendMessageEvent(message), target);
 
         Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
     }
