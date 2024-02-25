@@ -64,9 +64,17 @@ public class MoveController : MonoBehaviour
         m_subscriberList.Unsubscribe();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(m_targetType == TargetType.entity && m_target == null)
+        if (Gamestate.instance.paused)
+        {
+            Vector3 pos = m_oldPosition;
+            pos.z = transform.position.z;
+            transform.position = pos;
+            return;
+        }
+
+        if (m_targetType == TargetType.entity && m_target == null)
             m_targetType = TargetType.none;
         if (m_targetType == TargetType.none)
             m_moving = false;
@@ -123,7 +131,18 @@ public class MoveController : MonoBehaviour
     {
         if(m_movingSpeed < 0.01f && !m_freezeRigidbodyOnIdle)
         {
-            m_movingSpeed = 0;
+            GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
+            Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
+            if (velocityData.velocityMultiplier < 0.5f)
+                m_rigidbody.velocity = velocityData.offsetVelocity;
+            else
+            {
+                m_movingSpeed = 0;
+                m_rigidbody.velocity = Vector3.zero;
+                Vector3 pos = m_oldPosition;
+                pos.z = transform.position.z;
+                transform.position = pos;
+            }
             return;
         }
 
@@ -136,15 +155,24 @@ public class MoveController : MonoBehaviour
 
     void ApplyVelocity()
     {
-        Vector2 velocity = new Vector2(m_movingSpeed * Mathf.Cos(m_movingDir), m_movingSpeed * Mathf.Sin(m_movingDir));
-        if (m_rigidbody != null)
-            m_rigidbody.velocity = velocity;
+        GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
+        Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
+        if (velocityData.velocityMultiplier < 0.5f)
+            m_rigidbody.velocity = velocityData.offsetVelocity;
         else
         {
-            velocity *= Time.deltaTime;
-            Vector3 newPos = transform.position + new Vector3(velocity.x, velocity.y, 0);
-            transform.position = newPos;
+            Vector2 velocity = new Vector2(m_movingSpeed * Mathf.Cos(m_movingDir), m_movingSpeed * Mathf.Sin(m_movingDir));
+            if (m_rigidbody != null)
+                m_rigidbody.velocity = velocity;
+            else
+            {
+                velocity *= Time.deltaTime;
+                Vector3 newPos = transform.position + new Vector3(velocity.x, velocity.y, 0);
+                transform.position = newPos;
+            }
         }
+
+        
     }
 
     void UpdateAnimations()

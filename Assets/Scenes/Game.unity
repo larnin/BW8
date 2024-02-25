@@ -505,6 +505,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210216554035646392, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_darkLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216554035646392, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_lightLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 210216554658858083, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_IsActive
       value: 1
