@@ -23,14 +23,14 @@ public class BSMStateFollowPath : BSMStateBase
         AddAttribute(nextDistanceName, new BSMAttributeObject(1.0f));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         m_nextPoint = new Vector2(float.MaxValue, float.MaxValue);
 
         GetNextPoint();
     }
 
-    public override void EndUpdate()
+    public override void OnEndUpdate()
     {
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
     }

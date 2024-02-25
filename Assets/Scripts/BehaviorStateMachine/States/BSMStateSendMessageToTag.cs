@@ -16,7 +16,7 @@ public class BSMStateSendMessageToTag : BSMStateBase
         AddAttribute(targetName, new BSMAttributeObject(""));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         var targetTag = GetStringAttribute(targetName, "");
         var message = GetStringAttribute(messageName, "");

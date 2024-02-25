@@ -16,7 +16,7 @@ public class BSMStateSendMessageToEntity : BSMStateBase
         AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         var target = GetUnityObjectAttribute(targetName, (GameObject)null);
         var message = GetStringAttribute(messageName, "");

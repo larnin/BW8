@@ -7,12 +7,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
+public class BSMNodeState : BSMNode, BSMStateNodePopupCallback, BSMAddActionPopupCallback
 {
     BSMStateBase m_state = null;
     BSMStateViewBase m_stateView = null;
 
     VisualElement m_button;
+    VisualElement m_actionButton;
 
     public override void Draw()
     {
@@ -36,6 +37,7 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
         extensionContainer.Clear();
 
         m_button = null;
+        m_actionButton = null;
 
         if (m_state == null || m_stateView == null)
             DrawSetState();
@@ -55,10 +57,15 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
         string stateName = BSMStateBase.GetName(m_state.GetType());
 
         var header = BSMEditorUtility.CreateHorizontalLayout();
-        header.Add(BSMEditorUtility.CreateLabel(stateName, 4));
+        var label = BSMEditorUtility.CreateLabel(stateName, 4);
+        label.style.flexGrow = 2;
+        header.Add(label);
         var removeButton = BSMEditorUtility.CreateButton("X", RemoveState);
         removeButton.style.maxWidth = 20;
         header.Add(removeButton);
+        m_actionButton = BSMEditorUtility.CreateButton(">", DisplayActionPopup);
+        m_actionButton.style.maxWidth = 20;
+        header.Add(m_actionButton);
 
         extensionContainer.Add(header);
         var element = m_stateView.GetElement();
@@ -133,5 +140,30 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback
         mainContainer.style.borderBottomRightRadius = borderRadius;
         mainContainer.style.borderTopLeftRadius = borderRadius;
         mainContainer.style.borderTopRightRadius = borderRadius;
+    }
+
+    void DisplayActionPopup()
+    {
+        if (m_actionButton == null)
+            return;
+
+        var pos = m_actionButton.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        var actions = m_state.GetActions();
+        if (actions.Count == 0)
+            return;
+        List<string> names = new List<string>();
+        foreach (var a in actions)
+            names.Add(a.name);
+
+        UnityEditor.PopupWindow.Show(rect, new BSMAddActionPopup(names, this));
+    }
+
+    public void AddAction(string name, BSMActionBase action)
+    {
+        m_state.AddAction(name, action);
+        LocalDraw();
     }
 }

@@ -381,6 +381,7 @@ public class BSMControler : SerializedMonoBehaviour
         }
 
         int nextState = -1;
+        BSMConditionBase triggerCondition = null;
 
         foreach (var transition in m_states[m_currentStateIndex].transitions)
         {
@@ -390,6 +391,7 @@ public class BSMControler : SerializedMonoBehaviour
                 if (index >= 0)
                 {
                     nextState = index;
+                    triggerCondition = transition.condition;
                     break;
                 }
             }
@@ -405,6 +407,7 @@ public class BSMControler : SerializedMonoBehaviour
                     if (index >= 0)
                     {
                         nextState = index;
+                        transition.condition.OnValidation();
                         break;
                     }
                 }
@@ -414,6 +417,8 @@ public class BSMControler : SerializedMonoBehaviour
         if(nextState >= 0)
         {
             EndUpdate(m_currentStateIndex);
+            if (triggerCondition != null)
+                triggerCondition.OnValidation();
             m_currentStateIndex = nextState;
             StartUpdate(m_currentStateIndex);
         }

@@ -4,26 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public class BSMStateSendMessageToAll : BSMStateBase
+public class BSMActionSendMessageToAll : BSMActionBase
 {
     static string messageName = "Message";
 
-    public BSMStateSendMessageToAll()
+    public BSMActionSendMessageToAll()
     {
         AddAttribute(messageName, new BSMAttributeObject(""));
     }
 
-    public override void OnBeginUpdate()
+    public override void Exec()
     {
         var message = GetStringAttribute(messageName, "");
 
         Event<BSMSendMessageEvent>.Broadcast(new BSMSendMessageEvent(message));
-
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
-    }
-
-    public override void Update()
-    {
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
     }
 }

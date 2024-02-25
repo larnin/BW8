@@ -13,7 +13,7 @@ public class BSMStateSetOrientation : BSMStateBase
         AddAttribute(orientationName, BSMAttributeObject.CreateEnum(AnimationDirection.Down));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         var dir = GetEnumAttribute(orientationName, AnimationDirection.Down);
 

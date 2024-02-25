@@ -39,7 +39,6 @@ public abstract class BSMAttributeHolder
         return null;
     }
 
-
     public abstract BSMControler GetControler();
 
     public T GetAttribute<T>(string name, BSMAttributeType attributeType, T defaultValue)

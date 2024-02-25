@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BSMStateIdle : BSMStateBase
 {
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
     }

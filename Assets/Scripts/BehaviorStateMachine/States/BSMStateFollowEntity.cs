@@ -19,7 +19,7 @@ public class BSMStateFollowEntity : BSMStateBase
         AddAttribute(idleTimeName, new BSMAttributeObject(-1.0f));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         m_idleTime = 0;
 
@@ -37,7 +37,7 @@ public class BSMStateFollowEntity : BSMStateBase
         }
     }
 
-    public override void EndUpdate()
+    public override void OnEndUpdate()
     {
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
     }

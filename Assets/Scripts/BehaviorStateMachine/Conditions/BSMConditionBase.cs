@@ -8,7 +8,15 @@ using UnityEngine.UIElements;
 
 public abstract class BSMConditionBase : BSMAttributeHolder
 {
+    [SerializeField] List<BSMActionBase> m_actions = new List<BSMActionBase>();
+
     protected BSMStateBase m_state;
+
+    public BSMConditionBase()
+    {
+        if (m_actions == null)
+            m_actions = new List<BSMActionBase>();
+    }
 
     public abstract bool IsValid();
 
@@ -25,6 +33,15 @@ public abstract class BSMConditionBase : BSMAttributeHolder
     public virtual void OnDestroy() { }
 
     public virtual void OnStateChange() { }
+
+    public void OnValidation() 
+    {
+        if(m_actions != null)
+        {
+            foreach (var a in m_actions)
+                a.Exec();
+        }
+    }
 
     public void SetState(BSMStateBase state) 
     { 
@@ -50,5 +67,25 @@ public abstract class BSMConditionBase : BSMAttributeHolder
             name = name.Substring(startString.Length);
 
         return name;
+    }
+
+    public void AddAction(BSMActionBase action)
+    {
+        if (m_actions == null)
+            return;
+        m_actions.Add(action);
+    }
+
+    public void RemoveAction(int index)
+    {
+        if (m_actions == null)
+            return;
+        if (index >= 0 && index < m_actions.Count)
+            m_actions.RemoveAt(index);
+    }
+
+    public List<BSMActionBase> GetActions()
+    {
+        return m_actions;
     }
 }

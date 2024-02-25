@@ -18,7 +18,7 @@ public class BSMStateDisplayBubble : BSMStateBase
         AddAttribute(waitBubbleText, new BSMAttributeObject(false));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         if (m_bubble != null)
             GameObject.Destroy(m_bubble);

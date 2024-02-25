@@ -5,9 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class BSMActionNamed
+{
+    public string name;
+    public List<BSMActionBase> actions = new List<BSMActionBase>();
+}
+
 public abstract class BSMStateBase : BSMAttributeHolder
 {
+    static string BeginName = "BeforeState";
+    static string EndName = "AfterState";
+
+    [SerializeField] protected List<BSMActionNamed> m_actions = new List<BSMActionNamed>();
+
     protected BSMControler m_controler;
+
+    public BSMStateBase()
+    {
+        AddActionName(BeginName);
+        AddActionName(EndName);
+    }
 
     public static string GetName(Type type)
     {
@@ -24,6 +41,70 @@ public abstract class BSMStateBase : BSMAttributeHolder
 
     public override BSMControler GetControler() { return m_controler; }
 
+    protected void AddActionName(string name)
+    {
+        if (m_actions == null)
+            m_actions = new List<BSMActionNamed>();
+        foreach (var a in m_actions)
+        {
+            if (a.name == name)
+                return;
+        }
+
+        var action = new BSMActionNamed();
+        action.name = name;
+        m_actions.Add(action);
+    }
+
+    public void AddAction(string name, BSMActionBase action)
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            if (a.name == name)
+            {
+                if (a.actions == null)
+                    a.actions = new List<BSMActionBase>();
+                a.actions.Add(action);
+                break;
+            }
+        }
+    }
+
+    public void RemoveAction(string name, int index)
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            if (a.name == name && a.actions != null)
+            {
+                if (index >= 0 && index < a.actions.Count)
+                    a.actions.RemoveAt(index);
+            }
+        }
+    }
+
+    public List<BSMActionNamed> GetActions()
+    {
+        return m_actions;
+    }
+
+    public void TriggerActions(string name)
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            if (a.name == name && a.actions != null)
+            {
+                foreach (var action in a.actions)
+                    action.Exec();
+            }
+        }
+    }
+
     public virtual void Init() { }
 
     public virtual void Update() { }
@@ -34,9 +115,19 @@ public abstract class BSMStateBase : BSMAttributeHolder
 
     public virtual void UpdateAlways() { }
 
-    public virtual void BeginUpdate() { }
+    public void BeginUpdate() 
+    {
+        TriggerActions(BeginName);
+        OnBeginUpdate();
+    }
+    public virtual void OnBeginUpdate() { }
 
-    public virtual void EndUpdate() { }
+    public void EndUpdate() 
+    {
+        OnEndUpdate();
+        TriggerActions(EndName);
+    }
+    public virtual void OnEndUpdate() { }
 
     public virtual void OnDestroy() { }
 }

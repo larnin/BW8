@@ -14,7 +14,7 @@ public class BSMStateLookAtEntity : BSMStateBase
         AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         var target = GetUnityObjectAttribute(targetName, (GameObject)null);
         if(target != null)

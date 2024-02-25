@@ -14,7 +14,7 @@ public class BSMStateLookAtTag : BSMStateBase
         AddAttribute(targetName, new BSMAttributeObject(""));
     }
 
-    public override void BeginUpdate()
+    public override void OnBeginUpdate()
     {
         var targetTag = GetStringAttribute(targetName, "");
         GetFirstQuestEntityEvent getEntity = new GetFirstQuestEntityEvent(targetTag);

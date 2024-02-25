@@ -8,12 +8,13 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEngine;
 
-public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
+public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback, BSMAddActionPopupCallback
 {
     BSMConditionBase m_condition = null;
     BSMConditionViewBase m_conditionView = null;
 
     VisualElement m_button;
+    VisualElement m_actionButton;
 
     public override void Draw() 
     {
@@ -56,10 +57,15 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
         string conditionName = BSMConditionBase.GetName(m_condition.GetType());
 
         var header = BSMEditorUtility.CreateHorizontalLayout();
-        header.Add(BSMEditorUtility.CreateLabel(conditionName, 4));
+        var label = BSMEditorUtility.CreateLabel(conditionName, 4);
+        label.style.flexGrow = 2;
+        header.Add(label);
         var removeButton = BSMEditorUtility.CreateButton("X", RemoveCondition);
         removeButton.style.maxWidth = 20;
-        header.Add(removeButton);
+        header.Add(removeButton); 
+        m_actionButton = BSMEditorUtility.CreateButton(">", DisplayActionPopup);
+        m_actionButton.style.maxWidth = 20;
+        header.Add(m_actionButton);
 
         extensionContainer.Add(header);
         var element = m_conditionView.GetElement();
@@ -134,5 +140,22 @@ public class BSMNodeCondition : BSMNode, BSMConditionNodePopupCallback
         mainContainer.style.borderBottomRightRadius = borderRadius;
         mainContainer.style.borderTopLeftRadius = borderRadius;
         mainContainer.style.borderTopRightRadius = borderRadius;
+    }
+    void DisplayActionPopup()
+    {
+        if (m_actionButton == null)
+            return;
+
+        var pos = m_actionButton.LocalToWorld(new Vector2(0, 0));
+        pos.y -= 100;
+        var rect = new Rect(pos, new Vector2(200, 100));
+
+        UnityEditor.PopupWindow.Show(rect, new BSMAddActionPopup(this));
+    }
+
+    public void AddAction(string name, BSMActionBase action)
+    {
+        m_condition.AddAction(action);
+        LocalDraw();
     }
 }

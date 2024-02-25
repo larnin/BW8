@@ -71,8 +71,14 @@ public abstract class BSMAttributeHolderView
         if (objectElement != null)
             holder.Add(objectElement);
 
+        var actionsElement = GetActionsElement();
+        if (actionsElement != null)
+            holder.Add(actionsElement);
+
         return holder;
     }
+
+    protected abstract VisualElement GetActionsElement();
 
     protected abstract VisualElement GetObjectElement();
 }
