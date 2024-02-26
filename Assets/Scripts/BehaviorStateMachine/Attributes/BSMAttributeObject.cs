@@ -5,8 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum BSMAttributeDisplayType
+{
+    both,
+    forceAttribute,
+    forceValue,
+}
+
 public class BSMAttributeObject
 {
+    public BSMAttributeDisplayType displayType { get; private set; }
+
     public bool useAttribute = false;
 
     public BSMAttributeData data = new BSMAttributeData();
@@ -81,5 +90,15 @@ public class BSMAttributeObject
         attribute.data.SetEnum(defaultValue);
 
         return attribute;
+    }
+
+    public void SetDisplayType(BSMAttributeDisplayType type)
+    {
+        displayType = type;
+
+        if (!useAttribute && displayType == BSMAttributeDisplayType.forceAttribute)
+            useAttribute = true;
+        else if (useAttribute && displayType == BSMAttributeDisplayType.forceValue)
+            useAttribute = false;
     }
 }

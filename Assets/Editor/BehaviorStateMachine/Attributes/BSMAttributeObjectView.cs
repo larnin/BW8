@@ -95,18 +95,21 @@ public class BSMAttributeObjectView : BSMDropdownCallback, BSMSpecialEnumCallbac
 
         VisualElement horizontal = BSMEditorUtility.CreateHorizontalLayout();
 
-        var box = BSMEditorUtility.CreateCheckbox("", m_object.useAttribute, callback =>
+        if (m_object.displayType == BSMAttributeDisplayType.both)
         {
-            Toggle target = (Toggle)callback.target;
+            var box = BSMEditorUtility.CreateCheckbox("", m_object.useAttribute, callback =>
+            {
+                Toggle target = (Toggle)callback.target;
 
-            target.value = callback.newValue;
+                target.value = callback.newValue;
 
-            m_object.useAttribute = target.value;
+                m_object.useAttribute = target.value;
 
-            Draw();
-        });
+                Draw();
+            });
 
-        horizontal.Add(box);
+            horizontal.Add(box);
+        }
 
         m_attributeButton = null;
         if (m_object.useAttribute)
