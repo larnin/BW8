@@ -5,30 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class BSMStateLookAtEntity : BSMStateBase
+public class BSMActionLookAtEntity : BSMActionBase
 {
     static string targetName = "Target";
 
-    public BSMStateLookAtEntity()
+    public BSMActionLookAtEntity()
     {
         AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
     }
 
-    public override void OnBeginUpdate()
+    public override void Exec()
     {
         var target = GetUnityObjectAttribute(targetName, (GameObject)null);
-        if(target != null)
+        if (target != null)
         {
             var direction = target.transform.position - GetControler().transform.position;
             var dir = AnimationDirectionEx.GetDirection(direction);
             Event<SetLookDirectionEvent>.Broadcast(new SetLookDirectionEvent(dir), m_controler.gameObject);
         }
-
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
-    }
-
-    public override void Update()
-    {
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
     }
 }

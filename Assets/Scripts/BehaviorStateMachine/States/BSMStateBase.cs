@@ -37,7 +37,21 @@ public abstract class BSMStateBase : BSMAttributeHolder
         return name;
     }
 
-    public void SetControler(BSMControler controler) { m_controler = controler; }
+    public void SetControler(BSMControler controler) 
+    { 
+        m_controler = controler;
+
+        if (m_actions == null)
+            return;
+
+        foreach(var a in m_actions)
+        {
+            if (a.actions == null)
+                continue;
+            foreach (var action in a.actions)
+                action.SetControler(m_controler);
+        }
+    }
 
     public override BSMControler GetControler() { return m_controler; }
 
@@ -67,6 +81,7 @@ public abstract class BSMStateBase : BSMAttributeHolder
                 if (a.actions == null)
                     a.actions = new List<BSMActionBase>();
                 a.actions.Add(action);
+                action.SetControler(m_controler);
                 break;
             }
         }

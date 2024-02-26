@@ -47,6 +47,13 @@ public abstract class BSMConditionBase : BSMAttributeHolder
     { 
         m_state = state;
         OnStateChange();
+
+        if (m_state != null && m_actions != null)
+        {
+            var controler = m_state.GetControler();
+            foreach (var a in m_actions)
+                a.SetControler(controler);
+        }
     }
 
     public BSMStateBase GetState() { return m_state; }
@@ -73,6 +80,8 @@ public abstract class BSMConditionBase : BSMAttributeHolder
     {
         if (m_actions == null)
             return;
+        if (m_state != null)
+            action.SetControler(m_state.GetControler());
         m_actions.Add(action);
     }
 

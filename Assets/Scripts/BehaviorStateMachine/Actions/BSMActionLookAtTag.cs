@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
-public class BSMStateLookAtTag : BSMStateBase
+public class BSMActionLookAtTag : BSMActionBase
 {
     static string targetName = "Target";
 
-    public BSMStateLookAtTag()
+    public BSMActionLookAtTag()
     {
         AddAttribute(targetName, new BSMAttributeObject(""));
     }
 
-    public override void OnBeginUpdate()
+    public override void Exec()
     {
         var targetTag = GetStringAttribute(targetName, "");
         GetFirstQuestEntityEvent getEntity = new GetFirstQuestEntityEvent(targetTag);
@@ -26,12 +25,6 @@ public class BSMStateLookAtTag : BSMStateBase
             var dir = AnimationDirectionEx.GetDirection(direction);
             Event<SetLookDirectionEvent>.Broadcast(new SetLookDirectionEvent(dir), m_controler.gameObject);
         }
-
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
     }
 
-    public override void Update()
-    {
-        Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
-    }
 }
