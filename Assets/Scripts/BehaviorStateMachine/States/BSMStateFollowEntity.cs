@@ -10,13 +10,27 @@ public class BSMStateFollowEntity : BSMStateBase
     static string targetName = "Target";
     static string idleTimeName = "MaxIdleTime";
 
+    static string endJumpActionName = "EndJump";
+
     bool m_moving = true;
     float m_idleTime = 0;
+
+    SubscriberList m_subscriberList = new SubscriberList();
 
     public BSMStateFollowEntity()
     {
         AddAttribute(targetName, BSMAttributeObject.CreateUnityObject((GameObject)null));
         AddAttribute(idleTimeName, new BSMAttributeObject(-1.0f));
+
+        AddActionName(endJumpActionName);
+    }
+
+    public override void Init()
+    {
+        if (m_subscriberList == null)
+            m_subscriberList = new SubscriberList();
+
+        m_subscriberList.Add(new Event<MoveEndJumpEvent>.LocalSubscriber(OnEndJump, GetControler().gameObject));
     }
 
     public override void OnBeginUpdate()
@@ -35,11 +49,20 @@ public class BSMStateFollowEntity : BSMStateBase
             Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
             Event<BSMStateEndedEvent>.Broadcast(new BSMStateEndedEvent(), m_controler.gameObject);
         }
+
+        m_subscriberList.Subscribe();
     }
 
     public override void OnEndUpdate()
     {
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
+
+        m_subscriberList.Unsubscribe();
+    }
+
+    public override void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
     }
 
     public override void Update()
@@ -90,5 +113,10 @@ public class BSMStateFollowEntity : BSMStateBase
                 }
             }
         }
+    }
+
+    void OnEndJump(MoveEndJumpEvent e)
+    {
+        TriggerActions(endJumpActionName);
     }
 }

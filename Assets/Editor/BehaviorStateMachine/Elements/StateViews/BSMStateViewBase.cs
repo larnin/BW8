@@ -44,41 +44,44 @@ public abstract class BSMStateViewBase : BSMAttributeHolderView
 
         bool allEmpty = true;
         var actions = GetState().GetActions();
-        foreach (var a in actions)
+        if (actions != null)
         {
-            if (a.actions == null || a.actions.Count == 0)
-                continue;
-
-            allEmpty = false;
-
-            VisualElement actionsContainer = new VisualElement();
-            BSMEditorUtility.SetContainerStyle(actionsContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
-
-            actionsContainer.Add(BSMEditorUtility.CreateLabel("Group: " + a.name));
-
-            for (int i = 0; i < a.actions.Count; i++)
+            foreach (var a in actions)
             {
-                var action = a.actions[i];
+                if (a.actions == null || a.actions.Count == 0)
+                    continue;
 
-                VisualElement actionContainer = new VisualElement();
-                BSMEditorUtility.SetContainerStyle(actionContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
+                allEmpty = false;
 
-                VisualElement layout = BSMEditorUtility.CreateHorizontalLayout();
-                actionContainer.Add(layout);
-                layout.Add(BSMEditorUtility.CreateLabel(BSMActionBase.GetName(action.GetType())));
+                VisualElement actionsContainer = new VisualElement();
+                BSMEditorUtility.SetContainerStyle(actionsContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
 
-                int index = i;
-                var removeButton = BSMEditorUtility.CreateButton("X", ()=> { RemoveAction(a.name, index); });
-                removeButton.style.maxWidth = 20;
-                layout.Add(removeButton);
+                actionsContainer.Add(BSMEditorUtility.CreateLabel("Group: " + a.name));
 
-                var actionView = BSMActionViewBase.Create(m_node, action);
-                m_actionsView.Add(actionView);
-                actionContainer.Add(actionView.GetElement());
+                for (int i = 0; i < a.actions.Count; i++)
+                {
+                    var action = a.actions[i];
 
-                actionsContainer.Add(actionContainer);
+                    VisualElement actionContainer = new VisualElement();
+                    BSMEditorUtility.SetContainerStyle(actionContainer, 2, new Color(0.4f, 0.4f, 0.4f), 1, 3, new Color(0.15f, 0.15f, 0.15f));
+
+                    VisualElement layout = BSMEditorUtility.CreateHorizontalLayout();
+                    actionContainer.Add(layout);
+                    layout.Add(BSMEditorUtility.CreateLabel(BSMActionBase.GetName(action.GetType())));
+
+                    int index = i;
+                    var removeButton = BSMEditorUtility.CreateButton("X", () => { RemoveAction(a.name, index); });
+                    removeButton.style.maxWidth = 20;
+                    layout.Add(removeButton);
+
+                    var actionView = BSMActionViewBase.Create(m_node, action);
+                    m_actionsView.Add(actionView);
+                    actionContainer.Add(actionView.GetElement());
+
+                    actionsContainer.Add(actionContainer);
+                }
+                m_actionsContainer.Add(actionsContainer);
             }
-            m_actionsContainer.Add(actionsContainer);
         }
 
         if (allEmpty)

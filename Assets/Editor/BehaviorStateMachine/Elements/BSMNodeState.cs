@@ -152,7 +152,7 @@ public class BSMNodeState : BSMNode, BSMStateNodePopupCallback, BSMAddActionPopu
         var rect = new Rect(pos, new Vector2(200, 100));
 
         var actions = m_state.GetActions();
-        if (actions.Count == 0)
+        if (actions == null || actions.Count == 0)
             return;
         List<string> names = new List<string>();
         foreach (var a in actions)

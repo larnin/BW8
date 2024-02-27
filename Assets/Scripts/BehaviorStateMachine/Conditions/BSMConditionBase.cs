@@ -97,4 +97,24 @@ public abstract class BSMConditionBase : BSMAttributeHolder
     {
         return m_actions;
     }
+
+    public void InitActions()
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            a.Init();
+        }
+    }
+
+    public void OnDestroyActions()
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            a.OnDestroy();
+        }
+    }
 }

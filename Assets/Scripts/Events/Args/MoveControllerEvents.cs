@@ -41,3 +41,5 @@ public class SetLookDirectionEvent
         lookDirection = dir;
     }
 }
+
+public class MoveEndJumpEvent { }

@@ -46,7 +46,7 @@ public abstract class BSMConditionViewBase : BSMAttributeHolderView
         m_actionsView.Clear();
 
         var actions = GetCondition().GetActions();
-        if (actions.Count == 0)
+        if (actions == null || actions.Count == 0)
             return;
 
         m_actionsContainer.Add(BSMEditorUtility.CreateLabel("Actions"));

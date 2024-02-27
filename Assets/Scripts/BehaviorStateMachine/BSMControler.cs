@@ -66,12 +66,19 @@ public class BSMControler : SerializedMonoBehaviour
         foreach (var state in m_states)
         {
             state.state.OnDestroy();
+            state.state.OnDestroyActions();
             foreach (var t in state.transitions)
+            {
                 t.condition.OnDestroy();
+                t.condition.OnDestroyActions();
+            }
         }
 
         foreach (var transition in m_anyState.transitions)
+        {
             transition.condition.OnDestroy();
+            transition.condition.OnDestroyActions();
+        }
     }
 
     public void LoadFromEditor()
@@ -249,15 +256,20 @@ public class BSMControler : SerializedMonoBehaviour
         {
             state.state.SetControler(this);
             state.state.Init();
+            state.state.InitActions();
             foreach(var transition in state.transitions)
             {
                 transition.condition.SetState(state.state);
                 transition.condition.Init();
+                transition.condition.InitActions();
             }
         }
 
         foreach (var transition in m_anyState.transitions)
+        {
             transition.condition.Init();
+            transition.condition.InitActions();
+        }
     }
 
     BSMSaveNode GetSaveNode(List<BSMSaveNode> nodes, string ID)
@@ -300,9 +312,19 @@ public class BSMControler : SerializedMonoBehaviour
         foreach (var state in m_states)
         {
             state.state.OnDestroy();
+            state.state.OnDestroyActions();
             foreach (var transition in state.transitions)
+            {
                 transition.condition.OnDestroy();
+                transition.condition.OnDestroyActions();
+            }
         }
+        foreach (var transition in m_anyState.transitions)
+        {
+            transition.condition.OnDestroy();
+            transition.condition.OnDestroyActions();
+        }
+
         m_states.Clear();
         m_anyState.transitions.Clear();
 

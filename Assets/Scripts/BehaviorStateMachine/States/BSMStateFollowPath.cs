@@ -12,8 +12,12 @@ public class BSMStateFollowPath : BSMStateBase
     static string deviationName = "Deviation";
     static string nextDistanceName = "NextDistance";
 
+    static string endJumpActionName = "EndJump";
+
     Vector2 m_nextPoint;
     float m_idleTime;
+
+    SubscriberList m_subscriberList = new SubscriberList();
 
     public BSMStateFollowPath()
     {
@@ -21,6 +25,16 @@ public class BSMStateFollowPath : BSMStateBase
         AddAttribute(validationDistanceName, new BSMAttributeObject(1.0f));
         AddAttribute(deviationName, new BSMAttributeObject(0.0f));
         AddAttribute(nextDistanceName, new BSMAttributeObject(1.0f));
+
+        AddActionName(endJumpActionName);
+    }
+
+    public override void Init()
+    {
+        if (m_subscriberList == null)
+            m_subscriberList = new SubscriberList();
+
+        m_subscriberList.Add(new Event<MoveEndJumpEvent>.LocalSubscriber(OnEndJump, GetControler().gameObject));
     }
 
     public override void OnBeginUpdate()
@@ -28,11 +42,20 @@ public class BSMStateFollowPath : BSMStateBase
         m_nextPoint = new Vector2(float.MaxValue, float.MaxValue);
 
         GetNextPoint();
+
+        m_subscriberList.Subscribe();
     }
 
     public override void OnEndUpdate()
     {
         Event<StopMoveEvent>.Broadcast(new StopMoveEvent(), m_controler.gameObject);
+
+        m_subscriberList.Unsubscribe();
+    }
+
+    public override void OnDestroy()
+    {
+        m_subscriberList.Unsubscribe();
     }
 
     public override void Update()
@@ -93,5 +116,10 @@ public class BSMStateFollowPath : BSMStateBase
         else Event<StartMoveEvent>.Broadcast(new StartMoveEvent(new Vector3(nextPos.x, nextPos.y, m_controler.transform.position.z)), m_controler.gameObject);
 
         m_nextPoint = nextPos;
+    }
+
+    void OnEndJump(MoveEndJumpEvent e)
+    {
+        TriggerActions(endJumpActionName);
     }
 }

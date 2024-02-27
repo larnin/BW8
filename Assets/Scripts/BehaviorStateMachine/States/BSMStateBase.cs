@@ -118,6 +118,32 @@ public abstract class BSMStateBase : BSMAttributeHolder
                     action.Exec();
             }
         }
+    }    
+    
+    public void InitActions()
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            if (a.actions == null)
+                continue;
+            foreach (var action in a.actions)
+                action.Init();
+        }
+    }
+
+    public void OnDestroyActions()
+    {
+        if (m_actions == null)
+            return;
+        foreach (var a in m_actions)
+        {
+            if (a.actions == null)
+                continue;
+            foreach (var action in a.actions)
+                action.OnDestroy();
+        }
     }
 
     public virtual void Init() { }

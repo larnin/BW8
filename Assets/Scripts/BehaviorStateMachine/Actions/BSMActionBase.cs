@@ -24,4 +24,8 @@ public abstract class BSMActionBase : BSMAttributeHolder
 
         return name;
     }
+
+    public virtual void Init() { }
+
+    public virtual void OnDestroy() { }
 }
