@@ -306,6 +306,7 @@ public class PlayerController : MonoBehaviour
         e.direction = m_direction;
         e.lockActions |= m_dashState != DashState.none;
         e.velocity = m_rigidbody.velocity;
+        e.dashing = m_dashState != DashState.none;
     }
 
     void GetPlayerLife(GetPlayerLifeEvent e)

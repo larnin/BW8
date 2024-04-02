@@ -52,11 +52,13 @@ public class GetStatusEvent
     public Vector2 direction;
     public Vector2 velocity;
     public bool lockActions;
+    public bool dashing;
 
     public GetStatusEvent()
     {
         direction = Vector2.zero;
         velocity = Vector2.zero;
         lockActions = false;
+        dashing = false;
     }
 }
