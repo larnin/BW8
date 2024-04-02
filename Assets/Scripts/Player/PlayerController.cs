@@ -7,30 +7,39 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    enum DashState
+    {
+        none,
+        start, 
+        loop, 
+        end
+    }
+
     [SerializeField] float m_maxSpeed = 1;
     [SerializeField] float m_acceleration = 2;
 
-    [SerializeField] float m_rollSpeed = 2;
-    [SerializeField] float m_rollDuration = 1;
+    [SerializeField] float m_dashSpeed = 2;
+    [SerializeField] float m_dashDistance = 1;
 
     Rigidbody2D m_rigidbody = null;
 
     SubscriberList m_subscriberList = new SubscriberList();
 
     Vector2 m_inputsDirection;
-    bool m_inputsStartRoll;
+    bool m_inputsStartDash;
 
     Vector2 m_oldPosition;
     Vector2 m_direction;
-    bool m_rolling;
-    float m_rollingDuration;
+    DashState m_dashState = DashState.none;
+    float m_dashDuration = 0;
+    float m_dashMaxDuration = 0;
 
 
     private void Awake()
     {
         m_rigidbody = GetComponent<Rigidbody2D>();
 
-        m_subscriberList.Add(new Event<StartRollEvent>.LocalSubscriber(OnStartRoll, gameObject));
+        m_subscriberList.Add(new Event<StartDashEvent>.LocalSubscriber(OnStartDash, gameObject));
         m_subscriberList.Add(new Event<GetStatusEvent>.LocalSubscriber(GetStatus, gameObject));
 
         m_subscriberList.Add(new Event<TeleportPlayerEvent>.Subscriber(OnTeleport));
@@ -66,12 +75,12 @@ public class PlayerController : MonoBehaviour
             GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
             Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
 
-            UpdateRoll();
+            UpdateDash();
             UpdateVelocity(velocityData.velocityMultiplier, velocityData.offsetVelocity);
         }
 
         m_oldPosition = transform.position;
-        m_inputsStartRoll = false;
+        m_inputsStartDash = false;
 
         Event<CenterUpdatedEvent>.Broadcast(new CenterUpdatedEvent(transform.position));
 
@@ -94,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateVelocity(float multiplier, Vector2 offset)
     {
-        if (m_rolling)
+        if (m_dashState != DashState.none)
             return;
 
         float inputMagnitude = m_inputsDirection.magnitude;
@@ -162,34 +171,92 @@ public class PlayerController : MonoBehaviour
         m_rigidbody.velocity = velocity;
     }
 
-    void UpdateRoll()
+    void UpdateDash()
     {
-        if(m_rolling)
-        {
-            Vector2 velocity = m_direction * m_rollSpeed;
-            m_rigidbody.velocity = velocity;
+        const string startName = "Dash_Start";
+        const string loopName = "Dash_Loop";
+        const string endName = "Dash_End";
 
-            m_rollingDuration += Time.deltaTime;
-            if (m_rollingDuration >= m_rollDuration)
-                m_rolling = false;
+        if(m_dashState != DashState.none)
+        {
+            m_dashDuration += Time.deltaTime;
+            switch(m_dashState)
+            {
+                case DashState.start:
+                    {
+                        m_rigidbody.velocity = Vector2.zero;
+                        if (m_dashDuration >= m_dashMaxDuration)
+                        {
+                            m_dashState = DashState.loop;
+                            m_dashDuration = 0;
+                            m_dashMaxDuration = m_dashDistance / m_dashSpeed;
+
+                            AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
+
+                            PlayAnimationEvent play = new PlayAnimationEvent(loopName, dir, 1, true);
+                            Event<PlayAnimationEvent>.Broadcast(play, gameObject);
+                        }
+                    }
+                    break;
+                case DashState.loop:
+                    {
+                        Vector2 velocity = m_direction * m_dashSpeed;
+                        m_rigidbody.velocity = velocity;
+
+                        if (m_dashDuration >= m_dashMaxDuration)
+                        {
+                            m_dashState = DashState.end;
+                            m_dashDuration = 0;
+
+                            AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
+                            PlayAnimationEvent play = new PlayAnimationEvent(endName, dir, 1, false);
+                            Event<PlayAnimationEvent>.Broadcast(play, gameObject);
+
+                            GetAnimationDurationEvent animDuration = new GetAnimationDurationEvent(endName, dir);
+                            Event<GetAnimationDurationEvent>.Broadcast(animDuration, gameObject);
+
+                            m_dashMaxDuration = animDuration.duration;
+                        }
+                    }
+                    break;
+                case DashState.end:
+                    {
+                        m_rigidbody.velocity = Vector2.zero;
+                        if (m_dashDuration >= m_dashMaxDuration)
+                        {
+                            m_dashState = DashState.end;
+                            m_dashDuration = 0;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
-        else if(m_inputsStartRoll)
+        else if(m_inputsStartDash)
         {
             if (m_inputsDirection.magnitude >= 0.1f)
                 m_direction = m_inputsDirection;
 
-            //make direction axis aligned
             if (MathF.Abs(m_direction.x) > MathF.Abs(m_direction.y))
                 m_direction.y = 0;
             else m_direction.x = 0;
             m_direction /= MathF.Abs(m_direction.x + m_direction.y);
 
-            m_rolling = true;
-            m_rollingDuration = 0;
+            m_dashState = DashState.start;
 
             AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-            PlayAnimationEvent play = new PlayAnimationEvent("Roll", dir, 1, false);
+            PlayAnimationEvent play = new PlayAnimationEvent(startName, dir, 1, false);
             Event<PlayAnimationEvent>.Broadcast(play, gameObject);
+
+            GetAnimationDurationEvent animDuration = new GetAnimationDurationEvent(startName, dir);
+            Event<GetAnimationDurationEvent>.Broadcast(animDuration, gameObject);
+
+            m_dashDuration = 0;
+            m_dashMaxDuration = animDuration.duration;
+
+            PlayAnimationEvent play2 = new PlayAnimationEvent(loopName, dir, 1, true, true);
+            Event<PlayAnimationEvent>.Broadcast(play2, gameObject);
         }
     }
 
@@ -215,12 +282,12 @@ public class PlayerController : MonoBehaviour
         Event<PlayAnimationEvent>.Broadcast(play, gameObject);
     }
 
-    void OnStartRoll(StartRollEvent e)
+    void OnStartDash(StartDashEvent e)
     {
         GetStatusEvent status = new GetStatusEvent();
         Event<GetStatusEvent>.Broadcast(status, gameObject);
         if(!status.lockActions)
-            m_inputsStartRoll = true;
+            m_inputsStartDash = true;
     }
 
     void OnTeleport(TeleportPlayerEvent e)
@@ -237,7 +304,7 @@ public class PlayerController : MonoBehaviour
     void GetStatus(GetStatusEvent e)
     {
         e.direction = m_direction;
-        e.lockActions |= m_rolling;
+        e.lockActions |= m_dashState != DashState.none;
         e.velocity = m_rigidbody.velocity;
     }
 

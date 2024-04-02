@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public class StartRollEvent { }
-public class EndRollEvent { }
+public class StartDashEvent { }
+public class EndDashEvent { }
 
 public class StartUseWeaponEvent { }
 public class EndUseWeaponEvent { }
@@ -15,7 +15,7 @@ public class EndInteractEvent { }
 public class GetInputsEvent
 {
     public Vector2 direction;
-    public bool roll;
+    public bool dash;
     public bool useWeapon;
     public bool useItem;
     public bool interact;
