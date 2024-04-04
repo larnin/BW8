@@ -165,7 +165,10 @@ public class AnimationSystem : MonoBehaviour
             return;
 
         if (e.layer == m_playingAnimation.layer)
+        {
+            m_layers[m_playingAnimation.layer].animations.RemoveAt(0);
             PlayNext();
+        }
         else m_layers[e.layer].animations.RemoveAt(e.index);
     }
 

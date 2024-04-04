@@ -207,15 +207,19 @@ public class PlayerController : MonoBehaviour
                         {
                             m_dashState = DashState.end;
                             m_dashDuration = 0;
+                            m_dashMaxDuration = 0;
 
-                            AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
-                            PlayAnimationEvent play = new PlayAnimationEvent(endName, dir, 1, false);
-                            Event<PlayAnimationEvent>.Broadcast(play, gameObject);
+                            StopAnimationEvent stop = new StopAnimationEvent(0, 1);
+                            Event<StopAnimationEvent>.Broadcast(stop, gameObject);
 
-                            GetAnimationDurationEvent animDuration = new GetAnimationDurationEvent(endName, dir);
-                            Event<GetAnimationDurationEvent>.Broadcast(animDuration, gameObject);
+                            //AnimationDirection dir = AnimationDirectionEx.GetDirection(m_direction);
+                            //PlayAnimationEvent play = new PlayAnimationEvent(endName, dir, 1, false);
+                            //Event<PlayAnimationEvent>.Broadcast(play, gameObject);
 
-                            m_dashMaxDuration = animDuration.duration;
+                            //GetAnimationDurationEvent animDuration = new GetAnimationDurationEvent(endName, dir);
+                            //Event<GetAnimationDurationEvent>.Broadcast(animDuration, gameObject);
+
+                            //m_dashMaxDuration = animDuration.duration;
                         }
                     }
                     break;
@@ -224,7 +228,7 @@ public class PlayerController : MonoBehaviour
                         m_rigidbody.velocity = Vector2.zero;
                         if (m_dashDuration >= m_dashMaxDuration)
                         {
-                            m_dashState = DashState.end;
+                            m_dashState = DashState.none;
                             m_dashDuration = 0;
                         }
                     }

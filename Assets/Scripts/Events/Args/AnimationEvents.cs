@@ -91,7 +91,7 @@ public class StopAnimationEvent
 
     public StopAnimationEvent(int _index) : this(0, _index) { }
 
-    public StopAnimationEvent(int _layer, int _index)
+    public StopAnimationEvent(int _index, int _layer)
     {
         layer = _layer;
         index = _index;
