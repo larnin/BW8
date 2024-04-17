@@ -11,6 +11,8 @@ public class SwordOneAttack
     public float hitDistance = 1;
     public float hitDelay = 0.1f;
     public float hitRadius = 0.5f;
+    public float hitStartAngle = 0;
+    public float hitEndAngle = 0;
     public float hitDuration = 0.3f;
     public int damage = 1;
     public float knockback = 1;

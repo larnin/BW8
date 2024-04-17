@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerHandActionSword : PlayerHandActionBase
 {
+    static bool displayCollisions = false;
+
     enum AttackState
     {
         none,
@@ -109,10 +111,21 @@ public class PlayerHandActionSword : PlayerHandActionBase
 
         if(m_duration >= data.hitDelay && m_duration <= data.hitDelay + data.hitDuration)
         {
+            float hitNormDuration = (m_duration - data.hitDelay) / data.hitDuration;
+
+            float angle = (data.hitStartAngle * (1 - hitNormDuration) + data.hitEndAngle * hitNormDuration) * Mathf.Deg2Rad;
+
+            if (AnimationDirectionEx.GetDirection(m_direction) == AnimationDirection.Right)
+                angle = -angle;
+
+            var hitDir = Vector2Ex.Rotate(m_direction, angle);
+
             Vector2 pos = m_player.transform.position;
-            pos += m_direction * data.hitDistance;
+            pos += hitDir * data.hitDistance;
 
             var cols = Physics2D.OverlapCircleAll(pos, data.hitRadius, World.sword.hitLayer);
+            if (displayCollisions)
+                DebugDraw.Circle2D(pos, data.hitRadius, Color.red);
 
             foreach(var col in cols)
             {
