@@ -45,9 +45,9 @@ MonoBehaviour:
     hitDuration: 0.3
     damage: 1
     knockback: 1
-    moveDistance: 0
-    moveDelay: 0.1
-    moveDuration: 0.5
+    moveDistance: 1
+    moveDelay: 0.2
+    moveDuration: 0.2
   attackDash:
     hitDistance: 1
     hitDelay: 0.1
