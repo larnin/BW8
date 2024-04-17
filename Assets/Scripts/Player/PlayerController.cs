@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
     {
         const string startName = "Dash_Start";
         const string loopName = "Dash_Loop";
-        const string endName = "Dash_End";
+        //const string endName = "Dash_End";
 
         if(m_dashState != DashState.none)
         {

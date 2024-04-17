@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b754d5e840bca04da6057b48ca61dce
+guid: 621cc27522f25b648a8679704609a7e1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: knight_attack_01_up_0
+      name: knight_attack_02_left_v2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 995cbbe9a8cf3934d8aeefcd902aab95
-      internalID: -1546253505
+      spriteID: b9dbfdab404748544ab2690b2178b6a4
+      internalID: 633998829
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_1
+      name: knight_attack_02_left_v2_1
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfec02ba9bdab6f42802f0fe2d6ecfea
-      internalID: -30366715
+      spriteID: 09a7b15e59352fe4cbb7c7dc2e581f5e
+      internalID: 2063797115
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_2
+      name: knight_attack_02_left_v2_2
       rect:
         serializedVersion: 2
-        x: 144
+        x: 128
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbc6b7b0c5ba2654ebc2f3b1d771207a
-      internalID: -1144167858
+      spriteID: bf12b50e6f28f5441a50b718d816afe4
+      internalID: 773666953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_3
+      name: knight_attack_02_left_v2_3
       rect:
         serializedVersion: 2
-        x: 216
+        x: 192
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,8 +194,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6cd80f4bc8ffad41a99ee1e66079239
-      internalID: -1897539405
+      spriteID: 0a401374737f3f24f8eee1ebe9d47171
+      internalID: -1584185782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_attack_02_left_v2_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18642ab96a67fb446b8f56d6eae934f8
+      internalID: -1434315541
       vertices: []
       indices: 
       edges: []
@@ -211,10 +232,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      knight_attack_01_up_2: -1144167858
-      knight_attack_01_up_1: -30366715
-      knight_attack_01_up_3: -1897539405
-      knight_attack_01_up_0: -1546253505
+      knight_attack_02_left_v2_0: 633998829
+      knight_attack_02_left_v2_4: -1434315541
+      knight_attack_02_left_v2_3: -1584185782
+      knight_attack_02_left_v2_1: 2063797115
+      knight_attack_02_left_v2_2: 773666953
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

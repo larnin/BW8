@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b754d5e840bca04da6057b48ca61dce
+guid: 789f085a4ce90964c865d191553db56a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: knight_attack_01_up_0
+      name: knight_attack_02_right_v2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 995cbbe9a8cf3934d8aeefcd902aab95
-      internalID: -1546253505
+      spriteID: 7576e45b1d4f18d49b4483d4ca860fa8
+      internalID: 2075460323
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_1
+      name: knight_attack_02_right_v2_1
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfec02ba9bdab6f42802f0fe2d6ecfea
-      internalID: -30366715
+      spriteID: 12f665167d688744ebe31b5a81504afa
+      internalID: -1881350524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_2
+      name: knight_attack_02_right_v2_2
       rect:
         serializedVersion: 2
-        x: 144
+        x: 128
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbc6b7b0c5ba2654ebc2f3b1d771207a
-      internalID: -1144167858
+      spriteID: 8db7889292415044588e0fe185335589
+      internalID: -1086329888
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_3
+      name: knight_attack_02_right_v2_3
       rect:
         serializedVersion: 2
-        x: 216
+        x: 192
         y: 0
-        width: 72
-        height: 72
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,8 +194,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6cd80f4bc8ffad41a99ee1e66079239
-      internalID: -1897539405
+      spriteID: 98471db4dd0f9ee4c9dda8dc35517fb6
+      internalID: -1921103529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_attack_02_right_v2_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e737b8db4faec4546934eab24847291b
+      internalID: 793925448
       vertices: []
       indices: 
       edges: []
@@ -211,10 +232,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      knight_attack_01_up_2: -1144167858
-      knight_attack_01_up_1: -30366715
-      knight_attack_01_up_3: -1897539405
-      knight_attack_01_up_0: -1546253505
+      knight_attack_02_right_v2_2: -1086329888
+      knight_attack_02_right_v2_4: 793925448
+      knight_attack_02_right_v2_3: -1921103529
+      knight_attack_02_right_v2_1: -1881350524
+      knight_attack_02_right_v2_0: 2075460323
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

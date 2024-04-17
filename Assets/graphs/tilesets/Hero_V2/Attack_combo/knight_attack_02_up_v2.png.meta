@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b754d5e840bca04da6057b48ca61dce
+guid: 5b190478d34387049b332b212719b623
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: knight_attack_01_up_0
+      name: knight_attack_02_up_v2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +131,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 995cbbe9a8cf3934d8aeefcd902aab95
-      internalID: -1546253505
+      spriteID: c85bce39eaebb4e44b56e77d8c3c4096
+      internalID: 1680350318
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_1
+      name: knight_attack_02_up_v2_1
       rect:
         serializedVersion: 2
         x: 72
@@ -152,14 +152,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfec02ba9bdab6f42802f0fe2d6ecfea
-      internalID: -30366715
+      spriteID: bff156f7b99964d408f37e0ea78777cd
+      internalID: 921834686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_2
+      name: knight_attack_02_up_v2_2
       rect:
         serializedVersion: 2
         x: 144
@@ -173,14 +173,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dbc6b7b0c5ba2654ebc2f3b1d771207a
-      internalID: -1144167858
+      spriteID: e50e1cfab28d98446a06cf17ce5a7246
+      internalID: 1579350287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_01_up_3
+      name: knight_attack_02_up_v2_3
       rect:
         serializedVersion: 2
         x: 216
@@ -194,8 +194,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6cd80f4bc8ffad41a99ee1e66079239
-      internalID: -1897539405
+      spriteID: c04fdb0e982bd2448b9f0f0846255f8d
+      internalID: -1851221263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: knight_attack_02_up_v2_4
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 72
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5bae08f44ae1a54aaa0f1112ca68a4d
+      internalID: 977418790
       vertices: []
       indices: 
       edges: []
@@ -211,10 +232,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      knight_attack_01_up_2: -1144167858
-      knight_attack_01_up_1: -30366715
-      knight_attack_01_up_3: -1897539405
-      knight_attack_01_up_0: -1546253505
+      knight_attack_02_up_v2_3: -1851221263
+      knight_attack_02_up_v2_0: 1680350318
+      knight_attack_02_up_v2_2: 1579350287
+      knight_attack_02_up_v2_1: 921834686
+      knight_attack_02_up_v2_4: 977418790
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
