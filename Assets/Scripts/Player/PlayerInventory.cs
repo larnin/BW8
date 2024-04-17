@@ -11,6 +11,8 @@ public enum ItemType
     Money,
     Sword,
     Vacuum,
+    Key_Small,
+    Key_Big,
 }
 
 public class PlayerInventory : MonoBehaviour

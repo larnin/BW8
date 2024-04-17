@@ -11,11 +11,16 @@ class HUD : MonoBehaviour
     [SerializeField] GameObject m_heartPrefab;
     [SerializeField] GameObject m_heartOrigin;
     [SerializeField] float m_heartOffset = 20;
+    [SerializeField] GameObject m_itemPrefab;
+    [SerializeField] GameObject m_itemOrigin;
+    [SerializeField] float m_itemOffset = 20;
+    [SerializeField] List<ItemType> m_displayItems;
 
     int m_currentLife = 0;
     int m_currentMaxLife = 0;
 
     List<HUDHeart> m_hearts = new List<HUDHeart>();
+    List<HUDItem> m_items = new List<HUDItem>();
 
     TMP_Text m_moneyText;
 
@@ -33,6 +38,7 @@ class HUD : MonoBehaviour
     {
         UpdateLife();
         UpdateMoney();
+        UpdateKeys();
     }
 
     void UpdateLife()
@@ -99,5 +105,46 @@ class HUD : MonoBehaviour
         GetPlayerMoneyEvent moneyEvent = new GetPlayerMoneyEvent();
         Event<GetPlayerMoneyEvent>.Broadcast(moneyEvent);
         m_moneyText.text = moneyEvent.money.ToString();
+    }
+
+    void UpdateKeys()
+    {
+        int index = 0;
+
+        foreach(var i in m_displayItems)
+        {
+            var itemData = new GetInventoryItemEvent(i);
+            Event<GetInventoryItemEvent>.Broadcast(itemData);
+
+            if (itemData.stack == 0)
+                continue;
+
+            if (m_items.Count <= index)
+            {
+                var itemObj = Instantiate(m_itemPrefab);
+                itemObj.transform.SetParent(m_itemOrigin.transform);
+                var item = itemObj.GetComponent<HUDItem>();
+                if (item != null)
+                {
+                    m_items.Add(item);
+                    item.Set(itemData.type, itemData.stack);
+                }
+
+                Vector3 pos = new Vector3(m_itemOffset * index, 0, 0);
+                itemObj.transform.localPosition = pos;
+                itemObj.transform.localScale = Vector3.one;
+            }
+            else m_items[index].Set(itemData.type, itemData.stack);
+
+            index++;
+        }
+
+        while(index < m_items.Count)
+        {
+            var item = m_items[m_items.Count - 1];
+            m_items.RemoveAt(m_items.Count - 1);
+
+            Destroy(item.gameObject);
+        }
     }
 }
