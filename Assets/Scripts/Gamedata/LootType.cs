@@ -22,6 +22,7 @@ public class LootType : ScriptableObject
     public class OneLootType
     {
         public ItemType type;
+        public Sprite sprite;
         public int maxStack;
         public List<OneLoot> loots;
     }
@@ -98,6 +99,14 @@ public class LootType : ScriptableObject
         if (oneLootType == null)
             return 1;
         return oneLootType.maxStack;
+    }
+
+    public Sprite GetSprite(ItemType item)
+    {
+        OneLootType oneLootType = Get(item);
+        if (oneLootType == null)
+            return null;
+        return oneLootType.sprite;
     }
 
     public LootParams GetParams()

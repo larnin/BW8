@@ -42,6 +42,9 @@ public class HUDItem : MonoBehaviour
 
     void UpdateRender()
     {
-
+        m_texture.sprite = World.lootType.GetSprite(m_item);
+        if (!m_displayTextWhenUnique || m_count > 1)
+            m_text.text = m_count.ToString();
+        else m_text.text = "";
     }
 }

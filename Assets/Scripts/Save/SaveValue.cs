@@ -16,6 +16,7 @@ public enum SaveValueType : byte
     SaveVector2Int = 5,
     SaveVector3 = 6,
     SaveVector3Int = 7,
+    SaveSavedData = 8,
 }
 
 public class SaveValue
@@ -118,6 +119,19 @@ public class SaveValue
         return (m_value as Vector3Int?).Value;
     }
 
+    public void Set(SavedData data)
+    {
+        m_value = data;
+        m_type = SaveValueType.SaveSavedData;
+    }
+
+    public SavedData GetSaveData()
+    {
+        if (m_type != SaveValueType.SaveSavedData || m_value == null)
+            return null;
+        return m_value as SavedData;
+    }
+
     public SaveValueType GetValueType()
     {
         return m_type;
@@ -165,6 +179,10 @@ public class SaveValue
                 value3i.z = data.ReadInt();
                 m_value = value3i;
                 break;
+            case SaveValueType.SaveSavedData:
+                var valueSave = new SavedData();
+                valueSave.Load(data);
+                break;
             default:
                 DebugLogs.LogError("Unknow save value type");
                 break;
@@ -209,6 +227,10 @@ public class SaveValue
                 data.Write(value3i.x);
                 data.Write(value3i.y);
                 data.Write(value3i.z);
+                break;
+            case SaveValueType.SaveSavedData:
+                var valueSave = GetSaveData();
+                valueSave.Save(data);
                 break;
             default:
                 DebugLogs.LogError("Unknow save value type");

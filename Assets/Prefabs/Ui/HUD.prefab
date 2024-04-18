@@ -150,7 +150,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2684901893882325710}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 003deed82b13d94479465f331392c45e, type: 3}
+  m_Script: {fileID: 11500000, guid: c48af04ae2909fb4a9d9d0c2f2def1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_heartPrefab: {fileID: 8852399860137848967, guid: 4501dd75ec7ffe74ca622d8589c7884c, type: 3}
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_itemPrefab: {fileID: 2393901792747641787, guid: d319d74859cdf414aa6778d305ce33df, type: 3}
   m_itemOrigin: {fileID: 2410407020204067388}
   m_itemOffset: 30
-  m_displayItems: 0400000005000000
+  m_displayItems: 0500000004000000
 --- !u!1 &3695692992457429520
 GameObject:
   m_ObjectHideFlags: 0
