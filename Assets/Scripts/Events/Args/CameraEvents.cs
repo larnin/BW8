@@ -84,3 +84,21 @@ class SetCameraPlaneOffsetEvent
         offset = _offset;
     }
 }
+
+public enum LoadingScreenType
+{
+    Menu,
+    Door,
+}
+
+public class ShowLoadingScreenEvent
+{
+    public LoadingScreenType type;
+    public bool start;
+
+    public ShowLoadingScreenEvent(bool _start, LoadingScreenType _type)
+    {
+        start = _start;
+        type = _type;
+    }
+}

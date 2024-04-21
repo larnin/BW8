@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class Fade : MonoBehaviour
+public class FadeDoor : MonoBehaviour
 {
     const string fadeName = "_Fade";
 
@@ -36,6 +36,9 @@ public class Fade : MonoBehaviour
 
     void OnFade(ShowLoadingScreenEvent e)
     {
+        if (e.type != LoadingScreenType.Door)
+            return;
+
         if (e.start)
         {
             DOVirtual.Float(0, 1, m_transitionDuration, (x) => { m_fadePower = x; });

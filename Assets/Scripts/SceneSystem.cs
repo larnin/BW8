@@ -27,7 +27,7 @@ public class SceneSystem
 
         Time.timeScale = 1.0f;
 
-        Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(true));
+        Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(true, LoadingScreenType.Menu));
 
         if (!instant)
         {
@@ -50,7 +50,7 @@ public class SceneSystem
             DOVirtual.DelayedCall(0.1f, () => execChangeScene(operation, finishedCallback));
         else
         {
-            Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false));
+            Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false, LoadingScreenType.Menu));
             m_starting = false;
             if (finishedCallback != null)
                 finishedCallback();
@@ -65,7 +65,7 @@ public class SceneSystem
         m_starting = true;
 
         Time.timeScale = 1.0f;
-        Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(true));
+        Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(true, LoadingScreenType.Door));
 
         DOVirtual.DelayedCall(delay, () =>
         {
@@ -75,7 +75,7 @@ public class SceneSystem
                 Event<TeleportPlayerEvent>.Broadcast(new TeleportPlayerEvent(spawn));
             Event<SetWorldEvent>.Broadcast(new SetWorldEvent(world));
 
-            Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false));
+            Event<ShowLoadingScreenEvent>.Broadcast(new ShowLoadingScreenEvent(false, LoadingScreenType.Door));
 
             m_starting = false;
         });
