@@ -16,16 +16,58 @@ public class SavedData
 
     SaveValue GetOrInsertValue(string key)
     {
-        if (!m_data.ContainsKey(key))
-            m_data[key] = new SaveValue();
-        return m_data[key];
+        var index = key.IndexOf('/');
+        if (index < 0)
+        {
+            if (!m_data.ContainsKey(key))
+                m_data[key] = new SaveValue();
+            return m_data[key];
+        }
+
+        string firstKey = key.Substring(0, index);
+        string newPath = key.Substring(index + 1);
+
+        if (m_data.ContainsKey(firstKey))
+        {
+            var data = m_data[firstKey];
+            if (data.GetValueType() == SaveValueType.SaveSavedData)
+                return data.GetSaveData().GetOrInsertValue(newPath);
+        }
+
+        if (m_data.ContainsKey(key))
+            return m_data[key];
+        else
+        {
+            var value = new SaveValue();
+            value.Set(new SavedData());
+            m_data[firstKey] = value;
+            return value.GetSaveData().GetOrInsertValue(newPath);
+        }
     }
 
     SaveValue GetOrNullValue(string key)
     {
-        if (!m_data.ContainsKey(key))
-            return null;
-        return m_data[key];
+        var index = key.IndexOf('/');
+        if (index < 0)
+        {
+            if (!m_data.ContainsKey(key))
+                m_data[key] = new SaveValue();
+            return m_data[key];
+        }
+
+        string firstKey = key.Substring(0, index);
+        string newPath = key.Substring(index + 1);
+
+        if (m_data.ContainsKey(firstKey))
+        {
+            var data = m_data[firstKey];
+            if (data.GetValueType() == SaveValueType.SaveSavedData)
+                return data.GetSaveData().GetOrInsertValue(newPath);
+        }
+        
+        if (m_data.ContainsKey(key))
+            return m_data[key];
+        else return null;
     }
 
     public bool Remove(string key)
@@ -55,6 +97,10 @@ public class SavedData
         return m_data.Count;
     }
 
+
+    public void Set(string key, bool value) { GetOrInsertValue(key).Set(value); }
+    public bool GetBool(string key, bool def = false) { return GetOrNullValue(key)?.GetBool(def) ?? def; }
+
     public void Set(string key, string value) { GetOrInsertValue(key).Set(value); }
     public string GetString(string key, string def = "") { return GetOrNullValue(key)?.GetString(def) ?? def; }
 
@@ -79,6 +125,9 @@ public class SavedData
     public void Set(string key, Vector3Int value) { GetOrInsertValue(key).Set(value); }
     public Vector3Int GetVector3Int(string key) { return GetVector3Int(key, Vector3Int.zero); }
     public Vector3Int GetVector3Int(string key, Vector3Int def) { return GetOrNullValue(key)?.GetVector3Int(def) ?? def; }
+
+    public void Set(string key, SavedData value) { GetOrInsertValue(key).Set(value); }
+    public SavedData GetSaveData(string key) { return GetOrNullValue(key)?.GetSaveData(); }
 
     public void Load(SaveReadData data)
     {

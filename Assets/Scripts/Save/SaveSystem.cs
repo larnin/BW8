@@ -17,7 +17,7 @@ public class SaveSystem
     SavedData[] m_slotsHeaders;
 
     int m_currentSlot = -1;
-    Dictionary<string, SavedData> m_slotDataGroups = new Dictionary<string, SavedData>();
+    SavedData m_slotDatas = new SavedData();
 
     static SaveSystem m_save;
     public static SaveSystem instance
@@ -91,26 +91,16 @@ public class SaveSystem
         Byte[] bytes = LoadFile(path);
         if(bytes == null || bytes.Length == 0)
         {
-            m_slotDataGroups.Clear();
+            m_slotDatas.Clear();
             return;
         }
 
         SaveReadData data = new SaveReadData();
         data.SetData(bytes, bytes.Length);
 
-        m_slotDataGroups.Clear();
+        m_slotDatas.Clear();
 
-        int nbGroups = data.ReadInt();
-        for(int i = 0; i < nbGroups; i++)
-        {
-            int nbChar = data.ReadInt();
-            string groupName = data.ReadString(nbChar);
-
-            SavedData groupData = new SavedData();
-            groupData.Load(data);
-            if(groupData.GetNbEntry() > 0)
-                m_slotDataGroups.Add(groupName, groupData);
-        }
+        m_slotDatas.Load(data);
 
         m_currentSlot = slot;
     }
@@ -122,13 +112,7 @@ public class SaveSystem
 
         SaveWriteData data = new SaveWriteData();
 
-        data.Write(m_slotDataGroups.Count);
-        foreach(var group in m_slotDataGroups)
-        {
-            data.Write(group.Key.Length);
-            data.Write(group.Key);
-            group.Value.Save(data);
-        }
+        m_slotDatas.Save(data);
 
         string savePath = GetSlotPath(m_currentSlot);
         SaveFile(savePath, data.GetData());
@@ -157,6 +141,11 @@ public class SaveSystem
         return m_slotsHeaders[slot];
     }
 
+    public SavedData GetDatas()
+    {
+        return m_slotDatas;
+    }
+
     public void NewSlot(int slot)
     {
         if (slot < 0 || slot >= nbSlots)
@@ -177,18 +166,8 @@ public class SaveSystem
         if(m_currentSlot == slot)
         {
             m_currentSlot = -1;
-            m_slotDataGroups.Clear();
+            m_slotDatas.Clear();
         }
-    }
-
-    public SavedData GetGroup(string name)
-    {
-        if (m_currentSlot < 0)
-            return null;
-
-        if (!m_slotDataGroups.ContainsKey(name))
-            m_slotDataGroups.Add(name, new SavedData());
-        return m_slotDataGroups[name];
     }
 
     public static void SaveFile(string path, Byte[] data)
