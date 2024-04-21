@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
             GetOffsetVelocityEvent velocityData = new GetOffsetVelocityEvent();
             Event<GetOffsetVelocityEvent>.Broadcast(velocityData, gameObject);
 
-            UpdateDash();
+            UpdateDash(velocityData.velocityMultiplier, velocityData.offsetVelocity);
             UpdateVelocity(velocityData.velocityMultiplier, velocityData.offsetVelocity);
         }
 
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
         m_rigidbody.velocity = velocity;
     }
 
-    void UpdateDash()
+    void UpdateDash(float multiplier, Vector2 offset)
     {
         const string startName = "Dash_Start";
         const string loopName = "Dash_Loop";
@@ -179,6 +179,16 @@ public class PlayerController : MonoBehaviour
 
         if(m_dashState != DashState.none)
         {
+            if (multiplier < 0.9f || offset.sqrMagnitude > 0.1f)
+            {
+                m_dashState = DashState.end;
+                m_dashDuration = 0;
+                m_dashMaxDuration = 0;
+
+                StopAnimationEvent stop = new StopAnimationEvent(0, 1);
+                Event<StopAnimationEvent>.Broadcast(stop, gameObject);
+            }
+
             m_dashDuration += Time.deltaTime;
             switch(m_dashState)
             {
