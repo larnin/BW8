@@ -7,19 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LockedDoor : Interactable
+
+public class Chest : Interactable
 {
-    static string SavePrefix = "LockedDoor";
+    static string SavePrefix = "Chest";
     static string LockedAnim = "Locked";
     static string UnlockingAnim = "Unlocking";
     static string UnlockedAnim = "Unlocked";
 
+    [SerializeField] bool m_needKey = false;
+    [ShowIf("m_needKey")]
     [SerializeField] ItemType m_keyItem;
     [SerializeField] string m_saveKey = "";
     [SerializeField] [HideInInspector] bool m_keyGenerated = false;
+    [SerializeField] ItemType m_lootItem;
+    [SerializeField] int m_lootStack;
 
     bool m_unlocked = false;
-
     public override bool CanInteract()
     {
         return !m_unlocked;
@@ -64,15 +68,15 @@ public class LockedDoor : Interactable
         if (m_keyGenerated == false)
             GenerateKey();
 
-        var doors = UnityEngine.Object.FindObjectsOfType<LockedDoor>();
-        foreach(var d in doors)
+        var chests = UnityEngine.Object.FindObjectsOfType<Chest>();
+        foreach (var c in chests)
         {
-            if (d == this)
+            if (c == this)
                 continue;
 
-            if(d.m_saveKey == m_saveKey)
+            if (c.m_saveKey == m_saveKey)
             {
-                GUILayout.Box("An other door have the same save key");
+                GUILayout.Box("An other chest have the same save key");
                 break;
             }
         }
@@ -94,6 +98,9 @@ public class LockedDoor : Interactable
 
     bool CanUnlock()
     {
+        if (!m_needKey)
+            return true;
+
         var itemData = new GetInventoryItemEvent(m_keyItem);
         Event<GetInventoryItemEvent>.Broadcast(itemData);
 
@@ -102,6 +109,9 @@ public class LockedDoor : Interactable
 
     bool ConsumeKey()
     {
+        if (!m_needKey)
+            return true;
+
         var removeData = new RemoveInventoryItemEvent(m_keyItem, 1);
         Event<RemoveInventoryItemEvent>.Broadcast(removeData);
 
@@ -110,26 +120,20 @@ public class LockedDoor : Interactable
 
     void Lock()
     {
-        var colliders = GetComponentsInChildren<Collider2D>();
-        foreach (var col in colliders)
-            col.enabled = true;
-
         Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(LockedAnim, true), gameObject);
     }
 
     void Unlock(bool instant, bool consumeKey)
     {
-        if(consumeKey)
+        if (consumeKey)
         {
             if (!ConsumeKey())
                 return;
+
+            Event<AddInventoryItemEvent>.Broadcast(new AddInventoryItemEvent(m_lootItem, m_lootStack));
         }
 
-        var colliders = GetComponentsInChildren<Collider2D>();
-        foreach (var col in colliders)
-            col.enabled = false;
-
-        if(instant)
+        if (instant)
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockedAnim, true), gameObject);
         else
         {
