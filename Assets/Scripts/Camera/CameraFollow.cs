@@ -72,7 +72,7 @@ public class CameraFollow : MonoBehaviour
         m_pos = pos;
 
         float x = Mathf.Floor(pos.x * m_pixelPerUnit) / m_pixelPerUnit;
-        float y = Mathf.Floor(pos.y * m_pixelPerUnit) / m_pixelPerUnit;
+        float y = (Mathf.Floor(pos.y * m_pixelPerUnit) + 0.5f) / m_pixelPerUnit;
 
         Vector3 position = transform.position;
         position.x = x;

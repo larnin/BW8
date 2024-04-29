@@ -554,6 +554,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210216555028452132, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555028452132, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: orthographic size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555028452153, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555140520873, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.613333
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555140520873, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 210216555419423539, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: m_TargetTexture
+      value: 
+      objectReference: {fileID: 8400000, guid: 5f08cffe0558f2f4e81f55e933bc7c36, type: 2}
+    - target: {fileID: 210216555419423539, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
+      propertyPath: orthographic size
+      value: 8.71875
+      objectReference: {fileID: 0}
     - target: {fileID: 5254261931953189587, guid: c8bf8bca44c119d47a3fda01747bfbaf, type: 3}
       propertyPath: m_Name
       value: CameraGroup
