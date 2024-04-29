@@ -73,7 +73,9 @@ public static class SaveEx
     public static void SaveAsset(string assetName, string text)
     {
         File.WriteAllText(assetName, text);
+#if UNITY_EDITOR
         AssetDatabase.Refresh();
+#endif
     }
 
     public static string GetRelativeAssetsPath(string path)
