@@ -41,6 +41,19 @@ class StopScreenShakeEvent
     }
 }
 
+class IsScreenShakePlayingEvent
+{
+    public int ID;
+
+    public bool playing;
+
+    public IsScreenShakePlayingEvent(int id)
+    {
+        ID = id;
+        playing = false;
+    }
+}
+
 class StopAllScreenShakeEvent { }
 
 class SetScreenColorEvent
