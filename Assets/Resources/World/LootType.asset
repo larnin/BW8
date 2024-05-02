@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e347e0806eba0346a4d682589676dab, type: 3}
   m_Name: LootType
   m_EditorClassIdentifier: 
-  m_loots: []
+  m_loots:
+  - type: 0
+    sprite: {fileID: 0}
+    maxStack: 0
+    loots: []
   m_lootsParams:
     m_radius: 0.3
     m_layerLootHit:

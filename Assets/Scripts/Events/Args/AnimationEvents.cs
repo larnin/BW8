@@ -155,4 +155,7 @@ public class GetAnimationDurationEvent
 
         duration = 0;
     }
+
+    public GetAnimationDurationEvent(string _name)
+        : this(_name, AnimationDirection.none) { }
 }

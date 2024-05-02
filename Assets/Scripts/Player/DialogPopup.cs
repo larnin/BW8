@@ -56,6 +56,15 @@ public class DialogPopup : MonoBehaviour
         dialog.Set(obj);
     }
 
+    public static bool IsOpened()
+    {
+        var dialog = MenuSystem.instance.OpenMenu<DialogPopup>("Dialog");
+        if (dialog == null)
+            return false;
+
+        return dialog.m_status != Status.idle;
+    }
+
     void Set(DialogObject obj)
     {
         if (m_status != Status.idle)
