@@ -10,6 +10,8 @@ using UnityEngine;
 
 public static class QuestList
 {
+    public const int invalidID = -1;
+
     static string m_path = "";
     static Dictionary<int,QuestObject> m_quests = null;
     static int m_nextQuestID = 0;

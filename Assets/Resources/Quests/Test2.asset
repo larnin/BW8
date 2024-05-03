@@ -22,7 +22,63 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: m_objectives
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[QuestObjectiveObjectBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|QuestObjectiveObjectEntityOnTrigger, Assembly-CSharp
+    - Name: m_failConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[QuestFailConditionObjectBase, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 3|QuestFailConditionObjectPlayerDeath, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|QuestFailConditionObjectTimer, Assembly-CSharp
+    - Name: m_timer
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_failAction
       Entry: 6
+      Data: 
+    - Name: m_triggerName
+      Entry: 6
+      Data: 
+    - Name: m_entityName
+      Entry: 6
+      Data: 
+    - Name: m_count
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   m_questName: Test2
   m_questID: 1
