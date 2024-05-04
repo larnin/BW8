@@ -129,12 +129,15 @@ public class LockedDoor : Interactable
         foreach (var col in colliders)
             col.enabled = false;
 
-        if(instant)
+        if (instant)
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockedAnim, true), gameObject);
         else
         {
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockingAnim), gameObject);
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockedAnim, true, true), gameObject);
+
+            m_unlocked = true;
+            SaveSystem.instance.GetDatas().Set(SavePrefix + '/' + m_saveKey + "/lock", m_unlocked);
         }
     }
 }

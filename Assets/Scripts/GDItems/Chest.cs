@@ -139,6 +139,9 @@ public class Chest : Interactable
         {
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockingAnim), gameObject);
             Event<PlayAnimationEvent>.Broadcast(new PlayAnimationEvent(UnlockedAnim, true, true), gameObject);
+
+            m_unlocked = true;
+            SaveSystem.instance.GetDatas().Set(SavePrefix + '/' + m_saveKey + "/lock", m_unlocked);
         }
     }
 }
