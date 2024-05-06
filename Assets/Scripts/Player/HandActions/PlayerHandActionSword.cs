@@ -133,6 +133,8 @@ public class PlayerHandActionSword : PlayerHandActionBase
                     continue;
 
                 Event<HitEvent>.Broadcast(new HitEvent(data.damage, m_player.gameObject, data.knockback), col.gameObject);
+
+                m_hitReminder.Add(col.gameObject);
             }
         }
 

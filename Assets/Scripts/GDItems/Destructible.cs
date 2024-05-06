@@ -19,7 +19,7 @@ public class Destructible : MonoBehaviour
 
     [SerializeField] List<LifeInfo> m_sprites = new List<LifeInfo>();
     [SerializeField] bool m_save = false;
-    [ShowIf("m_Save")]
+    [ShowIf("m_save")]
     [SerializeField] string m_saveKey = "";
     [SerializeField] [HideInInspector] bool m_keyGenerated = false;
     [SerializeField] bool m_disableCollisionOnDeath = true;
@@ -55,7 +55,7 @@ public class Destructible : MonoBehaviour
         m_subscriberList.Unsubscribe();
     }
 
-    [ShowIf("m_Save")]
+    [ShowIf("m_save")]
     [Button("Generate")]
     void GenerateKey()
     {
@@ -91,7 +91,8 @@ public class Destructible : MonoBehaviour
     {
         UpdateRender();
 
-        m_hitParticles.Play();
+        if(m_hitParticles != null)
+            m_hitParticles.Play();
     }
 
     void OnHeal(LifeHealEvent e)
@@ -108,7 +109,8 @@ public class Destructible : MonoBehaviour
     void OnDeath(DeathEvent e)
     {
         UpdateRender();
-        m_hitParticles.Play();
+        if (m_hitParticles != null)
+            m_hitParticles.Play();
         if(m_disableCollisionOnDeath)
         {
             var colliders = GetComponentsInChildren<Collider2D>();
