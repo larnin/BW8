@@ -72,4 +72,9 @@ public class ExclusiveBehaviour : MonoBehaviour
     {
         e.defaultBehaviour = m_defaultBehaviour;
     }
+
+    private void LateUpdate()
+    {
+        Event<ExclusiveLateUpdate>.Broadcast(new ExclusiveLateUpdate());
+    }
 }

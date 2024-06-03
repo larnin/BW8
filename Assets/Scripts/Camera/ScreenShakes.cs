@@ -1,14 +1,30 @@
 ﻿using UnityEngine;
 using NRand;
 using DG.Tweening;
+using System;
 
-abstract class ScreenShakeBase
+[Serializable]
+public abstract class ScreenShakeBase
 {
     protected Vector2 m_offset = Vector2.zero;
     protected float m_rotation = 0;
     protected float m_scale = 0;
+    protected bool m_init = false;
 
-    public abstract void Update(float deltaTime, IRandomGenerator generator);
+    public void Update(float deltaTime, IRandomGenerator generator)
+    {
+        if(!m_init)
+        {
+            Init();
+            m_init = true;
+        }
+
+        OnUpdate(deltaTime, generator);
+    }
+
+    protected abstract void Init();
+    public abstract void Start();
+    protected abstract void OnUpdate(float deltaTime, IRandomGenerator generator);
     public abstract bool IsEnded();
 
     public Vector2 GetOffset() { return m_offset; }
@@ -16,33 +32,46 @@ abstract class ScreenShakeBase
     public float GetScale() { return m_scale; }
 }
 
-class ScreenShake_Random : ScreenShakeBase
+[Serializable]
+public class ScreenShake_Random : ScreenShakeBase
 {
-    float m_dampingPow = 0;
-    float m_duration = 0;
+    [SerializeField] float m_dampingPow = 0;
+    [SerializeField] float m_duration = 0;
+    [SerializeField] Vector2 m_amplitude = Vector2.one;
 
     float m_time = 0;
 
     UniformFloatDistribution m_horizontalDistribution;
     UniformFloatDistribution m_verticalDistribution;
 
+    public ScreenShake_Random() { }
+
     public ScreenShake_Random(float amplitude, float duration, float dampingPow = 0)
     {
-        m_verticalDistribution = new UniformFloatDistribution(-amplitude, amplitude);
-        m_horizontalDistribution = m_verticalDistribution;
+        m_amplitude = new Vector2(amplitude, amplitude);
         m_duration = duration;
         m_dampingPow = dampingPow;
     }
 
     public ScreenShake_Random(Vector2 amplitude, float duration, float dampingPow = 0)
     {
-        m_horizontalDistribution = new UniformFloatDistribution(-amplitude.x, amplitude.x);
-        m_verticalDistribution = new UniformFloatDistribution(-amplitude.y, amplitude.y);
+        m_amplitude = amplitude;
         m_duration = duration;
         m_dampingPow = dampingPow;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        m_horizontalDistribution = new UniformFloatDistribution(-m_amplitude.x, m_amplitude.x);
+        m_verticalDistribution = new UniformFloatDistribution(-m_amplitude.y, m_amplitude.y);
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -55,8 +84,8 @@ class ScreenShake_Random : ScreenShakeBase
 
         if (m_dampingPow > 0)
         {
-            float diviser = Mathf.Pow(Mathf.Clamp01(1 - (m_time - m_duration)), m_dampingPow);
-            m_offset /= diviser;
+            float multiplier = Mathf.Pow(1 - m_time / m_duration, m_dampingPow);
+            m_offset *= multiplier;
         }
 
         m_time += deltaTime;
@@ -68,23 +97,37 @@ class ScreenShake_Random : ScreenShakeBase
     }
 }
 
-class ScreenShake_RandomRotation : ScreenShakeBase
+[Serializable]
+public class ScreenShake_RandomRotation : ScreenShakeBase
 {
-    float m_duration = 0;
-    float m_dampingPow = 1;
+    [SerializeField] float m_duration = 0;
+    [SerializeField] float m_dampingPow = 1;
+    [SerializeField] float m_amplitude = 1;
 
     float m_time = 0;
 
     UniformFloatDistribution m_distribution;
 
+    public ScreenShake_RandomRotation() { }
+
     public ScreenShake_RandomRotation(float amplitude, float duration, float dampingPow = 0)
     {
-        m_distribution = new UniformFloatDistribution(-amplitude, amplitude);
+        m_amplitude = amplitude;
         m_duration = duration;
         m_dampingPow = dampingPow;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        m_distribution = new UniformFloatDistribution(-m_amplitude, m_amplitude);
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -96,8 +139,8 @@ class ScreenShake_RandomRotation : ScreenShakeBase
 
         if (m_dampingPow > 0)
         {
-            float diviser = Mathf.Pow(Mathf.Clamp01(1 - (m_time - m_duration)), m_dampingPow);
-            m_rotation /= diviser;
+            float multiplier = Mathf.Pow(1 - m_time / m_duration, m_dampingPow);
+            m_rotation *= multiplier;
         }
 
         m_time += deltaTime;
@@ -109,15 +152,18 @@ class ScreenShake_RandomRotation : ScreenShakeBase
     }
 }
 
-class ScreenShake_WaveRotation : ScreenShakeBase
+[Serializable]
+public class ScreenShake_WaveRotation : ScreenShakeBase
 {
-    float m_amplitude = 0;
-    float m_frequency = 1;
-    float m_duration = 0;
-    float m_dampingPow = 0;
+    [SerializeField] float m_amplitude = 0;
+    [SerializeField] float m_frequency = 1;
+    [SerializeField] float m_duration = 0;
+    [SerializeField] float m_dampingPow = 0;
 
     float m_time = 0;
     bool m_ended = false;
+
+    public ScreenShake_WaveRotation() { }
 
     public ScreenShake_WaveRotation(float amplitude, float frequency, float duration, float dampingPow = 0)
     {
@@ -127,7 +173,18 @@ class ScreenShake_WaveRotation : ScreenShakeBase
         m_dampingPow = dampingPow;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+        m_ended = false;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -139,13 +196,13 @@ class ScreenShake_WaveRotation : ScreenShakeBase
 
         if (m_dampingPow > 0)
         {
-            float t = 1 - (m_time - m_duration);
+            float t = 1 - (m_time / m_duration);
             if (t <= 0)
                 nextOffset = 0;
             else
             {
-                float diviser = Mathf.Pow(Mathf.Clamp01(t), m_dampingPow);
-                nextOffset /= diviser;
+                float multiplier = Mathf.Pow(t, m_dampingPow);
+                nextOffset *= multiplier;
             }
         }
 
@@ -163,23 +220,37 @@ class ScreenShake_WaveRotation : ScreenShakeBase
     }
 }
 
-class ScreenShake_RandomScale : ScreenShakeBase
+[Serializable]
+public class ScreenShake_RandomScale : ScreenShakeBase
 {
-    float m_duration = 0;
-    float m_dampingPow = 1;
+    [SerializeField] float m_duration = 0;
+    [SerializeField] float m_dampingPow = 1;
+    [SerializeField] float m_amplitude = 1;
 
     float m_time = 0;
 
     UniformFloatDistribution m_distribution;
 
+    public ScreenShake_RandomScale() { }
+
     public ScreenShake_RandomScale(float amplitude, float duration, float dampingPow = 0)
     {
-        m_distribution = new UniformFloatDistribution(-amplitude, amplitude);
+        m_amplitude = amplitude;
         m_duration = duration;
         m_dampingPow = dampingPow;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        m_distribution = new UniformFloatDistribution(-m_amplitude, m_amplitude);
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -191,8 +262,8 @@ class ScreenShake_RandomScale : ScreenShakeBase
 
         if (m_dampingPow > 0)
         {
-            float diviser = Mathf.Pow(Mathf.Clamp01(1 - (m_time - m_duration)), m_dampingPow);
-            m_scale /= diviser;
+            float multiplier = Mathf.Pow(1 - m_time / m_duration, m_dampingPow);
+            m_scale *= multiplier;
         }
 
         m_time += deltaTime;
@@ -204,23 +275,26 @@ class ScreenShake_RandomScale : ScreenShakeBase
     }
 }
 
-class ScreenShake_ImpactScale : ScreenShakeBase
+[Serializable]
+public class ScreenShake_ImpactScale : ScreenShakeBase
 {
-    float m_inDuration = 0;
-    float m_outDUration = 1;
+    [SerializeField] float m_inDuration = 0;
+    [SerializeField] float m_outDuration = 1;
 
-    Ease m_inEase;
-    Ease m_outEase;
+    [SerializeField] Ease m_inEase;
+    [SerializeField] Ease m_outEase;
 
-    float m_amplitude = 0;
+    [SerializeField] float m_amplitude = 0;
 
     float m_time = 0;
+
+    public ScreenShake_ImpactScale() { }
 
     public ScreenShake_ImpactScale(float amplitude, float duration, Ease inOutEase = Ease.Linear)
     {
         m_amplitude = amplitude;
         m_inDuration = duration / 2;
-        m_outDUration = duration / 2;
+        m_outDuration = duration / 2;
         m_inEase = inOutEase;
         m_outEase = inOutEase;
     }
@@ -229,12 +303,22 @@ class ScreenShake_ImpactScale : ScreenShakeBase
     {
         m_amplitude = amplitude;
         m_inDuration = inDuration;
-        m_outDUration = outDuration;
+        m_outDuration = outDuration;
         m_inEase = inEase;
         m_outEase = outEase;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -247,7 +331,7 @@ class ScreenShake_ImpactScale : ScreenShakeBase
         else
         {
             float t = m_time - m_inDuration;
-            m_scale = DOVirtual.EasedValue(m_amplitude, 0, t / m_outDUration, m_outEase);
+            m_scale = DOVirtual.EasedValue(m_amplitude, 0, t / m_outDuration, m_outEase);
         }
 
         m_time += deltaTime;
@@ -255,30 +339,33 @@ class ScreenShake_ImpactScale : ScreenShakeBase
 
     public override bool IsEnded()
     {
-        return m_time > m_inDuration + m_outDUration;
+        return m_time > m_inDuration + m_outDuration;
     }
 }
 
-class ScreenShake_ImpactDirection : ScreenShakeBase
+[Serializable]
+public class ScreenShake_ImpactDirection : ScreenShakeBase
 {
-    float m_inDuration = 0;
-    float m_outDUration = 1;
+    [SerializeField] float m_inDuration = 0;
+    [SerializeField] float m_outDuration = 1;
 
-    Ease m_inEase;
-    Ease m_outEase;
+    [SerializeField] Ease m_inEase;
+    [SerializeField] Ease m_outEase;
 
-    float m_amplitude = 0;
+    [SerializeField] float m_amplitude = 0;
 
-    Vector2 m_direction;
+    [SerializeField] Vector2 m_direction;
 
     float m_time = 0;
+
+    public ScreenShake_ImpactDirection() { }
 
     public ScreenShake_ImpactDirection(float amplitude, Vector2 direction, float duration, Ease inOutEase = Ease.Linear)
     {
         m_amplitude = amplitude;
         m_direction = direction.normalized;
         m_inDuration = duration / 2;
-        m_outDUration = duration / 2;
+        m_outDuration = duration / 2;
         m_inEase = inOutEase;
         m_outEase = inOutEase;
     }
@@ -288,12 +375,22 @@ class ScreenShake_ImpactDirection : ScreenShakeBase
         m_amplitude = amplitude;
         m_direction = direction.normalized;
         m_inDuration = inDuration;
-        m_outDUration = outDuration;
+        m_outDuration = outDuration;
         m_inEase = inEase;
         m_outEase = outEase;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -306,7 +403,7 @@ class ScreenShake_ImpactDirection : ScreenShakeBase
         else
         {
             float t = m_time - m_inDuration;
-            m_offset = DOVirtual.EasedValue(m_amplitude, 0, t / m_outDUration, m_outEase) * m_direction;
+            m_offset = DOVirtual.EasedValue(m_amplitude, 0, t / m_outDuration, m_outEase) * m_direction;
         }
 
         m_time += deltaTime;
@@ -314,23 +411,24 @@ class ScreenShake_ImpactDirection : ScreenShakeBase
 
     public override bool IsEnded()
     {
-        return m_time > m_inDuration + m_outDUration;
+        return m_time > m_inDuration + m_outDuration;
     }
 }
 
-
-class ScreenShake_WaveDirection : ScreenShakeBase
+[Serializable]
+public class ScreenShake_WaveDirection : ScreenShakeBase
 {
-    float m_amplitude = 0;
-    float m_frequency = 1;
-    float m_duration = 0;
-    float m_dampingPow = 0;
-    Vector2 m_direction;
+    [SerializeField] float m_amplitude = 0;
+    [SerializeField] float m_frequency = 1;
+    [SerializeField] float m_duration = 0;
+    [SerializeField] float m_dampingPow = 0;
+    [SerializeField] Vector2 m_direction;
 
     float m_time = 0;
     bool m_ended = false;
     float m_lastOffset = 0;
 
+    public ScreenShake_WaveDirection() { }
 
     public ScreenShake_WaveDirection(float amplitude, Vector2 direction, float frequency, float duration, float dampingPow = 0)
     {
@@ -341,7 +439,19 @@ class ScreenShake_WaveDirection : ScreenShakeBase
         m_direction = direction.normalized;
     }
 
-    public override void Update(float deltaTime, IRandomGenerator generator)
+    protected override void Init()
+    {
+        
+    }
+
+    public override void Start()
+    {
+        m_time = 0;
+        m_ended = false;
+        m_lastOffset = 0;
+    }
+
+    protected override void OnUpdate(float deltaTime, IRandomGenerator generator)
     {
         if (IsEnded())
         {
@@ -353,20 +463,20 @@ class ScreenShake_WaveDirection : ScreenShakeBase
 
         if (m_dampingPow > 0)
         {
-            float t = 1 - (m_time - m_duration);
+            float t = 1 - (m_time / m_duration);
             if (t <= 0)
                 nextOffset = 0;
             else
             {
-                float diviser = Mathf.Pow(Mathf.Clamp01(t), m_dampingPow);
-                nextOffset /= diviser;
+                float multiplier = Mathf.Pow(t, m_dampingPow);
+                nextOffset *= multiplier;
             }
         }
 
         if (m_time > m_duration && (Mathf.Sign(nextOffset) != Mathf.Sign(m_lastOffset) || nextOffset == 0))
             m_ended = true;
 
-        m_offset = m_direction * m_offset;
+        m_offset = m_direction * nextOffset;
         m_lastOffset = nextOffset;
 
         m_time += deltaTime;

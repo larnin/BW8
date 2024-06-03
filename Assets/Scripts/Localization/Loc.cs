@@ -80,6 +80,9 @@ namespace NLocalization
 
         static int GetID(string textID)
         {
+            if (m_texts == null)
+                Load();
+
             foreach (var t in m_texts)
             {
                 if (t.Value.textID == textID)

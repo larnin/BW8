@@ -12,10 +12,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da24e1108e9ad3d4e9714b0a199a56e3, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  attackDistance: 0.6
-  attackDelay: 0.1
-  attackRadius: 0.8
-  attackDuration: 0.3
-  attackCooldown: 0.5
-  damage: 1
-  knockback: 5
+  attack1:
+    hitDistance: 1.1
+    hitDelay: 0
+    hitRadius: 0.7
+    hitStartAngle: 40
+    hitEndAngle: -40
+    hitDuration: 0.3
+    damage: 1
+    knockback: 1
+    moveDistance: 0
+    moveDelay: 0.1
+    moveDuration: 0.5
+  attack2:
+    hitDistance: 1.1
+    hitDelay: 0
+    hitRadius: 0.7
+    hitStartAngle: -40
+    hitEndAngle: 40
+    hitDuration: 0.3
+    damage: 1
+    knockback: 1
+    moveDistance: 0
+    moveDelay: 0.1
+    moveDuration: 0.5
+  attack3:
+    hitDistance: 1.2
+    hitDelay: 0.1
+    hitRadius: 0.9
+    hitStartAngle: 0
+    hitEndAngle: 0
+    hitDuration: 0.3
+    damage: 1
+    knockback: 1
+    moveDistance: 1
+    moveDelay: 0.2
+    moveDuration: 0.2
+  attackDash:
+    hitDistance: 1.2
+    hitDelay: 0
+    hitRadius: 0.9
+    hitStartAngle: 0
+    hitEndAngle: 0
+    hitDuration: 0.5
+    damage: 1
+    knockback: 1
+    moveDistance: 3
+    moveDelay: 0.1
+    moveDuration: 0.4
+  hitLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  attackCooldown: 0.3

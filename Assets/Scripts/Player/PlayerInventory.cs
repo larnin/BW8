@@ -11,6 +11,8 @@ public enum ItemType
     Money,
     Sword,
     Vacuum,
+    Key_Small,
+    Key_Big,
 }
 
 public class PlayerInventory : MonoBehaviour
@@ -55,6 +57,8 @@ public class PlayerInventory : MonoBehaviour
 
     int AddItem(ItemType type, int stack)
     {
+        Event<ItemPickedUpEvent>.Broadcast(new ItemPickedUpEvent(type, stack));
+
         switch (type)
         {
             case ItemType.Heart:
@@ -233,8 +237,6 @@ public class PlayerInventory : MonoBehaviour
 
     void Pickup(PickupEvent e)
     {
-        Event<ItemPickedUpEvent>.Broadcast(new ItemPickedUpEvent(e.type, e.stack));
-
         AddItem(e.type, e.stack);
     }
 

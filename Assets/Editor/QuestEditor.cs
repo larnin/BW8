@@ -161,6 +161,8 @@ class QuestEditorQuestTab
             int nbQuestObjective = quest.GetObjectiveNb();
             for(int i = 0; i < nbQuestObjective; i++)
             {
+                if (i > 0)
+                    GUIEx.DrawHorizontalLine(new Color(0.8f, 0.8f, 0.8f));
                 DisplayOneObjective(i, quest.GetObjective(i));
             }
             GUILayout.EndVertical();

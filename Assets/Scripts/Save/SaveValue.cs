@@ -9,19 +9,34 @@ public enum SaveValueType : byte
 {
     // the values must not change or the save file will be corrupted
     SaveEmpty = 0,
-    SaveString = 1,
-    SaveInt = 2,
-    SaveFloat = 3,
-    SaveVector2 = 4,
-    SaveVector2Int = 5,
-    SaveVector3 = 6,
-    SaveVector3Int = 7,
+    SaveBool = 1,
+    SaveString = 2,
+    SaveInt = 3,
+    SaveFloat = 4,
+    SaveVector2 = 5,
+    SaveVector2Int = 6,
+    SaveVector3 = 7,
+    SaveVector3Int = 8,
+    SaveSavedData = 9,
 }
 
 public class SaveValue
 {
     SaveValueType m_type = SaveValueType.SaveFloat;
     object m_value = null;
+
+    public void Set(bool value)
+    {
+        m_value = value;
+        m_type = SaveValueType.SaveBool;
+    }
+
+    public bool GetBool(bool def = false)
+    {
+        if (m_type != SaveValueType.SaveBool)
+            return def;
+        return Convert.ToBoolean(m_value);
+    }
 
     public void Set(string value)
     {
@@ -118,6 +133,19 @@ public class SaveValue
         return (m_value as Vector3Int?).Value;
     }
 
+    public void Set(SavedData data)
+    {
+        m_value = data;
+        m_type = SaveValueType.SaveSavedData;
+    }
+
+    public SavedData GetSaveData()
+    {
+        if (m_type != SaveValueType.SaveSavedData || m_value == null)
+            return null;
+        return m_value as SavedData;
+    }
+
     public SaveValueType GetValueType()
     {
         return m_type;
@@ -129,6 +157,9 @@ public class SaveValue
 
         switch (m_type)
         {
+            case SaveValueType.SaveBool:
+                m_value = data.ReadByte() != 0;
+                break;
             case SaveValueType.SaveString:
                 int strSize = data.ReadInt();
                 m_value = data.ReadString(strSize);
@@ -165,6 +196,10 @@ public class SaveValue
                 value3i.z = data.ReadInt();
                 m_value = value3i;
                 break;
+            case SaveValueType.SaveSavedData:
+                var valueSave = new SavedData();
+                valueSave.Load(data);
+                break;
             default:
                 DebugLogs.LogError("Unknow save value type");
                 break;
@@ -177,6 +212,9 @@ public class SaveValue
 
         switch (m_type)
         {
+            case SaveValueType.SaveBool:
+                data.Write(GetBool() ? (byte)1 : (byte)0);
+                break;
             case SaveValueType.SaveString:
                 var str = GetString();
                 data.Write(str.Length);
@@ -209,6 +247,10 @@ public class SaveValue
                 data.Write(value3i.x);
                 data.Write(value3i.y);
                 data.Write(value3i.z);
+                break;
+            case SaveValueType.SaveSavedData:
+                var valueSave = GetSaveData();
+                valueSave.Save(data);
                 break;
             default:
                 DebugLogs.LogError("Unknow save value type");

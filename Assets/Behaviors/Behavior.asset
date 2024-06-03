@@ -1,0 +1,887 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e8163e5ba3a2c48a0935aba7601b28, type: 3}
+  m_Name: Behavior
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: data
+      Entry: 7
+      Data: 0|BSMSaveData, Assembly-CSharp
+    - Name: nodes
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[BSMSaveNode, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 8
+    - Name: 
+      Entry: 7
+      Data: 2|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 6afd8bec-7382-4ede-ae40-1204a6f011de
+    - Name: name
+      Entry: 1
+      Data: Start
+    - Name: nodeType
+      Entry: 3
+      Data: 0
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 88
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: cc36921e-6955-4529-9391-870f55a533f6
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 53cbcb2b-7956-4282-b7d9-33eaaa710a32
+    - Name: name
+      Entry: 1
+      Data: Any State
+    - Name: nodeType
+      Entry: 3
+      Data: 0
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 4
+      Data: 113
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: cc36921e-6955-4529-9391-870f55a533f6
+    - Name: name
+      Entry: 1
+      Data: New State
+    - Name: nodeType
+      Entry: 3
+      Data: 3
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 233
+    - Name: 
+      Entry: 4
+      Data: 147
+    - Name: 
+      Entry: 4
+      Data: 143
+    - Name: 
+      Entry: 4
+      Data: 164
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 7|BSMStateFollowEntity, Assembly-CSharp
+    - Name: m_attributes
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 9|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Target
+    - Name: attribute
+      Entry: 7
+      Data: 10|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: true
+    - Name: data
+      Entry: 7
+      Data: 11|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 3
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 1
+      Data: 1a69f1eb-7d68-4858-9518-89996e677079
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: MaxIdleTime
+    - Name: attribute
+      Entry: 7
+      Data: 13|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: false
+    - Name: data
+      Entry: 7
+      Data: 14|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 0
+    - Name: data
+      Entry: 7
+      Data: 15|System.Single, mscorlib
+    - Name: 
+      Entry: 4
+      Data: -1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 16|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: 2ab3d1bc-d62c-473c-bd7a-d06b35dc8ab7
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 17|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 2ab3d1bc-d62c-473c-bd7a-d06b35dc8ab7
+    - Name: name
+      Entry: 1
+      Data: New Condition
+    - Name: nodeType
+      Entry: 3
+      Data: 2
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 489
+    - Name: 
+      Entry: 4
+      Data: 177
+    - Name: 
+      Entry: 4
+      Data: 152
+    - Name: 
+      Entry: 4
+      Data: 144
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 18|BSMConditionHaveTarget, Assembly-CSharp
+    - Name: m_attributes
+      Entry: 7
+      Data: 19|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 20|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Target
+    - Name: attribute
+      Entry: 7
+      Data: 21|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: true
+    - Name: data
+      Entry: 7
+      Data: 22|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 3
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 1
+      Data: 1a69f1eb-7d68-4858-9518-89996e677079
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 23|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: bc666e17-ed39-4813-960b-f428fc2fbfd6
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 24|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: bc666e17-ed39-4813-960b-f428fc2fbfd6
+    - Name: name
+      Entry: 1
+      Data: 2
+    - Name: nodeType
+      Entry: 3
+      Data: 3
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 731
+    - Name: 
+      Entry: 4
+      Data: 177
+    - Name: 
+      Entry: 4
+      Data: 167
+    - Name: 
+      Entry: 4
+      Data: 208
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 25|BSMStateFollowPath, Assembly-CSharp
+    - Name: m_attributes
+      Entry: 7
+      Data: 26|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 27|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Path
+    - Name: attribute
+      Entry: 7
+      Data: 28|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: true
+    - Name: data
+      Entry: 7
+      Data: 29|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 2
+    - Name: data
+      Entry: 7
+      Data: 30|System.String, mscorlib
+    - Name: 
+      Entry: 1
+      Data: test
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 1
+      Data: 24026d4a-8709-479d-a235-5963054db87c
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 31|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: ValidationDistance
+    - Name: attribute
+      Entry: 7
+      Data: 32|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: false
+    - Name: data
+      Entry: 7
+      Data: 33|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 0
+    - Name: data
+      Entry: 7
+      Data: 34|System.Single, mscorlib
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 35|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Deviation
+    - Name: attribute
+      Entry: 7
+      Data: 36|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: false
+    - Name: data
+      Entry: 7
+      Data: 37|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 0
+    - Name: data
+      Entry: 7
+      Data: 38|System.Single, mscorlib
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 39|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: NextDistance
+    - Name: attribute
+      Entry: 7
+      Data: 40|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: false
+    - Name: data
+      Entry: 7
+      Data: 41|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 0
+    - Name: data
+      Entry: 7
+      Data: 42|System.Single, mscorlib
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 43|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: cd800a18-d82c-44fd-b5a3-d0356d088adc
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 44|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: cd800a18-d82c-44fd-b5a3-d0356d088adc
+    - Name: name
+      Entry: 1
+      Data: e
+    - Name: nodeType
+      Entry: 3
+      Data: 2
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 937
+    - Name: 
+      Entry: 4
+      Data: 198
+    - Name: 
+      Entry: 4
+      Data: 139
+    - Name: 
+      Entry: 4
+      Data: 142
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 45|BSMConditionAfterTimer, Assembly-CSharp
+    - Name: m_attributes
+      Entry: 7
+      Data: 46|System.Collections.Generic.List`1[[BSMAttributeNamedObject, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 47|BSMAttributeNamedObject, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: Timer
+    - Name: attribute
+      Entry: 7
+      Data: 48|BSMAttributeObject, Assembly-CSharp
+    - Name: useAttribute
+      Entry: 5
+      Data: false
+    - Name: data
+      Entry: 7
+      Data: 49|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 0
+    - Name: data
+      Entry: 7
+      Data: 50|System.Single, mscorlib
+    - Name: 
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributeID
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 51|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: 637dd09c-0825-4902-9614-46169f6caaaa
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 52|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 637dd09c-0825-4902-9614-46169f6caaaa
+    - Name: name
+      Entry: 1
+      Data: New Goto
+    - Name: nodeType
+      Entry: 3
+      Data: 1
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1131
+    - Name: 
+      Entry: 4
+      Data: 261
+    - Name: 
+      Entry: 4
+      Data: 149
+    - Name: 
+      Entry: 4
+      Data: 101
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 7
+      Data: 53|System.String, mscorlib
+    - Name: 
+      Entry: 1
+      Data: e0552ce6-50d6-4577-9ac2-1f262fbae026
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 54|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 55|BSMSaveNode, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: e0552ce6-50d6-4577-9ac2-1f262fbae026
+    - Name: name
+      Entry: 1
+      Data: LABEL_Test
+    - Name: nodeType
+      Entry: 3
+      Data: 0
+    - Name: position
+      Entry: 7
+      Data: UnityEngine.Rect, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: -139
+    - Name: 
+      Entry: 4
+      Data: 283
+    - Name: 
+      Entry: 4
+      Data: 149
+    - Name: 
+      Entry: 4
+      Data: 77
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: outNodes
+      Entry: 7
+      Data: 56|System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 1
+      Data: cc36921e-6955-4529-9391-870f55a533f6
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: attributes
+      Entry: 7
+      Data: 57|System.Collections.Generic.List`1[[BSMAttribute, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 58|BSMAttribute, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 1a69f1eb-7d68-4858-9518-89996e677079
+    - Name: automatic
+      Entry: 5
+      Data: true
+    - Name: name
+      Entry: 1
+      Data: Aggro
+    - Name: data
+      Entry: 7
+      Data: 59|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 3
+    - Name: data
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 60|BSMAttribute, Assembly-CSharp
+    - Name: ID
+      Entry: 1
+      Data: 24026d4a-8709-479d-a235-5963054db87c
+    - Name: automatic
+      Entry: 5
+      Data: false
+    - Name: name
+      Entry: 1
+      Data: Path
+    - Name: data
+      Entry: 7
+      Data: 61|BSMAttributeData, Assembly-CSharp
+    - Name: attributeType
+      Entry: 3
+      Data: 2
+    - Name: data
+      Entry: 7
+      Data: 62|System.String, mscorlib
+    - Name: 
+      Entry: 1
+      Data: PathName
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

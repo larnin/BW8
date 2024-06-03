@@ -6,7 +6,7 @@ public class PlayerInputs : MonoBehaviour
 {
     const string InputsName = "Player";
     const string MoveName = "Move";
-    const string RollName = "Roll";
+    const string DashName = "Dash";
     const string UseWeaponName = "UseWeapon";
     const string UseItemName = "UseItem";
     const string InteractName = "Interact";
@@ -14,7 +14,7 @@ public class PlayerInputs : MonoBehaviour
     PlayerInput m_inputs;
 
     Vector2 m_direction = Vector2.zero;
-    bool m_roll = false;
+    bool m_dash = false;
     bool m_useWeapon = false;
     bool m_useItem = false;
     bool m_interact = false;
@@ -64,17 +64,17 @@ public class PlayerInputs : MonoBehaviour
             else if (e.phase == InputActionPhase.Disabled || e.phase == InputActionPhase.Canceled)
                 m_direction = Vector2.zero;
         }
-        else if (e.action.name == RollName)
+        else if (e.action.name == DashName)
         {
             if (e.phase == InputActionPhase.Started)
             {
-                m_roll = true;
-                Event<StartRollEvent>.Broadcast(new StartRollEvent(), gameObject, true);
+                m_dash = true;
+                Event<StartDashEvent>.Broadcast(new StartDashEvent(), gameObject, true);
             }
             else if (e.phase == InputActionPhase.Canceled)
             {
-                m_roll = false;
-                Event<EndRollEvent>.Broadcast(new EndRollEvent(), gameObject, true);
+                m_dash = false;
+                Event<EndDashEvent>.Broadcast(new EndDashEvent(), gameObject, true);
             }
         }
         else if (e.action.name == UseWeaponName)
@@ -121,7 +121,7 @@ public class PlayerInputs : MonoBehaviour
     void GetInputs(GetInputsEvent e)
     {
         e.direction = m_direction;
-        e.roll = m_roll;
+        e.dash = m_dash;
         e.useWeapon = m_useWeapon;
         e.useItem = m_useItem;
         e.interact = m_interact;

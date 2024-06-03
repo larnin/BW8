@@ -35,6 +35,30 @@ public class GetLifeEvent
     }
 }
 
+public class SetLifeEvent
+{
+    public int life;
+
+    public SetLifeEvent(int _life)
+    {
+        life = _life;
+    }
+}
+
+public class SetLifePercentEvent
+{
+    public float lifePercent;
+
+    public SetLifePercentEvent(float _lifePercent)
+    {
+        lifePercent = _lifePercent;
+        if (lifePercent < 0)
+            lifePercent = 0;
+        if (lifePercent > 1)
+            lifePercent = 1;
+    }
+}
+
 public class RegenLifeEvent
 {
     public int value;
@@ -80,3 +104,5 @@ public class LifeLossEvent
         knockback = _knockback;
     }
 }
+
+public class LifeHealEvent { }

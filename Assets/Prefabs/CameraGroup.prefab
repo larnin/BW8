@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 210216555028452134}
   - component: {fileID: 210216555028452132}
   - component: {fileID: 6401189771767753582}
+  - component: {fileID: 2582829986328288390}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -130,6 +131,18 @@ MonoBehaviour:
   m_cyanColor: {r: 0, g: 1, b: 1, a: 1}
   m_blueColor: {r: 0, g: 0, b: 1, a: 1}
   m_pinkColor: {r: 1, g: 0, b: 1, a: 1}
+--- !u!114 &2582829986328288390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210216555028452153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 496e6ae92ad4c5645a0c7022a910609c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &210216555140520872
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +154,7 @@ GameObject:
   - component: {fileID: 210216555140520873}
   - component: {fileID: 210216555140520852}
   - component: {fileID: 210216555140520855}
+  - component: {fileID: 620588224}
   m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
@@ -157,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 210216555140520872}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.4, y: 1, z: 3.6}
+  m_LocalScale: {x: 6.66666, y: 1, z: 3.8666666}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 210216554658858080}
@@ -213,6 +227,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &620588224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210216555140520872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f0493d2437ce6b4fa80a9ff49b17a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &210216555419423541
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +302,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.4375
+  orthographic size: 9.0625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

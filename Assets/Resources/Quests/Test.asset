@@ -302,6 +302,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 24|QuestFailConditionObjectEntityDeath, Assembly-CSharp
+    - Name: m_deathList
+      Entry: 7
+      Data: 25|System.Collections.Generic.List`1[[QuestObjectiveOneKill, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
     - Name: 
       Entry: 13
@@ -309,12 +319,30 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: m_failAction
-      Entry: 6
+      Entry: 7
+      Data: 26|QuestFailActionObjectStartObjective, Assembly-CSharp
+    - Name: m_questID
+      Entry: 3
+      Data: -1
+    - Name: m_objectiveIndex
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
       Data: 
     - Name: m_itemList
       Entry: 7
-      Data: 24|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
+      Data: 27|System.Collections.Generic.List`1[[QuestObjectiveOneItem, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12

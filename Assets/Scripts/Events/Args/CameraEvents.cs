@@ -41,6 +41,19 @@ class StopScreenShakeEvent
     }
 }
 
+class IsScreenShakePlayingEvent
+{
+    public int ID;
+
+    public bool playing;
+
+    public IsScreenShakePlayingEvent(int id)
+    {
+        ID = id;
+        playing = false;
+    }
+}
+
 class StopAllScreenShakeEvent { }
 
 class SetScreenColorEvent
@@ -82,5 +95,23 @@ class SetCameraPlaneOffsetEvent
     public SetCameraPlaneOffsetEvent(Vector2 _offset)
     {
         offset = _offset;
+    }
+}
+
+public enum LoadingScreenType
+{
+    Menu,
+    Door,
+}
+
+public class ShowLoadingScreenEvent
+{
+    public LoadingScreenType type;
+    public bool start;
+
+    public ShowLoadingScreenEvent(bool _start, LoadingScreenType _type)
+    {
+        start = _start;
+        type = _type;
     }
 }

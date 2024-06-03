@@ -26,15 +26,6 @@ public class StartChangeWorldEvent
         spawnName = _spawnName;
     }
 }
-public class ShowLoadingScreenEvent
-{
-    public bool start;
-
-    public ShowLoadingScreenEvent(bool _start)
-    {
-        start = _start;
-    }
-}
 
 public class GetLoadedChunksEvent
 {
