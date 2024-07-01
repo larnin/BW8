@@ -1377,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44dac3cf2c58c749a50730f1b91057f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_spawnName: Enter1
+  m_spawnName: Cave Enter
 --- !u!1 &6159249357361489762
 GameObject:
   m_ObjectHideFlags: 0

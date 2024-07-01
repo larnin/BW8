@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1480f4707db33974bb4531ca385f960b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_world: {fileID: 11400000, guid: b619ea0dd23b6ae40a926f3f835da806, type: 2}
+  m_world: {fileID: 11400000, guid: d59503a57512cab40ab805fbd3b6bbe2, type: 2}
   m_initialSpawn: Start
   m_drawSize: 1
 --- !u!4 &183059009

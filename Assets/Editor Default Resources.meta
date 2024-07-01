@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Editor Default Resources.meta
 guid: 8d964685b6c96d24180a1b4cef97f442
+========
+guid: 5c6ea94f67ea12b4eb00c3c7ba915a29
+>>>>>>>> GD:Assets/graphs/tilesets/Hero_V2.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
