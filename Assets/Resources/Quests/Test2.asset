@@ -83,3 +83,4 @@ MonoBehaviour:
   m_questName: Test2
   m_questID: 1
   m_parentQuestID: 0
+  m_automaticStart: 0

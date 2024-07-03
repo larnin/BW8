@@ -19,6 +19,9 @@ public class QuestObject : SerializedScriptableObject
     [HideInInspector] [SerializeField] int m_parentQuestID;
     public int parentQuestID { get { return m_parentQuestID; } set { m_parentQuestID = value; } }
 
+    [HideInInspector] [SerializeField] bool m_automaticStart = false;
+    public bool automaticStart { get { return m_automaticStart; } set { m_automaticStart = value; } }
+
     [HideInInspector] [SerializeField] List<QuestObjectiveObjectBase> m_objectives = new List<QuestObjectiveObjectBase>();
     public int GetObjectiveNb() 
     {

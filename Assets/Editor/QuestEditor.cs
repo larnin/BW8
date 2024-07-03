@@ -145,6 +145,7 @@ class QuestEditorQuestTab
                 m_editor.OpenQuest(index - 1);
             }
         }
+        else quest.automaticStart = GUILayout.Toggle(quest.automaticStart, "Automatic", GUILayout.MaxWidth(100));
         GUILayout.EndHorizontal();
 
         bool state = m_editor.GetFoldoutState(m_ID, -1);

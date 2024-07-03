@@ -318,6 +318,7 @@ public class DebugInterface : MonoBehaviour
 
     void Load()
     {
+        return; //todo change to an xml - grosse fuite de mémoire
         var bytes = SaveSystem.LoadFile(SaveSystem.GetSavePath(saveName));
 
         if (bytes != null)

@@ -106,3 +106,13 @@ public class LifeLossEvent
 }
 
 public class LifeHealEvent { }
+
+public class SetLanternState
+{
+    public bool state;
+
+    public SetLanternState(bool _state)
+    {
+        state = _state;
+    }
+}

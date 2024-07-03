@@ -50,7 +50,7 @@ public class QuestSystem : MonoBehaviour
         for(int i = 0; i < nbQuest; i++)
         {
             var quest = QuestList.GetQuestFromIndex(i);
-            if(quest.parentQuestID == QuestObject.invalidQuestID)
+            if(quest.parentQuestID == QuestObject.invalidQuestID && quest.automaticStart)
                 StartQuestObjective(quest.questID, 0);
         }
     }
